@@ -1,0 +1,58 @@
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+//@import "node_modules/bootflat/bootflat/scss/bootflat.scss";
+@import "node_modules/font-awesome/scss/font-awesome.scss";
+
+$container-border: 2px solid $navbar-default-border;
+
+// Layout styles
+body {
+  background-color: $navbar-default-bg;
+}
+
+.navbar-white {
+  background-color: #fff;
+  border-bottom: $container-border;
+}
+
+.panel-heading h4 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.panel-heading .btn {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+footer {
+  border-top: $container-border;
+  padding-top: 10px;
+  background-color: #fff;
+}
+
+//Listing styles
+//-----------------------------------
+.listing-table {
+  @extend .table;
+  @extend .table-condensed;
+  @extend .table-striped;
+  @extend .table-hover;
+}
+
+.listing-table > tr > td,
+.listing-table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+// Form styles
+//------------------------------------
+.error-message {
+  margin-top: 7px;
+  color: $alert-danger-text;
+}
+
+//Helper Classes
+//------------------------------------
+.inline-block {
+  display: inline-block;
+}
