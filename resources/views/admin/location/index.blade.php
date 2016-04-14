@@ -11,6 +11,7 @@
             <thead>
             <tr>
                 <th>Name</th>
+                <th>City</th>
                 <th>Actions</th>
             </tr>
             </thead>
