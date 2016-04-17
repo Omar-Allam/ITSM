@@ -1,0 +1,16 @@
+$default-border: #d3e0e9;
+$body-bg: #f5f8fa;
+$navbar-default-border: #ededed;
+$navbar-default-bg: #fff;
+$panel-border-color: $default-border;
+$btn-success-bg: #87D37C;
+$btn-primary-bg: #3097d1;
+$btn-default-bg: #fefefe;
+$panel-default-border: $default-border;
+$table-border-color: $default-border;
+$navbar-default-link-color: #a4aaae;
+$navbar-background-color-active: $body-bg;
+$navbar-default-link-hover-bg: $body-bg;
+$link-color: #3097d1;
+$table-bg-accent: lighten($body-bg, 1%);
+$table-bg-hover: darken($body-bg, 5%);

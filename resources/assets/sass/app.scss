@@ -1,20 +1,20 @@
+@import 'resources/assets/sass/_variables.scss';
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
-@import "node_modules/bootflat/bootflat/scss/bootflat.scss";
+//@import "node_modules/bootflat/bootflat/scss/bootflat.scss";
 @import "node_modules/font-awesome/scss/font-awesome.scss";
 
 $container-border: 2px solid $navbar-default-border;
 
 // Layout styles
 body {
-  background-color: $navbar-default-bg;
+  background-color: $body-bg;
 }
 
-.navbar-white {
-  background-color: #fff;
-  border-bottom: $container-border;
+.navbar-default {
+  border-bottom: 2px solid $default-border;
 }
 
-.panel-heading h4 {
+.panel.panel-heading h4 {
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -25,9 +25,8 @@ body {
 }
 
 footer {
-  border-top: $container-border;
+  border-top: 2px solid $default-border;
   padding-top: 10px;
-  background-color: #fff;
 }
 
 //Listing styles
@@ -42,6 +41,12 @@ footer {
 .listing-table > tr > td,
 .listing-table > tbody > tr > td {
   vertical-align: middle;
+}
+
+// Buttons
+.btn {
+  border: none;
+  font-weight: 600;
 }
 
 // Form styles

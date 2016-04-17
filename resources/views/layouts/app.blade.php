@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<header class="navbar navbar-white">
+<header class="navbar navbar-default">
     <div class="container">
         <div class="navbar-brand"><a href="{{url('/')}}"><i class="fa fa-bolt"></i> KWizard</a></div>
 
