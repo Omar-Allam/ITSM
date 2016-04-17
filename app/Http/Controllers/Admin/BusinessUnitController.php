@@ -8,50 +8,51 @@ use Illuminate\Http\Request;
 
 class BusinessUnitController extends Controller
 {
-    protected $rules = ['name' => 'required|unique:business_units,name', 'location' => 'required|exists:locations'];
+    protected $rules = ['name' => 'required|unique:business_units,name', 'location_id' => 'required|exists:locations,id'];
 
     public function index()
     {
         $businessUnits = BusinessUnit::paginate();
 
-        return view('admin.business_unit.index', compact('businessUnits'));
+        return view('admin.business-unit.index', compact('businessUnits'));
     }
 
     public function create()
     {
-        return view('admin.business_unit.create');
+        return view('admin.business-unit.create');
     }
 
     public function store(Request $request)
     {
-        $this->validates($request, 'Could not save businessUnit');
+        $this->validates($request, 'Could not save business unit');
 
         BusinessUnit::create($request->all());
 
-        flash('BusinessUnit has been saved', 'success');
+        flash('Business unit has been saved', 'success');
 
-        return \Redirect::action('business_unit.index');
+        return \Redirect::route('admin.business-unit.index');
     }
 
     public function show(BusinessUnit $businessUnit)
     {
-        return view('admin.business_unit.show', compact('businessUnit'));
+        return view('admin.business-unit.show', compact('businessUnit'));
     }
 
     public function edit(BusinessUnit $businessUnit)
     {
-        return view('admin.business_unit.edit', compact('businessUnit'));
+        return view('admin.business-unit.edit', compact('businessUnit'));
     }
 
     public function update(BusinessUnit $businessUnit, Request $request)
     {
-        $this->validates($request, 'Could not save businessUnit');
+        $this->rules['name'] .= ',' . $businessUnit->id;
+        $this->validates($request, 'Could not save business unit');
 
         $businessUnit->update($request->all());
 
-        flash('BusinessUnit has been saved', 'success');
+        flash('Business unit has been saved', 'success');
 
-        return \Redirect::action('business_unit.index');
+        return \Redirect::route('admin.business-unit.index');
     }
 
     public function destroy(BusinessUnit $businessUnit)
@@ -60,6 +61,6 @@ class BusinessUnitController extends Controller
 
         flash('BusinessUnit has been deleted', 'success');
 
-        return \Redirect::action('business_unit.index');
+        return \Redirect::action('admin.business-unit.index');
     }
 }

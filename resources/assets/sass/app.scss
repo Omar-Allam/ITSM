@@ -35,7 +35,7 @@ footer {
   @extend .table;
   @extend .table-condensed;
   @extend .table-striped;
-  @extend .table-hover;
+  //@extend .table-hover;
 }
 
 .listing-table > tr > td,

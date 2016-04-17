@@ -2078,7 +2078,7 @@ th {
 .table-striped > tbody > tr:nth-of-type(odd), .listing-table > tbody > tr:nth-of-type(odd) {
   background-color: #f8fafc; }
 
-.table-hover > tbody > tr:hover, .listing-table > tbody > tr:hover {
+.table-hover > tbody > tr:hover {
   background-color: #e4ecf2; }
 
 table col[class*="col-"] {
@@ -2106,11 +2106,11 @@ table th[class*="col-"] {
 .table > tfoot > tr.active > th, .listing-table > tfoot > tr.active > th {
   background-color: #e4ecf2; }
 
-.table-hover > tbody > tr > td.active:hover, .listing-table > tbody > tr > td.active:hover,
-.table-hover > tbody > tr > th.active:hover, .listing-table > tbody > tr > th.active:hover,
-.table-hover > tbody > tr.active:hover > td, .listing-table > tbody > tr.active:hover > td,
-.table-hover > tbody > tr:hover > .active, .listing-table > tbody > tr:hover > .active,
-.table-hover > tbody > tr.active:hover > th, .listing-table > tbody > tr.active:hover > th {
+.table-hover > tbody > tr > td.active:hover,
+.table-hover > tbody > tr > th.active:hover,
+.table-hover > tbody > tr.active:hover > td,
+.table-hover > tbody > tr:hover > .active,
+.table-hover > tbody > tr.active:hover > th {
   background-color: #d3e0e9; }
 
 .table > thead > tr > td.success, .listing-table > thead > tr > td.success,
@@ -2127,11 +2127,11 @@ table th[class*="col-"] {
 .table > tfoot > tr.success > th, .listing-table > tfoot > tr.success > th {
   background-color: #dff0d8; }
 
-.table-hover > tbody > tr > td.success:hover, .listing-table > tbody > tr > td.success:hover,
-.table-hover > tbody > tr > th.success:hover, .listing-table > tbody > tr > th.success:hover,
-.table-hover > tbody > tr.success:hover > td, .listing-table > tbody > tr.success:hover > td,
-.table-hover > tbody > tr:hover > .success, .listing-table > tbody > tr:hover > .success,
-.table-hover > tbody > tr.success:hover > th, .listing-table > tbody > tr.success:hover > th {
+.table-hover > tbody > tr > td.success:hover,
+.table-hover > tbody > tr > th.success:hover,
+.table-hover > tbody > tr.success:hover > td,
+.table-hover > tbody > tr:hover > .success,
+.table-hover > tbody > tr.success:hover > th {
   background-color: #d0e9c6; }
 
 .table > thead > tr > td.info, .listing-table > thead > tr > td.info,
@@ -2148,11 +2148,11 @@ table th[class*="col-"] {
 .table > tfoot > tr.info > th, .listing-table > tfoot > tr.info > th {
   background-color: #d9edf7; }
 
-.table-hover > tbody > tr > td.info:hover, .listing-table > tbody > tr > td.info:hover,
-.table-hover > tbody > tr > th.info:hover, .listing-table > tbody > tr > th.info:hover,
-.table-hover > tbody > tr.info:hover > td, .listing-table > tbody > tr.info:hover > td,
-.table-hover > tbody > tr:hover > .info, .listing-table > tbody > tr:hover > .info,
-.table-hover > tbody > tr.info:hover > th, .listing-table > tbody > tr.info:hover > th {
+.table-hover > tbody > tr > td.info:hover,
+.table-hover > tbody > tr > th.info:hover,
+.table-hover > tbody > tr.info:hover > td,
+.table-hover > tbody > tr:hover > .info,
+.table-hover > tbody > tr.info:hover > th {
   background-color: #c4e3f3; }
 
 .table > thead > tr > td.warning, .listing-table > thead > tr > td.warning,
@@ -2169,11 +2169,11 @@ table th[class*="col-"] {
 .table > tfoot > tr.warning > th, .listing-table > tfoot > tr.warning > th {
   background-color: #fcf8e3; }
 
-.table-hover > tbody > tr > td.warning:hover, .listing-table > tbody > tr > td.warning:hover,
-.table-hover > tbody > tr > th.warning:hover, .listing-table > tbody > tr > th.warning:hover,
-.table-hover > tbody > tr.warning:hover > td, .listing-table > tbody > tr.warning:hover > td,
-.table-hover > tbody > tr:hover > .warning, .listing-table > tbody > tr:hover > .warning,
-.table-hover > tbody > tr.warning:hover > th, .listing-table > tbody > tr.warning:hover > th {
+.table-hover > tbody > tr > td.warning:hover,
+.table-hover > tbody > tr > th.warning:hover,
+.table-hover > tbody > tr.warning:hover > td,
+.table-hover > tbody > tr:hover > .warning,
+.table-hover > tbody > tr.warning:hover > th {
   background-color: #faf2cc; }
 
 .table > thead > tr > td.danger, .listing-table > thead > tr > td.danger,
@@ -2190,11 +2190,11 @@ table th[class*="col-"] {
 .table > tfoot > tr.danger > th, .listing-table > tfoot > tr.danger > th {
   background-color: #f2dede; }
 
-.table-hover > tbody > tr > td.danger:hover, .listing-table > tbody > tr > td.danger:hover,
-.table-hover > tbody > tr > th.danger:hover, .listing-table > tbody > tr > th.danger:hover,
-.table-hover > tbody > tr.danger:hover > td, .listing-table > tbody > tr.danger:hover > td,
-.table-hover > tbody > tr:hover > .danger, .listing-table > tbody > tr:hover > .danger,
-.table-hover > tbody > tr.danger:hover > th, .listing-table > tbody > tr.danger:hover > th {
+.table-hover > tbody > tr > td.danger:hover,
+.table-hover > tbody > tr > th.danger:hover,
+.table-hover > tbody > tr.danger:hover > td,
+.table-hover > tbody > tr:hover > .danger,
+.table-hover > tbody > tr.danger:hover > th {
   background-color: #ebcccc; }
 
 .table-responsive {

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
 {
-    protected $rules = ['name' => 'required', 'business_unit_id' => 'required|exists:business_units'];
+    protected $rules = ['name' => 'required', 'business_unit_id' => 'required|exists:business_units,id'];
 
     public function index()
     {
@@ -30,7 +30,7 @@ class DepartmentController extends Controller
 
         flash('Department has been saved', 'success');
 
-        return \Redirect::action('department.index');
+        return \Redirect::route('admin.department.index');
     }
 
     public function show(Department $department)
@@ -51,7 +51,7 @@ class DepartmentController extends Controller
 
         flash('Department has been saved', 'success');
 
-        return \Redirect::action('department.index');
+        return \Redirect::route('admin.department.index');
     }
 
     public function destroy(Department $department)
@@ -60,6 +60,6 @@ class DepartmentController extends Controller
 
         flash('Department has been deleted', 'success');
 
-        return \Redirect::action('department.index');
+        return \Redirect::route('admin.department.index');
     }
 }
