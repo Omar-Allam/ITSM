@@ -1,7 +1,14 @@
 <div class="row">
     <div class="col-md-6">
         {{csrf_field()}}
-
+        <div class="form-group {{$errors->has('category_id')? 'has-error' : ''}}">
+            {{Form::label('category_id', 'Category', ['class' => 'control-label'])}}
+            {{Form::select('category_id', App\Category::selection('Select Category'), null, ['class' => 'form-control'])}}
+            @if ($errors->has('category_id'))
+                <div class="error-message">{{$errors->first('category_id')}}</div>
+            @endif
+        </div>
+        
         <div class="form-group {{$errors->has('name')? 'has-error' : ''}}">
             {{Form::label('name', 'Name', ['class' => 'control-label'])}}
             {{Form::text('name', null, ['class' => 'form-control'])}}

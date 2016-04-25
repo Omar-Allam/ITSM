@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 class CategoryController extends Controller
 {
 
-    protected $rules = [];
+    protected $rules = ['name' => 'required', 'description' => 'max:500'];
 
     public function index()
     {
@@ -31,7 +31,7 @@ class CategoryController extends Controller
 
         flash('Category has been saved', 'success');
 
-        return \Redirect::action('category.index');
+        return \Redirect::route('admin.category.index');
     }
 
     public function show(Category $category)
@@ -52,7 +52,7 @@ class CategoryController extends Controller
 
         flash('Category has been saved', 'success');
 
-        return \Redirect::action('category.index');
+        return \Redirect::route('admin.category.index');
     }
 
     public function destroy(Category $category)
@@ -61,6 +61,6 @@ class CategoryController extends Controller
 
         flash('Category has been deleted', 'success');
 
-        return \Redirect::action('category.index');
+        return \Redirect::route('admin.category.index');
     }
 }

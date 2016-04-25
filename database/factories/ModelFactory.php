@@ -21,17 +21,8 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Category::class, function (Faker\Generator $faker) {
-    $parent_id = null;
-
-    $category = App\Category::query()->orderByRaw('RAND()')->first();
-
-    if ($category) {
-        $parent_id = $category->id;
-    }
-
     return [
         'name' => $faker->words(3, true),
         'description' => $faker->paragraph,
-        'parent_id' => $parent_id
     ];
 });

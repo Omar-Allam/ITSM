@@ -23,9 +23,9 @@ trait Listable
             return [];
         }
 
-        $list = $query->pluck($displayField, 'id');
+        $list = $query->orderBy($displayField)->pluck($displayField, 'id');
 
-        if ($empty !== false) {
+        if (false !== $empty) {
             $list->prepend($empty, '');
         }
 

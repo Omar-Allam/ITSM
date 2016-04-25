@@ -8,15 +8,10 @@ class Category extends Model
 {
     use Listable;
 
-    protected $fillable = ['name', 'description', 'parent_id'];
+    protected $fillable = ['name', 'description'];
 
-    public function parent()
+    public function subcategories()
     {
-        return $this->belongsTo(static::class, 'parent_id', 'id');
-    }
-
-    public function children()
-    {
-        return $this->hasMany(static::class, 'parent_id', 'id');
+        return $this->hasMany(Subcategory::class, 'category_id', 'id');
     }
 }
