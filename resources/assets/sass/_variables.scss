@@ -1,3 +1,4 @@
+$border-radius-base: 0;
 $default-border: #d3e0e9;
 $body-bg: #f5f8fa;
 $navbar-default-border: #ededed;
@@ -14,3 +15,4 @@ $navbar-default-link-hover-bg: $body-bg;
 $link-color: #3097d1;
 $table-bg-accent: lighten($body-bg, 1%);
 $table-bg-hover: darken($body-bg, 5%);
+$list-group-border: $default-border;

@@ -20,20 +20,26 @@
 </header>
 
 <section class="container">
-
-    <div class="panel panel-default">
-        <div class="panel-heading clearfix">
-            @yield('header')
-        </div>
-
-        <div class="panel-body">
-            @if(Session::has('flash-message'))
-                <div class="alert alert-{{Session::get('flash-type', 'danger')}}">
-                    {{Session::get('flash-message')}}
+    <div class="row">
+        <aside class="col-md-3">
+            @include('admin.partials._sidebar')
+        </aside>
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    @yield('header')
                 </div>
-            @endif
 
-            @yield('body')
+                <div class="panel-body">
+                    @if(Session::has('flash-message'))
+                        <div class="alert alert-{{Session::get('flash-type', 'danger')}}">
+                            {{Session::get('flash-message')}}
+                        </div>
+                    @endif
+
+                    @yield('body')
+                </div>
+            </div>
         </div>
     </div>
 </section>

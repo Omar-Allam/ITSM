@@ -7,6 +7,7 @@
     "bootflat": "^2.0.4",
     "bootstrap-sass": "^3.0.0",
     "font-awesome": "^4.5.0",
+    "jquery": "^2.2.3",
     "laravel-elixir": "^4.0.0",
     "laravel-elixir-vueify": "^1.0.3"
   }
