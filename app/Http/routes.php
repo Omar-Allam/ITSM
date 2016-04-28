@@ -20,3 +20,9 @@ Route::resource('admin/item', 'Admin\ItemController');
 Route::resource('admin/status', 'Admin\StatusController');
 
 Route::resource('admin/group', 'Admin\GroupController');
+
+Route::resource('admin/priority', 'Admin\PriorityController');
+
+Route::resource('admin/urgency', 'Admin\UrgencyController');
+
+Route::resource('admin/impact', 'Admin\ImpactController');

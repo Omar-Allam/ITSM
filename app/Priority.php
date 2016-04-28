@@ -2,7 +2,7 @@
 
 namespace App;
 
-class Group extends Model
+class Priority extends Model
 {
     protected $fillable = ['name', 'description'];
 
