@@ -25,10 +25,11 @@ class Module extends Command
     public function handle()
     {
         $makers = [
-//            \Make\Makers\View::class,
-//            \Make\Makers\Resource::class,
-//            \Make\Makers\Route::class,
-            \Make\Makers\Model::class
+            \Make\Makers\Route::class,
+            \Make\Makers\Migration::class,
+            \Make\Makers\Model::class,
+            \Make\Makers\Resource::class,
+            \Make\Makers\View::class,
         ];
 
         $name = $this->argument('name');

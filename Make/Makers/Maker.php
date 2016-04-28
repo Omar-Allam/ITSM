@@ -68,4 +68,9 @@ abstract class Maker
 
         return $namespace;
     }
+
+    protected function table()
+    {
+        return Str::lower(Str::snake(Str::plural($this->baseName, '_')));
+    }
 }
