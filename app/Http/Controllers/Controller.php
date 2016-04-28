@@ -10,7 +10,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Controller extends BaseController
 {
-    protected $rules = [];
+    protected $rules = ['name' => 'required'];
 
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
