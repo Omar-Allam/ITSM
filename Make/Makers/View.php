@@ -17,10 +17,10 @@ class View extends Maker
     {
         $viewsPath = resource_path('views');
         $path = $viewsPath . static::DS . $this->getViewPath();
-        
+
         is_dir($path) ||  mkdir($path, 0755, true);
 
-        $stubs = dirname(__DIR__) . static::DS . 'stubs' . static::DS . 'views';
+        $stubs = $this->stubPath() . static::DS . 'views';
 
         $single = $this->single();
         $plural = $this->plural();

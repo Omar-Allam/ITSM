@@ -8,12 +8,11 @@ class Resource extends Maker
 {
     public function make()
     {
-        $ds = DIRECTORY_SEPARATOR;
-        $stubPath = dirname(__DIR__) . $ds . 'stubs';
+        $stubPath = $this->stubPath();
 
         $model = Str::studly($this->baseName);
 
-        $filename = app_path('Http/Controller') . $ds . $this->dirName . $ds . $model . 'Controller.php';
+        $filename = app_path('Http/Controller') . static::DS . $this->dirName . static::DS . $model . 'Controller.php';
 
         $namespace = '';
         if ($this->dirName != '.' && $this->baseName != $this->dirName) {
@@ -27,7 +26,7 @@ class Resource extends Maker
         $humanDown = Str::lower($humanUp);
         $viewPrefix = $this->viewPrefix();
 
-        $content = \View::file($stubPath . $ds . 'resource.blade.php', compact('model', 'single', 'plural', 'humanUp', 'humanDown', 'importController', 'namespace', 'viewPrefix'))->render();
+        $content = \View::file($stubPath . static::DS . 'resource.blade.php', compact('model', 'single', 'plural', 'humanUp', 'humanDown', 'importController', 'namespace', 'viewPrefix'))->render();
 
         file_put_contents($filename, $content);
     }

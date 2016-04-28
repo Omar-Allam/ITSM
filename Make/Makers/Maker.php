@@ -53,4 +53,19 @@ abstract class Maker
     {
         return Str::camel(Str::plural($this->baseName));
     }
+
+    protected function stubPath()
+    {
+        return dirname(__DIR__) . Maker::DS . 'stubs';
+    }
+
+    protected function _namespace()
+    {
+        $namespace = '';
+        if ($this->dirName != '.' && $this->baseName != $this->dirName) {
+            $namespace = '\\' . str_replace(['/', '\\'], '\\', $this->dirName);
+        }
+
+        return $namespace;
+    }
 }
