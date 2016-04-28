@@ -15,3 +15,6 @@ $link-color: #3097d1;
 $table-bg-accent: lighten($body-bg, 1%);
 $table-bg-hover: darken($body-bg, 5%);
 $list-group-border: $default-border;
+$list-group-hover-bg: darken($body-bg, 5%);
+$list-group-active-bg: darken($body-bg, 15%);
+$list-group-active-border: darken($body-bg, 15%);

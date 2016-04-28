@@ -10,7 +10,7 @@
 <body>
 
 <header class="navbar navbar-default">
-    <div class="container">
+    <div class="container-fluid">
         <div class="navbar-brand"><a href="{{url('/')}}"><i class="fa fa-bolt"></i> KWizard</a></div>
 
         <ul class="nav navbar-nav">
@@ -19,7 +19,7 @@
     </div>
 </header>
 
-<section class="container">
+<section class="container-fluid">
     <div class="row">
         <aside class="col-md-3">
             @include('admin.partials._sidebar')
