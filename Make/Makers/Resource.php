@@ -12,7 +12,7 @@ class Resource extends Maker
 
         $model = Str::studly($this->baseName);
 
-        $filename = app_path('Http/Controller') . static::DS . $this->dirName . static::DS . $model . 'Controller.php';
+        $filename = app_path('Http/Controllers') . static::DS . $this->dirName . static::DS . $model . 'Controller.php';
 
         $namespace = '';
         if ($this->dirName != '.' && $this->baseName != $this->dirName) {
