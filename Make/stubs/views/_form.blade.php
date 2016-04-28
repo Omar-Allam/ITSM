@@ -1,4 +1,4 @@
-@{{ csrf_token() }}
+@{{ csrf_field() }}
 
 <div class="form-group @{{$errors->has('name')? 'has-error' : ''}}">
     @{{ Form::label('name', 'Name', ['class' => 'control-label']) }}

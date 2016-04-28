@@ -11,10 +11,10 @@ class Route extends Maker
 
         $namespace = '';
         if ($this->dirName != '.' && $this->baseName != $this->dirName) {
-            $namespace = str_replace('/', '\\', $this->dirName);
+            $namespace = str_replace('/', '\\', $this->dirName) . '\\';
         }
         
-        $controller = $namespace . '\\' . $this->baseName;
+        $controller = $namespace . $this->baseName . 'Controller';
 
         $route = PHP_EOL . "Route::resource('$name', '$controller');" . PHP_EOL;
 
