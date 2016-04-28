@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class {{$model}}Controller extends Controller
 {
 
-    protected $rules = [];
+    protected $rules = ['name' => 'required'];
 
     public function index()
     {
