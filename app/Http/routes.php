@@ -18,3 +18,5 @@ Route::group(['prefix' => 'admin'], function(\Illuminate\Routing\Router $r){
 Route::resource('admin/item', 'Admin\ItemController');
 
 Route::resource('admin/status', 'Admin\StatusController');
+
+Route::resource('admin/group', 'Admin\GroupController');
