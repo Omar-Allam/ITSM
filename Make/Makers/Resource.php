@@ -17,7 +17,7 @@ class Resource extends Maker
 
         $namespace = '';
         if ($this->dirName != '.' && $this->baseName != $this->dirName) {
-            $namespace = '\\' . str_replace($ds, '\\', $this->dirName);
+            $namespace = '\\' . str_replace(['/', '\\'], '\\', $this->dirName);
             $importController = true;
         }
 

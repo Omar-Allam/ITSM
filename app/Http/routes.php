@@ -13,5 +13,6 @@ Route::group(['prefix' => 'admin'], function(\Illuminate\Routing\Router $r){
     $r->resource('department', 'Admin\DepartmentController');
     $r->resource('category', 'Admin\CategoryController');
     $r->resource('subcategory', 'Admin\SubcategoryController');
-    $r->resource('item', 'Admin\ItemController');
 });
+
+Route::resource('admin/item', 'Admin\ItemController');

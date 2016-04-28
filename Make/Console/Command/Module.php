@@ -9,12 +9,11 @@
 namespace Make\Console\Command;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Str;
 
 class Module extends Command
 {
 
-    protected $signature = "make:resource {name}";
+    protected $signature = "make:module {name}";
 
     protected $description = "Create a CRUD resource controller";
 
@@ -26,8 +25,10 @@ class Module extends Command
     public function handle()
     {
         $makers = [
-            \Make\Makers\View::class,
-            \Make\Makers\Resource::class,
+//            \Make\Makers\View::class,
+//            \Make\Makers\Resource::class,
+//            \Make\Makers\Route::class,
+            \Make\Makers\Model::class
         ];
 
         $name = $this->argument('name');
