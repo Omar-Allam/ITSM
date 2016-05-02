@@ -26,3 +26,5 @@ Route::resource('admin/priority', 'Admin\PriorityController');
 Route::resource('admin/urgency', 'Admin\UrgencyController');
 
 Route::resource('admin/impact', 'Admin\ImpactController');
+
+Route::resource('admin/business-rule', 'Admin\BusinessRuleController');
