@@ -48,5 +48,7 @@
         <a href="{{route('admin.branch.index')}}" class="list-group-item">Impact</a>
         <a href="{{route('admin.priority.index')}}" class="list-group-item">Priority</a>
         <a href="{{route('admin.department.index')}}" class="list-group-item">Urgency</a>
+        <a href="{{route('admin.business-rule.index')}}" class="list-group-item">Business Rules</a>
+        <a href="{{route('admin.business-rule.index')}}" class="list-group-item">Service level agreements</a>
     </div>
 </div>
