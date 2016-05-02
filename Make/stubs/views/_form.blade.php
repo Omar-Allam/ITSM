@@ -5,7 +5,7 @@
             @{{ Form::label('name', 'Name', ['class' => 'control-label']) }}
             @{{ Form::text('name', null, ['class' => 'form-control']) }}
             {{'@'}}if ($errors->has('name'))
-            <div class="error-message">@{{$errors->first('name')}}</div>
+                <div class="error-message">@{{$errors->first('name')}}</div>
             {{'@'}}endif
         </div>
 

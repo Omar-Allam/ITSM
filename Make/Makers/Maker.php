@@ -46,7 +46,7 @@ abstract class Maker
 
     protected function single()
     {
-        return Str::camel(Str::singular($this->baseName));
+        return Str::snake(Str::singular($this->baseName), '_');
     }
 
     protected function plural()
