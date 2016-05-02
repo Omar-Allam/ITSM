@@ -67,6 +67,31 @@ footer {
   color: $alert-danger-text;
 }
 
+.panel-sm {
+  .form-group {
+    margin-bottom: 0;
+  }
+
+  .panel-body {
+    padding: 10px;
+  }
+
+  .panel-heading {
+    padding: 10px 5px;
+  }
+
+  .panel-title {
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  label {
+    font-size: 13px;
+    font-weight:400;
+    margin-bottom: 0;
+  }
+}
+
 //Helper Classes
 //------------------------------------
 .inline-block {

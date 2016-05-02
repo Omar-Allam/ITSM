@@ -7908,6 +7908,24 @@ footer {
   margin-top: 7px;
   color: #a94442; }
 
+.panel-sm .form-group {
+  margin-bottom: 0; }
+
+.panel-sm .panel-body {
+  padding: 10px; }
+
+.panel-sm .panel-heading {
+  padding: 10px 5px; }
+
+.panel-sm .panel-title {
+  font-size: 13px;
+  font-weight: 700; }
+
+.panel-sm label {
+  font-size: 13px;
+  font-weight: 400;
+  margin-bottom: 0; }
+
 .inline-block {
   display: inline-block; }
 
