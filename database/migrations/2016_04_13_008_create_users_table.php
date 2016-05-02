@@ -18,12 +18,13 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('login')->unique();
             $table->string('password');
-            $table->integer('location_id')->unsigned();
+            $table->integer('location_id')->unsigned()->nullable();
             $table->integer('business_unit_id')->unsigned();
             $table->integer('branch_id')->unsigned()->nullable();
             $table->integer('department_id')->unsigned()->nullable();
             $table->integer('manager_id')->unsigned()->nullable();
             $table->boolean('vip');
+            $table->boolean('is_ad');
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

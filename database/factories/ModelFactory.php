@@ -12,10 +12,21 @@
 */
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
+    $email = $faker->safeEmail;
+    list($login) = explode('@', $email);
+
+    $locations = \App\Location::query()->pluck('id')->toArray();
+    $business_units = \App\BusinessUnit::query()->pluck('id')->toArray();
+
     return [
         'name' => $faker->name,
-        'email' => $faker->safeEmail,
-        'password' => bcrypt(str_random(10)),
+        'email' => $email,
+        'login' => $login,
+        'location_id' => $faker->randomElement($locations),
+        'business_unit_id' => $faker->randomElement($business_units),
+        'password' => bcrypt('kifah1234'),
+        'vip' => $faker->boolean(10),
+        'is_ad' => false,
         'remember_token' => str_random(10),
     ];
 });

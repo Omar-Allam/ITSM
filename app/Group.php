@@ -13,6 +13,11 @@ class Group extends Model
     const TECHNICIAN = 3;
     const ADMIN = 4;
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
     public function scopeTypes ()
     {
         $types = collect([
