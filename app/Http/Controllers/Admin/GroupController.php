@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class GroupController extends Controller
 {
 
-    protected $rules = ['name' => 'required'];
+    protected $rules = ['name' => 'required', 'type' => 'required'];
 
     public function index()
     {

@@ -11,7 +11,7 @@ class CreateGroupsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('description')->nullable();
-            $table->boolean('support')->default(false);
+            $table->tinyInteger('type')->default(1);
             $table->softDeletes();
             $table->timestamps();
         });

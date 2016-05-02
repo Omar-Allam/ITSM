@@ -9,18 +9,20 @@
             @endif
         </div>
 
+        <div class="form-group {{$errors->has('type')? 'has-error' : ''}}">
+            {{ Form::label('type', 'Type', ['class' => 'control-label']) }}
+            {{ Form::select('type', App\Group::types(), null, ['class' => 'form-control']) }}
+            @if ($errors->has('type'))
+                <div class="error-message">{{$errors->first('type')}}</div>
+            @endif
+        </div>
+
         <div class="form-group {{$errors->has('description')? 'has-error' : ''}}">
             {{ Form::label('description', 'Description', ['class' => 'control-label']) }}
             {{ Form::textarea('description', null, ['class' => 'form-control', 'rows' => 3]) }}
             @if ($errors->has('description'))
                 <div class="error-message">{{$errors->first('description')}}</div>
             @endif
-        </div>
-
-        <div class="checkbox">
-            <label for="support" class="control-label">
-                {{Form::checkbox('support', 1, null, ['id' => 'support', 'class'])}} This is a support group
-            </label>
         </div>
 
         <div class="form-group">
