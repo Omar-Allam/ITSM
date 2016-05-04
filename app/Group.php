@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Behaviors\Listable;
+use Illuminate\Database\Eloquent\Builder;
+
 class Group extends Model
 {
     protected $fillable = ['name', 'description', 'type'];
@@ -18,6 +21,11 @@ class Group extends Model
         return $this->belongsToMany(User::class);
     }
 
+    public function scopeSupport(Builder $query)
+    {
+        return $query->where('type', '!=', self::REQUESTER);
+    }
+
     public function scopeTypes ()
     {
         $types = collect([
@@ -32,4 +40,6 @@ class Group extends Model
 
         return $types;
     }
+
+    use Listable;
 }

@@ -3,6 +3,7 @@
 use App\Impact;
 use App\Priority;
 use App\Status;
+use App\Urgency;
 use Illuminate\Database\Seeder;
 
 class ConfigSeeder extends Seeder
@@ -38,11 +39,11 @@ class ConfigSeeder extends Seeder
 
     private function seedPriority()
     {
-        Priority::create(['name' => 'Very High']);
-        Priority::create(['name' => 'High']);
-        Priority::create(['name' => 'Medium']);
-        Priority::create(['name' => 'Normal']);
-        Priority::create(['name' => 'Low']);
+        Urgency::create(['name' => 'Very High']);
+        Urgency::create(['name' => 'High']);
+        Urgency::create(['name' => 'Medium']);
+        Urgency::create(['name' => 'Normal']);
+        Urgency::create(['name' => 'Low']);
     }
 
     private function seedUrgency()

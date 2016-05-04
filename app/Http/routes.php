@@ -30,3 +30,5 @@ Route::resource('admin/impact', 'Admin\ImpactController');
 Route::resource('admin/business-rule', 'Admin\BusinessRuleController');
 
 Route::resource('admin/sla', 'Admin\SlaController');
+
+Route::resource('ticket', 'TicketController');
