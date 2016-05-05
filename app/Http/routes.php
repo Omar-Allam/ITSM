@@ -1,10 +1,17 @@
 <?php
 
+Auth::loginUsingId(1);
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['prefix' => 'admin'], function(\Illuminate\Routing\Router $r){
+Route::group(['prefix' => 'list'], function (\Illuminate\Routing\Router $r) {
+    Route::get('/subcategory/{cat_id}', 'ListController@subcategory');
+    Route::get('/item/{subcat_id}', 'ListController@item');
+});
+
+Route::group(['prefix' => 'admin'], function (\Illuminate\Routing\Router $r) {
     $r->resource('region', 'Admin\RegionController');
     $r->resource('city', 'Admin\CityController');
     $r->resource('location', 'Admin\LocationController');
@@ -13,22 +20,14 @@ Route::group(['prefix' => 'admin'], function(\Illuminate\Routing\Router $r){
     $r->resource('department', 'Admin\DepartmentController');
     $r->resource('category', 'Admin\CategoryController');
     $r->resource('subcategory', 'Admin\SubcategoryController');
+    $r->resource('item', 'Admin\ItemController');
+    $r->resource('status', 'Admin\StatusController');
+    $r->resource('group', 'Admin\GroupController');
+    $r->resource('priority', 'Admin\PriorityController');
+    $r->resource('urgency', 'Admin\UrgencyController');
+    $r->resource('impact', 'Admin\ImpactController');
+    $r->resource('business-rule', 'Admin\BusinessRuleController');
+    $r->resource('sla', 'Admin\SlaController');
 });
-
-Route::resource('admin/item', 'Admin\ItemController');
-
-Route::resource('admin/status', 'Admin\StatusController');
-
-Route::resource('admin/group', 'Admin\GroupController');
-
-Route::resource('admin/priority', 'Admin\PriorityController');
-
-Route::resource('admin/urgency', 'Admin\UrgencyController');
-
-Route::resource('admin/impact', 'Admin\ImpactController');
-
-Route::resource('admin/business-rule', 'Admin\BusinessRuleController');
-
-Route::resource('admin/sla', 'Admin\SlaController');
 
 Route::resource('ticket', 'TicketController');

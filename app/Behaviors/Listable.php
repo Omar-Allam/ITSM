@@ -20,7 +20,7 @@ trait Listable
         } elseif (in_array('title', $this->fillable)) {
             $displayField = 'title';
         } else {
-            return [];
+            return collect([]);
         }
 
         $list = $query->orderBy($displayField)->pluck($displayField, 'id');
@@ -29,7 +29,7 @@ trait Listable
             $list->prepend($empty, '');
         }
 
-        return $list->toArray();
+        return $list;
     }
 
 }

@@ -37,9 +37,9 @@ class CreateTicketsTable extends Migration
             //Relation with users
             $table->foreign('requester_id')->references('id')->on('users');
             $table->foreign('creator_id')->references('id')->on('users');
-            $table->foreign('coordinator_id')->references('id')->on('users');
-            $table->foreign('technician_id')->references('id')->on('users');
-            $table->foreign('group_id')->references('id')->on('groups');
+//            $table->foreign('coordinator_id')->references('id')->on('users');
+//            $table->foreign('technician_id')->references('id')->on('users');
+//            $table->foreign('group_id')->references('id')->on('groups');
 
             //Relation with status models
             $table->foreign('status_id')->references('id')->on('statuses');
@@ -50,12 +50,12 @@ class CreateTicketsTable extends Migration
 
             //Relation with categories
             $table->foreign('category_id')->references('id')->on('categories');
-            $table->foreign('subcategory_id')->references('id')->on('subcategories');
-            $table->foreign('item_id')->references('id')->on('items');
+//            $table->foreign('subcategory_id')->references('id')->on('subcategories');
+//            $table->foreign('item_id')->references('id')->on('items');
 
             //Relation with business
-            $table->foreign('business_unit_id')->references('id')->on('business_units');
-            $table->foreign('location_id')->references('id')->on('locations');
+//            $table->foreign('business_unit_id')->references('id')->on('business_units');
+//            $table->foreign('location_id')->references('id')->on('locations');
         });
     }
 

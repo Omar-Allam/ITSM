@@ -24,6 +24,7 @@
         <aside class="col-md-3">
             @include('admin.partials._sidebar')
         </aside>
+
         <div class="col-md-9">
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
@@ -45,7 +46,7 @@
 </section>
 
 <footer>
-    <div class="container">
+    <div class="container-fluid">
         <p class="text-muted">Copyright &copy; AlKifah Holding Company {{date('Y')}}</p>
     </div>
 </footer>

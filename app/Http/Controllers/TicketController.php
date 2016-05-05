@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TicketRequest;
 use App\Ticket;
-use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
-
-    protected $rules = ['name' => 'required'];
-
     public function index()
     {
         $tickets = Ticket::paginate();
@@ -22,11 +19,17 @@ class TicketController extends Controller
         return view('ticket.create');
     }
 
-    public function store(Request $request)
+    public function store(TicketRequest $request)
     {
-        $this->validates($request, 'Could not save ticket');
+        $ticket = new Ticket($request->all());
 
-        Ticket::create($request->all());
+        $ticket->creator_id = $request->user()->id;
+        $ticket->requester_id = $request->user()->id;
+        $ticket->location_id = $request->user()->location_id;
+        $ticket->business_unit_id = $request->user()->business_unit_id;
+        $ticket->status_id = 1;
+
+        $ticket->save();
 
         flash('Ticket has been saved', 'success');
 
@@ -43,10 +46,8 @@ class TicketController extends Controller
         return view('ticket.edit', compact('ticket'));
     }
 
-    public function update(Ticket $ticket, Request $request)
+    public function update(Ticket $ticket, TicketRequest $request)
     {
-        $this->validates($request, 'Could not save ticket');
-
         $ticket->update($request->all());
 
         flash('Ticket has been saved', 'success');

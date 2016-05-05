@@ -10,21 +10,27 @@
         <table class="listing-table">
             <thead>
             <tr>
-                <th>Name</th>
-                <th>Actions</th>
+                <th>ID</th>
+                <th>Subject</th>
+                <th>Requester</th>
+                <th>Technician</th>
+                <th>Created At</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Category</th>
             </tr>
             </thead>
             <tbody>
                 @foreach($tickets as $ticket)
                     <tr>
-                        <td class="col-md-5"><a href="{{ route('ticket.edit', $ticket) }}">{{ $ticket->name }}</a></td>
-                        <td class="col-md-3">
-                            <form action="{{ route('ticket.destroy', $ticket) }}" method="post">
-                                {{csrf_field()}} {{method_field('delete')}}
-                                <a class="btn btn-sm btn-primary" href="{{ route('ticket.edit', $ticket) }} "><i class="fa fa-edit"></i> Edit</a>
-                                <button class="btn btn-sm btn-warning"><i class="fa fa-trash-o"></i> Delete</button>
-                            </form>
-                        </td>
+                        <td><a href="{{ route('ticket.show', $ticket) }}">{{ $ticket->id }}</a></td>
+                        <td><a href="{{ route('ticket.show', $ticket) }}">{{ $ticket->subject }}</a></td>
+                        <td>{{ $ticket->requester->name }}</td>
+                        <td>{{ $ticket->technician->name }}</td>
+                        <td>{{ $ticket->created_at->format('d/m/Y h:i a') }}</td>
+                        <td>{{ $ticket->due_date? $ticket->due_date->format('d/m/Y h:i a') : 'Not assigned' }}</td>
+                        <td>{{$ticket->status->name}}</td>
+                        <td>{{ $ticket->category->name }}</td>
                     </tr>
                 @endforeach
             </tbody>
