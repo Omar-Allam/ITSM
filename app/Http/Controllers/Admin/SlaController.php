@@ -8,9 +8,6 @@ use App\Http\Controllers\Controller;
 
 class SlaController extends Controller
 {
-
-    protected $rules = ['name' => 'required'];
-
     public function index()
     {
         $slas = Sla::paginate();
@@ -25,7 +22,8 @@ class SlaController extends Controller
 
     public function store(SlaRequest $request)
     {
-        Sla::create($request->all());
+        $sla = Sla::create($request->all());
+        $sla->updateCriteria($request->criterions);
 
         flash('SLA has been saved', 'success');
 
@@ -39,12 +37,15 @@ class SlaController extends Controller
 
     public function edit(Sla $sla)
     {
+        $sla->load('criterions');
+        
         return view('admin.sla.edit', compact('sla'));
     }
 
     public function update(Sla $sla, SlaRequest $request)
     {
         $sla->update($request->all());
+        $sla->updateCriteria($request->criterions);
 
         flash('SLA has been saved', 'success');
 

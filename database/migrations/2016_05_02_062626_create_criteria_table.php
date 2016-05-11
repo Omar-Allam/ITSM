@@ -14,11 +14,13 @@ class CreateCriteriaTable extends Migration
     {
         Schema::create('criteria', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('citeria_id')->unsigned();
+            $table->integer('criteria_id')->unsigned();
             $table->string('field');
-            $table->string('operation');
+            $table->string('operator');
+            $table->text('label')->nullable();
             $table->text('value');
             $table->tinyInteger('next')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

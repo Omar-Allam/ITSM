@@ -30,9 +30,9 @@
             <div class="form-group form-group-sm {{$errors->has('subcategory')? 'has-error' : ''}}">
                 {{ Form::label('subcategory_id', 'Subcategory', ['class' => 'control-label']) }}
 
-                <select class="form-control" name="subcategory_id" id="subcategory_id">
+                <select class="form-control" name="subcategory_id" id="subcategory_id" v-model="subcategory">
                     <option value="">Select Subcategory</option>
-                    <option v-for="(id, name) in subcategories" :value="id" @{{ id ==subcategoryValue? 'selected' : '' }}>@{{name}}</option>
+                    <option v-for="(id, name) in subcategories" :value="id">@{{name}}</option>
                 </select>
                 @if ($errors->has('subcategory_id'))
                     <div class="error-message">{{$errors->first('subcategory_id')}}</div>

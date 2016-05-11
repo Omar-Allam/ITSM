@@ -7,8 +7,14 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => 'list'], function (\Illuminate\Routing\Router $r) {
-    Route::get('/subcategory/{cat_id}', 'ListController@subcategory');
-    Route::get('/item/{subcat_id}', 'ListController@item');
+    Route::get('/subcategory/{cat_id?}', 'ListController@subcategory');
+    Route::get('/item/{subcat_id?}', 'ListController@item');
+    Route::get('/category', 'ListController@category');
+    Route::get('/location', 'ListController@location');
+    Route::get('/business-unit', 'ListController@businessUnit');
+    Route::get('/priority', 'ListController@priority');
+    Route::get('/urgency', 'ListController@urgency');
+    Route::get('/impact', 'ListController@impact');
 });
 
 Route::group(['prefix' => 'admin'], function (\Illuminate\Routing\Router $r) {

@@ -26,10 +26,10 @@
                         <td><a href="{{ route('ticket.show', $ticket) }}">{{ $ticket->id }}</a></td>
                         <td><a href="{{ route('ticket.show', $ticket) }}">{{ $ticket->subject }}</a></td>
                         <td>{{ $ticket->requester->name }}</td>
-                        <td>{{ $ticket->technician->name }}</td>
+                        <td>{{ $ticket->technician? $ticket->technician->name : 'Not Assigned' }}</td>
                         <td>{{ $ticket->created_at->format('d/m/Y h:i a') }}</td>
-                        <td>{{ $ticket->due_date? $ticket->due_date->format('d/m/Y h:i a') : 'Not assigned' }}</td>
-                        <td>{{$ticket->status->name}}</td>
+                        <td>{{ $ticket->due_date? $ticket->due_date->format('d/m/Y h:i a') : 'Not Assigned' }}</td>
+                        <td>{{ $ticket->status->name }}</td>
                         <td>{{ $ticket->category->name }}</td>
                     </tr>
                 @endforeach
@@ -38,6 +38,6 @@
 
         @include('partials._pagination', ['items' => $tickets])
     @else
-        <div class="alert alert-info"><i class="fa fa-exclamation-circle"></i> <strong>No ticket found</strong></div>
+        <div class="alert alert-info"><i class="fa fa-exclamation-circle"></i> <strong>No tickets found</strong></div>
     @endif
 @stop

@@ -1,6 +1,6 @@
 {{ csrf_field() }}
 <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-12">
         <div class="form-group {{$errors->has('name')? 'has-error' : ''}}">
             {{ Form::label('name', 'Name', ['class' => 'control-label']) }}
             {{ Form::text('name', null, ['class' => 'form-control']) }}
@@ -16,6 +16,8 @@
                 <div class="error-message">{{$errors->first('description')}}</div>
             @endif
         </div>
+
+        @include('admin.partials._criteria')
 
         <div class="panel panel-sm panel-danger">
             <div class="panel-heading">

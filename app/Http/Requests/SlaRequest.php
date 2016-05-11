@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests;
 
+/**
+ * @property mixed criterions
+ */
 class SlaRequest extends Request
 {
     public function rules()
@@ -10,7 +13,10 @@ class SlaRequest extends Request
 
         return [
             'name' => 'required',
-            'due_days' => 'filled|has_time'
+            'due_days' => 'filled|has_time',
+            'criterions.*.field' => 'required',
+            'criterions.*.operator' => 'required',
+            'criterions.*.value' => 'required',
         ];
     }
 
@@ -31,6 +37,13 @@ class SlaRequest extends Request
     public function response(array $errors)
     {
         flash('Cannot save SLA');
+
+        foreach ($errors as $key => $value) {
+            if (strstr($key, 'criterions')) {
+                $errors['criteria'] = 'Invalid criteria';
+                break;
+            }
+        }
 
         return \Redirect::back()->withErrors($errors)->withInput($this->all());
     }
