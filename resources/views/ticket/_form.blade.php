@@ -1,15 +1,15 @@
 {{ csrf_field() }}
 <div id="TicketForm">
+    <div class="form-group form-group-sm {{$errors->has('subject')? 'has-error' : ''}}">
+        {{ Form::label('subject', 'Subject', ['class' => 'control-label']) }}
+        {{ Form::text('subject', null, ['class' => 'form-control']) }}
+        @if ($errors->has('subject'))
+            <div class="error-message">{{$errors->first('subject')}}</div>
+        @endif
+    </div>
+
     <div class="row">
         <div class="col-sm-9">
-            <div class="form-group form-group-sm {{$errors->has('subject')? 'has-error' : ''}}">
-                {{ Form::label('subject', 'Subject', ['class' => 'control-label']) }}
-                {{ Form::text('subject', null, ['class' => 'form-control']) }}
-                @if ($errors->has('subject'))
-                    <div class="error-message">{{$errors->first('subject')}}</div>
-                @endif
-            </div>
-
             <div class="form-group form-group-sm {{$errors->has('description')? 'has-error' : ''}}">
                 {{ Form::label('description', 'Description', ['class' => 'control-label']) }}
                 {{ Form::textarea('description', null, ['class' => 'form-control']) }}

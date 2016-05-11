@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TicketRequest;
+use App\Jobs\ApplySLA;
 use App\Ticket;
 
 class TicketController extends Controller
@@ -31,6 +32,8 @@ class TicketController extends Controller
 
         $ticket->save();
 
+        $this->dispatch(new ApplySLA($ticket));
+
         flash('Ticket has been saved', 'success');
 
         return \Redirect::route('ticket.index');
@@ -49,6 +52,8 @@ class TicketController extends Controller
     public function update(Ticket $ticket, TicketRequest $request)
     {
         $ticket->update($request->all());
+
+        $this->dispatch(new ApplySLA($ticket));
 
         flash('Ticket has been saved', 'success');
 
