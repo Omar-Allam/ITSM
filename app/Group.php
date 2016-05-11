@@ -5,7 +5,30 @@ namespace App;
 use App\Behaviors\Listable;
 use Illuminate\Database\Eloquent\Builder;
 
-class Group extends Model
+/**
+ * App\Group
+ *
+ * @property integer $id
+ * @property string $name
+ * @property string $description
+ * @property boolean $type
+ * @property string $deleted_at
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $users
+ * @method static \Illuminate\Database\Query\Builder|\App\Group whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group whereType($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Group support()
+ * @method static \Illuminate\Database\Query\Builder|\App\Group types()
+ * @method static \Illuminate\Database\Query\Builder|\App\Group selection($empty = false)
+ * @mixin \Eloquent
+ */
+class Group extends KModel
 {
     protected $fillable = ['name', 'description', 'type'];
 

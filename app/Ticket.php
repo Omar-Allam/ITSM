@@ -2,22 +2,75 @@
 
 namespace App;
 
-class Ticket extends Model
+/**
+ * App\Ticket
+ *
+ * @property integer $id
+ * @property integer $requester_id
+ * @property integer $creator_id
+ * @property integer $coordinator_id
+ * @property integer $technician_id
+ * @property integer $group_id
+ * @property string $subject
+ * @property string $description
+ * @property integer $category_id
+ * @property integer $subcategory_id
+ * @property integer $item_id
+ * @property integer $status_id
+ * @property integer $priority_id
+ * @property integer $impact_id
+ * @property integer $urgency_id
+ * @property integer $sla_id
+ * @property \Carbon\Carbon $due_date
+ * @property \Carbon\Carbon $first_response_date
+ * @property \Carbon\Carbon $resolve_date
+ * @property \Carbon\Carbon $close_date
+ * @property integer $business_unit_id
+ * @property integer $location_id
+ * @property integer $time_spent
+ * @property string $deleted_at
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read \App\User $requester
+ * @property-read \App\User $technician
+ * @property-read \App\Category $category
+ * @property-read \App\Status $status
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereRequesterId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereCreatorId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereCoordinatorId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereTechnicianId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereGroupId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereSubject($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereDescription($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereCategoryId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereSubcategoryId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereItemId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereStatusId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket wherePriorityId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereImpactId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereUrgencyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereSlaId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereDueDate($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereFirstResponseDate($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereResolveDate($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereCloseDate($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereBusinessUnitId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereLocationId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereTimeSpent($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
+class Ticket extends KModel
 {
     protected $fillable = [
-        'subject',
-        'description',
-        'category_id',
-        'subcategory_id',
-        'item_id',
-        'group_id',
-        'technician_id',
-        'priority_id',
-        'impact_id',
-        'urgency_id'
+        'subject', 'description', 'category_id', 'subcategory_id', 'item_id', 'group_id', 'technician_id',
+        'priority_id', 'impact_id', 'urgency_id'
     ];
 
-    protected $dates = ['created_at', 'updated_at'];
+    protected $dates = ['created_at', 'updated_at', 'due_date', 'first_response_date', 'resolve_date', 'close_date'];
 
     public function requester()
     {
