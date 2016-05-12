@@ -77,6 +77,25 @@ class Ticket extends KModel
         return $this->belongsTo(User::class);
     }
 
+    public function priority()
+    {
+        return $this->belongsTo(Priority::class);
+    }
+    public function urgency()
+    {
+        return $this->belongsTo(Urgency::class);
+    }
+
+    public function impact()
+    {
+        return $this->belongsTo(Impact::class);
+    }
+
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
+
     public function technician()
     {
         return $this->belongsTo(User::class);
@@ -90,5 +109,20 @@ class Ticket extends KModel
     public function status()
     {
         return $this->belongsTo(Status::class);
+    }
+
+    public function sla()
+    {
+        return $this->belongsTo(Sla::class);
+    }
+
+    public function business_unit()
+    {
+        return $this->belongsTo(BusinessUnit::class);
+    }
+
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
     }
 }
