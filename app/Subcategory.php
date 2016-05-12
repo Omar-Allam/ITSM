@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Behaviors\Listable;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * App\Subcategory
@@ -40,5 +41,22 @@ class Subcategory extends KModel
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+
+    public function scopeCanonicalList(Builder $query)
+    {
+        $subcategories = $query->with('category')
+            ->orderBy('name')
+            ->get();
+
+        $list = [];
+
+        foreach ($subcategories as $subcategory) {
+            $list[$subcategory->id] = $subcategory->category->name . ' > ' . $subcategory->name;
+        }
+
+        asort($list);
+
+        return collect($list);
     }
 }

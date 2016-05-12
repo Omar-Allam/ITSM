@@ -19,10 +19,10 @@ class ListController extends Controller
         $query = Subcategory::query();
 
         if ($cat_id) {
-            $query->where('category_id', $cat_id);
+            return $query->where('category_id', $cat_id)->selection();
         }
 
-        return $query->selection();
+        return $query->canonicalList();
     }
 
     public function item($subcat_id = false)
@@ -30,10 +30,10 @@ class ListController extends Controller
         $query = Item::query();
 
         if ($subcat_id) {
-            $query->where('subcategory_id', $subcat_id);
+            return $query->where('subcategory_id', $subcat_id)->selection();
         }
 
-        return $query->selection();
+        return $query->canonicalList();
     }
 
     public function category()
