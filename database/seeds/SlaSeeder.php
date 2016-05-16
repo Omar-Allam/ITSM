@@ -12,11 +12,13 @@ class SlaSeeder extends Seeder
             'critical' => false
         ]);
 
+        $category = App\Category::where('name', 'Helpdesk')->first();
+
         $sla->updateCriteria([[
             'operator' => 'is',
             'field' => 'category_id',
-            'label' => 'Helpdesk',
-            'value' => '2'
+            'label' => $category->name,
+            'value' => $category->id
         ]]);
     }
 }

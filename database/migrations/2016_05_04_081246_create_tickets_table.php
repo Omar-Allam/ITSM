@@ -42,11 +42,11 @@ class CreateTicketsTable extends Migration
 //            $table->foreign('group_id')->references('id')->on('groups');
 
             //Relation with status models
-            $table->foreign('status_id')->references('id')->on('statuses');
-            $table->foreign('priority_id')->references('id')->on('priorities');
-            $table->foreign('impact_id')->references('id')->on('impacts');
-            $table->foreign('urgency_id')->references('id')->on('urgencies');
-            $table->foreign('sla_id')->references('id')->on('slas');
+//            $table->foreign('status_id')->references('id')->on('statuses');
+//            $table->foreign('priority_id')->references('id')->on('priorities');
+//            $table->foreign('impact_id')->references('id')->on('impacts');
+//            $table->foreign('urgency_id')->references('id')->on('urgencies');
+//            $table->foreign('sla_id')->references('id')->on('slas');
 
             //Relation with categories
             $table->foreign('category_id')->references('id')->on('categories');

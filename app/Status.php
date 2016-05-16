@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Behaviors\Listable;
+
 /**
  * App\Status
  *
@@ -26,6 +28,8 @@ class Status extends KModel
     const OPEN = 1;
     const PENDING = 2;
     const COMPLETE = 3;
+
+    use Listable;
 
     public static $types = [
         self::OPEN => 'Open',

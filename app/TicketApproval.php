@@ -29,6 +29,12 @@ namespace App;
 class TicketApproval extends KModel
 {
     const APPROVED = 1;
-    const NOT_DETERMINED = 0;
+    const PENDING_APPROVAL = 0;
     const DENIED = -1;
+
+    public static $statuses = [
+        self::APPROVED => 'Approved',
+        self::DENIED => 'Denied',
+        self::PENDING_APPROVAL => 'Pending Approval'
+    ];
 }

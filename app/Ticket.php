@@ -74,7 +74,12 @@ class Ticket extends KModel
 
     public function requester()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'requester_id');
+    }
+
+    public function created_by()
+    {
+        return $this->belongsTo(User::class, 'creator_id');
     }
 
     public function priority()
@@ -124,5 +129,20 @@ class Ticket extends KModel
     public function location()
     {
         return $this->belongsTo(Location::class);
+    }
+
+    public function replies()
+    {
+        return $this->hasMany(TicketReply::class);
+    }
+
+    public function approvals()
+    {
+        return $this->hasMany(TicketApproval::class);
+    }
+
+    public function logs()
+    {
+        return $this->hasMany(TicketLog::class);
     }
 }

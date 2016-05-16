@@ -4,7 +4,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4 class="panel-title">Requester Details</h4>
+        <h4 class="panel-title"><i class="fa fa-user"></i> Requester Details</h4>
     </div>
     <div class="panel-body">
         <table class="table table-striped table-condensed">
@@ -32,7 +32,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4 class="panel-title">Request Details</h4>
+        <h4 class="panel-title"><i class="fa fa-ticket"></i> Request Details</h4>
     </div>
 
     <div class="panel-body">

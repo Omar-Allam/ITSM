@@ -1,6 +1,6 @@
 <?php
 
-Auth::loginUsingId(1);
+Auth::loginUsingId(2);
 
 Route::get('/', function () {
     return view('welcome');
@@ -37,3 +37,7 @@ Route::group(['prefix' => 'admin'], function (\Illuminate\Routing\Router $r) {
 });
 
 Route::resource('ticket', 'TicketController');
+Route::group(['prefix' => 'ticket'], function (\Illuminate\Routing\Router $r) {
+    $r->post('resolution/{ticket}', ['as' => 'ticket.resolution', 'uses' => 'TicketController@resolution']);
+    $r->post('reply/{ticket}', ['as' => 'ticket.reply', 'uses' => 'TicketController@reply']);
+});
