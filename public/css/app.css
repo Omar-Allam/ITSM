@@ -8028,4 +8028,10 @@ hr.form-divider {
 .inline-block {
   display: inline-block; }
 
+.well-white {
+  background-color: #fff; }
+
+.nav-tabs {
+  margin-bottom: 14px; }
+
 /*# sourceMappingURL=app.css.map */

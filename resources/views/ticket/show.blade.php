@@ -5,76 +5,17 @@
 @endsection
 
 @section('body')
-    <div class="well well-sm">
-        {!! nl2br(e($ticket->description)) !!}
-    </div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active"><a href="#main" role="tab" data-toggle="tab">Request</a></li>
+        <li class="active"><a href="#main" role="tab" data-toggle="tab">Request</a></li>
+    </ul>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">Requester Details</h4>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="main">
+            @include('ticket.tabs._main')
         </div>
-        <div class="panel-body">
-            <table class="table table-striped table-condensed">
-                <tr>
-                    <th>Name</th>
-                    <td>{{$ticket->requester->name}}</td>
-                    <th>Business Unit</th>
-                    <td>{{$ticket->request->business_unit->name or 'Not Assigned'}}</td>
-                </tr>
-                <tr>
-                    <th>Email</th>
-                    <td>{{$ticket->requester->email or 'Not Assigned'}}</td>
-                    <th>Location</th>
-                    <td>{{$ticket->requester->location->name or 'Not Assigned'}}</td>
-                </tr>
-                <tr>
-                    <th>Phone</th>
-                    <td>{{$ticket->requester->phone or 'Not Assigned'}}</td>
-                    <th>Mobile</th>
-                    <td>{{$ticket->requester->mobile or 'Not Assigned'}}</td>
-                </tr>
-            </table>
-        </div>
-    </div>
+        <div role="tabpanel" class="tab-pane" id="profile">
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">Request Details</h4>
-        </div>
-
-        <div class="panel-body">
-            <table class="table table-striped table-condensed">
-                <tr>
-                    <th>Priority</th>
-                    <td>{{$ticket->priority->name or 'Not Assigned'}}</td>
-                    <th>Urgency</th>
-                    <td>{{$ticket->urgency->name or 'Not Assigned'}}</td>
-                </tr>
-                <tr>
-                    <th>Impact</th>
-                    <td>{{$ticket->imapct->name or 'Not Assigned'}}</td>
-                    <th>SLA</th>
-                    <td>{{$ticket->sla->name or 'Not Assigned'}}</td>
-                </tr>
-                <tr>
-                    <th>Due Time</th>
-                    <td>{{$ticket->due_date or 'Not Assigned'}}</td>
-                    <th>First Response</th>
-                    <td>{{$ticket->first_response_date or 'Not Assigned'}}</td>
-                </tr>
-                <tr>
-                    <th>Group</th>
-                    <td>{{$ticket->group->name or 'Not Assigned'}}</td>
-                    <th>Technician</th>
-                    <td>{{$ticket->technician->name or 'Not Assigned'}}</td>
-                </tr>
-                <tr>
-                    <th>Business Unit</th>
-                    <td>{{$request->business_unit->name or 'Not Assigned'}}</td>
-                    <th>Location</th>
-                    <td>{{$request->location->name or 'Not Assigned'}}</td>
-                </tr>
-            </table>
         </div>
     </div>
 @endsection
