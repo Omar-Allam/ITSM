@@ -18,6 +18,8 @@ class CreateTicketRepliesTable extends Migration
             $table->integer('ticket_id')->unsigned();
             $table->text('content');
             $table->integer('status_id');
+            $table->boolean('is_resolution')->nullable();
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

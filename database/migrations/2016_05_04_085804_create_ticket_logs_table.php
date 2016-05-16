@@ -18,6 +18,7 @@ class CreateTicketLogsTable extends Migration
             $table->integer('ticket_id')->unsigned();
             $table->text('old_data');
             $table->text('new_data');
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
