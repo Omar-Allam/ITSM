@@ -72,6 +72,11 @@ class Ticket extends KModel
 
     protected $dates = ['created_at', 'updated_at', 'due_date', 'first_response_date', 'resolve_date', 'close_date'];
 
+    /**
+     * @var TicketReply
+     */
+    protected $resolution;
+
     public function requester()
     {
         return $this->belongsTo(User::class, 'requester_id');
@@ -144,5 +149,14 @@ class Ticket extends KModel
     public function logs()
     {
         return $this->hasMany(TicketLog::class);
+    }
+
+    public function getResolutionAttribute()
+    {
+        if (!$this->resolution) {
+            $this->resolution = $this->replies()->where('status_id', 7)->first();
+        }
+
+        return $this->resolution;
     }
 }

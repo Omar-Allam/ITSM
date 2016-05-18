@@ -1,5 +1,5 @@
 @if ($ticket->resolution)
-    <h4>Added by {{$ticket->resolution->user->name }} at {{$ticket->resolution->created_at->format('d/m/Y H:i:s')}}</h4>
+    <h5>Added by {{$ticket->resolution->user->name }} at {{$ticket->resolution->created_at->format('d/m/Y H:i:s')}}</h5>
     <div class="well well-sm well-white">
         {!! $ticket->resolution->content !!}
     </div>
