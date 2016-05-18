@@ -11953,6 +11953,169 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+
+var fields = {
+    subject: { type: 'text' },
+    description: { type: 'text' },
+    category_id: { type: 'select', list: 'category', name: 'Category' },
+    subcategory_id: { type: 'select', list: 'subcategory', name: 'Subcategory' },
+    item_id: { type: 'select', list: 'item', name: 'Item' },
+    location_id: { type: 'select', list: 'location', name: 'Location' },
+    business_unit_id: { type: 'select', list: 'business-unit', name: 'Business Unit' },
+    priority_id: { type: 'select', list: 'priority', name: 'Priority' },
+    urgency_id: { type: 'select', list: 'urgency', name: 'Urgency' },
+    impact_id: { type: 'select', list: 'impact', name: 'Impact' }
+};
+
+exports.default = {
+    props: ['rule', 'key'],
+
+    methods: {
+        update: function update() {
+            this.rule.value = this.rule.label;
+        },
+        remove: function remove() {
+            this.$dispatch('removeRule', this.key);
+        },
+        loadOptions: function loadOptions() {
+            var _this = this;
+
+            var field = fields[this.rule.field];
+            if (!field || field.type != 'select') {
+                return false;
+            }
+
+            this.$http.get('/list/' + field.list).then(function (response) {
+                _this.$dispatch('openSelectModal', { options: response.data, key: _this.key, field: field.name });
+            });
+        }
+    },
+
+    computed: {
+        showMenuIcon: function showMenuIcon() {
+            var field = fields[this.rule.field];
+            if (!field) {
+                return false;
+            }
+            return field.type == 'select';
+        }
+    },
+
+    events: {
+        setRuleValue: function setRuleValue(key, values, labels) {
+            if (key != this.key) {
+                return false;
+            }
+
+            this.rule.value = values.join(',');
+            this.rule.label = labels.join(', ');
+        }
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<tr>\n    <td>\n        <select @change=\"update\" class=\"form-control input-sm\" name=\"rules[{{key}}][field]\" v-model=\"rule.field\">\n            <option value=\"\">Select Field</option>\n            <option value=\"subject\">Subject</option>\n            <option value=\"description\">Description</option>\n            <option value=\"category_id\">Category</option>\n            <option value=\"subcategory_id\">Subcategory</option>\n            <option value=\"item_id\">Item</option>\n            <option value=\"urgency_id\">Urgency</option>\n            <option value=\"priority_id\">Priority</option>\n            <option value=\"impact_id\">Impact</option>\n            <option value=\"business_unit_id\">Business Unit</option>\n            <option value=\"location_id\">Location</option>\n        </select>\n    </td>\n    <td>\n        <div class=\"input-group\" v-if=\"showMenuIcon\">\n            <input class=\"form-control input-sm\" name=\"rules[{{key}}][label]\" type=\"text\" @click=\"loadOptions()\" v-model=\"rule.label\" readonly=\"\">\n            <div class=\"input-group-btn\">\n                <button type=\"button\" class=\"btn btn-default btn-sm\" @click=\"loadOptions()\"><i class=\"fa fa-bars\"></i></button>\n            </div>\n        </div>\n        <input class=\"form-control input-sm\" name=\"rules[{{key}}][label]\" type=\"text\" v-model=\"rule.label\" @change=\"update\" v-else=\"\">\n\n        <input type=\"hidden\" name=\"rules[{{key}}][value]\" v-model=\"rule.value\">\n    </td>\n    <td>\n        <button class=\"btn btn-sm btn-warning pull-right\" type=\"button\" @click=\"remove()\"><i class=\"fa fa-remove\"></i></button>\n    </td>\n</tr>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/hazem/kdesk/resources/assets/js/BusinessRule.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":27,"vue-hot-reload-api":2}],29:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _BusinessRule = require('./BusinessRule.vue');
+
+var _BusinessRule2 = _interopRequireDefault(_BusinessRule);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    props: { rules: { default: function _default() {
+                return [];
+            } } },
+
+    data: function data() {
+        return { modal: { field: '', options: '', search: '', key: null, selected: [] } };
+    },
+
+
+    methods: {
+        addRule: function addRule() {
+            this.rules.push({
+                name: '', field: '', value: '', label: ''
+            });
+        },
+        modalApply: function modalApply() {
+            var labels = [],
+                i = 0;
+            for (i; i < this.modal.selected.length; ++i) {
+                var value = this.modal.selected[i];
+                labels.push(this.modal.options[value]);
+            }
+            this.$broadcast('setRuleValue', this.modal.key, this.modal.selected, labels);
+            jQuery('#RuleSelectionModal').modal('hide');
+        }
+    },
+
+    ready: function ready() {
+        if (!this.rules.length) {
+            this.addRule();
+        }
+    },
+
+
+    events: {
+        removeRule: function removeRule(key) {
+            if (this.rules.length > 1) {
+                var rules = [];
+                var i = 0;
+                for (var _i = 0; _i < this.rules.length; _i++) {
+                    if (_i == key) continue;
+                    rules.push(this.rules[_i]);
+                }
+                this.rules = rules;
+            }
+        },
+        openSelectModal: function openSelectModal(options) {
+            this.modal.field = options.field;
+            this.modal.options = options.options;
+            this.modal.key = options.key;
+            this.modal.selected = [];
+            jQuery('#RuleSelectionModal').modal('show');
+        }
+    },
+
+    components: { BusinessRule: _BusinessRule2.default }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<table class=\"listing-table table-bordered\">\n    <thead>\n        <tr>\n            <th class=\"col-md-3\">Field</th>\n            <th class=\"col-md-8\">Value</th>\n            <th>\n                <button class=\"btn btn-sm btn-primary pull-right\" @click=\"addRule\" type=\"button\"><i class=\"fa fa-plus-circle\"></i></button>\n            </th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr is=\"BusinessRule\" v-for=\"(key, rule) in rules\" :key=\"key\" :rule=\"rule\"></tr>\n    </tbody>\n</table>\n\n<div class=\"modal fade selection-modal\" tabindex=\"-1\" role=\"dialog\" id=\"RuleSelectionModal\">\n    <div class=\"modal-dialog\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>\n                <h4 class=\"modal-title\">{{modal.field}}</h4>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"form-group\">\n                    <input type=\"search\" class=\"form-control\" v-model=\"modal.search\" placeholder=\"Filters\">\n                </div>\n                <div class=\"form-group\">\n                    <select class=\"form-control\" v-model=\"modal.selected\" multiple=\"multiple\">\n                        <option v-for=\"(index, label) in modal.options|filterBy modal.search\" value=\"{{index}}\">{{label}}</option>\n                    </select>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-success\" @click=\"modalApply\"><i class=\"fa fa-check-circle\"></i> Apply</button>\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\"><i class=\"fa fa-times-circle\"></i> Cancel</button>\n            </div>\n        </div>\n    </div>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/hazem/kdesk/resources/assets/js/BusinessRules.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"./BusinessRule.vue":28,"vue":27,"vue-hot-reload-api":2}],30:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _Criterion = require('./Criterion.vue');
 
 var _Criterion2 = _interopRequireDefault(_Criterion);
@@ -12041,7 +12204,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./Criterion.vue":29,"vue":27,"vue-hot-reload-api":2}],29:[function(require,module,exports){
+},{"./Criterion.vue":31,"vue":27,"vue-hot-reload-api":2}],31:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12120,7 +12283,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":27,"vue-hot-reload-api":2}],30:[function(require,module,exports){
+},{"vue":27,"vue-hot-reload-api":2}],32:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -12135,16 +12298,20 @@ var _Criteria = require('./Criteria.vue');
 
 var _Criteria2 = _interopRequireDefault(_Criteria);
 
+var _BusinessRules = require('./BusinessRules.vue');
+
+var _BusinessRules2 = _interopRequireDefault(_BusinessRules);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _vue2.default.use(_vueResource2.default);
 
 new _vue2.default({
-    el: '#Criteria',
+    el: '#BusinessRules',
 
-    components: { Criteria: _Criteria2.default }
+    components: { Criteria: _Criteria2.default, BusinessRules: _BusinessRules2.default }
 });
 
-},{"./Criteria.vue":28,"vue":27,"vue-resource":16}]},{},[30]);
+},{"./BusinessRules.vue":29,"./Criteria.vue":30,"vue":27,"vue-resource":16}]},{},[32]);
 
-//# sourceMappingURL=criteria.js.map
+//# sourceMappingURL=business-rules.js.map

@@ -8018,8 +8018,8 @@ footer {
 .panel-sm .form-group-sm {
   margin-bottom: 0; }
 
-#selectionModal select.form-control {
-  height: 300px; }
+.selection-modal select.form-control {
+  min-height: 300px; }
 
 hr.form-divider {
   margin-top: 0;

@@ -1,23 +1,20 @@
 <template>
-
     <table class="listing-table table-bordered">
         <thead>
             <tr>
                 <th class="col-md-3">Field</th>
-                <th class="col-md-2">Operator</th>
-                <th class="col-md-6">Value</th>
+                <th class="col-md-8">Value</th>
                 <th>
-                    <button class="btn btn-sm btn-primary pull-right" @click="addCriterion" type="button"><i class="fa fa-plus-circle"></i></button>
+                    <button class="btn btn-sm btn-primary pull-right" @click="addRule" type="button"><i class="fa fa-plus-circle"></i></button>
                 </th>
             </tr>
         </thead>
         <tbody>
-            <tr is="Criterion" v-for="(key, criterion) in criterions" :key="key" :criterion="criterion"></tr>
+            <tr is="BusinessRule" v-for="(key, rule) in rules" :key="key" :rule="rule"></tr>
         </tbody>
     </table>
 
-
-    <div class="modal fade selection-modal" tabindex="-1" role="dialog" id="CriteriaSelectionModal">
+    <div class="modal fade selection-modal" tabindex="-1" role="dialog" id="RuleSelectionModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -41,45 +38,23 @@
             </div>
         </div>
     </div>
-
 </template>
 
 <script>
-
-import Criterion from './Criterion.vue';
+import BusinessRule from './BusinessRule.vue';
 
 export default {
-
-    props: [ 'criterions' ],
+    props: { rules: { default: () => [] } },
 
     data() {
-        return {
-            modal: {
-                field: '',
-                options: {},
-                search: '',
-                key: null,
-                selected: []
-            }
-        }
-    },
-
-    ready () {
-        if (!this.criterions) {
-            this.criterions = [];
-            this.addCriterion();
-        }
+        return { modal: {field: '', options: '', search: '', key: null, selected: []} }
     },
 
     methods: {
-        addCriterion() {
-            this.criterions.push({
-                field: '',
-                operator: 'is',
-                label: '',
-                value: '',
-                showMenuIcon: false
-            })
+        addRule() {
+            this.rules.push({
+                name: '', field: '', value: '', label: ''
+            });
         },
 
         modalApply() {
@@ -88,35 +63,39 @@ export default {
                 let value = this.modal.selected[i];
                 labels.push(this.modal.options[value]);
             }
-            this.$broadcast('setCriterionValue', this.modal.key, this.modal.selected, labels);
-            jQuery('#CriteriaSelectionModal').modal('hide');
+            this.$broadcast('setRuleValue', this.modal.key, this.modal.selected, labels);
+            jQuery('#RuleSelectionModal').modal('hide');
         }
     },
 
-    components: { Criterion },
+    ready() {
+        if (!this.rules.length) {
+            this.addRule();
+        }
+    },
 
     events: {
+        removeRule(key) {
+            if (this.rules.length > 1) {
+                const rules = [];
+                let i = 0;
+                for (let i = 0; i < this.rules.length; i++) {
+                    if (i == key) continue;
+                    rules.push(this.rules[i]);
+                }
+                this.rules = rules;
+            }
+        },
+
         openSelectModal(options) {
-            console.log('triggered from criteria');
             this.modal.field = options.field;
             this.modal.options = options.options;
             this.modal.key = options.key;
             this.modal.selected = [];
-            jQuery('#CriteriaSelectionModal').modal('show');
+            jQuery('#RuleSelectionModal').modal('show');
         },
+    },
 
-        removeCriterion(key) {
-            if (this.criterions.length > 1) {
-                const criterions = [];
-                let i = 0;
-                for (let i = 0; i < this.criterions.length; i++) {
-                    if (i == key) continue;
-                    criterions.push(this.criterions[i]);
-                }
-                this.criterions = criterions;
-            }
-        }
-    }
+    components: { BusinessRule }
 };
-
 </script>

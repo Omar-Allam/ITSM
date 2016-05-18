@@ -17,4 +17,5 @@ elixir(function(mix) {
     mix.browserify('app.js');
     mix.browserify('ticket-form.js');
     mix.browserify('criteria.js');
+    mix.browserify('business-rules.js');
 });

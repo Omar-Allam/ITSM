@@ -17,6 +17,3 @@
         </div>
     @endif
 </div>
-
-
-<script type="text/javascript" src="{{asset('/js/criteria.js')}}"></script>

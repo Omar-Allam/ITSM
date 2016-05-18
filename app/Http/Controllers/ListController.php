@@ -38,7 +38,7 @@ class ListController extends Controller
 
     public function category()
     {
-        return Category::selection();
+        return Category::orderBy('name')->selection();
     }
 
     public function location()

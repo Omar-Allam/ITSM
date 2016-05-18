@@ -42,4 +42,17 @@ class TicketReply extends KModel
     {
         return $this->belongsTo(Ticket::class);
     }
+
+    public function getClassAttribute()
+    {
+        if ($this->status_id == 7) {
+            return 'success';
+        } elseif ($this->user_id == $this->ticket->requester_id) {
+            return 'info';
+        } elseif ($this->user_id == $this->ticket->technician_id) {
+            return 'primary';
+        } else {
+            return 'default';
+        }
+    }
 }

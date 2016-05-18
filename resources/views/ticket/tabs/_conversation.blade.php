@@ -4,7 +4,7 @@
     </div>
 
     @foreach($ticket->replies()->latest()->get() as $reply)
-        <div class="panel panel-sm panel-{{$reply->user_id == $ticket->technician_id? 'success' : 'primary'}}">
+        <div class="panel panel-sm panel-{{$reply->class}}">
             <div class="panel-heading">
                 <h5 class="panel-title"><a href="#reply{{$reply->id}}" data-toggle="collapse">By: {{$reply->user->name}} at: {{$reply->created_at->format('d/m/Y H:i')}}</a></h5>
             </div>

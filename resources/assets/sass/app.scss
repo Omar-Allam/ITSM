@@ -93,9 +93,9 @@ footer {
   }
 }
 
-#selectionModal {
+.selection-modal {
   select.form-control {
-    height: 300px;
+    min-height: 300px;
   }
 }
 
