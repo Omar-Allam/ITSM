@@ -35,4 +35,17 @@ class BusinessRule extends KModel
     protected $dates = ['created_at', 'updated_at'];
 
     protected $criteriaType = 'rule';
+
+    
+    
+    public function updateRules($rules)
+    {
+        $this->rules()->delete();
+        return $this->rules()->createMany($rules);
+    }
+
+    public function rules()
+    {
+        return $this->hasMany(BusinessRuleAction::class);
+    }
 }

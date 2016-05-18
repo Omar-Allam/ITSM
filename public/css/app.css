@@ -8025,6 +8025,9 @@ hr.form-divider {
   margin-top: 0;
   margin-bottom: 10px; }
 
+.panel-sm .panel-form {
+  margin-top: -20px; }
+
 .inline-block {
   display: inline-block; }
 

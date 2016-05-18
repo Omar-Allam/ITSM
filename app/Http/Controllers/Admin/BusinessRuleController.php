@@ -4,13 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\BusinessRule;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\BusinessRuleRequest;
 
 class BusinessRuleController extends Controller
 {
-
-    protected $rules = ['name' => 'required'];
-
     public function index()
     {
         $businessRules = BusinessRule::paginate();
@@ -23,11 +20,11 @@ class BusinessRuleController extends Controller
         return view('admin.business-rule.create');
     }
 
-    public function store(Request $request)
+    public function store(BusinessRuleRequest $request)
     {
-        $this->validates($request, 'Could not save business rule');
-
-        BusinessRule::create($request->all());
+        $rule = BusinessRule::create($request->all());
+        $rule->updateCriteria($request->criterions);
+        $rule->updateRules($request->rules);
 
         flash('Business rule has been saved', 'success');
 
@@ -41,14 +38,16 @@ class BusinessRuleController extends Controller
 
     public function edit(BusinessRule $business_rule)
     {
+        $business_rule->load(['criterions', 'rules']);
+
         return view('admin.business-rule.edit', compact('business_rule'));
     }
 
-    public function update(BusinessRule $business_rule, Request $request)
+    public function update(BusinessRule $business_rule, BusinessRuleRequest $request)
     {
-        $this->validates($request, 'Could not save business rule');
-
         $business_rule->update($request->all());
+        $business_rule->updateCriteria($request->criterions);
+        $business_rule->updateRules($request->rules);
 
         flash('Business rule has been saved', 'success');
 

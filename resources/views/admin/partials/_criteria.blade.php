@@ -1,7 +1,7 @@
 <div class="panel panel-sm panel-info" id="Criteria">
     <div class="panel-heading clearfix">
-        <h4 class="panel-title pull-left">Criteria</h4>
-        <div class="pull-right">
+        <h4 class="panel-title">Criteria</h4>
+        <div class="pull-right panel-form">
             <label for="criteria_type_and">
                 {{Form::radio('criteria.type', 'and', null, ['id' => 'criteria_type_and'])}} Match all rules
             </label>

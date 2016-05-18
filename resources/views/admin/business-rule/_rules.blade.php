@@ -1,6 +1,6 @@
 <div class="panel panel-sm panel-warning" id="Rules">
     <div class="panel-heading clearfix">
-        <h4 class="panel-title pull-left">Rules</h4>
+        <h4 class="panel-title pull-left">Actions</h4>
     </div>
 
     <business-rules :rules="{{json_encode(Form::getValueAttribute('rules'))}}"></business-rules>
