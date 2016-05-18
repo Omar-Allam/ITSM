@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Behaviors\Listable;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * App\Status
@@ -40,4 +41,15 @@ class Status extends KModel
     protected $fillable = ['name', 'description', 'type'];
 
     protected $dates = ['created_at', 'updated_at'];
+
+    public function scopeReply(Builder $q, Ticket $ticket)
+    {
+        $not = [6, $ticket->status_id];
+
+        if (\Auth::user()->isTechnician()) {
+            $not[] = 8;
+        }
+
+        $q->whereNotIn('id', $not);
+    }
 }

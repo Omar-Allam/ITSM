@@ -3,13 +3,17 @@
         <a href="#ReplyForm" class="btn btn-primary pull-right"><i class="fa fa-commenting"></i> Add reply</a>
     </div>
 
-    @foreach($ticket->replies as $reply)
+    @foreach($ticket->replies()->latest()->get() as $reply)
         <div class="panel panel-sm panel-{{$reply->user_id == $ticket->technician_id? 'success' : 'primary'}}">
             <div class="panel-heading">
-                <h5 class="panel-title">By: {{$reply->user->name}} at: {{$reply->created_at->format('d/m/Y H:i')}}</h5>
+                <h5 class="panel-title"><a href="#reply{{$reply->id}}" data-toggle="collapse">By: {{$reply->user->name}} at: {{$reply->created_at->format('d/m/Y H:i')}}</a></h5>
             </div>
-            <div class="panel-body">
-                {!! $reply->content !!}
+            <div class="panel-body collapse" id="reply{{$reply->id}}">
+                <div class="reply">
+                    {!! $reply->content !!}
+                </div>
+                <br>
+                <span class="label label-default">Status: {{$reply->status->name}}</span>
             </div>
         </div>
     @endforeach
@@ -19,18 +23,21 @@
     {{Form::open(['route' => ['ticket.reply', $ticket]])}}
     {{csrf_field()}}
 
-    <div class="form-group">
-        {{Form::label('reply.content', 'Description', ['class' => 'control-label'])}}
-        {{Form::textarea('reply.content', null, ['class' => 'form-control'])}}
+    <div class="form-group {{$errors->has('reply.content')? 'has-errors' : ''}}">
+        {{Form::label('reply[content]', 'Description', ['class' => 'control-label'])}}
+        {{Form::textarea('reply[content]', null, ['class' => 'form-control'])}}
+        @if ($errors->has('reply.content'))
+            <div class="error-message">{{$errors->first('reply.content')}}</div>
+        @endif
     </div>
 
     <div class="row">
         <div class="col-md-4">
-            <div class="form-group {{$errors->has('reply.status')? 'has-error' : ''}}">
-                {{Form::label('reply.status', 'Change status from "' . $ticket->status->name . '" to', ['class' => 'control-label'])}}
-                {{Form::select('reply.status', App\Status::where('id', '!=', $ticket->status_id)->selection('Select Status'), null, ['class' => 'form-control'])}}
-                @if ($errors->has('reply.status'))
-                    <div class="error-message">{{$errors->get('status')}}</div>
+            <div class="form-group {{$errors->has('reply.status_id')? 'has-error' : ''}}">
+                {{Form::label('reply[status_id]', 'Change status from "' . $ticket->status->name . '" to', ['class' => 'control-label'])}}
+                {{Form::select('reply[status_id]', App\Status::reply($ticket)->selection('Select Status'), null, ['class' => 'form-control'])}}
+                @if ($errors->has('reply.status_id'))
+                    <div class="error-message">{{$errors->first('status_id')}}</div>
                 @endif
             </div>
         </div>

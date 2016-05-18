@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TicketReplyRequest;
 use App\Http\Requests\TicketRequest;
+use App\Http\Requests\TicketResolveRequest;
 use App\Jobs\ApplySLA;
+use App\Jobs\TicketReplyJob;
 use App\Ticket;
+use App\TicketReply;
+use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
@@ -67,5 +72,42 @@ class TicketController extends Controller
         flash('Ticket has been deleted', 'success');
 
         return \Redirect::route('ticket.index');
+    }
+
+    public function reply(Ticket $ticket, TicketReplyRequest $request)
+    {
+        $reply = new TicketReply($request->get('reply'));
+        $reply->user_id = $request->user()->id;
+
+        // Fires creating event in \App\Providers\TicketReplyEventProvider
+        $ticket->replies()->save($reply);
+
+        $this->dispatch(new TicketReplyJob($reply));
+
+        //@todo: Calculate elapsed time
+        return $this->backReponse($request, 'Reply has been added');
+    }
+
+    public function resolution(Ticket $ticket, TicketResolveRequest $request)
+    {
+        $data = ['content' => $request->get('content'), 'status_id' => 7, 'user_id' => $request->user()->id];
+        // Fires creating event in \App\Providers\TicketReplyEventProvider
+        $reply = $ticket->replies()->create($data);
+
+        //@todo: Calculate elapsed time
+        $this->dispatch(new TicketReplyJob($reply));
+
+        return $this->backReponse($request, 'Ticket has been resolved');
+    }
+
+    protected function backReponse(Request $request, string $msg)
+    {
+        if ($request->wantsJson() || $request->isJson()) {
+            return ['ok' => true, 'message' => $msg];
+        }
+
+        flash($msg, 'success');
+
+        return \Redirect::back();
     }
 }

@@ -13,6 +13,8 @@ namespace App;
  * @property integer $status_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property Ticket $ticket
+ * @property Status $status
  * @method static \Illuminate\Database\Query\Builder|\App\TicketReply whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\TicketReply whereUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\TicketReply whereTicketId($value)
@@ -24,5 +26,20 @@ namespace App;
  */
 class TicketReply extends KModel
 {
-    //
+    protected $fillable = ['content', 'status_id', 'user_id'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
+
+    public function ticket()
+    {
+        return $this->belongsTo(Ticket::class);
+    }
 }

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('header')
-    <h4>#{{$ticket->id}} - {{$ticket->subject}}</h4>
+    <h4>#{{$ticket->id}} - {{$ticket->subject}} <span class="label label-default pull-right">{{$ticket->status->name}}</span></h4>
 @endsection
 
 @section('body')

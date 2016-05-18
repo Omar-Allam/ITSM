@@ -67,10 +67,36 @@ class User extends Authenticatable
         return $this->belongsToMany(Group::class);
     }
 
+    public function business_unit()
+    {
+        return $this->belongsTo(BusinessUnit::class);
+    }
+
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
+    }
+
     public function scopeTechnicians(Builder $query)
     {
         return $query->whereHas('groups', function (Builder $q) {
             $q->support();
         });
+    }
+
+    public function isTechnician()
+    {
+        return $this->groups()->support()->exists();
+    }
+
+    public function hasGroup($group)
+    {
+        if (is_a($group, Group::class)) {
+            $group_id = $group->id;
+        } else {
+            $group_id = $group;
+        }
+
+        return $this->groups->contains('id', $group_id);
     }
 }
