@@ -23,6 +23,8 @@ class ApplySLA extends MatchCriteria
             $this->ticket->sla_id = $sla->id;
             $this->ticket->due_date = $this->calculateDueDate($sla);
             $this->ticket->first_response_date = $this->calculateFirstResponseDate($sla);
+
+            Ticket::flushEventListeners();
             $this->ticket->save();
         }
     }

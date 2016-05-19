@@ -25,6 +25,8 @@ class ApplyBusinessRules extends MatchCriteria
                 }
             }
         }
+
+        $this->ticket->save();
     }
 
     private function ruleMatches($rule)
@@ -45,7 +47,5 @@ class ApplyBusinessRules extends MatchCriteria
         foreach ($rule->rules as $action) {
             $this->ticket->setAttribute($action->field, $action->value);
         }
-
-        $this->ticket->save();
     }
 }
