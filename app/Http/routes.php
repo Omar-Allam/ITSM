@@ -15,6 +15,8 @@ Route::group(['prefix' => 'list'], function (\Illuminate\Routing\Router $r) {
     Route::get('/priority', 'ListController@priority');
     Route::get('/urgency', 'ListController@urgency');
     Route::get('/impact', 'ListController@impact');
+    Route::get('/support-groups', 'ListController@supportGroup');
+    Route::get('/technician', 'ListController@technician');
 });
 
 Route::group(['prefix' => 'admin'], function (\Illuminate\Routing\Router $r) {

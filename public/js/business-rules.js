@@ -11955,8 +11955,10 @@ Object.defineProperty(exports, "__esModule", {
 
 
 var fields = {
-    subject: { type: 'text' },
-    description: { type: 'text' },
+    group_id: { type: 'select', list: 'support-groups', name: 'Group' },
+    technician_id: { type: 'select', list: 'technician', name: 'Technician' },
+    subject: { type: 'text', name: 'Subject' },
+    description: { type: 'text', name: 'Description' },
     category_id: { type: 'select', list: 'category', name: 'Category' },
     subcategory_id: { type: 'select', list: 'subcategory', name: 'Subcategory' },
     item_id: { type: 'select', list: 'item', name: 'Item' },
@@ -11970,50 +11972,45 @@ var fields = {
 exports.default = {
     props: ['rule', 'key'],
 
+    data: function data() {
+        return { fields: fields, options: [] };
+    },
+    ready: function ready() {
+        this.loadOptions();
+    },
+
+
     methods: {
-        update: function update() {
-            this.rule.value = this.rule.label;
-        },
         remove: function remove() {
             this.$dispatch('removeRule', this.key);
         },
         loadOptions: function loadOptions() {
             var _this = this;
 
-            var field = fields[this.rule.field];
+            var field = this.fields[this.rule.field];
+
             if (!field || field.type != 'select') {
                 return false;
             }
 
             this.$http.get('/list/' + field.list).then(function (response) {
-                _this.$dispatch('openSelectModal', { options: response.data, key: _this.key, field: field.name });
+                return _this.options = response.data;
             });
         }
     },
 
     computed: {
-        showMenuIcon: function showMenuIcon() {
-            var field = fields[this.rule.field];
+        showMenu: function showMenu() {
+            var field = this.fields[this.rule.field];
             if (!field) {
                 return false;
             }
             return field.type == 'select';
         }
-    },
-
-    events: {
-        setRuleValue: function setRuleValue(key, values, labels) {
-            if (key != this.key) {
-                return false;
-            }
-
-            this.rule.value = values.join(',');
-            this.rule.label = labels.join(', ');
-        }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<tr>\n    <td>\n        <select @change=\"update\" class=\"form-control input-sm\" name=\"rules[{{key}}][field]\" v-model=\"rule.field\">\n            <option value=\"\">Select Field</option>\n            <option value=\"subject\">Subject</option>\n            <option value=\"description\">Description</option>\n            <option value=\"category_id\">Category</option>\n            <option value=\"subcategory_id\">Subcategory</option>\n            <option value=\"item_id\">Item</option>\n            <option value=\"urgency_id\">Urgency</option>\n            <option value=\"priority_id\">Priority</option>\n            <option value=\"impact_id\">Impact</option>\n            <option value=\"business_unit_id\">Business Unit</option>\n            <option value=\"location_id\">Location</option>\n        </select>\n    </td>\n    <td>\n        <div class=\"input-group\" v-if=\"showMenuIcon\">\n            <input class=\"form-control input-sm\" name=\"rules[{{key}}][label]\" type=\"text\" @click=\"loadOptions()\" v-model=\"rule.label\" readonly=\"\">\n            <div class=\"input-group-btn\">\n                <button type=\"button\" class=\"btn btn-default btn-sm\" @click=\"loadOptions()\"><i class=\"fa fa-bars\"></i></button>\n            </div>\n        </div>\n        <input class=\"form-control input-sm\" name=\"rules[{{key}}][label]\" type=\"text\" v-model=\"rule.label\" @change=\"update\" v-else=\"\">\n\n        <input type=\"hidden\" name=\"rules[{{key}}][value]\" v-model=\"rule.value\">\n    </td>\n    <td>\n        <button class=\"btn btn-sm btn-warning pull-right\" type=\"button\" @click=\"remove()\"><i class=\"fa fa-remove\"></i></button>\n    </td>\n</tr>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<tr>\n    <td>\n        <select @change=\"loadOptions\" class=\"form-control input-sm\" name=\"rules[{{key}}][field]\" v-model=\"rule.field\">\n            <option value=\"\">Select Field</option>\n            <option v-for=\"(field, options) in fields\" value=\"{{field}}\">{{options.name}}</option>\n        </select>\n    </td>\n    <td>\n        <select class=\"form-control input-sm\" name=\"rules[{{key}}][value]\" v-model=\"rule.value\" v-if=\"showMenu\">\n            <option value=\"\">Select {{fields[rule.field].name}}</option>\n            <option v-for=\"(value, label) in options\" value=\"{{value}}\">{{label}}</option>\n        </select>\n        <input class=\"form-control input-sm\" name=\"rules[{{key}}][value]\" type=\"text\" v-model=\"rule.value\" v-else=\"\">\n    </td>\n    <td>\n        <button class=\"btn btn-sm btn-warning pull-right\" type=\"button\" @click=\"remove()\"><i class=\"fa fa-remove\"></i></button>\n    </td>\n</tr>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

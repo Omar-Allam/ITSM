@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\BusinessUnit;
 use App\Category;
+use App\Group;
 use App\Http\Requests;
 use App\Impact;
 use App\Item;
@@ -11,6 +12,7 @@ use App\Location;
 use App\Priority;
 use App\Subcategory;
 use App\Urgency;
+use App\User;
 
 class ListController extends Controller
 {
@@ -64,5 +66,15 @@ class ListController extends Controller
     public function impact()
     {
         return Impact::selection();
+    }
+    
+    public function supportGroup() 
+    {
+        return Group::support()->pluck('name', 'id')->sort();
+    }
+    
+    public function technician()
+    {
+        return User::technicians()->pluck('name', 'id')->sort();
     }
 }

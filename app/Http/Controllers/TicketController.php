@@ -35,9 +35,8 @@ class TicketController extends Controller
         $ticket->business_unit_id = $request->user()->business_unit_id;
         $ticket->status_id = 1;
 
+        // Fires created event in \App\Providers\TicketEventsProvider
         $ticket->save();
-
-        $this->dispatch(new ApplySLA($ticket));
 
         flash('Ticket has been saved', 'success');
 
@@ -56,9 +55,8 @@ class TicketController extends Controller
 
     public function update(Ticket $ticket, TicketRequest $request)
     {
+        // Fires updated event in \App\Providers\TicketEventsProvider
         $ticket->update($request->all());
-
-        $this->dispatch(new ApplySLA($ticket));
 
         flash('Ticket has been saved', 'success');
 
@@ -85,7 +83,7 @@ class TicketController extends Controller
         $this->dispatch(new TicketReplyJob($reply));
 
         //@todo: Calculate elapsed time
-        return $this->backReponse($request, 'Reply has been added');
+        return $this->backResponse($request, 'Reply has been added');
     }
 
     public function resolution(Ticket $ticket, TicketResolveRequest $request)
@@ -97,10 +95,10 @@ class TicketController extends Controller
         //@todo: Calculate elapsed time
         $this->dispatch(new TicketReplyJob($reply));
 
-        return $this->backReponse($request, 'Ticket has been resolved');
+        return $this->backResponse($request, 'Ticket has been resolved');
     }
 
-    protected function backReponse(Request $request, string $msg)
+    protected function backResponse(Request $request, $msg)
     {
         if ($request->wantsJson() || $request->isJson()) {
             return ['ok' => true, 'message' => $msg];

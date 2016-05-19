@@ -162,6 +162,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\TicketReplyEventsProvider::class,
+        App\Providers\TicketEventsProvider::class
     ],
 
     /*
