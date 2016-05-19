@@ -12,7 +12,7 @@
                 <th>Name</th>
                 <td>{{$ticket->requester->name}}</td>
                 <th>Business Unit</th>
-                <td>{{$ticket->request->business_unit->name or 'Not Assigned'}}</td>
+                <td>{{$ticket->requester->business_unit->name or 'Not Assigned'}}</td>
             </tr>
             <tr>
                 <th>Email</th>
