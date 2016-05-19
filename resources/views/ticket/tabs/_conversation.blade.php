@@ -25,7 +25,7 @@
 
     <div class="form-group {{$errors->has('reply.content')? 'has-errors' : ''}}">
         {{Form::label('reply[content]', 'Description', ['class' => 'control-label'])}}
-        {{Form::textarea('reply[content]', null, ['class' => 'form-control'])}}
+        {{Form::textarea('reply[content]', null, ['class' => 'form-control richeditor', 'rows' => 5])}}
         @if ($errors->has('reply.content'))
             <div class="error-message">{{$errors->first('reply.content')}}</div>
         @endif

@@ -1,5 +1,5 @@
 <div class="well well-sm well-white">
-    {!! nl2br(e($ticket->description)) !!}
+    {!! $ticket->description !!}
 </div>
 
 <div class="panel panel-default">

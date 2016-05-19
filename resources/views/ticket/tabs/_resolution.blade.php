@@ -9,7 +9,7 @@
 
         <div class="form-group">
             {{Form::label('content', 'Description', ['class' => 'control-label'])}}
-            {{Form::textarea('content', null, ['class' => 'form-control'])}}
+            {{Form::textarea('content', null, ['class' => 'form-control richeditor'])}}
         </div>
 
         <div class="form-group">

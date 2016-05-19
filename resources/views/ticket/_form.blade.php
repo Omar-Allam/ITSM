@@ -12,7 +12,7 @@
         <div class="col-sm-9">
             <div class="form-group form-group-sm {{$errors->has('description')? 'has-error' : ''}}">
                 {{ Form::label('description', 'Description', ['class' => 'control-label']) }}
-                {{ Form::textarea('description', null, ['class' => 'form-control']) }}
+                {{ Form::textarea('description', null, ['class' => 'form-control richeditor']) }}
                 @if ($errors->has('description'))
                     <div class="error-message">{{$errors->first('description')}}</div>
                 @endif
@@ -109,3 +109,4 @@
     var item = '{{Form::getValueAttribute('item_id')}}';
 </script>
 <script src="{{asset('/js/ticket-form.js')}}"></script>
+<script src="{{asset('/js/tinymce/tinymce.min.js')}}"></script>

@@ -31,3 +31,7 @@
         </div>
     </div>
 @endsection
+
+@section('javascript')
+    <script src="{{asset('/js/tinymce/tinymce.min.js')}}"></script>
+@endsection
