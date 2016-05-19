@@ -7,11 +7,6 @@ use App\Ticket;
 
 class ApplyBusinessRules extends MatchCriteria
 {
-    /**
-     * @var Ticket
-     */
-    private $ticket;
-
     public function __construct(Ticket $ticket)
     {
         $this->ticket = $ticket;

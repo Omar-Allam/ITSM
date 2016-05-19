@@ -8,12 +8,6 @@ use Carbon\Carbon;
 
 class ApplySLA extends MatchCriteria
 {
-
-    /**
-     * @var Ticket
-     */
-    private $ticket;
-
     public function __construct(Ticket $ticket)
     {
         $this->ticket = $ticket;

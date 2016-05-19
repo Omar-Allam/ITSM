@@ -13,6 +13,11 @@ use Illuminate\Support\Str;
 
 abstract class MatchCriteria extends Job
 {
+    /**
+     * @var \App\Ticket
+     */
+    protected $ticket;
+
     protected function is($attribute, $criterion)
     {
         $tokens = explode(',', $criterion->value);
