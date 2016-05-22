@@ -42,6 +42,7 @@ Route::resource('ticket', 'TicketController');
 Route::group(['prefix' => 'ticket'], function (\Illuminate\Routing\Router $r) {
     $r->post('resolution/{ticket}', ['as' => 'ticket.resolution', 'uses' => 'TicketController@resolution']);
     $r->post('reply/{ticket}', ['as' => 'ticket.reply', 'uses' => 'TicketController@reply']);
+    $r->post('jump', ['as' => 'ticket.jump', 'uses' => 'TicketController@jump']);
     $r->post('approval/{ticket}', ['as' => 'ticket.approval', 'uses' => 'TicketController@approval']);
     $r->get('approve/{ticket}', ['as' => 'ticket.show-approval', 'uses' => 'TicketController@showApproval']);
     $r->post('approve/{ticket}', ['as' => 'ticket.approve', 'uses' => 'TicketController@approve']);

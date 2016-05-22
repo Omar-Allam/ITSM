@@ -2,7 +2,17 @@
 
 @section('header')
     <h4 class="pull-left">Ticket</h4>
-    <a href="{{ route('ticket.create') }} " class="btn btn-sm btn-primary pull-right"><i class="fa fa-plus"></i></a>
+
+    {{Form::open(['route' => 'ticket.jump', 'class' => 'pull-right form-inline heading-actions'])}}
+    <div class="input-group input-group-sm">
+
+        <input class="form-control" type="text" name="id" id="ticketID" placeholder="Ticket ID"/>
+        <span class="input-group-btn">
+            <button class="btn btn-default"><i class="fa fa-chevron-right"></i></button>
+        </span>
+    </div>
+    <a href="{{ route('ticket.create') }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
+    {{Form::close()}}
 @stop
 
 @section('body')

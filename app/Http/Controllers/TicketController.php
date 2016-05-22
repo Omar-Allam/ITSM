@@ -13,6 +13,7 @@ use App\Ticket;
 use App\TicketApproval;
 use App\TicketReply;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class TicketController extends Controller
 {
@@ -111,6 +112,18 @@ class TicketController extends Controller
         $this->dispatch(new SendApproval($approval));
 
         return $this->backResponse($request, 'Approval has been sent');
+    }
+
+    public function jump(Request $request)
+    {
+        $ticket = Ticket::find(intval($request->id));
+
+        if ($ticket) {
+            return \Redirect::route('ticket.show', $request->id);
+        }
+
+        flash('Ticket not found');
+        return \Redirect::route('ticket.index');
     }
 
     protected function backResponse(Request $request, $msg)
