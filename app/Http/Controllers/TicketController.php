@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ApprovalRequest;
 use App\Http\Requests\TicketReplyRequest;
 use App\Http\Requests\TicketRequest;
 use App\Http\Requests\TicketResolveRequest;
 use App\Jobs\ApplySLA;
+use App\Jobs\SendApproval;
 use App\Jobs\TicketReplyJob;
 use App\Ticket;
+use App\TicketApproval;
 use App\TicketReply;
 use Illuminate\Http\Request;
 
@@ -96,6 +99,18 @@ class TicketController extends Controller
         $this->dispatch(new TicketReplyJob($reply));
 
         return $this->backResponse($request, 'Ticket has been resolved');
+    }
+
+    public function approval(Ticket $ticket, ApprovalRequest $request)
+    {
+        $approval = new TicketApproval($request->all());
+        $approval->creator_id = $request->user()->id;
+        $approval->status = 0;
+        $ticket->approvals()->save($approval);
+
+        $this->dispatch(new SendApproval($approval));
+
+        return $this->backResponse($request, 'Approval has been sent');
     }
 
     protected function backResponse(Request $request, $msg)

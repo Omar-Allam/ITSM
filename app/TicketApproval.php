@@ -28,6 +28,10 @@ namespace App;
  */
 class TicketApproval extends KModel
 {
+    protected $fillable = ['approver_id', 'content', 'comment', 'approval_date'];
+
+    protected $dates = ['created_at', 'updated_at', 'approval_date'];
+
     const APPROVED = 1;
     const PENDING_APPROVAL = 0;
     const DENIED = -1;
@@ -37,4 +41,19 @@ class TicketApproval extends KModel
         self::DENIED => 'Denied',
         self::PENDING_APPROVAL => 'Pending Approval'
     ];
+
+    public function ticket()
+    {
+        return $this->belongsTo(Ticket::class);
+    }
+
+    public function approver()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function created_by()
+    {
+        return $this->belongsTo(User::class, 'creator_id');
+    }
 }

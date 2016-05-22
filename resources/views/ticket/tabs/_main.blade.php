@@ -63,9 +63,9 @@
             </tr>
             <tr>
                 <th>Business Unit</th>
-                <td>{{$request->business_unit->name or 'Not Assigned'}}</td>
+                <td>{{$ticket->business_unit->name or 'Not Assigned'}}</td>
                 <th>Location</th>
-                <td>{{$request->location->name or 'Not Assigned'}}</td>
+                <td>{{$ticket->location->name or 'Not Assigned'}}</td>
             </tr>
         </table>
     </div>

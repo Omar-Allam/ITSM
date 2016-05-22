@@ -17,6 +17,7 @@ class CreateTicketApprovalsTable extends Migration
             $table->integer('creator_id')->unsigned();
             $table->integer('approver_id')->unsigned();
             $table->integer('ticket_id')->unsigned();
+            $table->text('content');
             $table->text('comment')->nullable();
             $table->dateTime('approval_date')->nullable();
             $table->tinyInteger('status')->nullable();

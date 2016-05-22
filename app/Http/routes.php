@@ -42,4 +42,9 @@ Route::resource('ticket', 'TicketController');
 Route::group(['prefix' => 'ticket'], function (\Illuminate\Routing\Router $r) {
     $r->post('resolution/{ticket}', ['as' => 'ticket.resolution', 'uses' => 'TicketController@resolution']);
     $r->post('reply/{ticket}', ['as' => 'ticket.reply', 'uses' => 'TicketController@reply']);
+    $r->post('approval/{ticket}', ['as' => 'ticket.approval', 'uses' => 'TicketController@approval']);
+    $r->get('approve/{ticket}', ['as' => 'ticket.show-approval', 'uses' => 'TicketController@showApproval']);
+    $r->post('approve/{ticket}', ['as' => 'ticket.approve', 'uses' => 'TicketController@approve']);
+    $r->post('resend-approval/{ticket}', ['as' => 'ticket.resend-approval', 'uses' => 'TicketController@resendApproval']);
+    $r->delete('remove-approval/{ticket}', ['as' => 'ticket.remove-approval', 'uses' => 'TicketController@resendApproval']);
 });
