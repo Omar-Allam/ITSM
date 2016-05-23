@@ -21,11 +21,14 @@
 
 <section class="container-fluid">
     <div class="row">
+        {{-- @todo: Move this to a view composer --}}
+        @if (Route::current()->getPrefix() == '/admin')
         <aside class="col-md-3">
             @include('admin.partials._sidebar')
         </aside>
+        @endif
 
-        <div class="col-md-9">
+        <div class="col-md-{{Route::current()->getPrefix() == '/admin'? 9 : 12}}">
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     @yield('header')

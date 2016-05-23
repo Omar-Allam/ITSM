@@ -7975,7 +7975,8 @@ body {
   margin-bottom: 10px; }
 
 .panel-heading .heading-actions {
-  margin-top: -35px; }
+  margin-top: 5px;
+  margin-bottom: 5px; }
 
 footer {
   border-top: 2px solid #d3e0e9;
