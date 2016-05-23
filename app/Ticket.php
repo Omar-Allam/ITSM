@@ -159,4 +159,9 @@ class Ticket extends KModel
 
         return $this->resolution;
     }
+
+    public function hasPendingApprovals()
+    {
+        return $this->approvals()->where('status', TicketApproval::PENDING_APPROVAL)->count() > 0;
+    }
 }

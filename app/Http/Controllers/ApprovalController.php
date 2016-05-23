@@ -16,6 +16,7 @@ class ApprovalController extends Controller
 {
     public function send(Ticket $ticket, ApprovalRequest $request)
     {
+        //Triggers created action in App\Providers\TicketEventsProvider
         $approval = new TicketApproval($request->all());
         $approval->creator_id = $request->user()->id;
         $approval->status = 0;
@@ -35,24 +36,25 @@ class ApprovalController extends Controller
 
     public function show(TicketApproval $ticketApproval, Request $request)
     {
-//        $result = $this->authorizeApproval($ticketApproval, $request);
-//        if (true !== $result) {
-//            return $result;
-//        }
+        $result = $this->authorizeApproval($ticketApproval, $request);
+        if (true !== $result) {
+            return $result;
+        }
 
         return view('approval.show', compact('ticketApproval'));
     }
 
     public function update(TicketApproval $ticketApproval, Request $request)
     {
-//        $result = $this->authorizeApproval($ticketApproval, $request);
-//        if (true !== $result) {
-//            return $result;
-//        }
+        $result = $this->authorizeApproval($ticketApproval, $request);
+        if (true !== $result) {
+            return $result;
+        }
 
+        //Triggers created action in App\Providers\TicketEventsProvider
         $ticketApproval->approval_date = Carbon::now();
         $ticketApproval->update($request->all());
-        $this->dispatch(new UpdateApprovalJob());
+        $this->dispatch(new UpdateApprovalJob($ticketApproval));
 
         flash('Ticket has been ' . ($ticketApproval->status == TicketApproval::APPROVED ? 'approved' : 'rejected'), 'success');
         return Redirect::route('ticket.show', $ticketApproval->ticket_id);
