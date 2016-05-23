@@ -27,4 +27,15 @@ class Controller extends BaseController
             abort(302);
         }
     }
+
+    protected function backSuccessResponse(Request $request, $msg)
+    {
+        if ($request->wantsJson() || $request->isJson()) {
+            return ['ok' => true, 'message' => $msg];
+        }
+
+        flash($msg, 'success');
+
+        return \Redirect::back();
+    }
 }

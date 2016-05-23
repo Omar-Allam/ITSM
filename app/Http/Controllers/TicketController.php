@@ -87,7 +87,7 @@ class TicketController extends Controller
         $this->dispatch(new TicketReplyJob($reply));
 
         //@todo: Calculate elapsed time
-        return $this->backResponse($request, 'Reply has been added');
+        return $this->backSuccessResponse($request, 'Reply has been added');
     }
 
     public function resolution(Ticket $ticket, TicketResolveRequest $request)
@@ -99,19 +99,7 @@ class TicketController extends Controller
         //@todo: Calculate elapsed time
         $this->dispatch(new TicketReplyJob($reply));
 
-        return $this->backResponse($request, 'Ticket has been resolved');
-    }
-
-    public function approval(Ticket $ticket, ApprovalRequest $request)
-    {
-        $approval = new TicketApproval($request->all());
-        $approval->creator_id = $request->user()->id;
-        $approval->status = 0;
-        $ticket->approvals()->save($approval);
-
-        $this->dispatch(new SendApproval($approval));
-
-        return $this->backResponse($request, 'Approval has been sent');
+        return $this->backSuccessResponse($request, 'Ticket has been resolved');
     }
 
     public function jump(Request $request)
@@ -126,14 +114,4 @@ class TicketController extends Controller
         return \Redirect::route('ticket.index');
     }
 
-    protected function backResponse(Request $request, $msg)
-    {
-        if ($request->wantsJson() || $request->isJson()) {
-            return ['ok' => true, 'message' => $msg];
-        }
-
-        flash($msg, 'success');
-
-        return \Redirect::back();
-    }
 }

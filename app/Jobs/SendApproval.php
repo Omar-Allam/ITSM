@@ -31,7 +31,7 @@ class SendApproval extends Job implements ShouldQueue
     public function handle()
     {
         $name = $this->approval->approver->name;
-        $link = link_to_route('ticket.show-approval', null, $this->approval);
+        $link = link_to_route('approval.show', null, $this->approval);
 
         $content = str_replace(['$approver', '$approvalLink'], [$name, $link], $this->approval->content);
 

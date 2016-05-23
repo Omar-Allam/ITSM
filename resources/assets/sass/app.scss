@@ -20,8 +20,8 @@ body {
 }
 
 .panel-heading .heading-actions {
-  margin-top: 5px;
-  margin-bottom: 5px;
+  @extend .pull-right;
+  margin-top: -35px;
 }
 
 footer {

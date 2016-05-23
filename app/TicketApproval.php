@@ -28,7 +28,7 @@ namespace App;
  */
 class TicketApproval extends KModel
 {
-    protected $fillable = ['approver_id', 'content', 'comment', 'approval_date'];
+    protected $fillable = ['approver_id', 'content', 'status', 'comment', 'approval_date'];
 
     protected $dates = ['created_at', 'updated_at', 'approval_date'];
 

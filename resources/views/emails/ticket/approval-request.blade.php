@@ -9,7 +9,7 @@
         Ticket ID: #{{link_to_route('ticket.show', $approval->ticket->id, $approval->ticket->id)}}<br/>
         Requested by: {{$approval->created_by->name}}<br/>
         Requested at: {{$approval->created_at->format('d/m/Y H:i')}}<br/>
-        Approval link: {{link_to_route('ticket.show-approval', null, $approval->id)}}<br/>
+        Approval link: {{link_to_route('approval.show', null, $approval->id)}}<br/>
         Content:<br/><br />
 
         <div>

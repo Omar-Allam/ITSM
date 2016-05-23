@@ -24,9 +24,9 @@
                 <td>{{App\TicketApproval::$statuses[$approval->status]}}</td>
                 <td>{{$approval->comment}}</td>
                 <td>
-                    @if ($approval->status != \App\TicketApproval::APPROVED)
-                        {{Form::open(['route' => ['ticket.remove-approval', $approval], 'method' => 'delete'])}}
-                        <a title="Resend approval" href="{{route('ticket.resend-approval', $approval)}}" class="btn btn-xs btn-primary"><i class="fa fa-refresh"></i></a>
+                    @if ($approval->status == \App\TicketApproval::PENDING_APPROVAL)
+                        {{Form::open(['route' => ['approval.destroy', $approval], 'method' => 'delete'])}}
+                        <a title="Resend approval" href="{{route('approval.resend', $approval)}}" class="btn btn-xs btn-primary"><i class="fa fa-refresh"></i></a>
                         <button type="submit" title="Remove approval" class="btn btn-xs btn-warning"><i class="fa fa-remove"></i></button>
                         {{Form::close()}}
                     @endif
@@ -40,7 +40,7 @@
 @endif
 
 <section id="approvalForm">
-    {{Form::open(['route' => ['ticket.approval', $ticket]])}}
+    {{Form::open(['route' => ['approval.send', $ticket]])}}
 
     <div class="form-group {{$errors->has('approver_id')? 'has-error' : ''}}">
         {{Form::label('approver_id', 'Send approval to', ['class' => 'control-label'])}}
