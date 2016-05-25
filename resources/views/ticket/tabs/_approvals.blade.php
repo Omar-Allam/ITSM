@@ -41,12 +41,16 @@
 <section id="approvalForm">
     {{Form::open(['route' => ['approval.send', $ticket]])}}
 
-    <div class="form-group {{$errors->has('approver_id')? 'has-error' : ''}}">
-        {{Form::label('approver_id', 'Send approval to', ['class' => 'control-label'])}}
-        {{Form::select('approver_id', App\User::selection('Select Approver'), null, ['class' => 'form-control'])}}
-        @if ($errors->has('approver_id'))
-            <div class="error-message">{{$errors->first('approver_id')}}</div>
-        @endif
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group {{$errors->has('approver_id')? 'has-error' : ''}}">
+                {{Form::label('approver_id', 'Send approval to', ['class' => 'control-label'])}}
+                {{Form::select('approver_id', App\User::selection('Select Approver'), null, ['class' => 'form-control select2'])}}
+                @if ($errors->has('approver_id'))
+                    <div class="error-message">{{$errors->first('approver_id')}}</div>
+                @endif
+            </div>
+        </div>
     </div>
 
     <div class="form-group {{$errors->has('content')? 'has-error' : ''}}">
