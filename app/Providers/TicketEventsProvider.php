@@ -37,7 +37,7 @@ class TicketEventsProvider extends ServiceProvider
         TicketApproval::updated(function (TicketApproval $approval){
             if (!$approval->ticket->hasPendingApprovals()) {
                 $approval->ticket->status_id = 3;
-                TicketLog::addApprovalUpdate($approval);
+                TicketLog::addApprovalUpdate($approval, $approval->status == TicketApproval::APPROVED);
                 $approval->ticket->save();
             }
         });

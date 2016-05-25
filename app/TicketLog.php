@@ -30,9 +30,11 @@ class TicketLog extends KModel
     const UPDATED_TYPE = 1;
     const REPLY_TYPE = 2;
     const APPROVAL_TYPE = 3;
-    const RESOLVED_TYPE = 4;
-    const CLOSED_TYPE = 5;
-    const REOPENED_TYPE=6;
+    const APPROVED = 4;
+    const DENIED = 5;
+    const RESOLVED_TYPE = 6;
+    const CLOSED_TYPE = 7;
+    const REOPENED_TYPE = 8;
 
     protected $casts = ['old_data' => 'array', 'new_data' => 'array'];
 
@@ -52,6 +54,17 @@ class TicketLog extends KModel
         return $approval->ticket->logs()->create([
             'user_id' => \Auth::user()->id,
             'type' => static::APPROVAL_TYPE,
+            'old_data' => $approval->ticket->getDirtyOriginals(),
+            'new_data' => $approval->ticket->getDirty(),
+            'status_id' => $approval->ticket->status_id
+        ]);
+    }
+
+    public static function addApprovalUpdate($approval, $approved = true)
+    {
+        return $approval->ticket->logs()->create([
+            'user_id' => \Auth::user()->id,
+            'type' => $approved? static::APPROVED : static::DENIED,
             'old_data' => $approval->ticket->getDirtyOriginals(),
             'new_data' => $approval->ticket->getDirty(),
             'status_id' => $approval->ticket->status_id
