@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\TicketLog;
 use App\TicketReply;
 use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
@@ -18,14 +19,11 @@ class TicketReplyEventsProvider extends ServiceProvider
                 if ($reply->status_id == 7) {
                     $reply->ticket->resolve_date = Carbon::now();
                 }
-                $reply->ticket->save();
             }
-        });
-
-        TicketReply::created(function (TicketReply $reply) {
             
+            TicketLog::addReply($reply);
+            $reply->ticket->save();
         });
-
     }
 
     public function register()

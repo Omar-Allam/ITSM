@@ -16,13 +16,17 @@ class CreateTicketLogsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('ticket_id')->unsigned();
+            $table->string('type');
             $table->text('old_data');
             $table->text('new_data');
+            $table->integer('status_id')->unsigned();
+            $table->integer('elapsed_time')->nullable()->default(0);
             $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('ticket_id')->references('id')->on('tickets');
+            $table->foreign('status_id')->references('id')->on('statuses');
         });
     }
 

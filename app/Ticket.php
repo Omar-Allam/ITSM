@@ -164,4 +164,20 @@ class Ticket extends KModel
     {
         return $this->approvals()->where('status', TicketApproval::PENDING_APPROVAL)->count() > 0;
     }
+
+    public function getDirtyOriginals()
+    {
+        if (!$this->isDirty()) {
+            return [];
+        }
+
+        $attributes = [];
+        $updated = array_keys($this->getDirty());
+
+        foreach ($updated as $item) {
+            $attributes[$item] = $this->getOriginal($item);
+        }
+
+        return $attributes;
+    }
 }

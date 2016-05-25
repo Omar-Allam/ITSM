@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Carbon\Carbon;
+
 /**
  * App\TicketLog
  *
@@ -23,5 +25,46 @@ namespace App;
  */
 class TicketLog extends KModel
 {
-    //
+    protected $fillable = ['user_id', 'type', 'old_data', 'new_data', 'status_id'];
+
+    const UPDATED_TYPE = 1;
+    const REPLY_TYPE = 2;
+    const APPROVAL_TYPE = 3;
+    const RESOLVED_TYPE = 4;
+    const CLOSED_TYPE = 5;
+    const REOPENED_TYPE=6;
+
+    protected $casts = ['old_data' => 'array', 'new_data' => 'array'];
+
+    public static function addReply(TicketReply $reply)
+    {
+        return $reply->ticket->logs()->create([
+            'user_id' => \Auth::user()->id,
+            'type' => static::REPLY_TYPE,
+            'old_data' => $reply->ticket->getDirtyOriginals(),
+            'new_data' => $reply->ticket->getDirty(),
+            'status_id' => $reply->status_id
+        ]);
+    }
+
+    public static function addApproval(TicketApproval $approval)
+    {
+        return $approval->ticket->logs()->create([
+            'user_id' => \Auth::user()->id,
+            'type' => static::APPROVAL_TYPE,
+            'old_data' => $approval->ticket->getDirtyOriginals(),
+            'new_data' => $approval->ticket->getDirty(),
+            'status_id' => $approval->ticket->status_id
+        ]);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function ticket()
+    {
+        return $this->belongsTo(Ticket::class);
+    }
 }
