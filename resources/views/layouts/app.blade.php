@@ -14,6 +14,7 @@
         <div class="navbar-brand"><a href="{{url('/')}}"><i class="fa fa-bolt"></i> KWizard</a></div>
 
         <ul class="nav navbar-nav">
+            <li><a href="{{route('ticket.index')}}"><i class="fa fa-ticket"></i> Tickets</a></li>
             <li><a href="#"><i class="fa fa-cogs"></i> Admin</a></li>
         </ul>
     </div>
@@ -36,9 +37,10 @@
 
                 <div class="panel-body">
                     @if(Session::has('flash-message'))
-                        <div class="alert alert-{{Session::get('flash-type', 'danger')}}">
-                            {{Session::get('flash-message')}}
-                        </div>
+                        @include('partials.alert', [
+                            'type' => Session::get('flash-type', 'danger'),
+                            'message' => Session::get('flash-message')
+                        ])
                     @endif
 
                     @yield('body')
