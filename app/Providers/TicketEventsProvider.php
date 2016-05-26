@@ -25,7 +25,9 @@ class TicketEventsProvider extends ServiceProvider
         });
         
         Ticket::updating(function (Ticket $ticket) {
-            
+            if (!$ticket->stopLog()) {
+                TicketLog::addUpdating($ticket);
+            }
         });
 
         TicketApproval::created(function (TicketApproval $approval){

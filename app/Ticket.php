@@ -65,6 +65,8 @@ namespace App;
  */
 class Ticket extends KModel
 {
+    protected $stopLog = false;
+
     protected $fillable = [
         'subject', 'description', 'category_id', 'subcategory_id', 'item_id', 'group_id', 'technician_id',
         'priority_id', 'impact_id', 'urgency_id'
@@ -179,5 +181,16 @@ class Ticket extends KModel
         }
 
         return $attributes;
+    }
+
+    public function stopLog($enable = null)
+    {
+        if (is_null($enable)) {
+            return $this->stopLog;
+        }
+        
+        $this->stopLog = $enable;
+
+        return $this;
     }
 }

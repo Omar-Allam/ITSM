@@ -40,34 +40,32 @@ class TicketLog extends KModel
 
     public static function addReply(TicketReply $reply)
     {
-        return $reply->ticket->logs()->create([
-            'user_id' => \Auth::user()->id,
-            'type' => static::REPLY_TYPE,
-            'old_data' => $reply->ticket->getDirtyOriginals(),
-            'new_data' => $reply->ticket->getDirty(),
-            'status_id' => $reply->status_id
-        ]);
+        self::makeLog($reply->ticket, static::REPLY_TYPE);
     }
 
     public static function addApproval(TicketApproval $approval)
     {
-        return $approval->ticket->logs()->create([
-            'user_id' => \Auth::user()->id,
-            'type' => static::APPROVAL_TYPE,
-            'old_data' => $approval->ticket->getDirtyOriginals(),
-            'new_data' => $approval->ticket->getDirty(),
-            'status_id' => $approval->ticket->status_id
-        ]);
+        return self::makeLog($approval->ticket, static::APPROVAL_TYPE);
     }
 
     public static function addApprovalUpdate($approval, $approved = true)
     {
-        return $approval->ticket->logs()->create([
+        return self::makeLog($approval->ticket, $approved ? static::APPROVED : static::DENIED);
+    }
+
+    public static function addUpdating(Ticket $ticket)
+    {
+        return self::makeLog($ticket, static::UPDATED_TYPE);
+    }
+
+    public static function makeLog(Ticket $ticket, $type)
+    {
+        return $ticket->logs()->create([
             'user_id' => \Auth::user()->id,
-            'type' => $approved? static::APPROVED : static::DENIED,
-            'old_data' => $approval->ticket->getDirtyOriginals(),
-            'new_data' => $approval->ticket->getDirty(),
-            'status_id' => $approval->ticket->status_id
+            'type' => $type,
+            'old_data' => $ticket->getDirtyOriginals(),
+            'new_data' => $ticket->getDirty(),
+            'status_id' => $ticket->status_id
         ]);
     }
 

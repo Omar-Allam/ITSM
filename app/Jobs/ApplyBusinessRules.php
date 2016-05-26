@@ -26,6 +26,7 @@ class ApplyBusinessRules extends MatchCriteria
             }
         }
 
+        $this->ticket->stopLog(true);
         $this->ticket->save();
     }
 
