@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Behaviors\Listable;
+
 /**
  * App\Department
  *
@@ -23,6 +25,8 @@ namespace App;
 class Department extends KModel
 {
     protected $fillable = ['name', 'business_unit_id'];
+
+    use Listable;
 
     public function business_unit()
     {

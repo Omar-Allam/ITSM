@@ -32,9 +32,9 @@ class TicketLog extends KModel
     const APPROVAL_TYPE = 3;
     const APPROVED = 4;
     const DENIED = 5;
-    const RESOLVED_TYPE = 6;
-    const CLOSED_TYPE = 7;
-    const REOPENED_TYPE = 8;
+//    const RESOLVED_TYPE = 6;
+//    const CLOSED_TYPE = 7;
+//    const REOPENED_TYPE = 8;
 
     protected $casts = ['old_data' => 'array', 'new_data' => 'array'];
 

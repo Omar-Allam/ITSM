@@ -1,10 +1,10 @@
 <?php
 
-Auth::loginUsingId(2);
-
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::auth();
 
 Route::group(['prefix' => 'list'], function (\Illuminate\Routing\Router $r) {
     $r->get('/subcategory/{cat_id?}', 'ListController@subcategory');
@@ -19,7 +19,7 @@ Route::group(['prefix' => 'list'], function (\Illuminate\Routing\Router $r) {
     $r->get('/technician', 'ListController@technician');
 });
 
-Route::group(['prefix' => 'admin'], function (\Illuminate\Routing\Router $r) {
+Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth']], function (\Illuminate\Routing\Router $r) {
     $r->resource('region', 'Admin\RegionController');
     $r->resource('city', 'Admin\CityController');
     $r->resource('location', 'Admin\LocationController');
@@ -36,21 +36,28 @@ Route::group(['prefix' => 'admin'], function (\Illuminate\Routing\Router $r) {
     $r->resource('impact', 'Admin\ImpactController');
     $r->resource('business-rule', 'Admin\BusinessRuleController');
     $r->resource('sla', 'Admin\SlaController');
+    $r->resource('user', 'Admin\UserController');
 });
 
-Route::resource('ticket', 'TicketController');
-Route::group(['prefix' => 'ticket'], function (\Illuminate\Routing\Router $r) {
-    $r->post('resolution/{ticket}', ['as' => 'ticket.resolution', 'uses' => 'TicketController@resolution']);
-    $r->post('reply/{ticket}', ['as' => 'ticket.reply', 'uses' => 'TicketController@reply']);
-    $r->post('jump', ['as' => 'ticket.jump', 'uses' => 'TicketController@jump']);
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource('ticket', 'TicketController');
+    Route::group(['prefix' => 'ticket'], function (\Illuminate\Routing\Router $r) {
+        $r->post('resolution/{ticket}', ['as' => 'ticket.resolution', 'uses' => 'TicketController@resolution']);
+        $r->post('reply/{ticket}', ['as' => 'ticket.reply', 'uses' => 'TicketController@reply']);
+        $r->post('jump', ['as' => 'ticket.jump', 'uses' => 'TicketController@jump']);
+    });
+
+    Route::group(['prefix' => 'approval'], function (\Illuminate\Routing\Router $r) {
+        $r->post('approval/{ticket}', ['as' => 'approval.send', 'uses' => 'ApprovalController@send']);
+        $r->get('resend/{ticketApproval}', ['as' => 'approval.resend', 'uses' => 'ApprovalController@resend']);
+        $r->get('/{ticketApproval}', ['as' => 'approval.show', 'uses' => 'ApprovalController@show']);
+        $r->post('/{ticketApproval}', ['as' => 'approval.update', 'uses' => 'ApprovalController@update']);
+        $r->delete('delete/{ticketApproval}', ['as' => 'approval.destroy', 'uses' => 'ApprovalController@destroy']);
+    });
 });
 
-Route::group(['prefix' => 'approval'], function (\Illuminate\Routing\Router $r) {
-    $r->post('approval/{ticket}', ['as' => 'approval.send', 'uses' => 'ApprovalController@send']);
-    $r->get('resend/{ticketApproval}', ['as' => 'approval.resend', 'uses' => 'ApprovalController@resend']);
-    $r->get('/{ticketApproval}', ['as' => 'approval.show', 'uses' => 'ApprovalController@show']);
-    $r->post('/{ticketApproval}', ['as' => 'approval.update', 'uses' => 'ApprovalController@update']);
-    $r->delete('delete/{ticketApproval}', ['as' => 'approval.destroy', 'uses' => 'ApprovalController@destroy']);
-});
 
 
+Route::auth();
+
+Route::get('/home', 'HomeController@index');
