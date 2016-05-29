@@ -22,7 +22,10 @@ namespace App;
  */
 class Criteria extends KModel
 {
-    protected $fillable = ['relation'];
+    const ALL = 1;
+    const ANY = 2;
+
+    protected $fillable = ['relation', 'type'];
 
     public function criteria()
     {

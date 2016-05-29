@@ -4,6 +4,7 @@ namespace App\Behaviors;
 
 use App\Criteria;
 use App\Criterion;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -23,7 +24,7 @@ trait HasCriteria
         return $this->hasMany(Criteria::class, 'relation_id', 'id')->where('relation', $this->criteriaType);
     }
 
-    public function updateCriteria($criterions)
+    public function updateCriteria(Request $request)
     {
         /** @var Criteria $criteria */
         if (!$this->criteria()->count()) {
@@ -32,8 +33,10 @@ trait HasCriteria
             $criteria = $this->criteria()->first();
         }
 
-        $criteria->criteria()->delete();
+        $criteria->update(['type' => $request->get('criteria_type')]);
 
+        $criterions = $request->get('criterions');
+        $criteria->criteria()->delete();
         foreach ($criterions as $criterion) {
             $criteria->criteria()->create($criterion);
         }

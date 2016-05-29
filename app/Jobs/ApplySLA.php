@@ -38,23 +38,12 @@ class ApplySLA extends MatchCriteria
         $agreements = Sla::with('criterions')->get();
 
         foreach ($agreements as $sla) {
-            if ($this->matchSLA($sla)) {
+            if ($this->match($sla)) {
                 return $sla;
             }
         }
 
         return false;
-    }
-
-    protected function matchSLA($sla)
-    {
-        foreach ($sla->criterions as $criterion) {
-            if (!$this->checkCriterion($criterion)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     protected function calculateFirstResponseDate(Sla $sla)

@@ -15,6 +15,7 @@ class CreateCriteriasTable extends Migration
         Schema::create('criterias', function (Blueprint $table) {
             $table->increments('id');
             $table->string('relation');
+            $table->tinyInteger('type');
             $table->integer('relation_id')->unsigned();
             $table->softDeletes();
             $table->timestamps();

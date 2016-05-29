@@ -30,4 +30,9 @@ namespace App;
 class Criterion extends KModel
 {
     protected $fillable = ['field', 'operator', 'value', 'label'];
+
+    public function criteria()
+    {
+        return $this->belongsTo(Criteria::class);
+    }
 }

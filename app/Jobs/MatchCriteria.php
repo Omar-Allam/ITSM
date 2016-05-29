@@ -9,6 +9,7 @@
 namespace App\Jobs;
 
 
+use App\Criteria;
 use Illuminate\Support\Str;
 
 abstract class MatchCriteria extends Job
@@ -66,6 +67,24 @@ abstract class MatchCriteria extends Job
         }
 
         return $result;
+    }
+
+    protected function match($relation)
+    {
+        $criterions = $relation->criterions;
+
+        foreach ($criterions as $criterion) {
+            $result = $this->checkCriterion($criterion);
+            if ($result && $criterion->criteria->type == Criteria::ANY) {
+                return true;
+            }
+
+            if (!$result) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }

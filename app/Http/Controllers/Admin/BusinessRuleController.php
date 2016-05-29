@@ -23,8 +23,8 @@ class BusinessRuleController extends Controller
     public function store(BusinessRuleRequest $request)
     {
         $rule = BusinessRule::create($request->all());
-        $rule->updateCriteria($request->criterions);
-        $rule->updateRules($request->rules);
+        $rule->updateCriteria($request);
+        $rule->updateRules($request->get('rules'));
 
         flash('Business rule has been saved', 'success');
 
@@ -46,8 +46,8 @@ class BusinessRuleController extends Controller
     public function update(BusinessRule $business_rule, BusinessRuleRequest $request)
     {
         $business_rule->update($request->all());
-        $business_rule->updateCriteria($request->criterions);
-        $business_rule->updateRules($request->rules);
+        $business_rule->updateCriteria($request);
+        $business_rule->updateRules($request->get('rules'));
 
         flash('Business rule has been saved', 'success');
 

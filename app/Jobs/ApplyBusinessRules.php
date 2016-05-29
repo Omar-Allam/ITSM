@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\BusinessRule;
+use App\Criteria;
 use App\Ticket;
 
 class ApplyBusinessRules extends MatchCriteria
@@ -17,7 +18,7 @@ class ApplyBusinessRules extends MatchCriteria
         $rules = BusinessRule::with('criterions')->with('rules')->get();
 
         foreach ($rules as $rule) {
-            if ($this->ruleMatches($rule)) {
+            if ($this->match($rule)) {
                 $this->applyRule($rule);
 
                 if ($rule->is_last) {
@@ -28,19 +29,6 @@ class ApplyBusinessRules extends MatchCriteria
 
         $this->ticket->stopLog(true);
         $this->ticket->save();
-    }
-
-    private function ruleMatches($rule)
-    {
-        $criterions = $rule->criterions;
-
-        foreach ($criterions as $criterion) {
-            if (!$this->checkCriterion($criterion)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     private function applyRule($rule)

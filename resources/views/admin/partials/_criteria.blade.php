@@ -3,10 +3,10 @@
         <h4 class="panel-title">Criteria</h4>
         <div class="pull-right panel-form">
             <label for="criteria_type_and">
-                {{Form::radio('criteria.type', 'and', null, ['id' => 'criteria_type_and'])}} Match all rules
+                {{Form::radio('criteria_type', App\Criteria::ALL, null, ['id' => 'criteria_type_and'])}} Match all rules
             </label>
             <label for="criteria_type_or">
-                {{Form::radio('criteria.type', 'or', null, ['id' => 'criteria_type_or'])}} Match any of rules
+                {{Form::radio('criteria_type', App\Criteria::ANY, null, ['id' => 'criteria_type_or'])}} Match any of rules
             </label>
         </div>
     </div>
