@@ -16,10 +16,10 @@ new Vue({
 
     watch: {
         category() {
+            console.log(this.category);
             if (this.category) {
                 this.$http.get(`/list/subcategory/${this.category}`).then(response => this.subcategories = response.data);
             }
-
         },
 
         subcategory() {

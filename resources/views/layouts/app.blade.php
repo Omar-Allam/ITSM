@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>KWizard</title>
 
     <link rel="stylesheet" href="{{asset('/css/app.css')}}">
@@ -13,10 +15,20 @@
     <div class="container-fluid">
         <div class="navbar-brand"><a href="{{url('/')}}"><i class="fa fa-bolt"></i> KWizard</a></div>
 
+        @if (!\Auth::guest())
         <ul class="nav navbar-nav">
             <li><a href="{{route('ticket.index')}}"><i class="fa fa-ticket"></i> Tickets</a></li>
             <li><a href="#"><i class="fa fa-cogs"></i> Admin</a></li>
         </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{Auth::user()->name}} <i class="caret"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{url('/logout')}}"><i class="fa fa-sign-out"></i> Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        @endif
     </div>
 </header>
 

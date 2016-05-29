@@ -11676,6 +11676,7 @@ new _vue2.default({
         category: function category() {
             var _this = this;
 
+            console.log(this.category);
             if (this.category) {
                 this.$http.get('/list/subcategory/' + this.category).then(function (response) {
                     return _this.subcategories = response.data;
