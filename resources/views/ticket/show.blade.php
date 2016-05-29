@@ -1,7 +1,26 @@
 @extends('layouts.app')
 
 @section('header')
-    <h4>#{{$ticket->id}} - {{$ticket->subject}} <span class="label label-default pull-right">{{$ticket->status->name}}</span></h4>
+    <div class="row">
+        <div class="col-md-9">
+            <h4>#{{$ticket->id}} - {{$ticket->subject}}</h4>
+            <div class="btn-toolbar">
+                <button data-toggle="modal" data-target="#AssignForm" type="button" class="btn btn-sm btn-default" title="Re-assign"><i class="fa fa-mail-forward"></i> Re-assign</button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <ul class="list-unstyled">
+                    <li><strong>Status:</strong> {{$ticket->status->name}}</li>
+                    @if ($ticket->due_date)
+                    <li><strong>Due Date:</strong> {{$ticket->due_date->format('d/m/Y H:i')}}</li>
+                    @endif
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
 @endsection
 
 @section('body')
@@ -30,6 +49,8 @@
             @include('ticket.tabs._approvals')
         </div>
     </div>
+
+    @include('ticket._assign_modal')
 @endsection
 
 @section('javascript')

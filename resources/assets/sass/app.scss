@@ -128,3 +128,15 @@ hr.form-divider {
   display: block;
   width: 100%;
 }
+
+.card {
+  @extend .well;
+  @extend .well-sm;
+  @extend .well-white;
+
+  border-radius: 0;
+
+  ul {
+    margin-bottom: 0;
+  }
+}

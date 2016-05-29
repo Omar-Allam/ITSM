@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ApprovalRequest;
+use App\Http\Requests\ReassignRequest;
 use App\Http\Requests\TicketReplyRequest;
 use App\Http\Requests\TicketRequest;
 use App\Http\Requests\TicketResolveRequest;
@@ -112,6 +113,17 @@ class TicketController extends Controller
 
         flash('Ticket not found');
         return \Redirect::route('ticket.index');
+    }
+
+    public function reassign(Ticket $ticket, ReassignRequest $request)
+    {
+        $ticket->update([
+            'group_id' => $request->get('group_id'),
+            'technician_id' => $request->get('technician_id'),
+        ]);
+
+        flash('Ticket has been re-assigned', 'success');
+        \Redirect::route('ticket.show', $ticket);
     }
 
 }
