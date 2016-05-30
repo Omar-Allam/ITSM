@@ -8,12 +8,12 @@
             <div class="modal-body">
                 <div class="form-group">
                     {{Form::label('group_id', 'Group', ['class' => 'control-label'])}}
-                    {{Form::select('group_id', App\Group::selection('Select Group'), ['class' => 'form-control'])}}
+                    {{Form::select('group_id', App\Group::selection('Select Group'), null, ['class' => 'form-control'])}}
                 </div>
 
                 <div class="form-group">
-                    {{Form::label('technician_id', 'Group', ['class' => 'control-label'])}}
-                    {{Form::select('technician_id', App\User::technicians()->selection('Select Technician'), ['class' => 'form-control'])}}
+                    {{Form::label('technician_id', 'Technician', ['class' => 'control-label'])}}
+                    {{Form::select('technician_id', App\User::technicians()->selection('Select Technician'), null, ['class' => 'form-control'])}}
                 </div>
             </div>
             <div class="modal-footer">

@@ -23,7 +23,7 @@ class SlaController extends Controller
     public function store(SlaRequest $request)
     {
         $sla = Sla::create($request->all());
-        $sla->updateCriteria($request->criterions);
+        $sla->updateCriteria($request);
 
         flash('SLA has been saved', 'success');
 
@@ -45,7 +45,7 @@ class SlaController extends Controller
     public function update(Sla $sla, SlaRequest $request)
     {
         $sla->update($request->all());
-        $sla->updateCriteria($request->criterions);
+        $sla->updateCriteria($request);
 
         flash('SLA has been saved', 'success');
 

@@ -1,5 +1,15 @@
 {{ csrf_field() }}
 <div id="TicketForm">
+    @if (!isset($ticket) && Auth::user()->isSupport())
+        <div class="form-group form-group-sm {{$errors->has('subject')? 'has-error' : ''}}">
+            {{ Form::label('requester_id', 'Requester', ['class' => 'control-label']) }}
+            {{ Form::select('requester_id', App\User::requesterList(), null, ['class' => 'form-control select2']) }}
+            @if ($errors->has('requester_id'))
+                <div class="error-message">{{$errors->first('requester_id')}}</div>
+            @endif
+        </div>
+    @endif
+
     <div class="form-group form-group-sm {{$errors->has('subject')? 'has-error' : ''}}">
         {{ Form::label('subject', 'Subject', ['class' => 'control-label']) }}
         {{ Form::text('subject', null, ['class' => 'form-control']) }}
@@ -41,7 +51,8 @@
 
             <div class="form-group form-group-sm {{$errors->has('item_id')? 'has-error' : ''}}">
                 {{ Form::label('item_id', 'Item', ['class' => 'control-label']) }}
-                <select class="form-control" name="item_id" id="item_id" v-model="item" :value="{{Form::getValueAttribute('item')}}">
+                <select class="form-control" name="item_id" id="item_id" v-model="item"
+                        :value="{{Form::getValueAttribute('item')}}">
                     <option value="">Select Item</option>
                     <option v-for="(id, name) in items" :value="id">@{{name}}</option>
                 </select>

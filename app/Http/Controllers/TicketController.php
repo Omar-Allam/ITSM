@@ -35,7 +35,9 @@ class TicketController extends Controller
         $ticket = new Ticket($request->all());
 
         $ticket->creator_id = $request->user()->id;
-        $ticket->requester_id = $request->user()->id;
+        if (!$request->get('requester_id')) {
+            $ticket->requester_id = $request->user()->id;
+        }
         $ticket->location_id = $request->user()->location_id;
         $ticket->business_unit_id = $request->user()->business_unit_id;
         $ticket->status_id = 1;
@@ -61,9 +63,9 @@ class TicketController extends Controller
     public function update(Ticket $ticket, TicketRequest $request)
     {
         // Fires updated event in \App\Providers\TicketEventsProvider
-        $ticket->update($request->all());
-
-        flash('Ticket has been saved', 'success');
+//        $ticket->update($request->all());
+//
+//        flash('Ticket has been saved', 'success');
 
         return \Redirect::route('ticket.index');
     }

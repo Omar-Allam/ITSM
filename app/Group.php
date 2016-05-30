@@ -49,6 +49,16 @@ class Group extends KModel
         return $query->where('type', '!=', self::REQUESTER);
     }
 
+    public function scopeTechnician(Builder $query)
+    {
+        return $query->where('type', self::TECHNICIAN);
+    }
+
+    public function scopeAdmin(Builder $query)
+    {
+        return $query->where('type', self::ADMIN);
+    }
+
     public function scopeTypes ()
     {
         $types = collect([

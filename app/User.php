@@ -86,6 +86,11 @@ class User extends Authenticatable
 
     public function isTechnician()
     {
+        return $this->groups()->technician()->exists();
+    }
+
+    public function isSupport()
+    {
         return $this->groups()->support()->exists();
     }
 
@@ -98,5 +103,18 @@ class User extends Authenticatable
         }
 
         return $this->groups->contains('id', $group_id);
+    }
+
+    public function scopeRequesterList(Builder $query)
+    {
+        $users = collect(['' => 'Create for me']);
+
+        $dbUsers = $query->select(['id', 'name', 'email'])->orderBy('name')->get();
+
+        foreach ($dbUsers as $user) {
+            $users->put($user->id, sprintf('%s <%s>', $user->name, $user->email));
+        }
+
+        return $users;
     }
 }
