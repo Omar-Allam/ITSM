@@ -20,6 +20,7 @@ Route::group(['prefix' => 'list'], function (\Illuminate\Routing\Router $r) {
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth']], function (\Illuminate\Routing\Router $r) {
+    $r->get('', 'Admin\DashboardController@index');
     $r->resource('region', 'Admin\RegionController');
     $r->resource('city', 'Admin\CityController');
     $r->resource('location', 'Admin\LocationController');
