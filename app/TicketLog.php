@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Carbon\Carbon;
+use App\Helpers\HistoryEntry;
 
 /**
  * App\TicketLog
@@ -10,6 +10,8 @@ use Carbon\Carbon;
  * @property integer $id
  * @property integer $user_id
  * @property integer $ticket_id
+ * @property integer $status_id
+ * @property string $type
  * @property string $old_data
  * @property string $new_data
  * @property \Carbon\Carbon $created_at
@@ -77,5 +79,32 @@ class TicketLog extends KModel
     public function ticket()
     {
         return $this->belongsTo(Ticket::class);
+    }
+
+    public function getTypeActionAttribute()
+    {
+        $actions = [
+            self::REPLY_TYPE => 'replied',
+            self::APPROVAL_TYPE => 'submitted for approval',
+            self::APPROVED => 'approved',
+            self::DENIED => 'denied',
+        ];
+
+        if (isset($actions[$this->type])) {
+            return $actions[$this->type];
+        }
+
+        return 'updated';
+    }
+
+    public function getEntriesAttribute()
+    {
+        $entries = [];
+
+        foreach ($this->old_data as $key => $value) {
+            $entries[] = new HistoryEntry($key, $value, $this->new_data[$key]);
+        }
+
+        return $entries;
     }
 }
