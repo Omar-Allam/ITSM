@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Helpers\Ticket\TicketViewScope;
+use Illuminate\Database\Eloquent\Builder;
+
 /**
  * App\Ticket
  *
@@ -188,9 +191,17 @@ class Ticket extends KModel
         if (is_null($enable)) {
             return $this->stopLog;
         }
-        
+
         $this->stopLog = $enable;
 
         return $this;
+    }
+    
+    public function scopeScopedView(Builder $query)
+    {
+        $scope = new TicketViewScope($query);
+        $scope->apply();
+
+        return $query;
     }
 }

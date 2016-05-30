@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Ticket\TicketViewScope;
 use App\Http\Requests\ApprovalRequest;
 use App\Http\Requests\ReassignRequest;
 use App\Http\Requests\TicketReplyRequest;
@@ -20,9 +21,13 @@ class TicketController extends Controller
 {
     public function index()
     {
-        $tickets = Ticket::paginate();
+        $tickets = Ticket::scopedView()->paginate();
 
-        return view('ticket.index', compact('tickets'));
+        $scope = session('ticket.scope', 'my_pending');
+        
+        $scopes = TicketViewScope::getScopes();
+
+        return view('ticket.index', compact('tickets', 'scopes', 'scope'));
     }
 
     public function create()
@@ -125,7 +130,15 @@ class TicketController extends Controller
         ]);
 
         flash('Ticket has been re-assigned', 'success');
-        \Redirect::route('ticket.show', $ticket);
+        return \Redirect::route('ticket.show', $ticket);
+    }
+
+    public function scope(Request $request)
+    {
+//        dd($request->get('scope'));
+        \Session::set('ticket.scope', $request->get('scope'));
+
+        return \Redirect::route('ticket.index');
     }
 
 }

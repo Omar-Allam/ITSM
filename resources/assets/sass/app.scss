@@ -21,9 +21,12 @@ body {
 }
 
 .panel-heading .heading-actions {
-  @extend .pull-right;
   margin-top: 5px;
   margin-bottom: 5px;
+}
+
+.ticket-scope {
+  margin-left: 10px;
 }
 
 footer {

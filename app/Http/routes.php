@@ -46,6 +46,7 @@ Route::group(['middleware' => ['auth']], function () {
         $r->post('reply/{ticket}', ['as' => 'ticket.reply', 'uses' => 'TicketController@reply']);
         $r->post('jump', ['as' => 'ticket.jump', 'uses' => 'TicketController@jump']);
         $r->post('reassign/{ticket}', ['as' => 'ticket.reassign', 'uses' => 'TicketController@reassign']);
+        $r->post('scope', ['as' => 'ticket.scope', 'uses' => 'TicketController@scope']);
     });
 
     Route::group(['prefix' => 'approval'], function (\Illuminate\Routing\Router $r) {
