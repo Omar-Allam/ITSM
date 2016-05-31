@@ -94,6 +94,11 @@ class User extends Authenticatable
         return $this->groups()->support()->exists();
     }
 
+    public function isAdmin()
+    {
+        return $this->groups()->admin()->exists();
+    }
+
     public function hasGroup($group)
     {
         if (is_a($group, Group::class)) {
