@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 class SubcategoryController extends Controller
 {
 
-    protected $rules = [];
+    protected $rules = ['name' => 'required', 'category_id' => 'required|exists:categories'];
 
     public function index()
     {

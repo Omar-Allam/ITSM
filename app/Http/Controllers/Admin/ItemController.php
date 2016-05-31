@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 class ItemController extends Controller
 {
 
-    protected $rules = ['name' => 'required', 'description' => 'max:500'];
+    protected $rules = ['name' => 'required', 'subcategory_id' => 'required|exists:subcategories', 'description' => 'max:500'];
 
     public function index()
     {
