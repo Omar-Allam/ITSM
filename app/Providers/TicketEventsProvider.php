@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Jobs\ApplyBusinessRules;
 use App\Jobs\ApplySLA;
+use App\Jobs\CalculateTicketTime;
 use App\Ticket;
 use App\TicketApproval;
 use App\TicketLog;
@@ -22,6 +23,7 @@ class TicketEventsProvider extends ServiceProvider
 
         Ticket::updated(function (Ticket $ticket) {
             dispatch(new ApplySLA($ticket));
+            dispatch(new CalculateTicketTime($ticket));
         });
         
         Ticket::updating(function (Ticket $ticket) {

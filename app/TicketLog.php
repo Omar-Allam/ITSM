@@ -76,6 +76,11 @@ class TicketLog extends KModel
         return $this->belongsTo(User::class);
     }
 
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
+
     public function ticket()
     {
         return $this->belongsTo(Ticket::class);

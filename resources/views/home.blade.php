@@ -1,17 +1,9 @@
 @extends('layouts.app')
 
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+@section('header')
+    <h4><i class="fa fa-dashboard"></i> Dashboard</h4>
+@endsection
 
-                <div class="panel-body">
-                    You are logged in!
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+@section('body')
+    <h2>Welcome to KWizard</h2>
 @endsection

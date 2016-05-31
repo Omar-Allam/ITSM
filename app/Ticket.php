@@ -38,6 +38,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @property-read \App\User $technician
  * @property-read \App\Category $category
  * @property-read \App\Status $status
+ * @property-read \App\Sla $sla
  * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereRequesterId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Ticket whereCreatorId($value)
@@ -203,5 +204,10 @@ class Ticket extends KModel
         $scope->apply();
 
         return $query;
+    }
+
+    public function isOpen()
+    {
+        return $this->status->type == Status::OPEN;
     }
 }

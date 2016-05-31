@@ -52,4 +52,9 @@ class Status extends KModel
 
         $q->whereNotIn('id', $not);
     }
+
+    public function isOpen()
+    {
+        return $this->type == self::OPEN;
+    }
 }
