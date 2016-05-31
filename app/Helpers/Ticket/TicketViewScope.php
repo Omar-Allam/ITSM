@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class TicketViewScope
 {
-    const STATUS_SCOPES = ['open', 'on_hold', 'pending', 'completed'];
+    protected static $statusScopes = ['open', 'on_hold', 'pending', 'completed'];
 
     /**
      * @var \App\User
@@ -51,7 +51,7 @@ class TicketViewScope
         $scope = session('ticket.scope');
 
         if (method_exists($this, $scope)) {
-            if (in_array($scope, self::STATUS_SCOPES)) {
+            if (in_array($scope, self::$statusScopes)) {
                 $this->in_my_groups();
             }
 
