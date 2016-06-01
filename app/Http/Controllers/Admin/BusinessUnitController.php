@@ -33,31 +33,31 @@ class BusinessUnitController extends Controller
         return \Redirect::route('admin.business-unit.index');
     }
 
-    public function show(BusinessUnit $businessUnit)
+    public function show(BusinessUnit $business_unit)
     {
-        return view('admin.business-unit.show', compact('businessUnit'));
+        return view('admin.business-unit.show', compact('business_unit'));
     }
 
-    public function edit(BusinessUnit $businessUnit)
+    public function edit(BusinessUnit $business_unit)
     {
-        return view('admin.business-unit.edit', compact('businessUnit'));
+        return view('admin.business-unit.edit', compact('business_unit'));
     }
 
-    public function update(BusinessUnit $businessUnit, Request $request)
+    public function update(BusinessUnit $business_unit, Request $request)
     {
-        $this->rules['name'] .= ',' . $businessUnit->id;
+        $this->rules['name'] .= ',' . $business_unit->id;
         $this->validates($request, 'Could not save business unit');
 
-        $businessUnit->update($request->all());
+        $business_unit->update($request->all());
 
         flash('Business unit has been saved', 'success');
 
         return \Redirect::route('admin.business-unit.index');
     }
 
-    public function destroy(BusinessUnit $businessUnit)
+    public function destroy(BusinessUnit $business_unit)
     {
-        $businessUnit->delete();
+        $business_unit->delete();
 
         flash('BusinessUnit has been deleted', 'success');
 

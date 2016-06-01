@@ -19,7 +19,7 @@
             @foreach($businessUnits as $businessUnit)
                 <tr>
                     <td class="col-md-5"><a href="{{route('admin.business-unit.edit', $businessUnit)}}">{{$businessUnit->name}}</a></td>
-                    <td class="col-md-4">{{$businessUnit->location->name}}</td>
+                    <td class="col-md-4">{{$businessUnit->location->name or ''}}</td>
                     <td class="col-md-3">
                         <a class="btn btn-sm btn-primary" href="{{route('admin.business-unit.edit', $businessUnit)}}"><i class="fa fa-edit"></i> Edit</a>
                         <form action="{{route('admin.business-unit.destroy', $businessUnit)}}" method="post" class="inline-block">

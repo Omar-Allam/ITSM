@@ -15,7 +15,7 @@ class LdapConnect
     protected $baseDN = null;
     protected $domain = null;
 
-    public function __construct()
+    public function __construct($autoBind = false)
     {
         $this->link = ldap_connect(env('LDAP_HOST'));
         ldap_set_option($this->link, LDAP_OPT_PROTOCOL_VERSION, 3);
@@ -23,6 +23,10 @@ class LdapConnect
 
         $this->baseDN = env('LDAP_BASEDN');
         $this->domain = env('LDAP_DOMAIN');
+
+        if ($autoBind) {
+            $this->bind();
+        }
     }
 
     public function validateLogin($credentials)
@@ -115,8 +119,8 @@ class LdapConnect
         $entity = [];
 
         for ($i = 0; $i < $attributes['count']; $i++) {
-            $name = $attributes[$i];
-            $attribute = $attributes[$name];
+            $attribute = $attributes[$attributes[$i]];
+            $name = strtolower($attributes[$i]);
 
             if ($attribute['count'] == 1) {
                 $entity[$name] = $attribute[0];
