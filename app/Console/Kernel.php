@@ -2,8 +2,10 @@
 
 namespace App\Console;
 
+use App\Console\Commands\LdapImportUser;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Make\Console\Command\Module;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,8 +15,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        // Commands\Inspire::class,
-        \Make\Console\Command\Module::class
+        Module::class,
+        LdapImportUser::class
     ];
 
     /**

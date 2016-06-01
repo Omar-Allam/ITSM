@@ -163,7 +163,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\TicketReplyEventsProvider::class,
         App\Providers\TicketEventsProvider::class,
-        App\Providers\KdeskAuthProvider::class
+        App\Providers\KdeskAuthProvider::class,
     ],
 
     /*

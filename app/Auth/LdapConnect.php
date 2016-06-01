@@ -83,7 +83,7 @@ class LdapConnect
         return $this->fetch('(objectClass=user)', $attributes, $unitDN);
     }
 
-    protected function fetch($query, $attributes, $dn = '', $list = false)
+    public function fetch($query, $attributes, $dn = '', $list = false)
     {
         $dn = $dn ?: $this->baseDN;
 
