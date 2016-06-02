@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 class SubcategoryController extends Controller
 {
 
-    protected $rules = ['name' => 'required', 'category_id' => 'required|exists:categories'];
+    protected $rules = ['name' => 'required', 'category_id' => 'required|exists:categories,id'];
 
     public function index()
     {
@@ -18,20 +18,25 @@ class SubcategoryController extends Controller
         return view('admin.subcategory.index', compact('subcategories'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('admin.subcategory.create');
+        $category_id = 0;
+        if ($request->has('category')) {
+            $category_id = $request->get('category');
+        }
+
+        return view('admin.subcategory.create', compact('category_id'));
     }
 
     public function store(Request $request)
     {
         $this->validates($request, 'Could not save category');
 
-        Subcategory::create($request->all());
+        $subcategory = Subcategory::create($request->all());
 
         flash('Subcategory has been saved', 'success');
 
-        return \Redirect::route('admin.subcategory.index');
+        return \Redirect::route('admin.category.show', $subcategory->category_id);
     }
 
     public function show(Subcategory $subcategory)
@@ -52,7 +57,7 @@ class SubcategoryController extends Controller
 
         flash('Subcategory has been saved', 'success');
 
-        return \Redirect::route('admin.subcategory.index');
+        return \Redirect::route('admin.category.show', $subcategory->category_id);
     }
 
     public function destroy(Subcategory $subcategory)
@@ -61,6 +66,6 @@ class SubcategoryController extends Controller
 
         flash('Subcategory has been deleted', 'success');
 
-        return \Redirect::route('admin.subcategory.index');
+        return \Redirect::route('admin.category.show', $subcategory->category_id);
     }
 }

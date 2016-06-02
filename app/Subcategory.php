@@ -59,4 +59,9 @@ class Subcategory extends KModel
 
         return collect($list);
     }
+
+    public function canonicalName()
+    {
+        return $this->category->name . ' > ' . $this->name;
+    }
 }

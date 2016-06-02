@@ -9,17 +9,6 @@
 
 <div class="panel panel-default panel-nav">
     <div class="panel-heading">
-        <h5 class="panel-title"><a href="#categoriesNavPanel" data-toggle="collapse">Categories</a></h5>
-    </div>
-    <div class="list-group collapse" id="categoriesNavPanel">
-        <a href="{{route('admin.category.index')}}" class="list-group-item">Categories</a>
-        <a href="{{route('admin.subcategory.index')}}" class="list-group-item active">Subcategories</a>
-        <a href="{{route('admin.item.index')}}" class="list-group-item">Items</a>
-    </div>
-</div>
-
-<div class="panel panel-default panel-nav">
-    <div class="panel-heading">
         <h5 class="panel-title"><a href="#locationsNavPanel" data-toggle="collapse">Locations</a></h5>
     </div>
     <div class="list-group collapse" id="locationsNavPanel">
@@ -44,7 +33,8 @@
         <h5 class="panel-title"><a href="#configNavPanel" data-toggle="collapse">Configuration</a></h5>
     </div>
     <div class="list-group collapse" id="configNavPanel">
-        <a href="{{route('admin.status.index')}}" class="list-group-item">Status</a>
+        <a href="{{route('admin.category.index')}}" class="list-group-item">Categories</a>
+        {{--<a href="{{route('admin.status.index')}}" class="list-group-item">Status</a>--}}
         <a href="{{route('admin.branch.index')}}" class="list-group-item">Impact</a>
         <a href="{{route('admin.priority.index')}}" class="list-group-item">Priority</a>
         <a href="{{route('admin.urgency.index')}}" class="list-group-item">Urgency</a>

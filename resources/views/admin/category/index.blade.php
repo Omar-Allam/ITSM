@@ -17,7 +17,7 @@
             <tbody>
             @foreach($categories as $category)
                 <tr>
-                    <td class="col-md-9"><a href="{{route('admin.category.edit', $category)}}">{{$category->name}}</a></td>
+                    <td class="col-md-9"><a href="{{route('admin.category.show', $category)}}">{{$category->name}}</a></td>
                     <td class="col-md-3">
                         <form action="{{route('admin.category.destroy', $category)}}" method="post">
                             {{csrf_field()}} {{method_field('delete')}}
