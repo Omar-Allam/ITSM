@@ -12138,11 +12138,13 @@ exports.default = {
 
     events: {
         openSelectModal: function openSelectModal(options) {
-            console.log('triggered from criteria');
             this.modal.field = options.field;
             this.modal.options = options.options;
             this.modal.key = options.key;
             this.modal.selected = [];
+            if (options.selected) {
+                this.modal.selected = options.selected;
+            }
             jQuery('#CriteriaSelectionModal').modal('show');
         },
         removeCriterion: function removeCriterion(key) {
@@ -12221,7 +12223,8 @@ exports.default = {
             }
 
             this.$http.get('/list/' + field.list).then(function (response) {
-                _this.$dispatch('openSelectModal', { options: response.data, key: _this.key, field: field.name });
+                console.log(_this.criterion.value);
+                _this.$dispatch('openSelectModal', { options: response.data, key: _this.key, field: field.name, selected: _this.criterion.value.split(',') });
             });
         }
     },

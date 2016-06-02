@@ -90,7 +90,8 @@
                 }
 
                 this.$http.get('/list/' + field.list).then(response => {
-                    this.$dispatch('openSelectModal', { options: response.data, key: this.key, field: field.name });
+                    console.log(this.criterion.value);
+                    this.$dispatch('openSelectModal', { options: response.data, key: this.key, field: field.name, selected: this.criterion.value.split(',') });
                 });
             }
         },

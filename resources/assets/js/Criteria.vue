@@ -97,11 +97,13 @@ export default {
 
     events: {
         openSelectModal(options) {
-            console.log('triggered from criteria');
             this.modal.field = options.field;
             this.modal.options = options.options;
             this.modal.key = options.key;
             this.modal.selected = [];
+            if (options.selected) {
+                this.modal.selected = options.selected;
+            }
             jQuery('#CriteriaSelectionModal').modal('show');
         },
 

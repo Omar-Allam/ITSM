@@ -8,4 +8,4 @@ new Vue({
     el: '#Criteria',
 
     components: { Criteria }
-})
+});
