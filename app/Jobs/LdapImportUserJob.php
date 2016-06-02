@@ -50,13 +50,13 @@ class LdapImportUserJob extends Job implements ShouldQueue
             'email' => $data['mail'],
             'employee_id' => $data['wwwhomepage'],
             'business_unit_id' => $businessUnit->id,
-            'location_id' => $location->id,
+            'location_id' => isset($location)? $location->id : '',
             'phone' => $data['telephonenumber'],
             'job' => $data['title'],
             'is_ad' => true
         ];
 
-        if (empty($data['manager'])) {
+        if (!empty($data['manager'])) {
             $token = explode(',', $data['manager']);
             $cn = '(' . array_shift($token) . ')';
             $ou = implode(',', $token);

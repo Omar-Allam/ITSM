@@ -8535,6 +8535,9 @@ hr.form-divider {
 .panel-sm .panel-form {
   margin-top: -20px; }
 
+.multiple {
+  min-height: 200px; }
+
 .inline-block {
   display: inline-block; }
 

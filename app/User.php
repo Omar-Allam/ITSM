@@ -54,7 +54,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'login', 'password', 'location_id', 'location_id', 'business_unit_id',
         'branch_id', 'department_id', 'manager_id', 'vip', 'is_ad', 'phone', 'mobile1', 'mobile2', 'job',
-        'manager_id'
+        'manager_id', 'group_ids'
     ];
 
     protected $hidden = [
@@ -122,5 +122,16 @@ class User extends Authenticatable
         }
 
         return $users;
+    }
+
+    public function getGroupIdsAttribute()
+    {
+        return $this->groups->pluck('id')->toArray();
+    }
+
+    public function setGroupIdsAttribute($group_ids)
+    {
+        $this->groups()->sync($group_ids);
+        return $this;
     }
 }

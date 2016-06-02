@@ -32,18 +32,12 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/ticket';
+    protected $redirectTo = '/home';
 
  
     public function __construct()
     {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
-    }
-
-    public function postLogin(Request $request)
-    {
-        $response = $this->login($request);
-        dd($response);
     }
 
     /**

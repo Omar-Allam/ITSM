@@ -104,20 +104,31 @@
     </div>
 
     <div class="col-md-6">
-        <div class="form-group {{$errors->has('password')? 'has-error' : ''}}">
-            {{ Form::label('password', 'Password', ['class' => 'control-label']) }}
-            {{ Form::password('password', ['class' => 'form-control']) }}
-            @if ($errors->has('password'))
-                <div class="error-message">{{$errors->first('password')}}</div>
-            @endif
-        </div>
+        <fieldset>
+            <legend>Password</legend>
+            <div class="form-group {{$errors->has('password')? 'has-error' : ''}}">
+                {{ Form::label('password', 'Password', ['class' => 'control-label']) }}
+                {{ Form::password('password', ['class' => 'form-control']) }}
+                @if ($errors->has('password'))
+                    <div class="error-message">{{$errors->first('password')}}</div>
+                @endif
+            </div>
 
-        <div class="form-group {{$errors->has('password')? 'has-error' : ''}}">
-            {{ Form::label('password_confirmation', 'Confirm Password', ['class' => 'control-label']) }}
-            {{ Form::password('password_confirmation', ['class' => 'form-control']) }}
-            @if ($errors->has('password_confirmation'))
-                <div class="error-message">{{$errors->first('password_confirmation')}}</div>
-            @endif
-        </div>
+            <div class="form-group {{$errors->has('password')? 'has-error' : ''}}">
+                {{ Form::label('password_confirmation', 'Confirm Password', ['class' => 'control-label']) }}
+                {{ Form::password('password_confirmation', ['class' => 'form-control']) }}
+                @if ($errors->has('password_confirmation'))
+                    <div class="error-message">{{$errors->first('password_confirmation')}}</div>
+                @endif
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Groups</legend>
+            <div class="form-group">
+                {{Form::label('group_ids', 'Groups', ['class' => 'control-label'])}}
+                {{Form::select('group_ids', App\Group::selection(), null, ['class' => 'form-control multiple', 'multiple' => true, 'name' => 'group_ids[]'])}}
+            </div>
+        </fieldset>
     </div>
 </div>
