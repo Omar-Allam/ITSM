@@ -48,4 +48,9 @@ trait HasCriteria
     {
         return $this->hasManyThrough(Criterion::class, Criteria::class, 'relation_id')->where('relation', $this->criteriaType);
     }
+
+    public function getCriteriaTypeAttribute()
+    {
+        return $this->criteria()->first()->type;
+    }
 }

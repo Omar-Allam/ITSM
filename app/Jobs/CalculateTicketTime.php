@@ -60,7 +60,8 @@ class CalculateTicketTime extends Job implements ShouldQueue
         // removes the weekends from the calculated time
         // if same day then it is a work day no need for calculation
         // if SLA is critical then it should not respect service days or hours
-        if (!($sameDay || $this->ticket->sla->critical)) {
+        $critical = !empty($this->ticket->sla->critical);
+        if (!($sameDay || $critical)) {
             $days = ceil($diff / self::MINUTES_IN_DAY);
             $day = clone $start;
             for ($i = 0; $i < $days; ++$i) {

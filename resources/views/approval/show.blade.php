@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('header')
-    <h4>#{{$ticketApproval->ticket->id}} - {{$ticketApproval->ticket->subject}} - Approval</h4>
-    <div class="heading-actions">
+    <h4 class="pull-left">#{{$ticketApproval->ticket->id}} - {{$ticketApproval->ticket->subject}} - Approval</h4>
+    <div class="heading-actions pull-right">
         <a href="{{route('ticket.show', $ticketApproval->ticket)}}" class="btn btn-sm btn-default"
            title="Back to ticket" target="_blank"><i class="fa fa-ticket"></i></a>
     </div>
@@ -13,6 +13,11 @@
         <h4>Request</h4>
         <div class="well well-sm well-white">
             {!! $ticketApproval->ticket->description !!}
+        </div>
+
+        <h4>Approval Content</h4>
+        <div class="well well-sm well-white">
+            {!! $ticketApproval->content !!}
         </div>
     </section>
 
