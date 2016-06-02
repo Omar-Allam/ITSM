@@ -46,7 +46,10 @@ class UserController extends Controller
         $data = $request->all();
         if ($request->get('password')) {
             $data['password'] = bcrypt($data['password']);
+        } else {
+            unset($data['password'], $data['password_confirmation']);
         }
+
         $user->update($data);
 
         flash('User has been saved', 'success');
