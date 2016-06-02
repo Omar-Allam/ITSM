@@ -38,6 +38,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
     $r->resource('business-rule', 'Admin\BusinessRuleController');
     $r->resource('sla', 'Admin\SlaController');
     $r->resource('user', 'Admin\UserController');
+
+    Route::group(['prefix' => 'group'], function(){
+        Route::post('add-user/{group}', ['uses' => 'Admin\GroupController@addUser', 'as' => 'admin.group.add-user']);
+        Route::delete('remove-user/{group}/{user}', ['uses' => 'Admin\GroupController@removeUser', 'as' => 'admin.group.remove-user']);
+    });
 });
 
 Route::group(['middleware' => ['auth']], function () {

@@ -113,7 +113,7 @@ class User extends Authenticatable
 
     public function scopeRequesterList(Builder $query)
     {
-        $users = collect(['' => 'Create for me']);
+        $users = collect();
 
         $dbUsers = $query->select(['id', 'name', 'email'])->orderBy('name')->get();
 

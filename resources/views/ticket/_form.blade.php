@@ -3,7 +3,7 @@
     @if (!isset($ticket) && Auth::user()->isSupport())
         <div class="form-group form-group-sm {{$errors->has('subject')? 'has-error' : ''}}">
             {{ Form::label('requester_id', 'Requester', ['class' => 'control-label']) }}
-            {{ Form::select('requester_id', App\User::requesterList(), null, ['class' => 'form-control select2']) }}
+            {{ Form::select('requester_id', App\User::requesterList()->prepend('Create for me', ''), null, ['class' => 'form-control select2']) }}
             @if ($errors->has('requester_id'))
                 <div class="error-message">{{$errors->first('requester_id')}}</div>
             @endif

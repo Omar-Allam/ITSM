@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Group;
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller
@@ -62,5 +63,25 @@ class GroupController extends Controller
         flash('Group has been deleted', 'success');
 
         return \Redirect::route('admin.group.index');
+    }
+
+    public function addUser(Group $group, Request $request)
+    {
+        $this->validate($request, ['user_id' => 'required|exists:users,id']);
+
+        $group->users()->attach($request->get('user_id'));
+
+        flash('User has been added to group', 'success');
+
+        return \Redirect::route('admin.group.show', $group);
+    }
+
+    public function removeUser(Group $group, User $user)
+    {
+        $group->users()->detach($user->id);
+
+        flash('User has been removed from group', 'success');
+
+        return \Redirect::route('admin.group.show', $group);
     }
 }
