@@ -11,6 +11,7 @@ use App\Http\Requests\TicketResolveRequest;
 use App\Jobs\ApplySLA;
 use App\Jobs\NewTicketJob;
 use App\Jobs\SendApproval;
+use App\Jobs\TicketAssigned;
 use App\Jobs\TicketReplyJob;
 use App\Ticket;
 use App\TicketApproval;
@@ -131,6 +132,8 @@ class TicketController extends Controller
             'group_id' => $request->get('group_id'),
             'technician_id' => $request->get('technician_id'),
         ]);
+
+        $this->dispatch(new TicketAssigned($ticket));
 
         flash('Ticket has been re-assigned', 'success');
         return \Redirect::route('ticket.show', $ticket);
