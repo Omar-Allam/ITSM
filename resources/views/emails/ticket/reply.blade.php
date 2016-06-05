@@ -9,18 +9,18 @@
         <font family="arial,helvetica,sans-serif">
             Your ticket #{{$reply->ticket->id}} has a new reply. <br /><br />
 
-            By: {{$reply->user->name}}
-            At: {{$reply->created_at->format('d/m/Y H:i')}}
+            By: {{$reply->user->name}}<br/>
+            At: {{$reply->created_at->format('d/m/Y H:i')}}<br/>
             Status: {{$reply->status->name}} <br /><br />
-            Due Date: {{$reply->ticket->due_date->format('d/m/Y H:i')}}
+            Due Date: {{$ticket->due_date? $ticket->due_date->format('d/m/Y H:i') : 'N/A'}}<br/>
             Content: <br/><br/>
         </font>
 
         <div>
-            {!! $reply->cotent !!}
+            {!! $reply->content !!}
         </div>
         <br/><br/>
-        To view ticket details please go to {{url('ticket/' . $reply->ticket_id)}}
+        To view ticket details please go to {{link_to_route('ticket.show', null, $reply->ticket_id)}}
     </div>
 </body>
 </html>

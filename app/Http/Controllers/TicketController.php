@@ -9,6 +9,7 @@ use App\Http\Requests\TicketReplyRequest;
 use App\Http\Requests\TicketRequest;
 use App\Http\Requests\TicketResolveRequest;
 use App\Jobs\ApplySLA;
+use App\Jobs\NewTicketJob;
 use App\Jobs\SendApproval;
 use App\Jobs\TicketReplyJob;
 use App\Ticket;
@@ -49,6 +50,8 @@ class TicketController extends Controller
 
         // Fires created event in \App\Providers\TicketEventsProvider
         $ticket->save();
+
+        $this->dispatch(new NewTicketJob($ticket));
 
         flash('Ticket has been saved', 'success');
 

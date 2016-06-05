@@ -15,6 +15,9 @@
         <div>
             {!! $content !!}
         </div>
+
+        <br><br>
+        To view ticket details please go to {{route('ticket.show', $approval->ticket_id)}}
     </div>
 </body>
 </html>
