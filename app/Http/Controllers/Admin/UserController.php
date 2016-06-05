@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminUserRequest;
+use App\Jobs\LdapImportUsers;
 use App\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -64,5 +66,21 @@ class UserController extends Controller
         flash('User has been deleted', 'success');
 
         return \Redirect::route('admin.user.index');
+    }
+
+    public function ldapImport(Request $request)
+    {
+        $this->validate($request, ['login' => 'required']);
+
+        $users = preg_split('/\r?\n/', $request->login);
+        $this->dispatch(new LdapImportUsers($users));
+
+        $msg = 'Users has been imported';
+        if ($request->isJson() || $request->wantsJson()) {
+            return ['ok' => true, 'message' => $msg];
+        }
+        flash($msg, 'success');
+
+        return \Redirect::back();
     }
 }

@@ -2,7 +2,10 @@
 
 @section('header')
     <h4 class="pull-left">Users</h4>
-    <a href="{{ route('admin.user.create') }} " class="btn btn-sm btn-primary pull-right"><i class="fa fa-plus"></i></a>
+    <div class="heading-actions pull-right">
+        <a title="Import from active directory" href="#ImportModal" data-toggle="modal" class="btn btn-sm btn-primary"><i class="fa fa-download"></i></a>
+        <a href="{{ route('admin.user.create') }} " class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
+    </div>
 @stop
 
 @section('body')
@@ -27,7 +30,8 @@
                     <td class="col-md-2">
                         <form action="{{ route('admin.user.destroy', $user) }}" method="post">
                             {{csrf_field()}} {{method_field('delete')}}
-                            <a class="btn btn-sm btn-primary" href="{{ route('admin.user.edit', $user) }} "><i class="fa fa-edit"></i> Edit</a>
+                            <a class="btn btn-sm btn-primary" href="{{ route('admin.user.edit', $user) }} "><i
+                                        class="fa fa-edit"></i> Edit</a>
                             <button class="btn btn-sm btn-warning"><i class="fa fa-remove"></i> Delete</button>
                         </form>
                     </td>
@@ -40,4 +44,25 @@
     @else
         <div class="alert alert-info"><i class="fa fa-exclamation-circle"></i> <strong>No users found</strong></div>
     @endif
+
+    <div class="modal fade" id="ImportModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            {{Form::open(['route' => 'user.ldap-import', 'class' => 'modal-content'])}}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Import Users from Active Directory</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        {{Form::label('login', 'Please input login names to import (One per line)')}}
+                        {{Form::textarea('login', null, ['class' => "form-control", 'rows' => 5])}}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-download"></i> Import</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i> Close</button>
+                </div>
+            {{Form::close()}}
+        </div>
+    </div>
 @stop
