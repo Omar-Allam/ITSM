@@ -6,6 +6,7 @@
             <h4>#{{$ticket->id}} - {{$ticket->subject}}</h4>
             <div class="btn-toolbar">
                 <button data-toggle="modal" data-target="#AssignForm" type="button" class="btn btn-sm btn-default" title="Re-assign"><i class="fa fa-mail-forward"></i> Re-assign</button>
+                <a href="{{route('ticket.duplicate', $ticket)}}" class="btn btn-sm btn-default"><i class="fa fa-files-o"></i> Duplicate</a>
             </div>
         </div>
         <div class="col-md-3">
