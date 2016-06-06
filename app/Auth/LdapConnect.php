@@ -88,8 +88,11 @@ class LdapConnect
         $dn = $dn ?: $this->baseDN;
 
         $cookie = '';
+        $entries = [];
+
         do {
-            ldap_control_paged_result($this->link, 2000, true, $cookie);
+            ldap_control_paged_result($this->link, 2000, false, $cookie);
+
             if ($list) {
                 $results = ldap_list($this->link, $dn, $query, $attributes, 0);
             } else {
@@ -97,10 +100,9 @@ class LdapConnect
             }
 
             if (!ldap_count_entries($this->link, $results)) {
-                return false;
+                break;
             }
 
-            $entries = [];
             $entry = ldap_first_entry($this->link, $results);
             do {
                 $entries[] = $this->parseEntry($entry);
@@ -109,7 +111,7 @@ class LdapConnect
 
             ldap_control_paged_result_response($this->link, $results, $cookie);
         } while ($cookie !== null && $cookie != '');
-
+        
         return $entries;
     }
 

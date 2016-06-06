@@ -2,41 +2,35 @@
 
 namespace App\Console\Commands;
 
+use App\Auth\LdapConnect;
+use App\Jobs\LdapSync;
 use Illuminate\Console\Command;
 
 class LdapImportAll extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'command:name';
+    protected $signature = 'ldap:import-all';
+
+    protected $description = 'Import all available users from Active Directory';
+
+    use LdapSync;
 
     /**
-     * The console command description.
-     *
-     * @var string
+     * @var LdapConnect
      */
-    protected $description = 'Command description';
+    private $ldap;
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
+        $this->ldap = new LdapConnect(true);
         parent::__construct();
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
     public function handle()
     {
-        //
+        $users = $this->ldap->fetch('(ObjectClass=User)', self::$attributes, 'OU=Alkifah,DC=alkifah,DC=com');
+        set_time_limit(15 * count($users));
+        foreach ($users as $user) {
+            $this->syncEntry($this->ldap, $user);
+        }
     }
 }

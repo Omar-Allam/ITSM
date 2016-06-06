@@ -16,7 +16,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Module::class,
-        LdapImportUser::class
+        LdapImportUser::class,
+        Commands\LdapImportAll::class
     ];
 
     /**

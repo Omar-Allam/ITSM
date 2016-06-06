@@ -21,22 +21,25 @@ trait LdapSync
         'samaccountname', 'mail', 'company', 'wwwhomepage', 'l', 'displayname',
         'title', 'telephoneNumber', 'manager'
     ];
+
     /**
      * @param LdapConnect $ldap
      * @param $entry
+     *
+     * @return \App\User|boolean
      */
     protected function syncEntry(LdapConnect $ldap, $entry)
     {
-        $businessUnit = BusinessUnit::whereName($entry['company'])->first();
-        $location = Location::whereName($entry['l'])->first();
+        $businessUnit = isset($entry['company'])? BusinessUnit::whereName($entry['company'])->first() : null;
+        $location = isset($entry['l']) ? Location::whereName($entry['l'])->first() : null;
 
         $user = [
             'name' => $entry['displayname'],
             'login' => $entry['samaccountname'],
             'email' => $entry['mail'],
             'employee_id' => $entry['wwwhomepage'],
-            'business_unit_id' => $businessUnit->id,
-            'location_id' => isset($location) ? $location->id : '',
+            'business_unit_id' => $businessUnit? $businessUnit->id : null,
+            'location_id' => isset($location) ? $location->id : null,
             'phone' => $entry['telephonenumber'],
             'job' => $entry['title'],
             'is_ad' => true
@@ -47,21 +50,20 @@ trait LdapSync
             $cn = '(' . array_shift($token) . ')';
             $ou = implode(',', $token);
             $entries = $ldap->fetch($cn, ['samaccountname', 'displayname'], $ou);
-            $entry = $entries[0];
+            $managerEntry = $entries[0];
 
-            $manager = User::whereLogin($entry['samaccountname'])->first();
+            $manager = User::whereLogin($managerEntry['samaccountname'])->first();
             if ($manager) {
                 $user['manager_id'] = $manager->id;
             }
         }
 
-        $dbUser = User::whereLogin($entry['samaccountname'])->first();
-
+        $dbUser = User::where('login', $entry['samaccountname'])->orWhere('email', $entry['mail'])->first();
         if ($dbUser) {
             $dbUser->update($user);
-            echo $dbUser->id;
-        } else {
-            echo User::create($user)->id;
+            return $dbUser;
         }
+
+        return User::create($user);
     }
 }

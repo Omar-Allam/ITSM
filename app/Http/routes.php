@@ -1,7 +1,11 @@
 <?php
 
 Route::get('/', function () {
-    return \Redirect::to('/login');
+    $url = '/ticket';
+    if (\Auth::guest()) {
+        $url = '/login';
+    }
+    return \Redirect::to($url);
 });
 
 Route::auth();
