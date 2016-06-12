@@ -30,8 +30,12 @@ trait LdapSync
      */
     protected function syncEntry(LdapConnect $ldap, $entry)
     {
-        $businessUnit = isset($entry['company'])? BusinessUnit::whereName($entry['company'])->first() : null;
-        $location = isset($entry['l']) ? Location::whereName($entry['l'])->first() : null;
+        $businessUnit = !empty($entry['company'])? BusinessUnit::whereName($entry['company'])->first() : null;
+        $location = !empty($entry['l']) ? Location::whereName($entry['l'])->first() : null;
+
+        if (!$businessUnit && !$location) {
+            return false;
+        }
 
         $user = [
             'name' => $entry['displayname'],
