@@ -33,7 +33,7 @@ trait LdapSync
         $businessUnit = !empty($entry['company'])? BusinessUnit::whereName($entry['company'])->first() : null;
         $location = !empty($entry['l']) ? Location::whereName($entry['l'])->first() : null;
 
-        if (!$businessUnit && !$location) {
+        if (!$businessUnit || !$location) {
             return false;
         }
 
