@@ -41,7 +41,7 @@ trait LdapSync
             'name' => $entry['displayname'],
             'login' => $entry['samaccountname'],
             'email' => $entry['mail'],
-            'employee_id' => $entry['wwwhomepage'],
+            'employee_id' => !empty($entry['wwwhomepage'])? $entry['wwwhomepage'] : '',
             'business_unit_id' => $businessUnit? $businessUnit->id : null,
             'location_id' => isset($location) ? $location->id : null,
             'phone' => !empty($entry['telephonenumber'])? $entry['telephonenumber'] : '',
