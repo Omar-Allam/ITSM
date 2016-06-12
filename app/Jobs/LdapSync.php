@@ -44,7 +44,7 @@ trait LdapSync
             'employee_id' => $entry['wwwhomepage'],
             'business_unit_id' => $businessUnit? $businessUnit->id : null,
             'location_id' => isset($location) ? $location->id : null,
-            'phone' => $entry['telephonenumber']?: '',
+            'phone' => !empty($entry['telephonenumber'])? $entry['telephonenumber'] : '',
             'job' => $entry['title'],
             'is_ad' => true
         ];
