@@ -33,9 +33,11 @@ trait LdapSync
         $businessUnit = !empty($entry['company'])? BusinessUnit::whereName($entry['company'])->first() : null;
         $location = !empty($entry['l']) ? Location::whereName($entry['l'])->first() : null;
 
-        if (!$businessUnit || !$location) {
+        if (!$businessUnit || !$location || empty($entry['mail'])) {
             return false;
         }
+
+
 
         $user = [
             'name' => $entry['displayname'],
