@@ -26,10 +26,13 @@
                     @if ($approval->status == \App\TicketApproval::PENDING_APPROVAL)
                         {{Form::open(['route' => ['approval.destroy', $approval], 'method' => 'delete'])}}
                         @if ($approval->approver_id == \Auth::user()->id)
-                        <a href="{{route('approval.show', $approval)}}" class="btn btn-xs btn-success"><i class="fa fa-check"></i></a>
+                            <a href="{{route('approval.show', $approval)}}" class="btn btn-xs btn-success"><i class="fa fa-gavel"></i></a>
                         @endif
-                        <a title="Resend approval" href="{{route('approval.resend', $approval)}}" class="btn btn-xs btn-primary"><i class="fa fa-refresh"></i></a>
-                        <button type="submit" title="Remove approval" class="btn btn-xs btn-warning"><i class="fa fa-remove"></i></button>
+
+                        @if (Request::user()->id == $approval->requester_id)
+                            <a title="Resend approval" href="{{route('approval.resend', $approval)}}" class="btn btn-xs btn-primary"><i class="fa fa-refresh"></i></a>
+                            <button type="submit" title="Remove approval" class="btn btn-xs btn-warning"><i class="fa fa-remove"></i></button>
+                        @endif
                         {{Form::close()}}
                     @endif
                 </td>
