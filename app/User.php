@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Behaviors\Listable;
+use App\Http\Requests\Request;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -122,6 +123,20 @@ class User extends Authenticatable
         }
 
         return $users;
+    }
+
+    public function scopeQuickSearch(Builder $query)
+    {
+        if (\Request::has('q')) {
+            $query->where(function(Builder $q){
+                $term = '%' . \Request::get('q') . '%';
+                $q->where('login', 'LIKE', $term)
+                    ->orWhere('name', 'LIKE', $term)
+                    ->orWhere('email', 'LIKE', $term);
+            });
+        }
+
+        return $query;
     }
 
     public function getGroupIdsAttribute()
