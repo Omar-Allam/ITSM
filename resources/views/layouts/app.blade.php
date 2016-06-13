@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>KWizard</title>
+    <title>KDesk</title>
 
     <link rel="stylesheet" href="{{asset('/css/app.css')}}">
     @yield('stylesheets')
@@ -13,7 +13,7 @@
 
 <header class="navbar navbar-default">
     <div class="container-fluid">
-        <div class="navbar-brand"><a href="{{url('/')}}"><i class="fa fa-bolt"></i> KWizard</a></div>
+        <div class="navbar-brand"><a href="{{url('/')}}"><i class="fa fa-bolt"></i> KDesk</a></div>
 
         @if (!\Auth::guest())
         <ul class="nav navbar-nav">
