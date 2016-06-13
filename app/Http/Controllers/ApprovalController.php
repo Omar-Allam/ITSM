@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Http\Requests\ApprovalRequest;
+use App\Http\Requests\UpdateApprovalRequest;
 use App\Jobs\SendApproval;
 use App\Jobs\UpdateApprovalJob;
 use App\Ticket;
@@ -44,7 +45,7 @@ class ApprovalController extends Controller
         return view('approval.show', compact('ticketApproval'));
     }
 
-    public function update(TicketApproval $ticketApproval, Request $request)
+    public function update(TicketApproval $ticketApproval, UpdateApprovalRequest $request)
     {
         $result = $this->authorizeApproval($ticketApproval, $request);
 
