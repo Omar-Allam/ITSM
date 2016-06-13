@@ -3,13 +3,14 @@
         <h5 class="panel-title"><a href="#usersNavPanel" data-toggle="collapse">Users</a></h5>
     </div>
     <div class="list-group collapse" id="usersNavPanel">
+        <a href="{{route('admin.user.index')}}" class="list-group-item">Users</a>
         <a href="{{route('admin.group.index')}}" class="list-group-item">Groups</a>
     </div>
 </div>
 
 <div class="panel panel-default panel-nav">
     <div class="panel-heading">
-        <h5 class="panel-title"><a href="#locationsNavPanel" data-toggle="collapse">Locations</a></h5>
+        <h5 class="panel-title"><a href="#locationsNavPanel" data-toggle="collapse">Places</a></h5>
     </div>
     <div class="list-group collapse" id="locationsNavPanel">
         <a href="{{route('admin.region.index')}}" class="list-group-item">Regions</a>

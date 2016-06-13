@@ -6,9 +6,9 @@ class ApprovalRequest extends Request
 {
     public function authorize()
     {
-//        $ticket = $this->route()->parameter('ticket');
-//        return $this->user()->isTechnician() && $this->user()->hasGroup($ticket->group_id);
-        return true;
+        $ticket = $this->route()->parameter('ticket');
+        return $this->user()->isTechnician() && $this->user()->hasGroup($ticket->group_id);
+//        return true;
     }
 
     public function rules()

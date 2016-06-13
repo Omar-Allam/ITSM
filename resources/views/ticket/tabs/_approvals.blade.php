@@ -1,8 +1,4 @@
 @if ($ticket->approvals->count())
-    {{-- <div class="form-group clearfix">
-        <a href="#ApprovalForm" data-toggle="modal" class="btn btn-primary pull-right"><i class="fa fa-plus-circle"></i> Add approval</a>
-    </div> --}}
-
     <table class="listing-table">
         <thead>
         <tr>

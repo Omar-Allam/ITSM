@@ -47,11 +47,12 @@ class ApprovalController extends Controller
     public function update(TicketApproval $ticketApproval, Request $request)
     {
         $result = $this->authorizeApproval($ticketApproval, $request);
+
         if (true !== $result) {
             return $result;
         }
 
-        //Triggers created action in App\Providers\TicketEventsProvider
+        //Triggers updated action in App\Providers\TicketEventsProvider
         $ticketApproval->approval_date = Carbon::now();
         $ticketApproval->update($request->all());
         $this->dispatch(new UpdateApprovalJob($ticketApproval));
@@ -62,7 +63,7 @@ class ApprovalController extends Controller
 
     public function destroy(TicketApproval $ticketApproval, Request $request)
     {
-        if ($ticketApproval->creator_id != $request->user()->id && $ticketApproval->status != TicketApproval::PENDING_APPROVAL) {
+        if ($ticketApproval->creator_id != $request->user()->id || $ticketApproval->status != TicketApproval::PENDING_APPROVAL) {
             flash('Action not authorized');
             return Redirect::back();
         }

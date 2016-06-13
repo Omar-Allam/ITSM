@@ -30,7 +30,7 @@
         <li><a href="#conversation" role="tab" data-toggle="tab"><i class="fa fa-comments-o"></i> Conversation</a></li>
         <li><a href="#resolution" role="tab" data-toggle="tab"><i class="fa fa-support"></i> Resolution</a></li>
         <li><a href="#approvals" role="tab" data-toggle="tab"><i class="fa fa-check"></i> Approvals</a></li>
-        <li><a href="#history" role="tab" data-toggle="tab"><i class="fa fa-history"></i> History</a></li>
+        <li><a href="#history" role="tab" data-toggle="tab"><i class="fa fa-history"></i> Ticket Log</a></li>
     </ul>
 
     <div class="tab-content">
