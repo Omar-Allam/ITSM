@@ -13,7 +13,7 @@
         </div>
 
         <div class="form-group">
-            <button type="submit" class="btn btn-primary"><i class="fa fa-check-circle"></i> Add resolution</button>
+            <button type="submit" class="btn btn-success"><i class="fa fa-check-circle"></i> Add resolution</button>
         </div>
     {{Form::close()}}
 @endif

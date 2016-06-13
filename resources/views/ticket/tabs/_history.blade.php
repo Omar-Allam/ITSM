@@ -9,8 +9,8 @@
             <ul>
                 @foreach($log->entries as $entry)
                     <li>
-                        <small>{{ $entry->label }} changed from <strong>{{$entry->old_value}}</strong>
-                            to <strong>{{$entry->new_value}}</strong></small>
+                        <small>{{ $entry->label }} changed from <strong>{{$entry->old_value ?: 'None'}}</strong>
+                            to <strong>{{$entry->new_value ?: 'None'}}</strong></small>
                     </li>
                 @endforeach
             </ul>

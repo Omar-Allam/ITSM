@@ -11,14 +11,15 @@
 
             By: {{$reply->user->name}}<br/>
             At: {{$reply->created_at->format('d/m/Y H:i')}}<br/>
-            Status: {{$reply->status->name}} <br /><br />
-            Due Date: {{$ticket->due_date? $ticket->due_date->format('d/m/Y H:i') : 'N/A'}}<br/>
+            Status: {{$reply->status->name}} <br />
+            Due Date: {{$reply->ticket->due_date? $reply->ticket->due_date->format('d/m/Y H:i') : 'N/A'}}<br/>
             Content: <br/><br/>
         </font>
-
+        <p> ==================================== </p>
         <div>
             {!! $reply->content !!}
         </div>
+        <p> ==================================== </p>
         <br/><br/>
         To view ticket details please go to {{link_to_route('ticket.show', null, $reply->ticket_id)}}
     </div>

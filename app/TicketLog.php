@@ -96,6 +96,9 @@ class TicketLog extends KModel
         ];
 
         if (isset($actions[$this->type])) {
+            if ($this->type == self::REPLY_TYPE && $this->status_id == 7) {
+                return 'resolved';
+            }
             return $actions[$this->type];
         }
 
