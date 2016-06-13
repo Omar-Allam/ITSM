@@ -64,7 +64,7 @@
 
 <footer>
     <div class="container-fluid">
-        <p class="text-muted">Copyright &copy; AlKifah Holding Company {{date('Y')}}</p>
+        <p class="text-muted">Copyright &copy; Hubtech {{date('Y')}}</p>
     </div>
 </footer>
 
