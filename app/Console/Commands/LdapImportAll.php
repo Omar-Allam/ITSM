@@ -28,9 +28,15 @@ class LdapImportAll extends Command
     public function handle()
     {
         $users = $this->ldap->fetch('(ObjectClass=User)', self::$attributes, 'OU=Alkifah,DC=alkifah,DC=com');
-        set_time_limit(15 * count($users));
+        $count = count($users);
+        set_time_limit(15 * $count);
+
+        $bar = $this->output->createProgressBar($count);
         foreach ($users as $user) {
-            $this->syncEntry($this->ldap, $user);
+            if (!$this->syncEntry($this->ldap, $user)) {
+//                dump($user);
+            }
+            $bar->advance();
         }
     }
 }

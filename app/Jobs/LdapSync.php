@@ -31,13 +31,17 @@ trait LdapSync
     protected function syncEntry(LdapConnect $ldap, $entry)
     {
         $businessUnit = !empty($entry['company'])? BusinessUnit::whereName($entry['company'])->first() : null;
-        $location = !empty($entry['l']) ? Location::whereName($entry['l'])->first() : null;
-
-        if (!$businessUnit || !$location || empty($entry['mail'])) {
-            return false;
+        $location = null;
+        if (!empty($entry['l'])) {
+            $location = Location::whereName(trim($entry['l']))->first();
+        } elseif ($businessUnit) {
+            $location = $businessUnit->location;
         }
 
-
+        if (!$businessUnit || !$location || empty($entry['mail'])) {
+            \Log::warning("<{$entry['samaccountname']}>");
+            return false;
+        }
 
         $user = [
             'name' => $entry['displayname'],
