@@ -27,6 +27,8 @@
                     <div class="error-message">{{$errors->first('description')}}</div>
                 @endif
             </div>
+
+            <attachments limit="5"></attachments>
         </div>
         <div class="col-sm-3">
             <div class="form-group form-group-sm {{$errors->has('category_id')? 'has-error' : ''}}">
@@ -115,9 +117,12 @@
         <button class="btn btn-success"><i class="fa fa-check"></i> Submit</button>
     </div>
 </div>
+
+@section('javascript')
 <script>
     var subcategory = '{{Form::getValueAttribute('subcategory_id')}}';
     var item = '{{Form::getValueAttribute('item_id')}}';
 </script>
 <script src="{{asset('/js/ticket-form.js')}}"></script>
 <script src="{{asset('/js/tinymce/tinymce.min.js')}}"></script>
+@append

@@ -21,7 +21,8 @@ class TicketRequest extends Request
             'description' => 'required',
             'category_id' => 'required|exists:categories,id',
             'subcategory_id' => 'subcategory',
-            'item_id' => 'item'
+            'item_id' => 'item',
+            'attachments.*' => 'max:10240|mimes:jpg,png,pdf,gif,docx,xlsx,pptx,doc,xls,ppt,zip,rar'
         ];
     }
 
