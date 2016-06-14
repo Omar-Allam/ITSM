@@ -40,7 +40,7 @@
             </div>
             <div class="col-md-12">
                 @if($errors->has('status'))
-                    <div class="form-error">{{$errors->first('status')}}</div>
+                    <div class="error-message">{{$errors->first('status')}}</div>
                 @endif
             </div>
         </div>
@@ -50,7 +50,7 @@
             {{Form::textarea('comment', null, ['class' => 'form-control'])}}
 
             @if($errors->has('comment'))
-                <div class="form-error">{{$errors->first('comment')}}</div>
+                <div class="error-message">{{$errors->first('comment')}}</div>
             @endif
         </div>
 
