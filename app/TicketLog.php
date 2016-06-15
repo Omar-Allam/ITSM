@@ -34,8 +34,8 @@ class TicketLog extends KModel
     const APPROVAL_TYPE = 3;
     const APPROVED = 4;
     const DENIED = 5;
-//    const RESOLVED_TYPE = 6;
-//    const CLOSED_TYPE = 7;
+    const CLOSED_TYPE = 7;
+    const AUTO_CLOSE = 10;
 //    const REOPENED_TYPE = 8;
 
     protected $casts = ['old_data' => 'array', 'new_data' => 'array'];
@@ -60,10 +60,21 @@ class TicketLog extends KModel
         return self::makeLog($ticket, static::UPDATED_TYPE);
     }
 
-    public static function makeLog(Ticket $ticket, $type)
+    public static function addClose(Ticket $ticket)
     {
+        return self::makeLog($ticket, static::CLOSED_TYPE);
+    }
+
+    public static function addAutoClose(Ticket $ticket)
+    {
+        return self::makeLog($ticket, static::AUTO_CLOSE, $ticket->requester_id);
+    }
+
+    public static function makeLog(Ticket $ticket, $type, $user_id = null)
+    {
+        $user_id = $user_id ?: \Auth::user()->id;
         return $ticket->logs()->create([
-            'user_id' => \Auth::user()->id,
+            'user_id' => $user_id,
             'type' => $type,
             'old_data' => $ticket->getDirtyOriginals(),
             'new_data' => $ticket->getDirty(),

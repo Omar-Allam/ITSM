@@ -8505,7 +8505,7 @@ footer {
 
 .error-message {
   margin-top: 7px;
-  color: #a94442; }
+  color: #d9534f; }
 
 .panel-sm .panel-body {
   padding: 10px; }
@@ -8552,6 +8552,8 @@ hr.form-divider {
   width: 100%; }
 
 .card {
+  padding: 4px;
+  margin-bottom: 0;
   border-radius: 0; }
   .card ul {
     margin-bottom: 0; }

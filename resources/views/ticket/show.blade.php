@@ -12,9 +12,13 @@
         <div class="col-md-3">
             <div class="card">
                 <ul class="list-unstyled">
-                    <li><strong>Status:</strong> {{$ticket->status->name}}</li>
+                    <li><small><strong>Status:</strong> {{$ticket->status->name}}</small></li>
                     @if ($ticket->due_date)
-                    <li><strong>Due Date:</strong> {{$ticket->due_date->format('d/m/Y H:i')}}</li>
+                    <li><small><strong>Due Date:</strong> {{$ticket->due_date->format('d/m/Y H:i')}}</small></li>
+                    @endif
+
+                    @if($ticket->resolve_date)
+                        <li><small><strong>Resolve Date:</strong> {{$ticket->resolve_date->format('d/m/Y H:i')}}</small></li>
                     @endif
                 </ul>
             </div>

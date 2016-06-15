@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Helpers\Ticket\TicketViewScope;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
 /**

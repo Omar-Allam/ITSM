@@ -140,6 +140,8 @@ hr.form-divider {
   @extend .well;
   @extend .well-sm;
   @extend .well-white;
+  padding: 4px;
+  margin-bottom: 0;
 
   border-radius: 0;
 

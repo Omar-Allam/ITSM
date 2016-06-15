@@ -17,8 +17,10 @@ class KdeskAuthProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app->singleton('ldap', function(){
-            return new LdapConnect();
-        });
+//        if (PHP_SAPI != 'cli') {
+//            $this->app->singleton('ldap', function(){
+//                return new LdapConnect();
+//            });
+//        }
     }
 }

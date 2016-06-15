@@ -118,7 +118,7 @@ class TicketViewScope
     public function completed_in_my_groups()
     {
         $this->in_my_groups();
-        $this->open();
+        $this->completed();
     }
 
     public function in_my_groups()
