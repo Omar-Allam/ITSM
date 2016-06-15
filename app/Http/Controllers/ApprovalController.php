@@ -21,9 +21,17 @@ class ApprovalController extends Controller
         $approval = new TicketApproval($request->all());
         $approval->creator_id = $request->user()->id;
         $approval->status = 0;
+        if ($request->get('add_stage')) {
+            $approval->stage = $ticket->nextApprovalStage();
+        } elseif (!$ticket->hasApprovalStages()) {
+            $approval->stage = 1;
+        }
+
         $ticket->approvals()->save($approval);
 
-        $this->dispatch(new SendApproval($approval));
+        if ($approval->shouldSend()) {
+            $this->dispatch(new SendApproval($approval));
+        }
 
         return $this->backSuccessResponse($request, 'Approval has been sent');
     }
@@ -58,7 +66,8 @@ class ApprovalController extends Controller
         $ticketApproval->update($request->all());
         $this->dispatch(new UpdateApprovalJob($ticketApproval));
 
-        flash('Ticket has been ' . ($ticketApproval->status == TicketApproval::APPROVED ? 'approved' : 'rejected'), 'success');
+        flash('Ticket has been ' . ($ticketApproval->status == TicketApproval::APPROVED ? 'approved' : 'rejected'),
+            'success');
         return Redirect::route('ticket.show', $ticketApproval->ticket_id);
     }
 

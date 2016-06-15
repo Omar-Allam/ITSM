@@ -150,7 +150,9 @@ class Ticket extends KModel
 
     public function approvals()
     {
-        return $this->hasMany(TicketApproval::class);
+        $relation = $this->hasMany(TicketApproval::class);
+        $relation->orderBy('stage');
+        return $relation;
     }
 
     public function logs()
@@ -210,5 +212,28 @@ class Ticket extends KModel
     public function isOpen()
     {
         return $this->status->type == Status::OPEN;
+    }
+
+    public function hasApprovalStages()
+    {
+        if ($this->approvals->count() < 2) {
+            return false;
+        }
+
+        return $this->approvals->pluck('stage', 'stage')->count() > 1;
+    }
+
+    public function approvalStages()
+    {
+        return $this->approvals->pluck('stage', 'stage');
+    }
+
+    public function nextApprovalStage()
+    {
+        if ($this->approvals->count()) {
+            return $this->approvals()->max('stage') + 1;
+        }
+
+        return 1;
     }
 }

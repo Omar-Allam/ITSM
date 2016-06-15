@@ -29,7 +29,7 @@ namespace App;
  */
 class TicketApproval extends KModel
 {
-    protected $fillable = ['approver_id', 'content', 'status', 'comment', 'approval_date'];
+    protected $fillable = ['approver_id', 'content', 'status', 'comment', 'approval_date', 'stage'];
 
     protected $dates = ['created_at', 'updated_at', 'approval_date'];
 
@@ -56,5 +56,25 @@ class TicketApproval extends KModel
     public function created_by()
     {
         return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public function shouldSend()
+    {
+        $pendingCount = $this->ticket->approvals()
+            ->where('stage', '<', $this->stage)
+            ->where('status', static::PENDING_APPROVAL)
+            ->count();
+
+        return $pendingCount == 0;
+    }
+
+    public function hasNext()
+    {
+        return $this->ticket->approvals()->where('stage', '>', $this->stage)->count() > 0;
+    }
+
+    public function getNextStage()
+    {
+
     }
 }
