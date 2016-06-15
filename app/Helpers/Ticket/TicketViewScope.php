@@ -28,25 +28,27 @@ class TicketViewScope
 
     public static function getScopes()
     {
-        return [
+        $scopes = [
             "my_open" => "My Open Tickets",
             "my_on_hold" => "My On-Hold Tickets",
             "my_pending" => "My Pending Tickets",
             "my_completed" => "My Completed Ticket",
             "mine" => "All My Tickets",
             'for_approval' => 'Ticket waiting my approval',
-            "open_in_my_groups" => 'All Open Tickets',
-            "on_hold_in_my_groups" => "All On-Hold Tickets",
-            "pending_in_my_groups" => 'All Pending Tickets',
-            "completed_in_my_groups" => 'All Completed Tickets',
-            "in_my_groups" => "All Tickets",
-
 //            "open" => 'All Open Tickets',
 //            "on_hold" => "All On-Hold Tickets",
 //            "pending" => 'All Pending Tickets',
 //            "completed" => 'All Completed Tickets',
         ];
 
+        if (\Auth::user()->isSupport()) {
+            $scopes["open_in_my_groups"] = 'All Open Tickets';
+            $scopes["on_hold_in_my_groups"] = "All On-Hold Tickets";
+            $scopes["pending_in_my_groups"] = 'All Pending Tickets';
+            $scopes["completed_in_my_groups"] = 'All Completed Tickets';
+        }
+
+        return $scopes;
     }
 
     public function apply()
