@@ -66,8 +66,14 @@ class ApprovalController extends Controller
         $ticketApproval->update($request->all());
         $this->dispatch(new UpdateApprovalJob($ticketApproval));
 
-        flash('Ticket has been ' . ($ticketApproval->status == TicketApproval::APPROVED ? 'approved' : 'rejected'),
-            'success');
+        if ($ticketApproval->hasNext()) {
+            $approvals = $ticketApproval->getNextStageApprovals();
+            foreach ($approvals as $approval) {
+                $this->dispatch(new SendApproval($approval));
+            }
+        }
+
+        flash('Ticket has been ' . ($ticketApproval->status == TicketApproval::APPROVED ? 'approved' : 'rejected'), 'success');
         return Redirect::route('ticket.show', $ticketApproval->ticket_id);
     }
 

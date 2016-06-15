@@ -22,14 +22,14 @@
                 <td>{{$approval->comment}}</td>
                 <td>
                     @if ($approval->approver_id == \Auth::user()->id)
-                        <a href="{{route('approval.show', $approval)}}" class="btn btn-xs btn-success"><i
-                                    class="fa fa-gavel"></i></a>
+                        <a href="{{route('approval.show', $approval)}}" class="btn btn-xs btn-info"><i class="fa fa-gavel"></i></a>
                     @endif
                 </td>
                 <td>
                     @if ($approval->shouldSend())
-                        <a title="Resend approval" href="{{route('approval.resend', $approval)}}"
-                           class="btn btn-xs btn-primary"><i class="fa fa-refresh"></i></a>
+                        @if (Auth::user()->id == $approval->creator_id)
+                            <a title="Resend approval" href="{{route('approval.resend', $approval)}}" class="btn btn-xs btn-primary"><i class="fa fa-refresh"></i></a>
+                        @endif
                     @endif
                 </td>
                 <td>
@@ -37,7 +37,8 @@
                         @if (Auth::user()->id == $approval->creator_id)
                             {{Form::open(['route' => ['approval.destroy', $approval], 'method' => 'delete'])}}
                             <button type="submit" title="Remove approval" class="btn btn-xs btn-warning">
-                                <i class="fa fa-remove"></i></button>
+                                <i class="fa fa-remove"></i>
+                            </button>
                             {{Form::close()}}
                         @endif
                     @endif

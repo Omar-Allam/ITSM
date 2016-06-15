@@ -16,6 +16,7 @@ namespace App;
  * @property Ticket $ticket
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property integer stage
  * @method static \Illuminate\Database\Query\Builder|\App\TicketApproval whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\TicketApproval whereCreatorId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\TicketApproval whereApproverId($value)
@@ -73,8 +74,22 @@ class TicketApproval extends KModel
         return $this->ticket->approvals()->where('stage', '>', $this->stage)->count() > 0;
     }
 
-    public function getNextStage()
+    public function getNextStageApprovals()
     {
+        $nextApprovals = $this->ticket->approvals()->where('stage', '>', $this->stage)->get();
+        $approvals = collect();
+        $previous = 0;
 
+        /** @var TicketApproval $approval */
+        foreach ($nextApprovals as $approval) {
+            if ($previous && $approval->stage != $previous) {
+                break;
+            }
+
+            $approvals->push($approval);
+            $previous = $approval->stage;
+        }
+
+        return $approvals;
     }
 }
