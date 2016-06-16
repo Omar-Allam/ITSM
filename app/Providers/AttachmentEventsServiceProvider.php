@@ -13,10 +13,9 @@ class AttachmentEventsServiceProvider extends ServiceProvider
             $file = $attachment->uploadedFile();
             $filename = uniqid() . '_' . $file->getClientOriginalName();
 
-            $folder = public_path('/attachments/');
-            $path = $folder . '/' . $filename;
-
-            $file->move($path);
+            $folder = '/attachments/';
+            $path = $folder . $filename;
+            $file->move(public_path($folder), $filename);
 
             $attachment->path = $path;
         });

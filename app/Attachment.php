@@ -36,4 +36,15 @@ class Attachment extends KModel
 
         return implode('_', $parts);
     }
+
+    public function getUploadedByAttribute()
+    {
+        if ($this->type == self::TICKET_TYPE) {
+            $user = Ticket::find($this->reference)->created_by;
+        } else {
+            $user = TicketReply::find($this->reference)->user;
+        }
+
+        return $user->name;
+    }
 }
