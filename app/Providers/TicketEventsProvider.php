@@ -2,13 +2,13 @@
 
 namespace App\Providers;
 
+use App\Attachment;
 use App\Jobs\ApplyBusinessRules;
 use App\Jobs\ApplySLA;
 use App\Jobs\CalculateTicketTime;
 use App\Ticket;
 use App\TicketApproval;
 use App\TicketLog;
-use App\TicketReply;
 use Illuminate\Support\ServiceProvider;
 
 class TicketEventsProvider extends ServiceProvider
@@ -19,6 +19,8 @@ class TicketEventsProvider extends ServiceProvider
         Ticket::created(function (Ticket $ticket) {
             dispatch(new ApplyBusinessRules($ticket));
             dispatch(new ApplySLA($ticket));
+
+            Attachment::uploadFiles(Attachment::TICKET_TYPE, $ticket->id);
         });
 
         Ticket::updated(function (Ticket $ticket) {

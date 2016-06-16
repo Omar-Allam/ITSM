@@ -7,7 +7,7 @@
 @stop
 
 @section('body')
-    {{ Form::open(['route' => 'ticket.store']) }}
+    {{ Form::open(['route' => 'ticket.store', 'files' => true]) }}
 
         @include('ticket._form')
 

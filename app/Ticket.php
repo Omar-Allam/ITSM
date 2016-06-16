@@ -5,6 +5,7 @@ namespace App;
 use App\Helpers\Ticket\TicketViewScope;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 
 /**
  * App\Ticket
@@ -83,6 +84,11 @@ class Ticket extends KModel
      * @var TicketReply
      */
     protected $resolution;
+
+    /**
+     * @var Collection
+     */
+    protected $attachments;
 
     public function requester()
     {
@@ -212,6 +218,23 @@ class Ticket extends KModel
     public function isOpen()
     {
         return $this->status->type == Status::OPEN;
+    }
+
+    public function getFilesAttribute()
+    {
+        if (!$this->attachments) {
+            $attachments = Attachment::where('type', Attachment::TICKET_TYPE)
+                ->where('reference', $this->id)
+                ->get();
+
+            $replyAttachments = Attachment::where('type', Attachment::TICKET_REPLY_TYPE)
+                ->whereIn('reference', $this->replies->pluck('id')->toArray())
+                ->get();
+
+            $this->attachments = $attachments->merge($replyAttachments);
+        }
+
+        return $this->attachments;
     }
 
     public function hasApprovalStages()
