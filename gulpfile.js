@@ -16,6 +16,7 @@ elixir(function(mix) {
     mix.sass('app.scss')
     .browserify('app.js')
     .browserify('ticket-form.js')
+    .browserify('ticket.js')
     .browserify('criteria.js')
     .browserify('business-rules.js');
 });

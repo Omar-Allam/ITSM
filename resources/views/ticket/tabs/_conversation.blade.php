@@ -20,7 +20,7 @@
 @endif
 
 <div id="ReplyForm">
-    {{Form::open(['route' => ['ticket.reply', $ticket]])}}
+    {{Form::open(['route' => ['ticket.reply', $ticket], 'files' => true])}}
     {{csrf_field()}}
 
     <div class="form-group {{$errors->has('reply.content')? 'has-errors' : ''}}">
@@ -40,6 +40,12 @@
                     <div class="error-message">{{$errors->first('status_id')}}</div>
                 @endif
             </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <attachment limit="2"></attachment>
         </div>
     </div>
 

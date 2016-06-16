@@ -3,18 +3,17 @@
         <thead>
         <tr>
             <th>Attachments</th>
-            <th class="text-center">
-                <button type="button" @click="add" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i>
-                </button>
+            <th class="text-right">
+                <button type="button" @click="add" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i></button>
             </th>
         </tr>
         </thead>
         <tbody>
         <tr v-for="attach in attachments">
             <td class="col-md-10">
-                <input type="file" class="form-control input-sm" name="attachments[{{$index}}]">
+                <input type="file" class="form-control input-xs" name="attachments[{{$index}}]">
             </td>
-            <td class="col-md-2 text-center">
+            <td class="col-md-2 text-right">
                 <button type="button" @click="remove($index)" class="btn btn-warning btn-sm"><i class="fa fa-trash"></i></button>
             </td>
         </tr>

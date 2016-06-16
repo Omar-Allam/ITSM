@@ -20,14 +20,7 @@ class TicketEventsProvider extends ServiceProvider
             dispatch(new ApplyBusinessRules($ticket));
             dispatch(new ApplySLA($ticket));
 
-            $files = \Request::file('attachments');
-            if ($files) {
-                foreach ($files as $file) {
-                    $attach = new Attachment(['type' => Attachment::TICKET_TYPE, 'reference' => $ticket->id]);
-                    $attach->uploadedFile($file);
-                    $attach->save();
-                }
-            }
+            Attachment::uploadFiles(Attachment::TICKET_TYPE, $ticket->id);
         });
 
         Ticket::updated(function (Ticket $ticket) {

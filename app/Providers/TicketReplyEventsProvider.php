@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Attachment;
 use App\TicketLog;
 use App\TicketReply;
 use Carbon\Carbon;
@@ -23,6 +24,10 @@ class TicketReplyEventsProvider extends ServiceProvider
             
             TicketLog::addReply($reply);
             $reply->ticket->save();
+        });
+
+        TicketReply::created(function(TicketReply $reply) {
+            Attachment::uploadFiles(Attachment::TICKET_REPLY_TYPE, $reply->id);
         });
     }
 

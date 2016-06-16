@@ -20,6 +20,18 @@ class Attachment extends KModel
      */
     protected $uploadedFile;
 
+    public static function uploadFiles($type, $id)
+    {
+        $files = \Request::file('attachments');
+        if ($files) {
+            foreach ($files as $file) {
+                $attach = new static(['type' => $type, 'reference' => $id]);
+                $attach->uploadedFile($file);
+                $attach->save();
+            }
+        }
+    }
+
     public function uploadedFile(UploadedFile $file = null)
     {
         if ($file) {
