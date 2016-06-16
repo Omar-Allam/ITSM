@@ -12101,16 +12101,18 @@ exports.default = {
         remove: function remove(key) {
             var _this = this;
 
-            var trail = this.attachments.splice(key);
-            trail.shift();
-            trail.forEach(function (item) {
-                _this.attachments.push(item);
-            });
+            if (this.attachments.length > 1) {
+                var trail = this.attachments.splice(key);
+                trail.shift();
+                trail.forEach(function (item) {
+                    _this.attachments.push(item);
+                });
+            }
         }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"form-group\">\n    <a href=\"#attachmentModal\" data-toggle=\"modal\" class=\"btn btn-primary\"><i class=\"fa fa-upload\"></i> Attachments</a>\n</div>\n<div id=\"attachmentModal\" class=\"modal fade\" tabindex=\"-1\" role=\"dialog\">\n    <div class=\"modal-dialog\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">×</span></button>\n                <h4 class=\"modal-title\">Attachments</h4>\n            </div>\n            <div class=\"modal-body\">\n                <table class=\"listing-table table-condensed\">\n                    <thead>\n                    <tr>\n                        <th>Attachment</th>\n                        <th class=\"text-center\">\n                            <button type=\"button\" @click=\"add\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-plus-circle\"></i></button>\n                        </th>\n                    </tr>\n                    </thead>\n                    <tbody>\n                    <tr v-for=\"attach in attachments\">\n                        <td class=\"col-md-10\">\n                            <input type=\"file\" class=\"form-control input-sm\" name=\"attachments[$index]\">\n                        </td>\n                        <td class=\"col-md-2 text-center\">\n                            <button type=\"button\" @click=\"remove($index)\" class=\"btn btn-warning btn-sm\"><i class=\"fa fa-trash\"></i></button>\n                        </td>\n                    </tr>\n                    </tbody>\n                </table>\n            </div>\n        </div>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<table class=\"listing-table table-condensed\">\n    <thead>\n    <tr>\n        <th>Attachments</th>\n        <th class=\"text-center\">\n            <button type=\"button\" @click=\"add\" class=\"btn btn-primary btn-sm\"><i class=\"fa fa-plus-circle\"></i>\n            </button>\n        </th>\n    </tr>\n    </thead>\n    <tbody>\n    <tr v-for=\"attach in attachments\">\n        <td class=\"col-md-10\">\n            <input type=\"file\" class=\"form-control input-sm\" name=\"attachments[{{$index}}]\">\n        </td>\n        <td class=\"col-md-2 text-center\">\n            <button type=\"button\" @click=\"remove($index)\" class=\"btn btn-warning btn-sm\"><i class=\"fa fa-trash\"></i></button>\n        </td>\n    </tr>\n    </tbody>\n</table>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

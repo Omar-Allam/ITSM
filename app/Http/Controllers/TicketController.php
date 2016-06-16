@@ -45,8 +45,8 @@ class TicketController extends Controller
         if (!$request->get('requester_id')) {
             $ticket->requester_id = $request->user()->id;
         }
-        $ticket->location_id = $request->user()->location_id;
-        $ticket->business_unit_id = $request->user()->business_unit_id;
+        $ticket->location_id = $ticket->requester->location_id;
+        $ticket->business_unit_id = $ticket->requester->business_unit_id;
         $ticket->status_id = 1;
 
         // Fires created event in \App\Providers\TicketEventsProvider

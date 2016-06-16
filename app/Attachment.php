@@ -13,6 +13,8 @@ class Attachment extends KModel
     const TICKET_TYPE = 1;
     const TICKET_REPLY_TYPE = 2;
 
+    protected $fillable = ['reference', 'type'];
+
     /**
      * @var UploadedFile
      */
@@ -27,12 +29,11 @@ class Attachment extends KModel
         return $this->uploadedFile;
     }
 
-    public function displayName()
+    public function getDisplayNameAttribute()
     {
         $parts = explode('_', $this->path);
         array_shift($parts);
 
         return implode('_', $parts);
     }
-
 }

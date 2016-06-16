@@ -28,7 +28,11 @@
                 @endif
             </div>
 
-            <attachments limit="5"></attachments>
+            <div class="row">
+                <div class="col-md-9">
+                    <attachments limit="5"></attachments>
+                </div>
+            </div>
         </div>
         <div class="col-sm-3">
             <div class="form-group form-group-sm {{$errors->has('category_id')? 'has-error' : ''}}">
