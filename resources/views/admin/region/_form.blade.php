@@ -11,7 +11,7 @@
         </div>
 
         <div class="form-group">
-            <button class="btn btn-success btn-wide" type="submit"><i class="fa fa-send-o"></i> Submit</button>
+            <button class="btn btn-success btn-wide" type="submit"><i class="fa fa-check-circle"></i> Submit</button>
         </div>
     </div>
 </div>

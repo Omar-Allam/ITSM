@@ -18,23 +18,30 @@
         $start = $page - $mod / 2 + 1;
         $last = $page + $mod / 2;
     }
+
+    $prefix= Request::fullUrl();
+    if (strpos($prefix, '?') === false) {
+        $prefix .= '?';
+    } else {
+        $prefix .= '&';
+    }
     ?>
 
     <div class="text-center">
         <ul class="pagination">
             @if ($page > 1)
                 <li>
-                    <a href="?page={{$page - 1}}"><i class="fa fa-chevron-left fa-fw"></i></a>
+                    <a href="{{$prefix}}page={{$page - 1}}"><i class="fa fa-chevron-left fa-fw"></i></a>
                 </li>
             @endif
             @for ($i = $start; $i <= $last; ++$i)
                 <li @if($page == $i)class="active"@endif>
-                    <a href="?page={{$i}}">{{$i}}</a>
+                    <a href="{{$prefix}}page={{$i}}">{{$i}}</a>
                 </li>
             @endfor
             @if ($page < $items->lastPage())
                 <li>
-                    <a href="?page={{$page + 1}}"><i class="fa fa-chevron-right fa-fw"></i></a>
+                    <a href="{{$prefix}}page={{$page + 1}}"><i class="fa fa-chevron-right fa-fw"></i></a>
                 </li>
             @endif
         </ul>

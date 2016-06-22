@@ -1,4 +1,5 @@
 var elixir = require('laravel-elixir');
+require('laravel-elixir-vueify');
 
 /*
  |--------------------------------------------------------------------------
@@ -12,5 +13,10 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
-    mix.sass('app.scss');
+    mix.sass('app.scss')
+    .browserify('app.js')
+    .browserify('ticket-form.js')
+    .browserify('ticket.js')
+    .browserify('criteria.js')
+    .browserify('business-rules.js');
 });

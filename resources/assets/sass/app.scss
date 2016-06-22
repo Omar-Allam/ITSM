@@ -1,33 +1,48 @@
+@import 'resources/assets/sass/_variables.scss';
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 //@import "node_modules/bootflat/bootflat/scss/bootflat.scss";
 @import "node_modules/font-awesome/scss/font-awesome.scss";
+@import "node_modules/select2/src/scss/core.scss";
 
 $container-border: 2px solid $navbar-default-border;
 
 // Layout styles
 body {
-  background-color: $navbar-default-bg;
+  background-color: $body-bg;
 }
 
-.navbar-white {
-  background-color: #fff;
-  border-bottom: $container-border;
+.navbar-default {
+  border-bottom: 2px solid $default-border;
 }
 
-.panel-heading h4 {
+.panel.panel-heading h4 {
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
-.panel-heading .btn {
+.panel-heading .heading-actions {
   margin-top: 5px;
   margin-bottom: 5px;
 }
 
+.ticket-scope {
+  margin-left: 10px;
+}
+
 footer {
-  border-top: $container-border;
+  border-top: 2px solid $default-border;
   padding-top: 10px;
-  background-color: #fff;
+}
+
+//Sidebar Styles
+//-----------------------------------
+.panel-nav .panel-title a {
+  display: block;
+  text-decoration: none;
+}
+
+.panel-nav .panel-title a:hover {
+  text-decoration: none;
 }
 
 //Listing styles
@@ -36,23 +51,101 @@ footer {
   @extend .table;
   @extend .table-condensed;
   @extend .table-striped;
-  @extend .table-hover;
+  //@extend .table-hover;
 }
 
 .listing-table > tr > td,
-.listing-table > tbody > tr > td {
+.listing-table > tbody > tr > td,
+.listing-table > tr > th,
+.listing-table > thead > tr > th {
   vertical-align: middle;
+}
+
+// Buttons
+.btn {
+  font-weight: 600;
 }
 
 // Form styles
 //------------------------------------
 .error-message {
   margin-top: 7px;
-  color: $alert-danger-text;
+  color: $brand-danger;
+}
+
+.panel-sm {
+  .panel-body {
+    padding: 10px;
+  }
+
+  .panel-heading {
+    padding: 10px 5px;
+  }
+
+  .panel-title {
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  label {
+    font-size: 13px;
+    font-weight:400;
+    margin-bottom: 0;
+  }
+
+  .form-group-sm {
+    margin-bottom: 0;
+  }
+}
+
+.selection-modal {
+  select.form-control {
+    min-height: 300px;
+  }
+}
+
+hr.form-divider {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.panel-sm .panel-form {
+  margin-top: -20px;
+}
+
+.multiple {
+  min-height: 200px;
 }
 
 //Helper Classes
 //------------------------------------
 .inline-block {
   display: inline-block;
+}
+
+.well-white {
+  background-color: #fff;
+}
+
+.nav-tabs {
+  margin-bottom: 14px;
+}
+
+.select2-container {
+  display: block;
+  width: 100%;
+}
+
+.card {
+  @extend .well;
+  @extend .well-sm;
+  @extend .well-white;
+  padding: 4px;
+  margin-bottom: 0;
+
+  border-radius: 0;
+
+  ul {
+    margin-bottom: 0;
+  }
 }

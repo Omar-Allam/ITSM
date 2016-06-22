@@ -2,8 +2,10 @@
 
 namespace App\Console;
 
+use App\Console\Commands\LdapImportUser;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Make\Console\Command\Module;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,18 +15,23 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        // Commands\Inspire::class,
+        Module::class,
+        LdapImportUser::class,
+        Commands\LdapImportAll::class,
+        Commands\AutoCloseResolvedTickets::class,
     ];
 
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param  \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        //Run the auto close tickets command twice every hour on working days
+        $schedule->command('ticket:auto-close')
+            ->sundays()->mondays()->tuesdays()->wednesdays()->thursdays()
+            ->everyThirtyMinutes();
     }
 }

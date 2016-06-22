@@ -16,11 +16,8 @@ class CreateCategoriesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('description')->nullable();
-            $table->integer('parent_id')->unsigned();
             $table->softDeletes();
             $table->timestamps();
-
-            $table->foreign('parent_id')->references('id')->on('categories');
         });
     }
 

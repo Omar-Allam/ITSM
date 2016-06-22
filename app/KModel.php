@@ -4,7 +4,12 @@ namespace App;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Model extends EloquentModel
+/**
+ * App\KModel
+ *
+ * @mixin \Eloquent
+ */
+class KModel extends EloquentModel
 {
     use SoftDeletes;
 }

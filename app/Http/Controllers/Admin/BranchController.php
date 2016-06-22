@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class BranchController extends Controller
 {
-    protected $rules = ['name' => 'required', 'location_id' => 'required|exists:locations', 'business_unit_id' => 'required|exists:business_units'];
+    protected $rules = ['name' => 'required', 'location_id' => 'required|exists:locations,id', 'business_unit_id' => 'required|exists:business_units,id'];
 
     public function index()
     {
