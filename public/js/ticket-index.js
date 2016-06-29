@@ -12273,11 +12273,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _vue2.default.use(_vueResource2.default);
 
 new _vue2.default({
-    el: '#Criteria',
-
+    el: '#TicketList',
     components: { Criteria: _Criteria2.default }
 });
 
 },{"./Criteria.vue":5,"vue":4,"vue-resource":3}]},{},[7]);
 
-//# sourceMappingURL=criteria.js.map
+//# sourceMappingURL=ticket-index.js.map

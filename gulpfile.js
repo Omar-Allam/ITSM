@@ -15,6 +15,7 @@ require('laravel-elixir-vueify');
 elixir(function(mix) {
     mix.sass('app.scss')
     .browserify('app.js')
+    .browserify('ticket-index.js')
     .browserify('ticket-form.js')
     .browserify('ticket.js')
     .browserify('criteria.js')

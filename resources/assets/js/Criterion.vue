@@ -18,6 +18,10 @@
                 <option value="business_unit_id">Business Unit</option>
                 <option value="location_id">Location</option>
             </optgroup>
+            <optgroup label="Technician">
+                <option value="technician_id">Technician</option>
+                <option value="group_id">Support Group</option>
+            </optgroup>
         </select>
     </td>
     <td>

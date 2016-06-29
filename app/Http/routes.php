@@ -62,6 +62,7 @@ Route::group(['middleware' => ['auth']], function () {
         $r->post('reassign/{ticket}', ['as' => 'ticket.reassign', 'uses' => 'TicketController@reassign']);
         $r->post('scope', ['as' => 'ticket.scope', 'uses' => 'TicketController@scope']);
         $r->get('duplicate/{ticket}', ['as' => 'ticket.duplicate', 'uses' => 'TicketController@duplicate']);
+        $r->post('filter', ['as' => 'ticket.filter', 'uses' => 'TicketController@filter']);
     });
 
     Route::group(['prefix' => 'approval'], function (\Illuminate\Routing\Router $r) {

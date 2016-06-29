@@ -12,6 +12,7 @@
     "laravel-elixir-vueify": "^1.0.3",
     "select2": "^4.0.2",
     "select2-bootstrap-theme": "0.1.0-beta.4",
-    "vue-resource": "^0.7.0"
+    "vue-resource": "^0.7.0",
+    "vue": "latest"
   }
 }

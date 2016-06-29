@@ -23,7 +23,13 @@ class TicketController extends Controller
 {
     public function index()
     {
-        $tickets = Ticket::scopedView()->paginate();
+        if (\Session::has('ticket.filter')) {
+            $query = Ticket::filter(session('ticket.filter'));
+        } else {
+            $query = Ticket::scopedView();
+        }
+
+        $tickets = $query->paginate();
 
         $scope = session('ticket.scope', 'my_pending');
         
@@ -162,5 +168,12 @@ class TicketController extends Controller
         $this->dispatch(new NewTicketJob($newTicket));
 
         return \Redirect::route('ticket.show', $newTicket);
+    }
+
+    public function filter(Request $request)
+    {
+        session(['ticket.filter' => $request->get('criterions')]);
+
+        return \Redirect::back();
     }
 }

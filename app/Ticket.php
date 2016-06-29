@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Helpers\Ticket\TicketFilter;
 use App\Helpers\Ticket\TicketViewScope;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -211,6 +212,14 @@ class Ticket extends KModel
     {
         $scope = new TicketViewScope($query);
         $scope->apply();
+
+        return $query;
+    }
+
+    public function scopeFilter(Builder $query, $criteria)
+    {
+        $filter = new TicketFilter($query, $criteria);
+        $filter->apply();
 
         return $query;
     }
