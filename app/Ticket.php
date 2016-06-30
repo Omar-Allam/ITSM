@@ -208,10 +208,10 @@ class Ticket extends KModel
         return $this;
     }
     
-    public function scopeScopedView(Builder $query)
+    public function scopeScopedView(Builder $query, $scope)
     {
-        $scope = new TicketViewScope($query);
-        $scope->apply();
+        $viewScope = new TicketViewScope($query);
+        $viewScope->apply($scope);
 
         return $query;
     }

@@ -46,14 +46,15 @@ class TicketViewScope
             $scopes["on_hold_in_my_groups"] = "All On-Hold Tickets";
             $scopes["pending_in_my_groups"] = 'All Pending Tickets';
             $scopes["completed_in_my_groups"] = 'All Completed Tickets';
+            $scopes["in_my_groups"] = 'All Tickets';
         }
 
         return $scopes;
     }
 
-    public function apply()
+    public function apply($scope)
     {
-        $scope = session('ticket.scope');
+//        $scope = session('ticket.scope');
 
         if (method_exists($this, $scope)) {
             if (in_array($scope, self::$statusScopes)) {

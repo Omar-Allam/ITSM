@@ -12191,7 +12191,9 @@ var fields = {
     business_unit_id: { type: 'select', list: 'business-unit', name: 'Business Unit' },
     priority_id: { type: 'select', list: 'priority', name: 'Priority' },
     urgency_id: { type: 'select', list: 'urgency', name: 'Urgency' },
-    impact_id: { type: 'select', list: 'impact', name: 'Impact' }
+    impact_id: { type: 'select', list: 'impact', name: 'Impact' },
+    technician_id: { type: 'select', list: 'technician', name: 'Technician' },
+    group_id: { type: 'select', list: 'group', name: 'Support Group' }
 };
 
 exports.default = {

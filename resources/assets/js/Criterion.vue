@@ -52,7 +52,7 @@
 </template>
 
 <script>
-    var fields = {
+    const fields = {
         subject: {type: 'text'},
         description: {type: 'text'},
         category_id: {type: 'select', list: 'category', name: 'Category'},
@@ -63,6 +63,8 @@
         priority_id: {type: 'select', list: 'priority', name: 'Priority'},
         urgency_id: {type: 'select', list: 'urgency', name: 'Urgency'},
         impact_id: {type: 'select', list: 'impact', name: 'Impact'},
+        technician_id: {type: 'select', list: 'technician', name: 'Technician'},
+        group_id: {type: 'select', list: 'group', name: 'Support Group'},
     };
 
     export default {

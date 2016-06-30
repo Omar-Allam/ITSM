@@ -3,6 +3,7 @@
 namespace App\Helpers\Ticket;
 
 
+use App\Ticket;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
@@ -39,13 +40,13 @@ class TicketFilter
 
     protected function applyCriterion($criterion)
     {
-        if (in_array($criterion['field'], static::$requesterFields)) {
-            call_user_func_array([$this, 'has_requester_' . $criterion['operator']], [$criterion]);
-        } elseif (in_array($criterion['field'], static::$technicianFields)) {
-            call_user_func_array([$this, 'has_technician_' . $criterion['operator']], [$criterion]);
-        } else {
+//        if (in_array($criterion['field'], static::$requesterFields)) {
+//            call_user_func_array([$this, 'has_requester_' . $criterion['operator']], [$criterion]);
+//        } elseif (in_array($criterion['field'], static::$technicianFields)) {
+//            call_user_func_array([$this, 'has_technician_' . $criterion['operator']], [$criterion]);
+//        } else {
             call_user_func_array([$this, $criterion['operator']], [$criterion]);
-        }
+//        }
     }
 
     protected function is($criterion)
@@ -73,7 +74,7 @@ class TicketFilter
     protected function contains($criterion)
     {
         if ($criterion['value']) {
-            if (Str::endsWith($criterion['field'], '_id')) {
+             if (Str::endsWith($criterion['field'], '_id')) {
                 $relation = Str::replaceLast('_id', '', $criterion['field']);
                 $this->query->whereHas($relation, function (Builder $q) use ($criterion) {
                     $q->where('name', 'like', "%{$criterion['value']}%");
