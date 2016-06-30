@@ -54,7 +54,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
 });
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::resource('ticket', 'TicketController');
+
     Route::group(['prefix' => 'ticket'], function (\Illuminate\Routing\Router $r) {
         $r->post('resolution/{ticket}', ['as' => 'ticket.resolution', 'uses' => 'TicketController@resolution']);
         $r->post('reply/{ticket}', ['as' => 'ticket.reply', 'uses' => 'TicketController@reply']);
@@ -63,7 +63,10 @@ Route::group(['middleware' => ['auth']], function () {
         $r->post('scope', ['as' => 'ticket.scope', 'uses' => 'TicketController@scope']);
         $r->get('duplicate/{ticket}', ['as' => 'ticket.duplicate', 'uses' => 'TicketController@duplicate']);
         $r->post('filter', ['as' => 'ticket.filter', 'uses' => 'TicketController@filter']);
+        $r->get('clear', ['as' => 'ticket.clear', 'uses' => 'TicketController@clear']);
     });
+
+    Route::resource('ticket', 'TicketController');
 
     Route::group(['prefix' => 'approval'], function (\Illuminate\Routing\Router $r) {
         $r->post('approval/{ticket}', ['as' => 'approval.send', 'uses' => 'ApprovalController@send']);

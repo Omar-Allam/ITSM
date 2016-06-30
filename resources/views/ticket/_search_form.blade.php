@@ -3,9 +3,14 @@
 
     <criteria :criterions="{{json_encode(session('ticket.filter'))}}"></criteria>
 
-    <div class="form-group clearfix">
-        <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-search"></i> Search</button>
+    <div class="clearfix">
+        <div class="btn-toolbar pull-right">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+            <a href="{{route('ticket.clear')}}" class="btn btn-default"><i class="fa fa-remove"></i> Clear</a>
+        </div>
     </div>
+
+    <hr>
 
     {{Form::close()}}
 </div>

@@ -177,4 +177,11 @@ class TicketController extends Controller
 
         return \Redirect::back();
     }
+
+    public function clear()
+    {
+        \Session::remove('ticket.filter');
+
+        return \Redirect::back();
+    }
 }
