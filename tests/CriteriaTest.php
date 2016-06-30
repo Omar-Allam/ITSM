@@ -22,7 +22,11 @@ class CriteriaTest extends TestCase
         ];
 
         $sla = Sla::create($data);
-        $sla->updateCriteria($data['criterions']);
+        $request = \Illuminate\Http\Request::create('/admin/sla/store', 'POST', [
+            'criteria_type' => \App\Criteria::ALL,
+            'criterions' => $data['criterions']
+        ]);
+        $sla->updateCriteria($request);
 
 //        dd($sla->criteria);
         $this->assertEquals(1, $sla->criteria()->count());

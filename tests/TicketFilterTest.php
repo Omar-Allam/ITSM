@@ -156,9 +156,9 @@ class TicketFilterTest extends TestCase
     {
         App\Ticket::flushEventListeners();
 
-        $user_id = App\User::orderByRaw('RAND()')->id;
+        $user_id = App\User::orderByRaw('RAND()')->first()->id;
 
-        $criteria = [['field' => 'requester_id', 'operator' => 'ends', 'value' => $user_id]];
+        $criteria = [['field' => 'requester_id', 'operator' => 'is', 'value' => $user_id]];
 
         $ticket = new \App\Ticket([
             'requester_id' => $user_id,

@@ -11,18 +11,25 @@ class ApplySlaTest extends TestCase
     {
         $category = \App\Category::find(2);
 
+
+
         $sla = App\Sla::create(['name' => 'Test SLA', 'due_days' => 1, 'due_hours' => 0, 'due_minutes' => 0, 'response_days' => 0, 'response_hours' => 4, 'response_minutes' => 0]);
+
+        $subject = 'Test Subject';
         $request = \Illuminate\Http\Request::create('/admin/sla/store', 'POST', [
             'criteria_type' => \App\Criteria::ALL,
             'criterions' => [[
-                'field' => 'category_id',
-                'value' => $category->id,
+                'field' => 'subject',
+                'value' => $subject,
                 'operator' => 'is',
                 'labels' => 'Helpdesk'
             ]]
         ]);
-        
+
+
         $sla->updateCriteria($request);
+        App\Sla::where('id', '!=', $sla->id)->delete();
+
         $user = App\User::first();
 
         $data = [

@@ -226,7 +226,7 @@ class Ticket extends KModel
 
     public function isOpen()
     {
-        return $this->status->type == Status::OPEN;
+        return !$this->status || $this->status->type == Status::OPEN;
     }
 
     public function getFilesAttribute()

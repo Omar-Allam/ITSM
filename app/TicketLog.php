@@ -42,17 +42,17 @@ class TicketLog extends KModel
 
     public static function addReply(TicketReply $reply)
     {
-        self::makeLog($reply->ticket, static::REPLY_TYPE);
+        self::makeLog($reply->ticket, static::REPLY_TYPE, $reply->user_id);
     }
 
     public static function addApproval(TicketApproval $approval)
     {
-        return self::makeLog($approval->ticket, static::APPROVAL_TYPE);
+        return self::makeLog($approval->ticket, static::APPROVAL_TYPE, $approval->creator_id);
     }
 
-    public static function addApprovalUpdate($approval, $approved = true)
+    public static function addApprovalUpdate(TicketApproval $approval, $approved = true)
     {
-        return self::makeLog($approval->ticket, $approved ? static::APPROVED : static::DENIED);
+        return self::makeLog($approval->ticket, $approved ? static::APPROVED : static::DENIED, $approval->approver_id);
     }
 
     public static function addUpdating(Ticket $ticket)

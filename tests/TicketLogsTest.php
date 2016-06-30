@@ -11,7 +11,8 @@ class TicketLogsTest extends TestCase
     {
         $ticket = $this->makeTicket();
 
-        $ticket->replies()->create(['user_id' => \Auth::user()->id, 'content' => 'Test replies', 'status_id' => 3]);
+        $user = App\User::first();
+        $ticket->replies()->create(['user_id' => $user->id, 'content' => 'Test replies', 'status_id' => 3]);
 
         $this->seeInDatabase('ticket_logs', ['ticket_id' => $ticket->id, 'type' => \App\TicketLog::REPLY_TYPE]);
     }
@@ -83,7 +84,8 @@ class TicketLogsTest extends TestCase
     protected function makeApproval(\App\Ticket $ticket)
     {
         $approval = new \App\TicketApproval(['approver_id' => 1, 'content' => 'Test replies']);
-        $approval->creator_id = \Auth::user()->id;
+        $user = App\User::first();
+        $approval->creator_id = $user->id;
         return $ticket->approvals()->save($approval);
     }
 }
