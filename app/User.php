@@ -146,7 +146,10 @@ class User extends Authenticatable
 
     public function setGroupIdsAttribute($group_ids)
     {
-        $this->groups()->sync($group_ids);
+        self::saved(function($ticket) use ($group_ids) {
+            $ticket->groups()->sync($group_ids);
+        });
+
         return $this;
     }
 }
