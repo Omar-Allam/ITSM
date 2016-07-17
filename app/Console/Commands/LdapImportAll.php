@@ -21,12 +21,12 @@ class LdapImportAll extends Command
 
     public function __construct()
     {
-        $this->ldap = new LdapConnect(true);
         parent::__construct();
     }
 
     public function handle()
     {
+        $this->ldap = new LdapConnect(true);
         $users = $this->ldap->fetch('(ObjectClass=User)', self::$attributes, 'OU=Alkifah,DC=alkifah,DC=com');
         $count = count($users);
         set_time_limit(15 * $count);
