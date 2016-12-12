@@ -18,7 +18,9 @@
         @if (!\Auth::guest())
         <ul class="nav navbar-nav">
             <li><a href="{{route('ticket.index')}}"><i class="fa fa-ticket"></i> Tickets</a></li>
+            @if (Auth::user()->isAdmin())
             <li><a href="{{url('/admin')}}"><i class="fa fa-cogs"></i> Admin</a></li>
+            @endif
         </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
