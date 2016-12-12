@@ -51,6 +51,7 @@
     <div class="alert alert-warning"><i class="fa fa-exclamation-triangle"></i> No approvals yet</div>
 @endif
 
+@if (Auth::user()->isSupport())
 <section id="approvalForm">
     {{Form::open(['route' => ['approval.send', $ticket]])}}
 
@@ -101,3 +102,4 @@
     </div>
     {{Form::close()}}
 </section>
+@endif

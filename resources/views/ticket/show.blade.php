@@ -4,10 +4,12 @@
     <div class="row">
         <div class="col-md-9">
             <h4>#{{$ticket->id}} - {{$ticket->subject}}</h4>
+            @if (Auth::user()->isSupport())
             <div class="btn-toolbar">
                 <button data-toggle="modal" data-target="#AssignForm" type="button" class="btn btn-sm btn-default" title="Re-assign"><i class="fa fa-mail-forward"></i> Re-assign</button>
                 <a href="{{route('ticket.duplicate', $ticket)}}" class="btn btn-sm btn-default"><i class="fa fa-clone"></i> Duplicate</a>
             </div>
+            @endif
         </div>
         <div class="col-md-3">
             <div class="card">
@@ -31,8 +33,13 @@
         <ul class="nav nav-tabs" role="tablist">
             <li class="active"><a href="#main" role="tab" data-toggle="tab"><i class="fa fa-ticket"></i> Request</a></li>
             <li><a href="#conversation" role="tab" data-toggle="tab"><i class="fa fa-comments-o"></i> Conversation</a></li>
+            @if ($ticket->resolution || Auth::user()->isTechnician())
             <li><a href="#resolution" role="tab" data-toggle="tab"><i class="fa fa-support"></i> Resolution</a></li>
+            @endif
+
+            @if ($ticket->approvals->count() || Auth::user()->isSupport())
             <li><a href="#approvals" role="tab" data-toggle="tab"><i class="fa fa-check"></i> Approvals</a></li>
+            @endif
             <li><a href="#history" role="tab" data-toggle="tab"><i class="fa fa-history"></i> Ticket Log</a></li>
             @if ($ticket->files->count())
                 <li><a href="#attachments" role="tab" data-toggle="tab"><i class="fa fa-file-o"></i> Attachments</a></li>
