@@ -47,7 +47,7 @@ export default {
     props: ['rules'],
 
     data() {
-        if (!this.rules.hasOwnProperty('length')) {
+        if (!this.rules || !this.rules.hasOwnProperty('length')) {
             this.rules = [];
         }
 

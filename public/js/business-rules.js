@@ -12188,10 +12188,10 @@ var _BusinessRule2 = _interopRequireDefault(_BusinessRule);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-    props: { rules: rules },
+    props: ['rules'],
 
     data: function data() {
-        if (!this.rules.hasOwnProperty('length')) {
+        if (!this.rules || !this.rules.hasOwnProperty('length')) {
             this.rules = [];
         }
 
@@ -12227,13 +12227,13 @@ exports.default = {
     events: {
         removeRule: function removeRule(key) {
             if (this.rules.length > 1) {
-                var _rules = [];
+                var rules = [];
                 var i = 0;
                 for (var _i = 0; _i < this.rules.length; _i++) {
                     if (_i == key) continue;
-                    _rules.push(this.rules[_i]);
+                    rules.push(this.rules[_i]);
                 }
-                this.rules = _rules;
+                this.rules = rules;
             }
         },
         openSelectModal: function openSelectModal(options) {
