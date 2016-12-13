@@ -37,7 +37,7 @@ class TicketRequest extends Request
             return (Category::find($this->get('category_id'))->subcategories()->count() == 0);
         });
 
-        \Validator::extend('subcategory', function () {
+        \Validator::extend('item', function () {
             $item_id = $this->get('item_id');
             if ($item_id) {
                 return Subcategory::where('id', $item_id)->exists();
