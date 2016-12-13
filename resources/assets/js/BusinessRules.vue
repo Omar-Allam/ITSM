@@ -44,7 +44,7 @@
 import BusinessRule from './BusinessRule.vue';
 
 export default {
-    props: { rules },
+    props: ['rules'],
 
     data() {
         if (!this.rules.hasOwnProperty('length')) {
