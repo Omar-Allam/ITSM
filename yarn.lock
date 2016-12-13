@@ -6670,15 +6670,11 @@ vue-template-validator@^1.0.1:
   dependencies:
     chalk "^1.1.1"
 
-vue@^1.0.20:
+vue@^1.0.12, vue@^1.0.20:
   version "1.0.28"
   resolved "https://registry.yarnpkg.com/vue/-/vue-1.0.28.tgz#ed2ff07b200bde15c87a90ef8727ceea7d38567d"
   dependencies:
     envify "^3.4.0"
-
-vue@latest:
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/vue/-/vue-2.1.5.tgz#d2568d3e5093cf1486eef44cf37177e3f51d568d"
 
 vueify-insert-css@^1.0.0:
   version "1.0.0"
