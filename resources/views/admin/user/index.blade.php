@@ -10,7 +10,7 @@
                     <button class="btn btn-default btn-sm"><i class="fa fa-search"></i></button>
                 </span>
             </div>
-        <a title="Import from active directory" href="#ImportModal" data-toggle="modal" class="btn btn-sm btn-primary"><i class="fa fa-download"></i></a>
+        {{--<a title="Import from active directory" href="#ImportModal" data-toggle="modal" class="btn btn-sm btn-primary"><i class="fa fa-download"></i></a>--}}
         <a href="{{ route('admin.user.create') }} " class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
         </form>
     </div>

@@ -42,6 +42,10 @@
                 <button type="submit" class="btn btn-primary">
                     <i class="fa fa-btn fa-sign-in"></i> Login
                 </button>
+
+                <a href="/auth/google" class="btn btn-danger">
+                    <i class="fa fa-btn fa-google-plus"></i> Login using Google
+                </a>
             </div>
         </div>
     </form>

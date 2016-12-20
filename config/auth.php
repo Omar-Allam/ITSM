@@ -66,7 +66,7 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'kdesk',
+            'driver' => 'eloquent',
             'model' => App\User::class,
         ],
 

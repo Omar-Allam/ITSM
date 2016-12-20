@@ -1,14 +1,10 @@
 <?php
 
-Route::get('/', function () {
-    $url = '/ticket';
-    if (\Auth::guest()) {
-        $url = '/login';
-    }
-    return \Redirect::to($url);
-});
+Route::get('/', 'HomeController@home');
 
 Route::auth();
+Route::get('auth/google', 'Auth\AuthController@googleRedirect');
+Route::get('auth/google/continue', 'Auth\AuthController@googleHandle');
 
 Route::group(['prefix' => 'list'], function (\Illuminate\Routing\Router $r) {
     $r->get('/subcategory/{cat_id?}', 'ListController@subcategory');

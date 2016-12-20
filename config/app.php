@@ -165,6 +165,7 @@ return [
         App\Providers\TicketEventsProvider::class,
         App\Providers\KdeskAuthProvider::class,
         App\Providers\AttachmentEventsServiceProvider::class,
+        \Laravel\Socialite\SocialiteServiceProvider::class,
     ],
 
     /*
@@ -212,7 +213,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Form' => Collective\Html\FormFacade::class,
-        
+        'Socialite' => \Laravel\Socialite\Facades\Socialite::class,
     ],
-
 ];
