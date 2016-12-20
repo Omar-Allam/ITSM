@@ -8697,12 +8697,13 @@ hr.form-divider {
 .replies .panel-sm:last-child {
   margin-bottom: 20px; }
 
+/*
 .main-header {
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: justify;
   justify-content: space-between;
-  -ms-flex-align: center;
-  align-items: center; }
+  align-items: flex-start;
+  flex: 1;
+}
+*/
 
 /*# sourceMappingURL=app.css.map */

@@ -23,16 +23,14 @@ class TicketController extends Controller
 {
     public function index()
     {
+        $scope = \Session::get('ticket.scope', 'my_pending');
         if (\Session::has('ticket.filter')) {
             $query = Ticket::scopedView('in_my_groups')->filter(session('ticket.filter'));
         } else {
-            $scope = \Session::get('ticket.scope', 'my_pending');
             $query = Ticket::scopedView($scope);
         }
 
-        $tickets = $query->paginate();
-
-        $scope = session('ticket.scope', 'my_pending');
+        $tickets = $query->latest('id')->paginate();
 
         $scopes = TicketViewScope::getScopes();
 
