@@ -45,7 +45,7 @@
 
         <div class="col-md-{{Route::current()->getPrefix() == '/admin'? 9 : 12}}">
             <div class="panel panel-default">
-                <div class="panel-heading clearfix">
+                <div class="panel-heading main-header clearfix">
                     @yield('header')
                 </div>
 

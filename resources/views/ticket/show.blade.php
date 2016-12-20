@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('header')
-    <div class="row">
-        <div class="col-md-9">
+        <div style="width: 80%">
             <h4>#{{$ticket->id}} - {{$ticket->subject}}</h4>
             @if (Auth::user()->isSupport())
             <div class="btn-toolbar">
@@ -11,7 +10,7 @@
             </div>
             @endif
         </div>
-        <div class="col-md-3">
+        <div style="width: 20%">
             <div class="card">
                 <ul class="list-unstyled">
                     <li><small><strong>Status:</strong> {{$ticket->status->name}}</small></li>
@@ -25,7 +24,6 @@
                 </ul>
             </div>
         </div>
-    </div>
 @endsection
 
 @section('body')

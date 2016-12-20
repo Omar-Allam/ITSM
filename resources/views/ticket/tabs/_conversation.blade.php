@@ -1,22 +1,25 @@
 @if ($ticket->replies->count())
-    <div class="form-group clearfix">
-        <a href="#ReplyForm" class="btn btn-primary pull-right"><i class="fa fa-commenting"></i> Add reply</a>
-    </div>
-
-    @foreach($ticket->replies()->latest()->get() as $reply)
-        <div class="panel panel-sm panel-{{$reply->class}}">
-            <div class="panel-heading">
-                <h5 class="panel-title"><a href="#reply{{$reply->id}}" data-toggle="collapse">By: {{$reply->user->name}} at: {{$reply->created_at->format('d/m/Y H:i')}}</a></h5>
-            </div>
-            <div class="panel-body collapse" id="reply{{$reply->id}}">
-                <div class="reply">
-                    {!! $reply->content !!}
-                </div>
-                <br>
-                <span class="label label-default">Status: {{$reply->status->name}}</span>
-            </div>
+    <section class="replies">
+        <div class="form-group clearfix">
+            <a href="#ReplyForm" class="btn btn-primary pull-right"><i class="fa fa-commenting"></i> Add reply</a>
         </div>
-    @endforeach
+
+        @foreach($ticket->replies()->latest()->get() as $reply)
+            <div class="panel panel-sm panel-{{$reply->class}}">
+                <div class="panel-heading">
+                    <h5 class="panel-title"><a href="#reply{{$reply->id}}" data-toggle="collapse">By: {{$reply->user->name}}</a></h5>
+                </div>
+                <div class="panel-body collapse" id="reply{{$reply->id}}">
+                    <div class="reply">
+                        {!! $reply->content !!}
+                    </div>
+                    <br>
+                    <span class="label label-success">{{$reply->created_at->format('d/m/Y H:i')}}</span>
+                    <span class="label label-default">Status: {{$reply->status->name}}</span>
+                </div>
+            </div>
+        @endforeach
+    </section>
 @endif
 
 <div id="ReplyForm">
