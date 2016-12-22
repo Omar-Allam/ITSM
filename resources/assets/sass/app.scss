@@ -82,12 +82,6 @@ footer {
     font-weight: 700;
   }
 
-  label {
-    font-size: 13px;
-    font-weight:400;
-    margin-bottom: 0;
-  }
-
   .form-group-sm {
     margin-bottom: 0;
   }
@@ -177,11 +171,112 @@ hr.form-divider {
   }
 }
 
-/*
-.main-header {
+.panel-violet {
+  border-color: $brand-violet;
+
+  .panel-heading, .panel-body, .panel-footer {
+    border-color: $brand-violet;
+  }
+
+  .panel-heading {
+    @extend .bg-violet;
+  }
+
+  table.table>thead>tr>td,table.table>thead>tr>th,
+  table.table>tbody>tr>td,table.table>tbody>tr>th {
+    border-color: $brand-violet;
+  }
+
+  .panel-body + .table, .panel-body + .listing-table, .table + .panel-body {
+    border-top: 1px solid $brand-violet;
+  }
+}
+
+.panel-warning {
+  border-color: $brand-warning;
+
+  .panel-heading, .panel-body, .panel-footer {
+    border-color: $brand-warning;
+  }
+
+  .panel-heading {
+    @extend .bg-warning;
+  }
+
+  table.table>thead>tr>td,table.table>thead>tr>th,
+  table.table>tbody>tr>td,table.table>tbody>tr>th {
+    border-color: $brand-warning;
+  }
+
+  .panel-body + .table, .panel-body + .listing-table, .table + .panel-body {
+    border-top: 1px solid $brand-warning;
+  }
+}
+
+.panel-danger {
+  border-color: $brand-danger;
+
+  .panel-heading, .panel-body, .panel-footer {
+    border-color: $brand-danger;
+  }
+
+  .panel-heading {
+    @extend .bg-danger;
+  }
+
+  table.table>thead>tr>td,table.table>thead>tr>th,
+  table.table>tbody>tr>td,table.table>tbody>tr>th {
+    border-color: $brand-danger;
+  }
+
+  .panel-body + .table, .panel-body + .listing-table, .table + .panel-body {
+    border-top: 1px solid $brand-danger;
+  }
+}
+
+.panel-info {
+  border-color: $brand-info;
+
+  .panel-heading, .panel-body, .panel-footer {
+    border-color: $brand-info;
+  }
+
+  .panel-heading {
+    @extend .bg-info;
+  }
+
+  table.table>thead>tr>td,table.table>thead>tr>th,
+  table.table>tbody>tr>td,table.table>tbody>tr>th {
+    border-color: $brand-info;
+  }
+
+  .panel-body + .table, .panel-body + .listing-table, .table + .panel-body {
+    border-top: 1px solid $brand-info;
+  }
+}
+
+.bg-violet {
+  background-color: $brand-violet;
+  color: #fff;
+}
+
+.bg-warning {
+  background-color: $brand-warning;
+  color: #fff;
+}
+
+.bg-danger {
+  background-color: $brand-danger;
+  color: #fff;
+}
+
+.bg-info {
+  background-color: $brand-info;
+  color: #fff;
+}
+
+.flex {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  flex: 1;
+  align-items: center;
 }
-*/
