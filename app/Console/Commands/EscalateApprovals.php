@@ -36,17 +36,9 @@ class EscalateApprovals extends Command
             return false;
         }
 
-        for ($d = 0; $d < $sla->approval_days; ++ $d) {
-            $date->addDay();
-        }
-
-        for ($h = 0; $h < $sla->approval_hours; ++$h) {
-            $date->addHour();
-        }
-
-        for ($m = 0; $m < $sla->approval_minutes; ++$m) {
-            $date->addMinute();
-        }
+        $date->addDays($sla->approval_days);
+        $date->addHour($sla->approval_hours);
+        $date->addMinute($sla->approval_minutes);
 
         while (!$sla->critical && $date->isWeekend()) {
             $date->addDay();

@@ -43,10 +43,11 @@ class ApplySlaTest extends TestCase
         $ticket = new App\Ticket($data);
         $ticket->requester_id = $user->id;
         $ticket->creator_id = $user->id;
+        $ticket->setCreatedAt($created = \Carbon\Carbon::parse('next monday'));
         $ticket->save();
 
 //        $ticket = \App\Ticket::latest()->first();
         $this->assertEquals($sla->id, $ticket->sla_id);
-        $this->assertTrue(\Carbon\Carbon::now()->addHours(4)->eq($ticket->first_response_date));
+        $this->assertTrue($created->addHours(4)->eq($ticket->first_response_date));
     }
 }
