@@ -95,6 +95,15 @@
                     </tr>
                 </tbody>
             </table>
+            @if ($errors->has('approval_days') || $errors->has('approval_hours') || $errors->has('approval_minutes'))
+            <ul class="list-unstyled">
+                @foreach (['approval_days', 'approval_hours', 'approval_minutes'] as $field)
+                    @if ($errors->has($field))
+                        <li class="error-message">{{ $errors->first($field) }}</li>
+                    @endif
+                @endforeach
+            </ul>
+            @endif
         </section>
 
         <div class="checkbox">

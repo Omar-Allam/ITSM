@@ -8,7 +8,7 @@
             <th>Stage</th>
             <th>Status</th>
             <th>Comment</th>
-            <th colspan="3"></th>
+            <th colspan="3" class="text-center">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -21,19 +21,19 @@
                 <td>{{App\TicketApproval::$statuses[$approval->status]}}</td>
                 <td>{{$approval->comment}}</td>
                 <td>
-                    @if ($approval->approver_id == \Auth::user()->id)
+                    @if ($approval->pending && $approval->approver_id == \Auth::user()->id)
                         <a href="{{route('approval.show', $approval)}}" class="btn btn-xs btn-info"><i class="fa fa-gavel"></i></a>
                     @endif
                 </td>
                 <td>
                     @if ($approval->shouldSend())
-                        @if (Auth::user()->id == $approval->creator_id)
+                        @if ($approval->pending && Auth::user()->id == $approval->creator_id)
                             <a title="Resend approval" href="{{route('approval.resend', $approval)}}" class="btn btn-xs btn-primary"><i class="fa fa-refresh"></i></a>
                         @endif
                     @endif
                 </td>
                 <td>
-                    @if ($approval->status == \App\TicketApproval::PENDING_APPROVAL)
+                    @if ($approval->pending)
                         @if (Auth::user()->id == $approval->creator_id)
                             {{Form::open(['route' => ['approval.destroy', $approval], 'method' => 'delete'])}}
                             <button type="submit" title="Remove approval" class="btn btn-xs btn-warning">

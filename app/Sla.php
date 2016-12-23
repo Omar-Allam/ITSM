@@ -40,7 +40,12 @@ class Sla extends KModel
 {
     use HasCriteria;
 
-    protected $fillable = ['name', 'description', 'due_days', 'due_hours', 'due_minutes', 'response_days', 'response_hours', 'response_minutes', 'critical'];
+    protected $fillable = [
+        'name', 'description', 'due_days', 'due_hours', 'due_minutes', 
+        'response_days', 'response_hours', 'response_minutes', 
+        'approval_days', 'approval_hours', 'approval_minutes',
+        'critical'
+    ];
 
     protected $dates = ['created_at', 'updated_at'];
 

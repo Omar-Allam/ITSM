@@ -6,6 +6,7 @@ use App\Attachment;
 use App\Jobs\ApplyBusinessRules;
 use App\Jobs\ApplySLA;
 use App\Jobs\CalculateTicketTime;
+use App\Jobs\SendApproval;
 use App\Ticket;
 use App\TicketApproval;
 use App\TicketLog;
@@ -38,6 +39,10 @@ class TicketEventsProvider extends ServiceProvider
             $approval->ticket->status_id = 6;
             TicketLog::addApproval($approval);
             $approval->ticket->save();
+            
+            if ($approval->shouldSend()) {
+                dispatch(new SendApproval($approval));
+            }
         });
 
         TicketApproval::updated(function (TicketApproval $approval){

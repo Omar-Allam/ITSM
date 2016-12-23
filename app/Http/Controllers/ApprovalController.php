@@ -29,10 +29,6 @@ class ApprovalController extends Controller
 
         $ticket->approvals()->save($approval);
 
-        if ($approval->shouldSend()) {
-            $this->dispatch(new SendApproval($approval));
-        }
-
         return $this->backSuccessResponse($request, 'Approval has been sent');
     }
 
