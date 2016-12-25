@@ -1,5 +1,4 @@
 {{ csrf_field() }}
-{{dump($errors->all())}}
 <div id="TicketForm">
     @if (!isset($ticket) && Auth::user()->isSupport())
         <div class="form-group form-group-sm {{$errors->has('requester_id')? 'has-error' : ''}}">
