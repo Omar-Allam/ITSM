@@ -56,6 +56,7 @@ class TicketController extends Controller
 
         // Fires created event in \App\Providers\TicketEventsProvider
         $ticket->save();
+        $ticket->syncFields($request->get('cf', []));
 
         $this->dispatch(new NewTicketJob($ticket));
 

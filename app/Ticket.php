@@ -268,4 +268,22 @@ class Ticket extends KModel
 
         return 1;
     }
+
+    public function syncFields($fields)
+    {
+        $customFields = collect();
+        foreach ($fields as $custom_field_id => $value) {
+            if (is_array($value)) {
+                $value = json_encode($value);
+            }
+
+            $customFields->push(compact('custom_field_id', 'value'));
+        }
+        $this->fields()->createMany($customFields->toArray());
+    }
+
+    function fields()
+    {
+        return $this->hasMany(TicketCustomField::class);
+    }
 }
