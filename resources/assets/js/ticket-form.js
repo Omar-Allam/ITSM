@@ -7,7 +7,7 @@ Vue.use(VueResource);
 new Vue({
     el: '#TicketForm',
     data: {
-        category: '',
+        category: window.category,
         subcategory: window.subcategory,
         item: window.item,
         subcategories: {},
@@ -15,20 +15,79 @@ new Vue({
         technicians: []
     },
 
-    watch: {
-        category() {
-            console.log(this.category);
+    ready() {
+        this.loadCategory(false);
+        this.loadSubcategory(false);
+    },
+
+    methods: {
+        loadCategory(withFields) {
             if (this.category) {
                 this.$http.get(`/list/subcategory/${this.category}`).then(response => this.subcategories = response.data);
+                if (withFields) this.loadCustomFields();
             }
         },
 
-        subcategory() {
-            this.$http.get(`/list/item/${this.subcategory}`).then(response =>
-                this.items = response.data
-            );
+        loadSubcategory(withFields) {
+            if (this.subcategory) {
+                this.$http.get(`/list/item/${this.subcategory}`).then(response =>
+                    this.items = response.data
+                );
+
+                if (withFields) this.loadCustomFields();
+            }
+        },
+
+        loadItem() {
+            if (this.item) {
+                this.loadCustomFields();
+            }
+        },
+
+        loadCustomFields() {
+            const $ = window.jQuery;
+            const customFieldsContainer = $('#CustomFields');
+            const fieldValues = {};
+
+            customFieldsContainer.find('.cf').each(function (idx, element) {
+                let id = element.id;
+                let type = element.type;
+                if (type == 'checkbox') {
+                    fieldValues[id] = element.checked;
+                } else {
+                    fieldValues[id] = $(element).val();
+                }
+            });
+
+            let url = `/custom-fields?category=${this.category}&subcategory=${this.subcategory}&item=${this.item}`;
+            this.$http.get(url).then(response => {
+                let newFields = $(response.data);
+                for (let id in fieldValues) {
+                    const field = newFields.find('#' + id);
+                    if (field.attr('type') == 'checkbox') {
+                        field.prop('checked', fieldValues[id]);
+                    } else {
+                        field.val(fieldValues[id]);
+                    }
+                }
+                customFieldsContainer.html('').append(newFields);
+            });
         }
     },
 
-    components: { Attachments }
+    watch: {
+        category() {
+           this.loadCategory(true);
+        },
+
+        subcategory() {
+            this.loadSubcategory(true);
+        },
+
+        item() {
+            this.loadItem();
+        }
+    },
+
+    components: {Attachments}
 });

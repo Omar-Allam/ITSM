@@ -33,4 +33,9 @@ class Category extends KModel
     {
         return $this->hasMany(Subcategory::class, 'category_id', 'id');
     }
+
+    function custom_fields()
+    {
+        return $this->morphMany(CustomField::class, 'level', 'level');
+    }
 }

@@ -64,4 +64,9 @@ class Subcategory extends KModel
     {
         return $this->category->name . ' > ' . $this->name;
     }
+
+    function custom_fields()
+    {
+        return $this->morphMany(CustomField::class, 'level', 'level');
+    }
 }

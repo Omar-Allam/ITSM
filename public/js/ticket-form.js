@@ -12168,7 +12168,7 @@ _vue2.default.use(_vueResource2.default);
 new _vue2.default({
     el: '#TicketForm',
     data: {
-        category: '',
+        category: window.category,
         subcategory: window.subcategory,
         item: window.item,
         subcategories: {},
@@ -12176,23 +12176,79 @@ new _vue2.default({
         technicians: []
     },
 
-    watch: {
-        category: function category() {
+    ready: function ready() {
+        this.loadCategory(false);
+        this.loadSubcategory(false);
+    },
+
+
+    methods: {
+        loadCategory: function loadCategory(withFields) {
             var _this = this;
 
-            console.log(this.category);
             if (this.category) {
                 this.$http.get('/list/subcategory/' + this.category).then(function (response) {
                     return _this.subcategories = response.data;
                 });
+                if (withFields) this.loadCustomFields();
             }
         },
-        subcategory: function subcategory() {
+        loadSubcategory: function loadSubcategory(withFields) {
             var _this2 = this;
 
-            this.$http.get('/list/item/' + this.subcategory).then(function (response) {
-                return _this2.items = response.data;
+            if (this.subcategory) {
+                this.$http.get('/list/item/' + this.subcategory).then(function (response) {
+                    return _this2.items = response.data;
+                });
+
+                if (withFields) this.loadCustomFields();
+            }
+        },
+        loadItem: function loadItem() {
+            if (this.item) {
+                this.loadCustomFields();
+            }
+        },
+        loadCustomFields: function loadCustomFields() {
+            var $ = window.jQuery;
+            var customFieldsContainer = $('#CustomFields');
+            var fieldValues = {};
+
+            customFieldsContainer.find('.cf').each(function (idx, element) {
+                var id = element.id;
+                var type = element.type;
+                if (type == 'checkbox') {
+                    fieldValues[id] = element.checked;
+                } else {
+                    fieldValues[id] = $(element).val();
+                }
             });
+
+            var url = '/custom-fields?category=' + this.category + '&subcategory=' + this.subcategory + '&item=' + this.item;
+            this.$http.get(url).then(function (response) {
+                var newFields = $(response.data);
+                for (var id in fieldValues) {
+                    var field = newFields.find('#' + id);
+                    if (field.attr('type') == 'checkbox') {
+                        field.prop('checked', fieldValues[id]);
+                    } else {
+                        field.val(fieldValues[id]);
+                    }
+                }
+                customFieldsContainer.html('').append(newFields);
+            });
+        }
+    },
+
+    watch: {
+        category: function category() {
+            this.loadCategory(true);
+        },
+        subcategory: function subcategory() {
+            this.loadSubcategory(true);
+        },
+        item: function item() {
+            this.loadItem();
         }
     },
 

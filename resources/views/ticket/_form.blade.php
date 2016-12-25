@@ -19,7 +19,7 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-9">
+        <div class="col-sm-7">
             <div class="form-group form-group-sm {{$errors->has('description')? 'has-error' : ''}}">
                 {{ Form::label('description', 'Description', ['class' => 'control-label']) }}
                 {{ Form::textarea('description', null, ['class' => 'form-control richeditor']) }}
@@ -34,7 +34,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-5">
             <div class="form-group form-group-sm {{$errors->has('category_id')? 'has-error' : ''}}">
                 {{ Form::label('category_id', 'Category', ['class' => 'control-label']) }}
                 {{ Form::select('category_id', App\Category::selection('Select Category'), null, ['class' => 'form-control', 'v-model' => 'category']) }}
@@ -65,6 +65,14 @@
                 @if ($errors->has('item_id'))
                     <div class="error-message">{{$errors->first('item_id')}}</div>
                 @endif
+            </div>
+
+            <div id="CustomFields">
+                @include('custom-fields.render', [
+                    'category' => App\Category::find(old('category_id')),
+                    'subcategory' => App\Category::find(old('subcategory_id')),
+                    'item' => App\Item::find(old('item_id'))
+                ])
             </div>
         </div>
     </div>
@@ -124,6 +132,7 @@
 
 @section('javascript')
 <script>
+    var category = '{{Form::getValueAttribute('category_id')}}';
     var subcategory = '{{Form::getValueAttribute('subcategory_id')}}';
     var item = '{{Form::getValueAttribute('item_id')}}';
 </script>
