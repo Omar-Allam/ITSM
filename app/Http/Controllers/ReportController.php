@@ -11,21 +11,7 @@ class ReportController extends Controller
 {
     function index()
     {
-        $fields = [
-            'id' => 'Ticket ID',
-            'technician' => 'Technician',
-            'requester' => 'Requester',
-            'business_unit' => 'Business Unit',
-            'created_at' => 'Created at',
-            'due_date' => 'Due Date',
-            'resolve_date' => 'Resolve Date',
-            'status' => 'Status',
-            'location' => 'Location',
-            'subject' => 'Subject',
-            'category' => 'Category',
-            'subcategory' => 'Subcategory',
-            'item' => 'Item'
-        ];
+        $fields = $this->getFields();
 
         return view('report.index', compact('fields'));
     }
@@ -49,6 +35,27 @@ class ReportController extends Controller
         $report = new TicketReport();
         $results = $report->select($fields)->filter($filters)->get();
 
-        return view('report.show', compact($results));
+        $fieldLabels = $this->getFields();
+
+        return view('report.show', compact('results', 'fields', 'fieldLabels'));
+    }
+
+    protected function getFields()
+    {
+        return $fields = [
+            'id' => 'Ticket ID',
+            'technician' => 'Technician',
+            'requester' => 'Requester',
+            'business_unit' => 'Business Unit',
+            'created_at' => 'Created at',
+            'due_date' => 'Due Date',
+            'resolve_date' => 'Resolve Date',
+            'status' => 'Status',
+            'location' => 'Location',
+            'subject' => 'Subject',
+            'category' => 'Category',
+            'subcategory' => 'Subcategory',
+            'item' => 'Item'
+        ];
     }
 }

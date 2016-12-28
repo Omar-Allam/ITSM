@@ -75,4 +75,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', 'HomeController@index');
 
     Route::get('/custom-fields', 'CustomFieldsController@render');
+
+    Route::get('/report', 'ReportController@index');
+    Route::get('/report/result', 'ReportController@show');
+    Route::post('/report/result', 'ReportController@show');
 });

@@ -37,9 +37,9 @@
     <td>
         <div class="input-group" v-if="showMenuIcon">
             <input class="form-control input-sm" name="criterions[{{key}}][label]" type="text" @click="loadOptions()" v-model="criterion.label" readonly>
-            <div class="input-group-btn">
+            <span class="input-group-btn">
                 <button type="button" class="btn btn-default btn-sm" @click="loadOptions()"><i class="fa fa-bars"></i></button>
-            </div>
+            </span>
         </div>
         <input class="form-control input-sm" name="criterions[{{key}}][label]" type="text" v-model="criterion.label" @change="update" v-else>
 

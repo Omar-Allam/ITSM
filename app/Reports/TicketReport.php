@@ -34,6 +34,12 @@ class TicketReport
     function filter($criteria)
     {
         foreach ($criteria as $criterion) {
+            $value = explode(',', $criterion['value']);
+            if (count($value) == 1) {
+                $value = $value[0];
+            }
+            $criterion['value'] = $value;
+
             $this->filter->addCriteria($criterion);
         }
 
