@@ -17,6 +17,10 @@ class TicketFilters
 
     public function addCriteria($criteria)
     {
+        if (!$criteria['field']) {
+            return $this;
+        }
+
         $functionName = 'filter' . Str::studly($criteria['field']);
         if (method_exists($this, $functionName)) {
             call_user_func([$this, $functionName], $criteria);
