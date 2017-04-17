@@ -50,25 +50,12 @@ class ApplySLA extends MatchCriteria
     {
         $date = clone $this->ticket->created_at;
 
-        for ($d = 0; $d < $sla->response_days; ++ $d) {
+        $date->addDays($sla->response_days);
+        $date->addHours($sla->response_hours);
+        $date->addMinute($sla->response_minutes);
+
+        while (!$sla->critical && $date->isWeekend()) {
             $date->addDay();
-            if (!$sla->critical && $date->isWeekend()) {
-                $date->addDay();
-            }
-        }
-
-        for ($h = 0; $h < $sla->response_hours; ++$h) {
-            $date->addHour();
-            if (!$sla->critical && $date->isWeekend()) {
-                $date->addDay();
-            }
-        }
-
-        for ($m = 0; $m < $sla->response_minutes; ++$m) {
-            $date->addMinute();
-            if (!$sla->critical && $date->isWeekend()) {
-                $date->addDay();
-            }
         }
 
         return $date;
@@ -83,25 +70,12 @@ class ApplySLA extends MatchCriteria
     {
         $date = clone $this->ticket->created_at;
 
-        for ($d = 0; $d < $sla->due_days; ++ $d) {
+        $date->addDays($sla->due_days);
+        $date->addHour($sla->due_hours);
+        $date->addMinute($sla->due_minutes);
+
+        while (!$sla->critical && $date->isWeekend()) {
             $date->addDay();
-            if (!$sla->critical && $date->isWeekend()) {
-                $date->addDay();
-            }
-        }
-
-        for ($h = 0; $h < $sla->due_hours; ++$h) {
-            $date->addHour();
-            if (!$sla->critical && $date->isWeekday()) {
-                $date->addDay();
-            }
-        }
-
-        for ($m = 0; $m < $sla->due_minutes; ++$m) {
-            $date->addMinute();
-            if (!$sla->critical && $date->isWeekend()) {
-                $date->addDay();
-            }
         }
 
         return $date;

@@ -18,6 +18,10 @@
                 <option value="business_unit_id">Business Unit</option>
                 <option value="location_id">Location</option>
             </optgroup>
+            <optgroup label="Technician">
+                <option value="technician_id">Technician</option>
+                <option value="group_id">Support Group</option>
+            </optgroup>
         </select>
     </td>
     <td>
@@ -33,9 +37,9 @@
     <td>
         <div class="input-group" v-if="showMenuIcon">
             <input class="form-control input-sm" name="criterions[{{key}}][label]" type="text" @click="loadOptions()" v-model="criterion.label" readonly>
-            <div class="input-group-btn">
+            <span class="input-group-btn">
                 <button type="button" class="btn btn-default btn-sm" @click="loadOptions()"><i class="fa fa-bars"></i></button>
-            </div>
+            </span>
         </div>
         <input class="form-control input-sm" name="criterions[{{key}}][label]" type="text" v-model="criterion.label" @change="update" v-else>
 
@@ -48,7 +52,7 @@
 </template>
 
 <script>
-    var fields = {
+    const fields = {
         subject: {type: 'text'},
         description: {type: 'text'},
         category_id: {type: 'select', list: 'category', name: 'Category'},
@@ -59,6 +63,8 @@
         priority_id: {type: 'select', list: 'priority', name: 'Priority'},
         urgency_id: {type: 'select', list: 'urgency', name: 'Urgency'},
         impact_id: {type: 'select', list: 'impact', name: 'Impact'},
+        technician_id: {type: 'select', list: 'technician', name: 'Technician'},
+        group_id: {type: 'select', list: 'group', name: 'Support Group'},
     };
 
     export default {

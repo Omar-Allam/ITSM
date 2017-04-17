@@ -32,7 +32,7 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
  
     public function __construct()
@@ -68,5 +68,24 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    function googleRedirect()
+    {
+        return \Socialite::driver('google')->redirect();
+    }
+
+    function googleHandle()
+    {
+        $googleUser = \Socialite::driver('google')->user();
+        $user = User::where('email', $googleUser->email)->first();
+
+        if ($user) {
+            \Auth::login($user);
+            return \Redirect::to($this->redirectPath());
+        } else {
+            flash('Invalid user');
+            return \Redirect::to('/login');
+        }
     }
 }

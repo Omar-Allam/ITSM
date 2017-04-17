@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Jobs\SendApproval;
+
 
 /**
  * App\TicketApproval
@@ -30,18 +32,20 @@ namespace App;
  */
 class TicketApproval extends KModel
 {
-    protected $fillable = ['approver_id', 'content', 'status', 'comment', 'approval_date', 'stage'];
+    protected $fillable = ['approver_id', 'content', 'status', 'comment', 'approval_date', 'stage', 'creator_id'];
 
     protected $dates = ['created_at', 'updated_at', 'approval_date'];
 
     const APPROVED = 1;
     const PENDING_APPROVAL = 0;
     const DENIED = -1;
+    const ESCALATED = -2;
 
     public static $statuses = [
         self::APPROVED => 'Approved',
         self::DENIED => 'Denied',
-        self::PENDING_APPROVAL => 'Pending Approval'
+        self::PENDING_APPROVAL => 'Pending Approval',
+        self::ESCALATED => 'Escalated',
     ];
 
     public function ticket()
@@ -57,6 +61,27 @@ class TicketApproval extends KModel
     public function created_by()
     {
         return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public function escalate()
+    {
+        if ($this->status != static::PENDING_APPROVAL || !$this->shouldSend()) return false;
+        
+        $manager = $this->approver->manager;
+
+        if ($manager) {
+            $attributes = $this->getOriginal();
+            unset($attributes['id'], $attributes['created_at'], $attributes['updated_at']);
+            $attributes['approver_id'] = $manager->id;
+            static::unguard(true);
+            static::create($attributes);
+            status::unguard(false);
+            $this->update(['status' => static::ESCALATED]);
+        } else {
+            dispatch(new SendApproval($this));
+        }
+
+        return true;
     }
 
     public function shouldSend()
@@ -91,5 +116,10 @@ class TicketApproval extends KModel
         }
 
         return $approvals;
+    }
+
+    function getPendingAttribute()
+    {
+        return $this->status == static::PENDING_APPROVAL;
     }
 }

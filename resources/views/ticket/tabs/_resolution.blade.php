@@ -3,7 +3,7 @@
     <div class="well well-sm well-white">
         {!! $ticket->resolution->content !!}
     </div>
-@else
+@elseif (Auth::user()->isTechnician())
     {{Form::open(['route' => ['ticket.resolution', $ticket]])}}
         {{csrf_field()}}
 

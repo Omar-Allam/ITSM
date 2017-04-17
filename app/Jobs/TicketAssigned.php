@@ -25,10 +25,12 @@ class TicketAssigned extends Job implements ShouldQueue
 
     public function handle()
     {
-        \Mail::send('emails.ticket.assigned', ['ticket' => $this->ticket], function(Message $msg) {
-            $ticket = $this->ticket;
-            $msg->subject('Ticket #' . $ticket->id . ' has been assigned to you');
-            $msg->to($ticket->technician->email);
-        });
+        if ($this->ticket->technician) {
+            \Mail::send('emails.ticket.assigned', ['ticket' => $this->ticket], function(Message $msg) {
+                $ticket = $this->ticket;
+                $msg->subject('Ticket #' . $ticket->id . ' has been assigned to you');
+                $msg->to($ticket->technician->email);
+            });
+        }
     }
 }

@@ -79,6 +79,11 @@ class User extends Authenticatable
         return $this->belongsTo(Location::class);
     }
 
+    public function manager()
+    {
+        return $this->belongsTo(User::class, 'manager_id');
+    }
+
     public function scopeTechnicians(Builder $query)
     {
         return $query->whereHas('groups', function (Builder $q) {
@@ -146,7 +151,10 @@ class User extends Authenticatable
 
     public function setGroupIdsAttribute($group_ids)
     {
-        $this->groups()->sync($group_ids);
+        self::saved(function($ticket) use ($group_ids) {
+            $ticket->groups()->sync($group_ids);
+        });
+
         return $this;
     }
 }

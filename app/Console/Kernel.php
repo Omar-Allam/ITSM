@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
         LdapImportUser::class,
         Commands\LdapImportAll::class,
         Commands\AutoCloseResolvedTickets::class,
+        Commands\EscalateApprovals::class
     ];
 
     /**
@@ -33,5 +34,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('ticket:auto-close')
             ->sundays()->mondays()->tuesdays()->wednesdays()->thursdays()
             ->everyThirtyMinutes();
+
+        // Escalate approvals every hour
+        $schedule->command('approvals:escalate')->hourly();
     }
 }

@@ -44,9 +44,13 @@
 import BusinessRule from './BusinessRule.vue';
 
 export default {
-    props: { rules: { default: () => [] } },
+    props: ['rules'],
 
     data() {
+        if (!this.rules || !this.rules.hasOwnProperty('length')) {
+            this.rules = [];
+        }
+
         return { modal: {field: '', options: '', search: '', key: null, selected: []} }
     },
 

@@ -26,4 +26,14 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function home()
+    {
+        $url = '/ticket';
+        if (\Auth::guest()) {
+            $url = '/login';
+        }
+
+        return \Redirect::to($url);
+    }
 }

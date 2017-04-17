@@ -23,10 +23,15 @@ class TicketController extends Controller
 {
     public function index()
     {
-        $tickets = Ticket::scopedView()->paginate();
+        $scope = \Session::get('ticket.scope', 'my_pending');
+        if (\Session::has('ticket.filter')) {
+            $query = Ticket::scopedView('in_my_groups')->filter(session('ticket.filter'));
+        } else {
+            $query = Ticket::scopedView($scope);
+        }
 
-        $scope = session('ticket.scope', 'my_pending');
-        
+        $tickets = $query->latest('id')->paginate();
+
         $scopes = TicketViewScope::getScopes();
 
         return view('ticket.index', compact('tickets', 'scopes', 'scope'));
@@ -51,6 +56,7 @@ class TicketController extends Controller
 
         // Fires created event in \App\Providers\TicketEventsProvider
         $ticket->save();
+        $ticket->syncFields($request->get('cf', []));
 
         $this->dispatch(new NewTicketJob($ticket));
 
@@ -162,5 +168,19 @@ class TicketController extends Controller
         $this->dispatch(new NewTicketJob($newTicket));
 
         return \Redirect::route('ticket.show', $newTicket);
+    }
+
+    public function filter(Request $request)
+    {
+        session(['ticket.filter' => $request->get('criterions')]);
+
+        return \Redirect::back();
+    }
+
+    public function clear()
+    {
+        \Session::remove('ticket.filter');
+
+        return \Redirect::back();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Helpers\Ticket\TicketFilter;
 use App\Helpers\Ticket\TicketViewScope;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -207,17 +208,25 @@ class Ticket extends KModel
         return $this;
     }
     
-    public function scopeScopedView(Builder $query)
+    public function scopeScopedView(Builder $query, $scope)
     {
-        $scope = new TicketViewScope($query);
-        $scope->apply();
+        $viewScope = new TicketViewScope($query);
+        $viewScope->apply($scope);
+
+        return $query;
+    }
+
+    public function scopeFilter(Builder $query, $criteria)
+    {
+        $filter = new TicketFilter($query, $criteria);
+        $filter->apply();
 
         return $query;
     }
 
     public function isOpen()
     {
-        return $this->status->type == Status::OPEN;
+        return !$this->status || $this->status->type == Status::OPEN;
     }
 
     public function getFilesAttribute()
@@ -258,5 +267,23 @@ class Ticket extends KModel
         }
 
         return 1;
+    }
+
+    public function syncFields($fields)
+    {
+        $customFields = collect();
+        foreach ($fields as $custom_field_id => $value) {
+            if (is_array($value)) {
+                $value = json_encode($value);
+            }
+
+            $customFields->push(compact('custom_field_id', 'value'));
+        }
+        $this->fields()->createMany($customFields->toArray());
+    }
+
+    function fields()
+    {
+        return $this->hasMany(TicketCustomField::class);
     }
 }

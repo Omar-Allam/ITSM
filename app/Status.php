@@ -48,6 +48,9 @@ class Status extends KModel
 
         if (\Auth::user()->isTechnician()) {
             $not[] = 8;
+        } else {
+            $not[] = 7;
+            $not[] = 2  ;
         }
 
         $q->whereNotIn('id', $not);
