@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>HubDesk &mdash; KILO</title>
+    <title>HubDesk</title>
 
     <link rel="stylesheet" href="{{asset('/css/app.css')}}">
     @yield('stylesheets')
@@ -13,7 +13,7 @@
 
 <header class="navbar navbar-default">
     <div class="container-fluid">
-        <div class="navbar-brand"><a href="{{url('/')}}"><i class="fa fa-bolt"></i> HubDesk - KILO</a></div>
+        <div class="navbar-brand"><a href="{{url('/')}}"><i class="fa fa-bolt"></i> HubDesk</a></div>
 
         @if (!\Auth::guest())
             <ul class="nav navbar-nav">
