@@ -1,7 +1,7 @@
 <template>
 <tr>
     <td>
-        <select @change="update" class="form-control input-sm" :name="`criterions[${key}][field]`" v-model="criterion.field">
+        <select @change="update" class="form-control input-sm" :name="`criterions[${index}][field]`" v-model="criterion.field">
             <option value="">Select Field</option>
             <optgroup label="Request">
                 <option value="subject">Subject</option>
@@ -25,7 +25,7 @@
         </select>
     </td>
     <td>
-        <select @change="update" class="form-control input-sm" :name="`criterions[${key}][operator]`" v-model="criterion.operator">
+        <select @change="update" class="form-control input-sm" :name="`criterions[${index}][operator]`" v-model="criterion.operator">
             <option value="is">is</option>
             <option value="isnot">is not</option>
             <option value="contains">contains</option>
@@ -36,14 +36,14 @@
     </td>
     <td>
         <div class="input-group" v-if="showMenuIcon">
-            <input class="form-control input-sm" :name="`criterions[${key}][label]`" type="text" @click="loadOptions()" v-model="criterion.label" readonly>
+            <input class="form-control input-sm" :name="`criterions[${index}][label]`" type="text" @click="loadOptions()" v-model="criterion.label" readonly>
             <span class="input-group-btn">
                 <button type="button" class="btn btn-default btn-sm" @click="loadOptions()"><i class="fa fa-bars"></i></button>
             </span>
         </div>
-        <input class="form-control input-sm" :name="`criterions[${key}][label]`" type="text" v-model="criterion.label" @change="update" v-else>
+        <input class="form-control input-sm" :name="`criterions[${index}][label]`" type="text" v-model="criterion.label" @change="update" v-else>
 
-        <input type="hidden" :name="`criterions[${key}][value]`" v-model="criterion.value">
+        <input type="hidden" :name="`criterions[${index}][value]`" v-model="criterion.value">
     </td>
     <td>
         <button class="btn btn-sm btn-warning pull-right" type="button" @click="remove()"><i class="fa fa-remove"></i></button>
@@ -52,6 +52,8 @@
 </template>
 
 <script>
+    import EventBus from './Bus';
+
     const fields = {
         subject: {type: 'text'},
         description: {type: 'text'},
@@ -68,7 +70,7 @@
     };
 
     export default {
-        props: ['criterion', 'key'],
+        props: ['criterion', 'index'],
 
         computed: {
             showMenuIcon() {
@@ -86,7 +88,7 @@
             },
 
             remove() {
-                this.$dispatch('removeCriterion', this.key);
+                EventBus.$emit('removeCriterion', this.index);
             },
 
             loadOptions() {
@@ -95,22 +97,21 @@
                     return false;
                 }
 
-                this.$http.get('/list/' + field.list).then(response => {
-                    console.log(this.criterion.value);
-                    this.$dispatch('openSelectModal', { options: response.data, key: this.key, field: field.name, selected: this.criterion.value.split(',') });
+                jQuery.get('/list/' + field.list).done((response) => {
+                    EventBus.$emit('openSelectModal', { options: response, key: this.index, field: field.name, selected: this.criterion.value.split(',') });
                 });
             }
         },
 
-        events: {
-            setCriterionValue(key, values, labels) {
-                if (key != this.key) {
+        created() {
+            EventBus.$on('setCriterionValue', (index, values, labels) => {
+                if (index != this.index) {
                     return false;
                 }
 
                 this.criterion.value = values.join(',');
                 this.criterion.label = labels.join(', ');
-            }
+            })
         }
     }
 </script>

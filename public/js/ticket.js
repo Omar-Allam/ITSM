@@ -426,14 +426,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-plus-circle"
-  })])])])]), _vm._v(" "), _c('tbody', _vm._l((_vm.attachments), function(attach) {
+  })])])])]), _vm._v(" "), _c('tbody', _vm._l((_vm.attachments), function(index, attach) {
     return _c('tr', [_c('td', {
       staticClass: "col-md-10"
     }, [_c('input', {
       staticClass: "form-control input-xs",
       attrs: {
         "type": "file",
-        "name": 'attachments[' + _vm.$index + ']'
+        "name": ("attachments[" + index + "]")
       }
     })]), _vm._v(" "), _c('td', {
       staticClass: "col-md-2 text-right"
@@ -444,7 +444,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.remove(_vm.$index)
+          _vm.remove(index)
         }
       }
     }, [_c('i', {
@@ -9803,7 +9803,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     el: '#ticketArea',
     components: { Attachment: __WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue___default.a }
 });

@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Criteria from './Criteria.vue';
 
-new Vue({
+window.app = new Vue({
     el: '#TicketList',
     components: { Criteria }
 });

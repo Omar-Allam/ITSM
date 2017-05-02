@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Attachments from './AttachmentModal.vue';
 
-new Vue({
+window.app = new Vue({
     el: '#TicketForm',
     data: {
         category: window.category,

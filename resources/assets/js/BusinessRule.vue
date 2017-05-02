@@ -1,17 +1,17 @@
 <template>
     <tr>
         <td>
-            <select @change="loadOptions" class="form-control input-sm" :name="`rules[${key}][field]`" v-model="rule.field">
+            <select @change="loadOptions" class="form-control input-sm" :name="`rules[${index}][field]`" v-model="rule.field">
                 <option value="">Select Field</option>
-                <option v-for="(field, options) in fields" :value="field">{{options.name}}</option>
+                <option v-for="(options, field) in fields" :value="field">{{options.name}}</option>
             </select>
         </td>
         <td>
-            <select class="form-control input-sm" :name="`rules[${key}][value]`" v-model="rule.value" v-if="showMenu">
+            <select class="form-control input-sm" :name="`rules[${index}][value]`" v-model="rule.value" v-if="showMenu">
                 <option value="">Select {{fields[rule.field].name}}</option>
-                <option v-for="(value, label) in options" :value="value">{{label}}</option>
+                <option v-for="(label, value) in options" :value="value">{{label}}</option>
             </select>
-            <input class="form-control input-sm" :name="`rules[${key}][value]`" type="text" v-model="rule.value" v-else>
+            <input class="form-control input-sm" :name="`rules[${index}][value]`" type="text" v-model="rule.value" v-else>
         </td>
         <td>
             <button class="btn btn-sm btn-warning pull-right" type="button" @click="remove()"><i class="fa fa-remove"></i></button>
@@ -36,9 +36,10 @@ var fields = {
 };
 
 export default {
-    props: ['rule', 'key'],
+    props: ['rule', 'index'],
 
     data() {
+        console.log(this.key);
         return { fields, options: [] }
     },
 
@@ -58,8 +59,8 @@ export default {
                 return false;
             }
 
-            this.$http.get('/list/' + field.list)
-                .then(response => this.options = response.data);
+            jQuery.get('/list/' + field.list)
+                .done(response => this.options = response);
         }
     },
 

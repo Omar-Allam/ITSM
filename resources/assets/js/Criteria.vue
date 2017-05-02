@@ -12,7 +12,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr is="Criterion" v-for="(key, criterion) in criterions" :key="key" :criterion="criterion"></tr>
+            <tr is="Criterion" v-for="(criterion, index) in requirements" :index="index" :criterion="criterion"></tr>
         </tbody>
     </table>
 
@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-group">
                         <select class="form-control" v-model="modal.selected" multiple="multiple">
-                            <option v-for="(index, label) in modal.filteredOptions" :value="index">{{label}}</option>
+                            <option v-for="(label, index) in filteredOptions" :value="index" v-text="label"></option>
                         </select>
                     </div>
                 </div>
@@ -47,12 +47,18 @@
 <script>
 
 import Criterion from './Criterion.vue';
+import EventBus from './Bus';
 
 export default {
 
     props: [ 'criterions' ],
 
     data() {
+        let requirements = [];
+        if (this.criterions && this.criterions.length) {
+            requirements = criterions;
+        }
+
         return {
             modal: {
                 field: '',
@@ -60,20 +66,49 @@ export default {
                 search: '',
                 key: null,
                 selected: []
-            }
+            },
+
+            requirements
         }
     },
 
+    created() {
+        EventBus.$on('openSelectModal', (options) => {
+            this.modal.field = options.field;
+            this.modal.options = options.options;
+            this.modal.key = options.key;
+            this.modal.selected = [];
+            if (options.selected) {
+                this.modal.selected = options.selected;
+            }
+            jQuery('#CriteriaSelectionModal').modal('show');
+        });
+
+
+        EventBus.$on('removeCriterion', (index) => {
+            console.log('removing');
+            if (this.requirements.length > 1) {
+                const criterions = [];
+                let i = 0;
+                for (let i = 0; i < this.requirements.length; i++) {
+                    if (i == index) continue;
+                    criterions.push(this.requirements[i]);
+                }
+                this.requirements = criterions;
+            }
+        });
+    },
+
     ready () {
-        if (!this.criterions) {
-            this.criterions = [];
+        if (!this.requirements) {
+            this.requirements = [];
             this.addCriterion();
         }
     },
 
     methods: {
         addCriterion() {
-            this.criterions.push({
+            this.requirements.push({
                 field: '',
                 operator: 'is',
                 label: '',
@@ -88,22 +123,24 @@ export default {
                 let value = this.modal.selected[i];
                 labels.push(this.modal.options[value]);
             }
-            this.$broadcast('setCriterionValue', this.modal.key, this.modal.selected, labels);
+            EventBus.$emit('setCriterionValue', this.modal.key, this.modal.selected, labels);
             jQuery('#CriteriaSelectionModal').modal('hide');
         }
     },
 
     computed: {
         filteredOptions() {
+            console.log(this.modal.options);
             if (!this.modal.search) {
-                return this.options;
+                return this.modal.options;
             }
 
             const term = this.modal.search.toLowerCase();
             let filtered = {};
-            for (let key in this.options) {
-                let value = this.options[key];
-                if (value.toLowerCase().contains(term)) {
+            for (let key in this.modal.options) {
+                if (!this.modal.options.hasOwnProperty(key)) continue;
+                let value = this.modal.options[key];
+                if (value.toLowerCase().indexOf(term) != -1) {
                     filtered[key] = value;
                 }
             }
@@ -113,31 +150,6 @@ export default {
     },
 
     components: { Criterion },
-
-    events: {
-        openSelectModal(options) {
-            this.modal.field = options.field;
-            this.modal.options = options.options;
-            this.modal.key = options.key;
-            this.modal.selected = [];
-            if (options.selected) {
-                this.modal.selected = options.selected;
-            }
-            jQuery('#CriteriaSelectionModal').modal('show');
-        },
-
-        removeCriterion(key) {
-            if (this.criterions.length > 1) {
-                const criterions = [];
-                let i = 0;
-                for (let i = 0; i < this.criterions.length; i++) {
-                    if (i == key) continue;
-                    criterions.push(this.criterions[i]);
-                }
-                this.criterions = criterions;
-            }
-        }
-    }
 };
 
 </script>

@@ -325,7 +325,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     el: '#Criteria',
 
     components: { Criteria: __WEBPACK_IMPORTED_MODULE_1__Criteria_vue___default.a }
@@ -9697,6 +9697,7 @@ module.exports = g;
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Criterion_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Criterion_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Criterion_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Bus__ = __webpack_require__(58);
 //
 //
 //
@@ -9743,6 +9744,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -9752,6 +9754,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: ['criterions'],
 
     data: function data() {
+        var requirements = [];
+        if (this.criterions && this.criterions.length) {
+            requirements = criterions;
+        }
+
         return {
             modal: {
                 field: '',
@@ -9759,12 +9766,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 search: '',
                 key: null,
                 selected: []
-            }
+            },
+
+            requirements: requirements
         };
     },
+    created: function created() {
+        var _this = this;
+
+        __WEBPACK_IMPORTED_MODULE_1__Bus__["a" /* default */].$on('openSelectModal', function (options) {
+            _this.modal.field = options.field;
+            _this.modal.options = options.options;
+            _this.modal.key = options.key;
+            _this.modal.selected = [];
+            if (options.selected) {
+                _this.modal.selected = options.selected;
+            }
+            jQuery('#CriteriaSelectionModal').modal('show');
+        });
+
+        __WEBPACK_IMPORTED_MODULE_1__Bus__["a" /* default */].$on('removeCriterion', function (index) {
+            console.log('removing');
+            if (_this.requirements.length > 1) {
+                var _criterions = [];
+                var i = 0;
+                for (var _i = 0; _i < _this.requirements.length; _i++) {
+                    if (_i == index) continue;
+                    _criterions.push(_this.requirements[_i]);
+                }
+                _this.requirements = _criterions;
+            }
+        });
+    },
     ready: function ready() {
-        if (!this.criterions) {
-            this.criterions = [];
+        if (!this.requirements) {
+            this.requirements = [];
             this.addCriterion();
         }
     },
@@ -9772,7 +9808,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         addCriterion: function addCriterion() {
-            this.criterions.push({
+            this.requirements.push({
                 field: '',
                 operator: 'is',
                 label: '',
@@ -9787,22 +9823,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var value = this.modal.selected[i];
                 labels.push(this.modal.options[value]);
             }
-            this.$broadcast('setCriterionValue', this.modal.key, this.modal.selected, labels);
+            __WEBPACK_IMPORTED_MODULE_1__Bus__["a" /* default */].$emit('setCriterionValue', this.modal.key, this.modal.selected, labels);
             jQuery('#CriteriaSelectionModal').modal('hide');
         }
     },
 
     computed: {
         filteredOptions: function filteredOptions() {
+            console.log(this.modal.options);
             if (!this.modal.search) {
-                return this.options;
+                return this.modal.options;
             }
 
             var term = this.modal.search.toLowerCase();
             var filtered = {};
-            for (var key in this.options) {
-                var value = this.options[key];
-                if (value.toLowerCase().contains(term)) {
+            for (var key in this.modal.options) {
+                if (!this.modal.options.hasOwnProperty(key)) continue;
+                var value = this.modal.options[key];
+                if (value.toLowerCase().indexOf(term) != -1) {
                     filtered[key] = value;
                 }
             }
@@ -9811,31 +9849,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
 
-    components: { Criterion: __WEBPACK_IMPORTED_MODULE_0__Criterion_vue___default.a },
-
-    events: {
-        openSelectModal: function openSelectModal(options) {
-            this.modal.field = options.field;
-            this.modal.options = options.options;
-            this.modal.key = options.key;
-            this.modal.selected = [];
-            if (options.selected) {
-                this.modal.selected = options.selected;
-            }
-            jQuery('#CriteriaSelectionModal').modal('show');
-        },
-        removeCriterion: function removeCriterion(key) {
-            if (this.criterions.length > 1) {
-                var criterions = [];
-                var i = 0;
-                for (var _i = 0; _i < this.criterions.length; _i++) {
-                    if (_i == key) continue;
-                    criterions.push(this.criterions[_i]);
-                }
-                this.criterions = criterions;
-            }
-        }
-    }
+    components: { Criterion: __WEBPACK_IMPORTED_MODULE_0__Criterion_vue___default.a }
 });
 
 /***/ }),
@@ -9853,6 +9867,7 @@ module.exports = __webpack_require__(17);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Bus__ = __webpack_require__(58);
 //
 //
 //
@@ -9906,6 +9921,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
+
 
 var fields = {
     subject: { type: 'text' },
@@ -9923,7 +9940,7 @@ var fields = {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['criterion', 'key'],
+    props: ['criterion', 'index'],
 
     computed: {
         showMenuIcon: function showMenuIcon() {
@@ -9940,7 +9957,7 @@ var fields = {
             this.criterion.value = this.criterion.label;
         },
         remove: function remove() {
-            this.$dispatch('removeCriterion', this.key);
+            __WEBPACK_IMPORTED_MODULE_0__Bus__["a" /* default */].$emit('removeCriterion', this.index);
         },
         loadOptions: function loadOptions() {
             var _this = this;
@@ -9950,24 +9967,37 @@ var fields = {
                 return false;
             }
 
-            this.$http.get('/list/' + field.list).then(function (response) {
-                console.log(_this.criterion.value);
-                _this.$dispatch('openSelectModal', { options: response.data, key: _this.key, field: field.name, selected: _this.criterion.value.split(',') });
+            jQuery.get('/list/' + field.list).done(function (response) {
+                __WEBPACK_IMPORTED_MODULE_0__Bus__["a" /* default */].$emit('openSelectModal', { options: response, key: _this.index, field: field.name, selected: _this.criterion.value.split(',') });
             });
         }
     },
 
-    events: {
-        setCriterionValue: function setCriterionValue(key, values, labels) {
-            if (key != this.key) {
+    created: function created() {
+        var _this2 = this;
+
+        __WEBPACK_IMPORTED_MODULE_0__Bus__["a" /* default */].$on('setCriterionValue', function (index, values, labels) {
+            if (index != _this2.index) {
                 return false;
             }
 
-            this.criterion.value = values.join(',');
-            this.criterion.label = labels.join(', ');
-        }
+            _this2.criterion.value = values.join(',');
+            _this2.criterion.label = labels.join(', ');
+        });
     }
 });
+
+/***/ }),
+
+/***/ 58:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+
+
+/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_vue___default.a());
 
 /***/ }),
 
@@ -10065,11 +10095,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-plus-circle"
-  })])])])]), _vm._v(" "), _c('tbody', _vm._l((_vm.criterions), function(key, criterion) {
+  })])])])]), _vm._v(" "), _c('tbody', _vm._l((_vm.requirements), function(criterion, index) {
     return _c("Criterion", {
-      key: key,
       tag: "tr",
       attrs: {
+        "index": index,
         "criterion": criterion
       }
     })
@@ -10137,12 +10167,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.modal.selected = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
       }
     }
-  }, _vm._l((_vm.modal.filteredOptions), function(index, label) {
+  }, _vm._l((_vm.filteredOptions), function(label, index) {
     return _c('option', {
       domProps: {
-        "value": index
+        "value": index,
+        "textContent": _vm._s(label)
       }
-    }, [_vm._v(_vm._s(label))])
+    })
   }))])]), _vm._v(" "), _c('div', {
     staticClass: "modal-footer"
   }, [_c('button', {
@@ -10203,7 +10234,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control input-sm",
     attrs: {
-      "name": ("criterions[" + _vm.key + "][field]")
+      "name": ("criterions[" + _vm.index + "][field]")
     },
     on: {
       "change": [function($event) {
@@ -10229,7 +10260,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control input-sm",
     attrs: {
-      "name": ("criterions[" + _vm.key + "][operator]")
+      "name": ("criterions[" + _vm.index + "][operator]")
     },
     on: {
       "change": [function($event) {
@@ -10277,7 +10308,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control input-sm",
     attrs: {
-      "name": ("criterions[" + _vm.key + "][label]"),
+      "name": ("criterions[" + _vm.index + "][label]"),
       "type": "text",
       "readonly": ""
     },
@@ -10316,7 +10347,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control input-sm",
     attrs: {
-      "name": ("criterions[" + _vm.key + "][label]"),
+      "name": ("criterions[" + _vm.index + "][label]"),
       "type": "text"
     },
     domProps: {
@@ -10338,7 +10369,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     attrs: {
       "type": "hidden",
-      "name": ("criterions[" + _vm.key + "][value]")
+      "name": ("criterions[" + _vm.index + "][value]")
     },
     domProps: {
       "value": (_vm.criterion.value)

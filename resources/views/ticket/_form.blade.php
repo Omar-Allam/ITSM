@@ -55,8 +55,7 @@
 
             <div class="form-group form-group-sm {{$errors->has('item_id')? 'has-error' : ''}}">
                 {{ Form::label('item_id', 'Item', ['class' => 'control-label']) }}
-                <select class="form-control" name="item_id" id="item_id" v-model="item"
-                        :value="{{Form::getValueAttribute('item')}}">
+                <select class="form-control" name="item_id" id="item_id" v-model="item">
                     <option value="">Select Item</option>
                     <option v-for="(id, name) in items" :value="id">@{{name}}</option>
                 </select>
