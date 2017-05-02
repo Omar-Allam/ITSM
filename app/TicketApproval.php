@@ -87,7 +87,7 @@ class TicketApproval extends KModel
     public function shouldSend()
     {
         $pendingCount = $this->ticket->approvals()
-            ->where('stage', '<', $this->stage)
+            ->where('stage', '<', $this->stage ?? 0)
             ->where('status', static::PENDING_APPROVAL)
             ->count();
 

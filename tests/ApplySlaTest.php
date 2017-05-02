@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ApplySlaTest extends TestCase
@@ -13,7 +15,7 @@ class ApplySlaTest extends TestCase
 
 
 
-        $sla = App\Sla::create(['name' => 'Test SLA', 'due_days' => 1, 'due_hours' => 0, 'due_minutes' => 0, 'response_days' => 0, 'response_hours' => 4, 'response_minutes' => 0]);
+        $sla = \App\Sla::create(['name' => 'Test SLA', 'due_days' => 1, 'due_hours' => 0, 'due_minutes' => 0, 'response_days' => 0, 'response_hours' => 4, 'response_minutes' => 0]);
 
         $subject = 'Test Subject';
         $request = \Illuminate\Http\Request::create('/admin/sla/store', 'POST', [
@@ -28,9 +30,9 @@ class ApplySlaTest extends TestCase
 
 
         $sla->updateCriteria($request);
-        App\Sla::where('id', '!=', $sla->id)->delete();
+        \App\Sla::where('id', '!=', $sla->id)->delete();
 
-        $user = App\User::first();
+        $user = \App\User::first();
 
         $data = [
             'subject' => 'Test Subject', 'description' => 'Test description here',
@@ -40,7 +42,7 @@ class ApplySlaTest extends TestCase
             'item_id' => ''
         ];
 
-        $ticket = new App\Ticket($data);
+        $ticket = new \App\Ticket($data);
         $ticket->requester_id = $user->id;
         $ticket->creator_id = $user->id;
         $ticket->setCreatedAt($created = \Carbon\Carbon::parse('next monday'));

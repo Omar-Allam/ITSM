@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class TicketLogsTest extends TestCase
@@ -11,10 +13,10 @@ class TicketLogsTest extends TestCase
     {
         $ticket = $this->makeTicket();
 
-        $user = App\User::first();
+        $user = \App\User::first();
         $ticket->replies()->create(['user_id' => $user->id, 'content' => 'Test replies', 'status_id' => 3]);
 
-        $this->seeInDatabase('ticket_logs', ['ticket_id' => $ticket->id, 'type' => \App\TicketLog::REPLY_TYPE]);
+        $this->assertDatabaseHas('ticket_logs', ['ticket_id' => $ticket->id, 'type' => \App\TicketLog::REPLY_TYPE]);
     }
 
     /** @test */
@@ -24,7 +26,7 @@ class TicketLogsTest extends TestCase
 
         $this->makeApproval($ticket);
 
-        $this->seeInDatabase('ticket_logs', ['ticket_id' => $ticket->id, 'type' => \App\TicketLog::APPROVAL_TYPE]);
+        $this->assertDatabaseHas('ticket_logs', ['ticket_id' => $ticket->id, 'type' => \App\TicketLog::APPROVAL_TYPE]);
     }
 
     /** @test */
@@ -37,7 +39,7 @@ class TicketLogsTest extends TestCase
         $approval->status = \App\TicketApproval::APPROVED;
         $approval->save();
 
-        $this->seeInDatabase('ticket_logs', ['ticket_id' => $ticket->id, 'type' => \App\TicketLog::APPROVED]);
+        $this->assertDatabaseHas('ticket_logs', ['ticket_id' => $ticket->id, 'type' => \App\TicketLog::APPROVED]);
     }
 
     /** @test */
@@ -50,7 +52,7 @@ class TicketLogsTest extends TestCase
         $approval->status = \App\TicketApproval::DENIED;
         $approval->save();
 
-        $this->seeInDatabase('ticket_logs', ['ticket_id' => $ticket->id, 'type' => \App\TicketLog::DENIED]);
+        $this->assertDatabaseHas('ticket_logs', ['ticket_id' => $ticket->id, 'type' => \App\TicketLog::DENIED]);
     }
 
     protected function makeTicket()
@@ -84,7 +86,7 @@ class TicketLogsTest extends TestCase
     protected function makeApproval(\App\Ticket $ticket)
     {
         $approval = new \App\TicketApproval(['approver_id' => 1, 'content' => 'Test replies']);
-        $user = App\User::first();
+        $user = \App\User::first();
         $approval->creator_id = $user->id;
         return $ticket->approvals()->save($approval);
     }

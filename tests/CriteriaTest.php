@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use App\Sla;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
