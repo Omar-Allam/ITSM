@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<header class="navbar navbar-default">
+<header class="navbar navbar-default navbar-static-top">
     <div class="container-fluid">
         <div class="navbar-brand"><a href="{{url('/')}}"><i class="fa fa-bolt"></i> HubDesk</a></div>
 
@@ -38,7 +38,8 @@
     </div>
 </header>
 
-<section class="container-fluid">
+<div id="wrapper">
+<main class="container-fluid">
     <div class="row">
         {{-- @todo: Move this to a view composer --}}
         @if (Route::current()->getPrefix() == '/admin')
@@ -66,13 +67,14 @@
             </div>
         </div>
     </div>
-</section>
+</main>
 
 <footer>
     <div class="container-fluid">
         <p class="text-muted">Copyright &copy; Hubtech {{date('Y')}}</p>
     </div>
 </footer>
+</div>
 
 <script src="{{asset('/js/app.js')}}"></script>
 @yield('javascript')

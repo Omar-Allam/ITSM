@@ -10026,17 +10026,17 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('section', [_c('table', {
+  return _c('section', {
+    staticClass: "table-container"
+  }, [_c('table', {
     staticClass: "listing-table table-bordered"
   }, [_c('thead', [_c('tr', [_c('th', {
-    staticClass: "bg-info col-md-3"
+    staticClass: "col-md-3"
   }, [_vm._v("Field")]), _vm._v(" "), _c('th', {
-    staticClass: "bg-info col-md-2"
+    staticClass: "col-md-2"
   }, [_vm._v("Operator")]), _vm._v(" "), _c('th', {
-    staticClass: "bg-info col-md-6"
-  }, [_vm._v("Value")]), _vm._v(" "), _c('th', {
-    staticClass: "bg-info"
-  }, [_c('button', {
+    staticClass: "col-md-6"
+  }, [_vm._v("Value")]), _vm._v(" "), _c('th', [_c('button', {
     staticClass: "btn btn-sm btn-primary pull-right",
     attrs: {
       "type": "button"
@@ -10462,6 +10462,7 @@ window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Bus__ = __webpack_require__(58);
 //
 //
 //
@@ -10483,6 +10484,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
+
 
 var fields = {
     group_id: { type: 'select', list: 'support-groups', name: 'Group' },
@@ -10503,7 +10506,6 @@ var fields = {
     props: ['rule', 'index'],
 
     data: function data() {
-        console.log(this.key);
         return { fields: fields, options: [] };
     },
     ready: function ready() {
@@ -10513,7 +10515,7 @@ var fields = {
 
     methods: {
         remove: function remove() {
-            this.$dispatch('removeRule', this.key);
+            __WEBPACK_IMPORTED_MODULE_0__Bus__["a" /* default */].$emit('removeRule', this.index);
         },
         loadOptions: function loadOptions() {
             var _this = this;
@@ -10549,6 +10551,7 @@ var fields = {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BusinessRule_vue__ = __webpack_require__(29);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BusinessRule_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__BusinessRule_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Bus__ = __webpack_require__(58);
 //
 //
 //
@@ -10593,6 +10596,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -10632,20 +10636,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.addRule();
         }
     },
+    created: function created() {
+        var _this = this;
+
+        __WEBPACK_IMPORTED_MODULE_1__Bus__["a" /* default */].$on('removeRule', function (key) {
+            if (_this.currentRules.length > 1) {
+                var rules = [];
+                var i = 0;
+                for (var _i = 0; _i < _this.currentRules.length; _i++) {
+                    if (_i == key) continue;
+                    rules.push(_this.currentRules[_i]);
+                }
+                _this.currentRules = rules;
+            }
+        });
+    },
 
 
     events: {
-        removeRule: function removeRule(key) {
-            if (this.rules.length > 1) {
-                var rules = [];
-                var i = 0;
-                for (var _i = 0; _i < this.currentRules.length; _i++) {
-                    if (_i == key) continue;
-                    rules.push(this.currentRules[_i]);
-                }
-                this.rules = rules;
-            }
-        },
         openSelectModal: function openSelectModal(options) {
             this.modal.field = options.field;
             this.modal.options = options.options;
@@ -10850,7 +10858,9 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('section', [_c('table', {
+  return _c('section', {
+    staticClass: "table-container"
+  }, [_c('table', {
     staticClass: "listing-table table-bordered"
   }, [_c('thead', [_c('tr', [_c('th', {
     staticClass: "col-md-3"

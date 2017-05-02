@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import EventBus from './Bus';
+
 var fields = {
     group_id: {type: 'select', list: 'support-groups', name: 'Group'},
     technician_id: {type: 'select', list: 'technician', name: 'Technician'},
@@ -39,7 +41,6 @@ export default {
     props: ['rule', 'index'],
 
     data() {
-        console.log(this.key);
         return { fields, options: [] }
     },
 
@@ -49,7 +50,7 @@ export default {
 
     methods: {
         remove() {
-            this.$dispatch('removeRule', this.key);
+            EventBus.$emit('removeRule', this.index);
         },
 
         loadOptions() {

@@ -1,12 +1,12 @@
 <template>
-<section>
+<section class="table-container">
     <table class="listing-table table-bordered">
         <thead>
             <tr>
-                <th class="bg-info col-md-3">Field</th>
-                <th class="bg-info col-md-2">Operator</th>
-                <th class="bg-info col-md-6">Value</th>
-                <th class="bg-info">
+                <th class="col-md-3">Field</th>
+                <th class="col-md-2">Operator</th>
+                <th class="col-md-6">Value</th>
+                <th>
                     <button class="btn btn-sm btn-primary pull-right" @click="addCriterion" type="button"><i class="fa fa-plus-circle"></i></button>
                 </th>
             </tr>

@@ -10075,17 +10075,17 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('section', [_c('table', {
+  return _c('section', {
+    staticClass: "table-container"
+  }, [_c('table', {
     staticClass: "listing-table table-bordered"
   }, [_c('thead', [_c('tr', [_c('th', {
-    staticClass: "bg-info col-md-3"
+    staticClass: "col-md-3"
   }, [_vm._v("Field")]), _vm._v(" "), _c('th', {
-    staticClass: "bg-info col-md-2"
+    staticClass: "col-md-2"
   }, [_vm._v("Operator")]), _vm._v(" "), _c('th', {
-    staticClass: "bg-info col-md-6"
-  }, [_vm._v("Value")]), _vm._v(" "), _c('th', {
-    staticClass: "bg-info"
-  }, [_c('button', {
+    staticClass: "col-md-6"
+  }, [_vm._v("Value")]), _vm._v(" "), _c('th', [_c('button', {
     staticClass: "btn btn-sm btn-primary pull-right",
     attrs: {
       "type": "button"

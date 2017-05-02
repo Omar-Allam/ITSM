@@ -1,5 +1,5 @@
 <template>
-<section>
+<section class="table-container">
     <table class="listing-table table-bordered">
         <thead>
             <tr>
@@ -44,6 +44,7 @@
 
 <script>
 import BusinessRule from './BusinessRule.vue';
+import EventBus from './Bus';
 
 export default {
     props: ['rules'],
@@ -81,19 +82,21 @@ export default {
         }
     },
 
-    events: {
-        removeRule(key) {
-            if (this.rules.length > 1) {
+    created() {
+        EventBus.$on('removeRule', (key) => {
+            if (this.currentRules.length > 1) {
                 const rules = [];
                 let i = 0;
                 for (let i = 0; i < this.currentRules.length; i++) {
                     if (i == key) continue;
                     rules.push(this.currentRules[i]);
                 }
-                this.rules = rules;
+                this.currentRules = rules;
             }
-        },
+        });
+    },
 
+    events: {
         openSelectModal(options) {
             this.modal.field = options.field;
             this.modal.options = options.options;
