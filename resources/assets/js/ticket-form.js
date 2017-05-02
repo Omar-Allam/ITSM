@@ -1,8 +1,5 @@
 import Vue from 'vue';
-import VueResource from 'vue-resource';
 import Attachments from './AttachmentModal.vue';
-
-Vue.use(VueResource);
 
 new Vue({
     el: '#TicketForm',
@@ -23,14 +20,14 @@ new Vue({
     methods: {
         loadCategory(withFields) {
             if (this.category) {
-                this.$http.get(`/list/subcategory/${this.category}`).then(response => this.subcategories = response.data);
+                $.get(`/list/subcategory/${this.category}`).then(response => this.subcategories = response.data);
                 if (withFields) this.loadCustomFields();
             }
         },
 
         loadSubcategory(withFields) {
             if (this.subcategory) {
-                this.$http.get(`/list/item/${this.subcategory}`).then(response =>
+                $.get(`/list/item/${this.subcategory}`).then(response =>
                     this.items = response.data
                 );
 
@@ -60,7 +57,7 @@ new Vue({
             });
 
             let url = `/custom-fields?category=${this.category}&subcategory=${this.subcategory}&item=${this.item}`;
-            this.$http.get(url).then(response => {
+            $.get(url).then(response => {
                 let newFields = $(response.data);
                 for (let id in fieldValues) {
                     const field = newFields.find('#' + id);

@@ -1,13 +1,13 @@
 <template>
     <tr>
         <td>
-            <select @change="update" class="form-control input-sm" name="filters[{{key}}][field]" v-model="criterion.field">
+            <select @change="update" class="form-control input-sm" :name="`filters[${key}][field]`" v-model="criterion.field">
                 <option value="">Select Field</option>
                 <option v-for="(id, title) in fields" :value="id">{{title}}</option>
             </select>
         </td>
         <td>
-            <select @change="update" class="form-control input-sm" name="filters[{{key}}][operator]" v-model="criterion.operator">
+            <select @change="update" class="form-control input-sm" :name="`filters[${key}][operator]`" v-model="criterion.operator">
                 <option value="is">is</option>
                 <option value="isnot">is not</option>
                 <option value="contains">contains</option>
@@ -18,14 +18,14 @@
         </td>
         <td>
             <div class="input-group" v-if="showMenuIcon">
-                <input class="form-control input-sm" name="filters[{{key}}][label]" type="text" @click="loadOptions()" v-model="criterion.label" readonly>
+                <input class="form-control input-sm" :name="`filters[${key}][label]`" type="text" @click="loadOptions()" v-model="criterion.label" readonly>
                 <span class="input-group-btn">
     <button type="button" class="btn btn-default btn-sm" @click="loadOptions()"><i class="fa fa-bars"></i></button>
     </span>
             </div>
-            <input class="form-control input-sm" name="filters[{{key}}][label]" type="text" v-model="criterion.label" @change="update" v-else>
+            <input class="form-control input-sm" :name="`filters[${key}][label]`" type="text" v-model="criterion.label" @change="update" v-else>
 
-            <input type="hidden" name="filters[{{key}}][value]" v-model="criterion.value">
+            <input type="hidden" :name="`filters[${key}][value]`" v-model="criterion.value">
         </td>
         <td>
             <button class="btn btn-sm btn-warning pull-right" type="button" @click="remove()">
@@ -62,6 +62,23 @@ export default {
                 return false;
             }
             return field.type == 'select' && (this.criterion.operator == 'is' || this.criterion.operator == 'isnot')
+        },
+        
+        filteredOptions() {
+            if (!this.modal.search) {
+                return this.options;
+            }
+
+            const term = this.modal.search.toLowerCase();
+            let filtered = {};
+            for (let key in this.options) {
+                let value = this.options[key];
+                if (value.toLowerCase().contains(term)) {
+                    filtered[key] = value;
+                }
+            }
+
+            return filtered;
         }
     },
 
@@ -86,6 +103,8 @@ export default {
             });
         }
     },
+
+    
 
     events: {
         setCriterionValue(key, values, labels) {

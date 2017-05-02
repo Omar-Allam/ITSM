@@ -1,5 +1,5 @@
 <template>
-
+<section>
     <table class="listing-table table-bordered">
         <thead>
             <tr>
@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-group">
                         <select class="form-control" v-model="modal.selected" multiple="multiple">
-                            <option v-for="(index, label) in modal.options|filterBy modal.search" value="{{index}}">{{label}}</option>
+                            <option v-for="(index, label) in modal.filteredOptions" :value="index">{{label}}</option>
                         </select>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
             </div>
         </div>
     </div>
-
+</section>
 </template>
 
 <script>
@@ -90,6 +90,25 @@ export default {
             }
             this.$broadcast('setCriterionValue', this.modal.key, this.modal.selected, labels);
             jQuery('#CriteriaSelectionModal').modal('hide');
+        }
+    },
+
+    computed: {
+        filteredOptions() {
+            if (!this.modal.search) {
+                return this.options;
+            }
+
+            const term = this.modal.search.toLowerCase();
+            let filtered = {};
+            for (let key in this.options) {
+                let value = this.options[key];
+                if (value.toLowerCase().contains(term)) {
+                    filtered[key] = value;
+                }
+            }
+
+            return filtered;
         }
     },
 

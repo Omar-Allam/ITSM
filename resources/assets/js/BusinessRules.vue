@@ -1,4 +1,5 @@
 <template>
+<section>
     <table class="listing-table table-bordered">
         <thead>
             <tr>
@@ -27,7 +28,7 @@
                     </div>
                     <div class="form-group">
                         <select class="form-control" v-model="modal.selected" multiple="multiple">
-                            <option v-for="(index, label) in modal.options|filterBy modal.search" value="{{index}}">{{label}}</option>
+                            <option v-for="(index, label) in options" :value="index">{{label}}</option>
                         </select>
                     </div>
                 </div>
@@ -38,6 +39,7 @@
             </div>
         </div>
     </div>
+    </section>
 </template>
 
 <script>
@@ -52,6 +54,10 @@ export default {
         }
 
         return { modal: {field: '', options: '', search: '', key: null, selected: []} }
+    },
+
+    computed: {
+
     },
 
     methods: {
