@@ -30,7 +30,7 @@ class BranchController extends Controller
 
         flash('Branch has been saved', 'success');
 
-        return \Redirect::action('branch.index');
+        return \Redirect::route('admin.branch.index');
     }
 
     public function show(Branch $branch)
@@ -51,7 +51,7 @@ class BranchController extends Controller
 
         flash('Branch has been saved', 'success');
 
-        return \Redirect::action('branch.index');
+        return \Redirect::route('admin.branch.index');
     }
 
     public function destroy(Branch $branch)
@@ -60,6 +60,6 @@ class BranchController extends Controller
 
         flash('Branch has been deleted', 'success');
 
-        return \Redirect::action('branch.index');
+        return \Redirect::route('admin.branch.index');
     }
 }

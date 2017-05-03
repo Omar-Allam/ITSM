@@ -6,7 +6,56 @@
 
 
 // Layout styles
+html, body {
+  height: 100%;
+}
+
+#wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+
+  main {
+    width: 100%;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding-top: 10px;
+  }
+}
+
+.navbar {
+  margin-bottom: 0;
+  min-height: 40px;
+}
+
+.title-bar {
+  .title-container  {
+    background: #fff;
+    min-height: 50px;
+    border-bottom: 2px solid $navbar-default-border;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h1, h2, h3, h4, h5 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 0;
+      margin-bottom: 0;
+      flex: 1;
+    
+      display: inline-block;
+    }
+
+    form {
+      display: inline-block;
+    }
+  }
+}
+
 body {
+  display: flex;
+  flex-direction: column;
   background-color: $body-bg;
 }
 
@@ -27,6 +76,7 @@ body {
 footer {
   border-top: 2px solid $navbar-default-border;
   padding-top: 10px;
+  background: #fff;
 }
 
 //Sidebar Styles
@@ -177,9 +227,7 @@ hr.form-divider {
 }
 
 .flex {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex: 1;
 }
 
 .panel > .table-container > .table-bordered {
@@ -199,4 +247,14 @@ hr.form-divider {
   tbody > tr > td:last-child {
     border-right: 0;
   }
+}
+
+.list-group-item.info {
+  background-color: $brand-info;
+  color: #fff;
+}
+
+#flash-alert {
+  position: fixed;
+  bottom: 50px;
 }

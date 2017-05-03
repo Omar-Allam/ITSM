@@ -5,17 +5,22 @@
     <a href="{{ route('admin.group.create') }} " class="btn btn-sm btn-primary pull-right"><i class="fa fa-plus"></i></a>
 @stop
 
+@section('sidebar')
+    @include('admin.partials._sidebar')
+@stop
+
 @section('body')
-    @if ($groups->total())
-        <table class="listing-table">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-                @foreach($groups as $group)
+    <section class="col-sm-9">
+        @if ($groups->total())
+            <table class="listing-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($groups as $group)
                     <tr>
                         <td class="col-md-5"><a href="{{ route('admin.group.edit', $group) }}">{{ $group->name }}</a></td>
                         <td class="col-md-3">
@@ -26,12 +31,12 @@
                             </form>
                         </td>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
-
+                    @endforeach
+                </tbody>
+            </table>
         @include('partials._pagination', ['items' => $groups])
-    @else
-        <div class="alert alert-info"><i class="fa fa-exclamation-circle"></i> <strong>No group found</strong></div>
-    @endif
+        @else
+            <div class="alert alert-info"><i class="fa fa-exclamation-circle"></i> <strong>No group found</strong></div>
+        @endif
+    </section>
 @stop

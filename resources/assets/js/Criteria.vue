@@ -86,7 +86,6 @@ export default {
 
 
         EventBus.$on('removeCriterion', (index) => {
-            console.log('removing');
             if (this.requirements.length > 1) {
                 const criterions = [];
                 let i = 0;

@@ -9,7 +9,12 @@
     </div>
 @endsection
 
+@section('sidebar')
+    @include('admin.partials._sidebar')
+@stop
+
 @section('body')
+    <section class="col-sm-9">
     {{Form::open(['route' => ['admin.group.add-user', $group]])}}
     <div class="form-group">
         {{Form::label('user_id', 'User', ['class' => 'control-label'])}}
@@ -54,4 +59,5 @@
     @else
         <div class="alert alert-warning"><i class="fa fa-exclamation-circle"></i> No users found</div>
     @endif
+    </section>
 @endsection

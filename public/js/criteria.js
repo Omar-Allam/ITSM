@@ -9786,7 +9786,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         });
 
         __WEBPACK_IMPORTED_MODULE_1__Bus__["a" /* default */].$on('removeCriterion', function (index) {
-            console.log('removing');
             if (_this.requirements.length > 1) {
                 var _criterions = [];
                 var i = 0;
