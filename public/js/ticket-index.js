@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 43);
+/******/ 	return __webpack_require__(__webpack_require__.s = 44);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -127,212 +127,6 @@ module.exports = function normalizeComponent (
 /***/ }),
 
 /***/ 1:
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-
-/***/ 19:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Criteria_vue__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Criteria_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Criteria_vue__);
-
-
-
-window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
-    el: '#TicketList',
-    components: { Criteria: __WEBPACK_IMPORTED_MODULE_1__Criteria_vue___default.a }
-});
-
-/***/ }),
-
-/***/ 2:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9657,569 +9451,11 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(3)))
 
 /***/ }),
 
-/***/ 3:
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-
-/***/ 4:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Criterion_vue__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Criterion_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Criterion_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Bus__ = __webpack_require__(58);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-
-    props: ['criterions'],
-
-    data: function data() {
-        var requirements = [];
-        if (this.criterions && this.criterions.length) {
-            requirements = criterions;
-        }
-
-        return {
-            modal: {
-                field: '',
-                options: {},
-                search: '',
-                key: null,
-                selected: []
-            },
-
-            requirements: requirements
-        };
-    },
-    created: function created() {
-        var _this = this;
-
-        __WEBPACK_IMPORTED_MODULE_1__Bus__["a" /* default */].$on('openSelectModal', function (options) {
-            _this.modal.field = options.field;
-            _this.modal.options = options.options;
-            _this.modal.key = options.key;
-            _this.modal.selected = [];
-            if (options.selected) {
-                _this.modal.selected = options.selected;
-            }
-            jQuery('#CriteriaSelectionModal').modal('show');
-        });
-
-        __WEBPACK_IMPORTED_MODULE_1__Bus__["a" /* default */].$on('removeCriterion', function (index) {
-            if (_this.requirements.length > 1) {
-                var _criterions = [];
-                var i = 0;
-                for (var _i = 0; _i < _this.requirements.length; _i++) {
-                    if (_i == index) continue;
-                    _criterions.push(_this.requirements[_i]);
-                }
-                _this.requirements = _criterions;
-            }
-        });
-    },
-    ready: function ready() {
-        if (!this.requirements) {
-            this.requirements = [];
-            this.addCriterion();
-        }
-    },
-
-
-    methods: {
-        addCriterion: function addCriterion() {
-            this.requirements.push({
-                field: '',
-                operator: 'is',
-                label: '',
-                value: '',
-                showMenuIcon: false
-            });
-        },
-        modalApply: function modalApply() {
-            var labels = [],
-                i = 0;
-            for (i; i < this.modal.selected.length; ++i) {
-                var value = this.modal.selected[i];
-                labels.push(this.modal.options[value]);
-            }
-            __WEBPACK_IMPORTED_MODULE_1__Bus__["a" /* default */].$emit('setCriterionValue', this.modal.key, this.modal.selected, labels);
-            jQuery('#CriteriaSelectionModal').modal('hide');
-        }
-    },
-
-    computed: {
-        filteredOptions: function filteredOptions() {
-            console.log(this.modal.options);
-            if (!this.modal.search) {
-                return this.modal.options;
-            }
-
-            var term = this.modal.search.toLowerCase();
-            var filtered = {};
-            for (var key in this.modal.options) {
-                if (!this.modal.options.hasOwnProperty(key)) continue;
-                var value = this.modal.options[key];
-                if (value.toLowerCase().indexOf(term) != -1) {
-                    filtered[key] = value;
-                }
-            }
-
-            return filtered;
-        }
-    },
-
-    components: { Criterion: __WEBPACK_IMPORTED_MODULE_0__Criterion_vue___default.a }
-});
-
-/***/ }),
-
-/***/ 43:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(19);
-
-
-/***/ }),
-
-/***/ 5:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Bus__ = __webpack_require__(58);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-var fields = {
-    subject: { type: 'text' },
-    description: { type: 'text' },
-    category_id: { type: 'select', list: 'category', name: 'Category' },
-    subcategory_id: { type: 'select', list: 'subcategory', name: 'Subcategory' },
-    item_id: { type: 'select', list: 'item', name: 'Item' },
-    location_id: { type: 'select', list: 'location', name: 'Location' },
-    business_unit_id: { type: 'select', list: 'business-unit', name: 'Business Unit' },
-    priority_id: { type: 'select', list: 'priority', name: 'Priority' },
-    urgency_id: { type: 'select', list: 'urgency', name: 'Urgency' },
-    impact_id: { type: 'select', list: 'impact', name: 'Impact' },
-    technician_id: { type: 'select', list: 'technician', name: 'Technician' },
-    group_id: { type: 'select', list: 'group', name: 'Support Group' }
-};
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['criterion', 'index'],
-
-    computed: {
-        showMenuIcon: function showMenuIcon() {
-            var field = fields[this.criterion.field];
-            if (!field) {
-                return false;
-            }
-            return field.type == 'select' && (this.criterion.operator == 'is' || this.criterion.operator == 'isnot');
-        }
-    },
-
-    methods: {
-        update: function update() {
-            this.criterion.value = this.criterion.label;
-        },
-        remove: function remove() {
-            __WEBPACK_IMPORTED_MODULE_0__Bus__["a" /* default */].$emit('removeCriterion', this.index);
-        },
-        loadOptions: function loadOptions() {
-            var _this = this;
-
-            var field = fields[this.criterion.field];
-            if (!field || field.type != 'select') {
-                return false;
-            }
-
-            jQuery.get('/list/' + field.list).done(function (response) {
-                __WEBPACK_IMPORTED_MODULE_0__Bus__["a" /* default */].$emit('openSelectModal', { options: response, key: _this.index, field: field.name, selected: _this.criterion.value.split(',') });
-            });
-        }
-    },
-
-    created: function created() {
-        var _this2 = this;
-
-        __WEBPACK_IMPORTED_MODULE_0__Bus__["a" /* default */].$on('setCriterionValue', function (index, values, labels) {
-            if (index != _this2.index) {
-                return false;
-            }
-
-            _this2.criterion.value = values.join(',');
-            _this2.criterion.label = labels.join(', ');
-        });
-    }
-});
-
-/***/ }),
-
-/***/ 58:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-
-
-/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_vue___default.a());
-
-/***/ }),
-
-/***/ 6:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(4),
-  /* template */
-  __webpack_require__(8),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/hazem/code/hubdesk/resources/assets/js/Criteria.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Criteria.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0d23bddc", Component.options)
-  } else {
-    hotAPI.reload("data-v-0d23bddc", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 7:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(5),
-  /* template */
-  __webpack_require__(9),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/home/hazem/code/hubdesk/resources/assets/js/Criterion.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Criterion.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4f9f057e", Component.options)
-  } else {
-    hotAPI.reload("data-v-4f9f057e", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 8:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('section', {
-    staticClass: "table-container"
-  }, [_c('table', {
-    staticClass: "listing-table table-bordered"
-  }, [_c('thead', [_c('tr', [_c('th', {
-    staticClass: "col-md-3"
-  }, [_vm._v("Field")]), _vm._v(" "), _c('th', {
-    staticClass: "col-md-2"
-  }, [_vm._v("Operator")]), _vm._v(" "), _c('th', {
-    staticClass: "col-md-6"
-  }, [_vm._v("Value")]), _vm._v(" "), _c('th', [_c('button', {
-    staticClass: "btn btn-sm btn-primary pull-right",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": _vm.addCriterion
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-plus-circle"
-  })])])])]), _vm._v(" "), _c('tbody', _vm._l((_vm.requirements), function(criterion, index) {
-    return _c("Criterion", {
-      tag: "tr",
-      attrs: {
-        "index": index,
-        "criterion": criterion
-      }
-    })
-  }))]), _vm._v(" "), _c('div', {
-    staticClass: "modal fade selection-modal",
-    attrs: {
-      "tabindex": "-1",
-      "role": "dialog",
-      "id": "CriteriaSelectionModal"
-    }
-  }, [_c('div', {
-    staticClass: "modal-dialog"
-  }, [_c('div', {
-    staticClass: "modal-content"
-  }, [_c('div', {
-    staticClass: "modal-header"
-  }, [_vm._m(0), _vm._v(" "), _c('h4', {
-    staticClass: "modal-title"
-  }, [_vm._v(_vm._s(_vm.modal.field))])]), _vm._v(" "), _c('div', {
-    staticClass: "modal-body"
-  }, [_c('div', {
-    staticClass: "form-group"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.modal.search),
-      expression: "modal.search"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "search",
-      "placeholder": "Filters"
-    },
-    domProps: {
-      "value": (_vm.modal.search)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.modal.search = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.modal.selected),
-      expression: "modal.selected"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "multiple": "multiple"
-    },
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.modal.selected = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, _vm._l((_vm.filteredOptions), function(label, index) {
-    return _c('option', {
-      domProps: {
-        "value": index,
-        "textContent": _vm._s(label)
-      }
-    })
-  }))])]), _vm._v(" "), _c('div', {
-    staticClass: "modal-footer"
-  }, [_c('button', {
-    staticClass: "btn btn-success",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": _vm.modalApply
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-check-circle"
-  }), _vm._v(" Apply")]), _vm._v(" "), _vm._m(1)])])])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "close",
-    attrs: {
-      "type": "button",
-      "data-dismiss": "modal",
-      "aria-label": "Close"
-    }
-  }, [_c('span', {
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }, [_vm._v("×")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "btn btn-default",
-    attrs: {
-      "type": "button",
-      "data-dismiss": "modal"
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-times-circle"
-  }), _vm._v(" Cancel")])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-0d23bddc", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 9:
+/***/ 10:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -10467,6 +9703,770 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-4f9f057e", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 2:
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
+/***/ }),
+
+/***/ 20:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Criteria_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Criteria_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Criteria_vue__);
+
+
+
+window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+    el: '#TicketList',
+    components: { Criteria: __WEBPACK_IMPORTED_MODULE_1__Criteria_vue___default.a }
+});
+
+/***/ }),
+
+/***/ 3:
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
+/***/ 4:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+
+
+/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_vue___default.a());
+
+/***/ }),
+
+/***/ 44:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(20);
+
+
+/***/ }),
+
+/***/ 5:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Criterion_vue__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Criterion_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Criterion_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Bus__ = __webpack_require__(4);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+    props: ['criterions'],
+
+    data: function data() {
+        var requirements = [];
+        if (this.criterions && this.criterions.length) {
+            requirements = criterions;
+        }
+
+        return {
+            modal: {
+                field: '',
+                options: {},
+                search: '',
+                key: null,
+                selected: []
+            },
+
+            requirements: requirements
+        };
+    },
+    created: function created() {
+        var _this = this;
+
+        __WEBPACK_IMPORTED_MODULE_1__Bus__["a" /* default */].$on('openSelectModal', function (options) {
+            _this.modal.field = options.field;
+            _this.modal.options = options.options;
+            _this.modal.key = options.key;
+            _this.modal.selected = [];
+            if (options.selected) {
+                _this.modal.selected = options.selected;
+            }
+            jQuery('#CriteriaSelectionModal').modal('show');
+        });
+
+        __WEBPACK_IMPORTED_MODULE_1__Bus__["a" /* default */].$on('removeCriterion', function (index) {
+            if (_this.requirements.length > 1) {
+                var _criterions = [];
+                var i = 0;
+                for (var _i = 0; _i < _this.requirements.length; _i++) {
+                    if (_i == index) continue;
+                    _criterions.push(_this.requirements[_i]);
+                }
+                _this.requirements = _criterions;
+            }
+        });
+    },
+    ready: function ready() {
+        if (!this.requirements) {
+            this.requirements = [];
+            this.addCriterion();
+        }
+    },
+
+
+    methods: {
+        addCriterion: function addCriterion() {
+            this.requirements.push({
+                field: '',
+                operator: 'is',
+                label: '',
+                value: '',
+                showMenuIcon: false
+            });
+        },
+        modalApply: function modalApply() {
+            var labels = [],
+                i = 0;
+            for (i; i < this.modal.selected.length; ++i) {
+                var value = this.modal.selected[i];
+                labels.push(this.modal.options[value]);
+            }
+            __WEBPACK_IMPORTED_MODULE_1__Bus__["a" /* default */].$emit('setCriterionValue', this.modal.key, this.modal.selected, labels);
+            jQuery('#CriteriaSelectionModal').modal('hide');
+        }
+    },
+
+    computed: {
+        filteredOptions: function filteredOptions() {
+            console.log(this.modal.options);
+            if (!this.modal.search) {
+                return this.modal.options;
+            }
+
+            var term = this.modal.search.toLowerCase();
+            var filtered = {};
+            for (var key in this.modal.options) {
+                if (!this.modal.options.hasOwnProperty(key)) continue;
+                var value = this.modal.options[key];
+                if (value.toLowerCase().indexOf(term) != -1) {
+                    filtered[key] = value;
+                }
+            }
+
+            return filtered;
+        }
+    },
+
+    components: { Criterion: __WEBPACK_IMPORTED_MODULE_0__Criterion_vue___default.a }
+});
+
+/***/ }),
+
+/***/ 6:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Bus__ = __webpack_require__(4);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+var fields = {
+    subject: { type: 'text' },
+    description: { type: 'text' },
+    category_id: { type: 'select', list: 'category', name: 'Category' },
+    subcategory_id: { type: 'select', list: 'subcategory', name: 'Subcategory' },
+    item_id: { type: 'select', list: 'item', name: 'Item' },
+    location_id: { type: 'select', list: 'location', name: 'Location' },
+    business_unit_id: { type: 'select', list: 'business-unit', name: 'Business Unit' },
+    priority_id: { type: 'select', list: 'priority', name: 'Priority' },
+    urgency_id: { type: 'select', list: 'urgency', name: 'Urgency' },
+    impact_id: { type: 'select', list: 'impact', name: 'Impact' },
+    technician_id: { type: 'select', list: 'technician', name: 'Technician' },
+    group_id: { type: 'select', list: 'group', name: 'Support Group' }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['criterion', 'index'],
+
+    computed: {
+        showMenuIcon: function showMenuIcon() {
+            var field = fields[this.criterion.field];
+            if (!field) {
+                return false;
+            }
+            return field.type == 'select' && (this.criterion.operator == 'is' || this.criterion.operator == 'isnot');
+        }
+    },
+
+    methods: {
+        update: function update() {
+            this.criterion.value = this.criterion.label;
+        },
+        remove: function remove() {
+            __WEBPACK_IMPORTED_MODULE_0__Bus__["a" /* default */].$emit('removeCriterion', this.index);
+        },
+        loadOptions: function loadOptions() {
+            var _this = this;
+
+            var field = fields[this.criterion.field];
+            if (!field || field.type != 'select') {
+                return false;
+            }
+
+            jQuery.get('/list/' + field.list).done(function (response) {
+                __WEBPACK_IMPORTED_MODULE_0__Bus__["a" /* default */].$emit('openSelectModal', { options: response, key: _this.index, field: field.name, selected: _this.criterion.value.split(',') });
+            });
+        }
+    },
+
+    created: function created() {
+        var _this2 = this;
+
+        __WEBPACK_IMPORTED_MODULE_0__Bus__["a" /* default */].$on('setCriterionValue', function (index, values, labels) {
+            if (index != _this2.index) {
+                return false;
+            }
+
+            _this2.criterion.value = values.join(',');
+            _this2.criterion.label = labels.join(', ');
+        });
+    }
+});
+
+/***/ }),
+
+/***/ 7:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(5),
+  /* template */
+  __webpack_require__(9),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/hazem/code/hubdesk/resources/assets/js/Criteria.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Criteria.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0d23bddc", Component.options)
+  } else {
+    hotAPI.reload("data-v-0d23bddc", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 8:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(6),
+  /* template */
+  __webpack_require__(10),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/hazem/code/hubdesk/resources/assets/js/Criterion.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Criterion.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4f9f057e", Component.options)
+  } else {
+    hotAPI.reload("data-v-4f9f057e", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('section', {
+    staticClass: "table-container"
+  }, [_c('table', {
+    staticClass: "listing-table table-bordered"
+  }, [_c('thead', [_c('tr', [_c('th', {
+    staticClass: "col-md-3"
+  }, [_vm._v("Field")]), _vm._v(" "), _c('th', {
+    staticClass: "col-md-2"
+  }, [_vm._v("Operator")]), _vm._v(" "), _c('th', {
+    staticClass: "col-md-6"
+  }, [_vm._v("Value")]), _vm._v(" "), _c('th', [_c('button', {
+    staticClass: "btn btn-sm btn-primary pull-right",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.addCriterion
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-plus-circle"
+  })])])])]), _vm._v(" "), _c('tbody', _vm._l((_vm.requirements), function(criterion, index) {
+    return _c("Criterion", {
+      tag: "tr",
+      attrs: {
+        "index": index,
+        "criterion": criterion
+      }
+    })
+  }))]), _vm._v(" "), _c('div', {
+    staticClass: "modal fade selection-modal",
+    attrs: {
+      "tabindex": "-1",
+      "role": "dialog",
+      "id": "CriteriaSelectionModal"
+    }
+  }, [_c('div', {
+    staticClass: "modal-dialog"
+  }, [_c('div', {
+    staticClass: "modal-content"
+  }, [_c('div', {
+    staticClass: "modal-header"
+  }, [_vm._m(0), _vm._v(" "), _c('h4', {
+    staticClass: "modal-title"
+  }, [_vm._v(_vm._s(_vm.modal.field))])]), _vm._v(" "), _c('div', {
+    staticClass: "modal-body"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.modal.search),
+      expression: "modal.search"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "search",
+      "placeholder": "Filters"
+    },
+    domProps: {
+      "value": (_vm.modal.search)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.modal.search = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.modal.selected),
+      expression: "modal.selected"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "multiple": "multiple"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.modal.selected = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.filteredOptions), function(label, index) {
+    return _c('option', {
+      domProps: {
+        "value": index,
+        "textContent": _vm._s(label)
+      }
+    })
+  }))])]), _vm._v(" "), _c('div', {
+    staticClass: "modal-footer"
+  }, [_c('button', {
+    staticClass: "btn btn-success",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.modalApply
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-check-circle"
+  }), _vm._v(" Apply")]), _vm._v(" "), _vm._m(1)])])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    staticClass: "close",
+    attrs: {
+      "type": "button",
+      "data-dismiss": "modal",
+      "aria-label": "Close"
+    }
+  }, [_c('span', {
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("×")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button",
+      "data-dismiss": "modal"
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-times-circle"
+  }), _vm._v(" Cancel")])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-0d23bddc", module.exports)
   }
 }
 

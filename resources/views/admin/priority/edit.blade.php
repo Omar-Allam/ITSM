@@ -11,7 +11,7 @@
 @stop
 
 @section('body')
-    {{ Form::model($priority, ['route' => ['admin.priority.update', $priority]]) }}
+    {{ Form::model($priority, ['route' => ['admin.priority.update', $priority], 'class' => 'col-sm-9']) }}
 
         {{ method_field('patch') }}
 

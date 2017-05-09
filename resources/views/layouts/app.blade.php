@@ -7,6 +7,7 @@
     <title>HubDesk</title>
 
     <link rel="stylesheet" href="{{asset('/css/app.css')}}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700">
     @yield('stylesheets')
 </head>
 <body>

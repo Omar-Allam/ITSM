@@ -11,7 +11,12 @@
     </div>
 @endsection
 
+@section('sidebar')
+    @include('admin.partials._sidebar')
+@stop
+
 @section('body')
+    <section class="col-sm-9">
     @if ($subcategory->description)
         <p>{!! nl2br(e($subcategory->description)) !!}</p>
     @endif
@@ -52,4 +57,5 @@
             No items found
         </div>
     @endif
+    </section>
 @endsection

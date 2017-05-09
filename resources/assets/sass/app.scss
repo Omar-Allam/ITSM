@@ -182,12 +182,14 @@ hr.form-divider {
   }
 
   > li > a {
-    border: 1px solid #ddd;
+    border: 1px solid $brand-primary;
     border-radius: 4px;
   }
 
   li.active > a, li.active > a:hover, li.active > a:active, li.active > a:focus {
-    border-bottom: 1px solid #ddd;    
+    border: 1px solid $brand-primary;    
+    background: $brand-primary;
+    color: #fff;
   }
 
 }
@@ -257,4 +259,20 @@ hr.form-divider {
 #flash-alert {
   position: fixed;
   bottom: 50px;
+}
+
+.display-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+}
+
+.ticket-meta {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.title-container .ticket-meta h4 {
+    margin-bottom: 10px;
 }

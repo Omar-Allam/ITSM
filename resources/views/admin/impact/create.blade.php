@@ -6,8 +6,12 @@
     <a href="{{ route('admin.impact.index') }}" class="btn btn-sm btn-default pull-right"><i class="fa fa-chevron-left"></i></a>
 @stop
 
+@section('sidebar')
+    @include('admin.partials._sidebar')
+@stop
+
 @section('body')
-    {{ Form::open(['route' => 'admin.impact.store']) }}
+    {{ Form::open(['route' => 'admin.impact.store', 'class' => 'col-sm-9']) }}
 
         @include('admin.impact._form')
 

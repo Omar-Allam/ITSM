@@ -1,4 +1,10 @@
 <div class="panel panel-default">
+    <div class="panel-body">
+        {!! $ticket->description !!}
+    </div>    
+</div>
+
+<div class="panel panel-default">
     <div class="panel-heading">
         <h4 class="panel-title"><i class="fa fa-ticket"></i> Request Details</h4>
     </div>
@@ -79,8 +85,4 @@
             <td>{{$ticket->requester->mobile or 'Not Assigned'}}</td>
         </tr>
     </table>
-</div>
-
-<div class="well well-sm well-white">
-    {!! $ticket->description !!}
 </div>

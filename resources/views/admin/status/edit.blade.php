@@ -10,8 +10,12 @@
     </form>
 @stop
 
+@section('sidebar')
+    @include('admin.partials._sidebar')
+@stop
+
 @section('body')
-    {{ Form::model($status, ['route' => ['admin.status.update', $status]]) }}
+    {{ Form::model($status, ['route' => ['admin.status.update', $status], 'class' => 'col-sm-9']) }}
 
         {{ method_field('patch') }}
 

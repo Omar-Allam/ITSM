@@ -32,7 +32,7 @@
 @stop
 
 @section('body')
-    <div class="col-sm-12" id="TicketList">
+    <section class="col-sm-12" id="TicketList">
         @include('ticket._search_form')
         @if ($tickets->total())
             <table class="listing-table">
