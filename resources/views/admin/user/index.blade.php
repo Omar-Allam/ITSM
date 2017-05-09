@@ -16,7 +16,12 @@
     </div>
 @stop
 
+@section('sidebar')
+    @include('admin.partials._sidebar')
+@stop
+
 @section('body')
+    <section class="cols-m-9">
     @if ($users->total())
         <table class="listing-table">
             <thead>
@@ -73,4 +78,5 @@
             {{Form::close()}}
         </div>
     </div>
+    </section>
 @stop

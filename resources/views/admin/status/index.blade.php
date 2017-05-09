@@ -5,7 +5,12 @@
     <a href="{{ route('admin.status.create') }} " class="btn btn-sm btn-primary pull-right"><i class="fa fa-plus"></i></a>
 @stop
 
+@section('sidebar')
+    @include('admin.partials._sidebar')
+@stop
+
 @section('body')
+    <section class="col-sm-9">
     @if ($statuses->total())
         <table class="listing-table">
             <thead>
@@ -34,4 +39,5 @@
     @else
         <div class="alert alert-info"><i class="fa fa-exclamation-circle"></i> <strong>No status found</strong></div>
     @endif
+    </section>
 @stop

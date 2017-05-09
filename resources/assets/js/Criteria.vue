@@ -1,18 +1,18 @@
 <template>
-
+<section class="table-container">
     <table class="listing-table table-bordered">
         <thead>
             <tr>
-                <th class="bg-info col-md-3">Field</th>
-                <th class="bg-info col-md-2">Operator</th>
-                <th class="bg-info col-md-6">Value</th>
-                <th class="bg-info">
+                <th class="col-md-3">Field</th>
+                <th class="col-md-2">Operator</th>
+                <th class="col-md-6">Value</th>
+                <th>
                     <button class="btn btn-sm btn-primary pull-right" @click="addCriterion" type="button"><i class="fa fa-plus-circle"></i></button>
                 </th>
             </tr>
         </thead>
         <tbody>
-            <tr is="Criterion" v-for="(key, criterion) in criterions" :key="key" :criterion="criterion"></tr>
+            <tr is="Criterion" v-for="(criterion, index) in requirements" :index="index" :criterion="criterion"></tr>
         </tbody>
     </table>
 
@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-group">
                         <select class="form-control" v-model="modal.selected" multiple="multiple">
-                            <option v-for="(index, label) in modal.options|filterBy modal.search" value="{{index}}">{{label}}</option>
+                            <option v-for="(label, index) in filteredOptions" :value="index" v-text="label"></option>
                         </select>
                     </div>
                 </div>
@@ -41,18 +41,24 @@
             </div>
         </div>
     </div>
-
+</section>
 </template>
 
 <script>
 
 import Criterion from './Criterion.vue';
+import EventBus from './Bus';
 
 export default {
 
     props: [ 'criterions' ],
 
     data() {
+        let requirements = [];
+        if (this.criterions && this.criterions.length) {
+            requirements = criterions;
+        }
+
         return {
             modal: {
                 field: '',
@@ -60,20 +66,48 @@ export default {
                 search: '',
                 key: null,
                 selected: []
-            }
+            },
+
+            requirements
         }
     },
 
+    created() {
+        EventBus.$on('openSelectModal', (options) => {
+            this.modal.field = options.field;
+            this.modal.options = options.options;
+            this.modal.key = options.key;
+            this.modal.selected = [];
+            if (options.selected) {
+                this.modal.selected = options.selected;
+            }
+            jQuery('#CriteriaSelectionModal').modal('show');
+        });
+
+
+        EventBus.$on('removeCriterion', (index) => {
+            if (this.requirements.length > 1) {
+                const criterions = [];
+                let i = 0;
+                for (let i = 0; i < this.requirements.length; i++) {
+                    if (i == index) continue;
+                    criterions.push(this.requirements[i]);
+                }
+                this.requirements = criterions;
+            }
+        });
+    },
+
     ready () {
-        if (!this.criterions) {
-            this.criterions = [];
+        if (!this.requirements) {
+            this.requirements = [];
             this.addCriterion();
         }
     },
 
     methods: {
         addCriterion() {
-            this.criterions.push({
+            this.requirements.push({
                 field: '',
                 operator: 'is',
                 label: '',
@@ -88,37 +122,33 @@ export default {
                 let value = this.modal.selected[i];
                 labels.push(this.modal.options[value]);
             }
-            this.$broadcast('setCriterionValue', this.modal.key, this.modal.selected, labels);
+            EventBus.$emit('setCriterionValue', this.modal.key, this.modal.selected, labels);
             jQuery('#CriteriaSelectionModal').modal('hide');
         }
     },
 
-    components: { Criterion },
-
-    events: {
-        openSelectModal(options) {
-            this.modal.field = options.field;
-            this.modal.options = options.options;
-            this.modal.key = options.key;
-            this.modal.selected = [];
-            if (options.selected) {
-                this.modal.selected = options.selected;
+    computed: {
+        filteredOptions() {
+            console.log(this.modal.options);
+            if (!this.modal.search) {
+                return this.modal.options;
             }
-            jQuery('#CriteriaSelectionModal').modal('show');
-        },
 
-        removeCriterion(key) {
-            if (this.criterions.length > 1) {
-                const criterions = [];
-                let i = 0;
-                for (let i = 0; i < this.criterions.length; i++) {
-                    if (i == key) continue;
-                    criterions.push(this.criterions[i]);
+            const term = this.modal.search.toLowerCase();
+            let filtered = {};
+            for (let key in this.modal.options) {
+                if (!this.modal.options.hasOwnProperty(key)) continue;
+                let value = this.modal.options[key];
+                if (value.toLowerCase().indexOf(term) != -1) {
+                    filtered[key] = value;
                 }
-                this.criterions = criterions;
             }
+
+            return filtered;
         }
-    }
+    },
+
+    components: { Criterion },
 };
 
 </script>

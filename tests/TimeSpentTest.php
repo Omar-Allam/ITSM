@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -140,7 +142,7 @@ class TimeSpentTest extends TestCase
 
     private function sla($critical = false)
     {
-        $sla = App\Sla::create([
+        $sla = \App\Sla::create([
             'name' => 'Test SLA',
             'description' => 'Test SLA',
             'due_days' => 1,

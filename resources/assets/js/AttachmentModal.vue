@@ -9,12 +9,12 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="attach in attachments">
+        <tr v-for="(index, attach) in attachments">
             <td class="col-md-10">
-                <input type="file" class="form-control input-xs" name="attachments[{{$index}}]">
+                <input type="file" class="form-control input-xs" :name="`attachments[${index}]`">
             </td>
             <td class="col-md-2 text-right">
-                <button type="button" @click="remove($index)" class="btn btn-warning btn-sm"><i class="fa fa-trash"></i></button>
+                <button type="button" @click="remove(index)" class="btn btn-warning btn-sm"><i class="fa fa-trash"></i></button>
             </td>
         </tr>
         </tbody>

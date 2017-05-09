@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'from' => ['address' => env('MAIL_FROM'), 'name' => env('APP_NAME', 'KWizard')],
+    'from' => ['address' => env('MAIL_FROM', 'hubdesk@hubtech.sa'), 'name' => env('APP_NAME', 'HubDesk')],
 
     /*
     |--------------------------------------------------------------------------

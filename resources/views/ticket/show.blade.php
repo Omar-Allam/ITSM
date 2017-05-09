@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('header')
-    <div style="width: 80%" class="pull-left">
+<div class="display-flex ticket-meta">
+    <div class="flex">
         <h4>#{{$ticket->id}} - {{$ticket->subject}}</h4>
         @if (Auth::user()->isSupport())
             <div class="btn-toolbar">
@@ -9,36 +10,33 @@
                     <i class="fa fa-mail-forward"></i> Re-assign
                 </button>
                 <a href="{{route('ticket.duplicate', $ticket)}}" class="btn btn-sm btn-default"><i class="fa fa-clone"></i>
-                    Duplicate</a>
+                Duplicate</a>
             </div>
         @endif
     </div>
-    <div style="width: 20%" class="pull-right">
-        <div class="card">
-            <ul class="list-unstyled">
-                <li>
-                    <small><strong>Status:</strong> {{$ticket->status->name}}</small>
-                </li>
-                @if ($ticket->due_date)
-                    <li>
-                        <small><strong>Due Date:</strong> {{$ticket->due_date->format('d/m/Y H:i')}}</small>
-                    </li>
-                @endif
 
-                @if($ticket->resolve_date)
-                    <li>
-                        <small><strong>Resolve Date:</strong> {{$ticket->resolve_date->format('d/m/Y H:i')}}</small>
-                    </li>
-                @endif
-            </ul>
-        </div>
+    <div class="card">
+        <ul class="list-unstyled">
+            <li>
+                <small><strong>Status:</strong> {{$ticket->status->name}}</small>
+            </li>
+            @if ($ticket->due_date)
+            <li>
+                <small><strong>Due Date:</strong> {{$ticket->due_date->format('d/m/Y H:i')}}</small>
+            </li>
+            @endif
+
+            @if($ticket->resolve_date)
+            <li>
+                <small><strong>Resolve Date:</strong> {{$ticket->resolve_date->format('d/m/Y H:i')}}</small>
+            </li>
+            @endif
+        </ul>
     </div>
-
-    <div class="clearfix"></div>
 @endsection
 
 @section('body')
-    <div id="ticketArea">
+    <section class="col-sm-12" id="ticketArea">
         <ul class="nav nav-tabs" role="tablist">
             <li class="active"><a href="#main" role="tab" data-toggle="tab"><i class="fa fa-ticket"></i> Request</a>
             </li>
@@ -83,7 +81,7 @@
         </div>
 
         @include('ticket._assign_modal')
-    </div>
+    </section>
 @endsection
 
 @section('javascript')

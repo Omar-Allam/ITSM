@@ -1,4 +1,5 @@
 <template>
+<section class="table-container">
     <table class="listing-table table-bordered">
         <thead>
             <tr>
@@ -10,7 +11,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr is="BusinessRule" v-for="(key, rule) in rules" :key="key" :rule="rule"></tr>
+            <tr is="BusinessRule" v-for="(rule, index) in currentRules" :index="index" :rule="rule"></tr>
         </tbody>
     </table>
 
@@ -27,7 +28,7 @@
                     </div>
                     <div class="form-group">
                         <select class="form-control" v-model="modal.selected" multiple="multiple">
-                            <option v-for="(index, label) in modal.options|filterBy modal.search" value="{{index}}">{{label}}</option>
+                            <option v-for="(index, label) in modal.options" :value="index">{{label}}</option>
                         </select>
                     </div>
                 </div>
@@ -38,25 +39,28 @@
             </div>
         </div>
     </div>
+    </section>
 </template>
 
 <script>
 import BusinessRule from './BusinessRule.vue';
+import EventBus from './Bus';
 
 export default {
     props: ['rules'],
 
     data() {
-        if (!this.rules || !this.rules.hasOwnProperty('length')) {
-            this.rules = [];
+        let currentRules = [];
+        if (this.rules && this.rules.length) {
+            currentRules = this.rules;
         }
 
-        return { modal: {field: '', options: '', search: '', key: null, selected: []} }
+        return { modal: {field: '', options: [], search: '', key: null, selected: []}, currentRules }
     },
 
     methods: {
         addRule() {
-            this.rules.push({
+            this.currentRules.push({
                 name: '', field: '', value: '', label: ''
             });
         },
@@ -78,19 +82,21 @@ export default {
         }
     },
 
-    events: {
-        removeRule(key) {
-            if (this.rules.length > 1) {
+    created() {
+        EventBus.$on('removeRule', (key) => {
+            if (this.currentRules.length > 1) {
                 const rules = [];
                 let i = 0;
-                for (let i = 0; i < this.rules.length; i++) {
+                for (let i = 0; i < this.currentRules.length; i++) {
                     if (i == key) continue;
-                    rules.push(this.rules[i]);
+                    rules.push(this.currentRules[i]);
                 }
-                this.rules = rules;
+                this.currentRules = rules;
             }
-        },
+        });
+    },
 
+    events: {
         openSelectModal(options) {
             this.modal.field = options.field;
             this.modal.options = options.options;

@@ -11,7 +11,7 @@
 @stop
 
 @section('body')
-    {{ Form::model($ticket, ['route' => ['ticket.update', $ticket]]) }}
+    {{ Form::model($ticket, ['route' => ['ticket.update', $ticket], 'class' => 'col-sm-12']) }}
 
         {{ method_field('patch') }}
 
