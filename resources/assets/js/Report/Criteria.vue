@@ -13,7 +13,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr is="Criterion" v-for="(key, criterion) in criterions" :key="key" :criterion="criterion"></tr>
+        <tr is="Criterion" v-for="(criterion, index) in criteria" :index="index" :criterion="criterion"></tr>
         </tbody>
     </table>
 
@@ -32,7 +32,7 @@
                     </div>
                     <div class="form-group">
                         <select class="form-control" v-model="modal.selected" multiple="multiple">
-                            <option v-for="(index, label) in filteredOptions" :value="index">
+                            <option v-for="(label, index) in filteredOptions" :value="index">
                                 {{label}}
                             </option>
                         </select>
@@ -55,33 +55,65 @@
 <script>
 
 import Criterion from './Criterion.vue';
+import EventBus from '../Bus';
 
 export default {
 
     props: [ 'criterions' ],
 
     data() {
+        let criteria = this.criterions;
+        if (!criteria) {
+            criteria = [];
+        }
         return {
             modal: {
                 field: '',
                 options: {},
                 search: '',
-                key: null,
+                index: null,
                 selected: []
-            }
+            },
+
+            criteria
         }
     },
 
+    created() {
+        EventBus.$on('openSelectModal', (options) => {
+            this.modal.field = options.field;
+            this.modal.options = options.options;
+            this.modal.index = options.index;
+            this.modal.selected = [];
+            if (options.selected) {
+                this.modal.selected = options.selected;
+            }
+            jQuery('#CriteriaSelectionModal').modal('show');
+        });
+
+        EventBus.$on('removeCriterion', (index) => {
+            if (this.criteria.length > 1) {
+                const criterions = [];
+                let i = 0;
+                for (let i = 0; i < this.criteria.length; i++) {
+                    if (i == key) continue;
+                    criterions.push(this.criteria[i]);
+                }
+                this.criteria = criterions;
+            }
+        });
+    },
+
     ready () {
-        if (!this.criterions) {
-            this.criterions = [];
+        if (!this.criteria) {
+            this.criteria = [];
             this.addCriterion();
         }
     },
 
     methods: {
         addCriterion() {
-            this.criterions.push({
+            this.criteria.push({
                 field: '',
                 operator: 'is',
                 label: '',
@@ -96,38 +128,31 @@ export default {
                 let value = this.modal.selected[i];
                 labels.push(this.modal.options[value]);
             }
-            this.$broadcast('setCriterionValue', this.modal.key, this.modal.selected, labels);
+            EventBus.$emit('setCriterionValue', { index: this.modal.index, values: this.modal.selected, labels});
             jQuery('#CriteriaSelectionModal').modal('hide');
         }
     },
 
-    components: { Criterion },
-
-    events: {
-        openSelectModal(options) {
-            this.modal.field = options.field;
-            this.modal.options = options.options;
-            this.modal.key = options.key;
-            this.modal.selected = [];
-            if (options.selected) {
-                this.modal.selected = options.selected;
+    computed: {
+        filteredOptions() {
+            if (!this.modal.search) {
+                return this.modal.options;
             }
-            jQuery('#CriteriaSelectionModal').modal('show');
-        },
 
-        removeCriterion(key) {
-            if (this.criterions.length > 1) {
-                const criterions = [];
-                let i = 0;
-                for (let i = 0; i < this.criterions.length; i++) {
-                    if (i == key) continue;
-                    criterions.push(this.criterions[i]);
+            const term = this.modal.search.toLowerCase();
+            let filtered = {};
+            for (let key in this.modal.options) {
+                if (!this.modal.options.hasOwnProperty(key)) continue;
+                let value = this.modal.options[key];
+                if (value.toLowerCase().indexOf(term) != -1) {
+                    filtered[key] = value;
                 }
-                this.criterions = criterions;
             }
+
+            return filtered;
         }
-    }
+    },
+
+    components: { Criterion }
 };
-
-
 </script>

@@ -1,13 +1,13 @@
 <template>
     <tr>
         <td>
-            <select @change="update" class="form-control input-sm" :name="`filters[${key}][field]`" v-model="criterion.field">
+            <select @change="update" class="form-control input-sm" :name="`filters[${index}][field]`" v-model="criterion.field">
                 <option value="">Select Field</option>
-                <option v-for="(id, title) in fields" :value="id">{{title}}</option>
+                <option v-for="(title, id) in fields" :value="id">{{title}}</option>
             </select>
         </td>
         <td>
-            <select @change="update" class="form-control input-sm" :name="`filters[${key}][operator]`" v-model="criterion.operator">
+            <select @change="update" class="form-control input-sm" :name="`filters[${index}][operator]`" v-model="criterion.operator">
                 <option value="is">is</option>
                 <option value="isnot">is not</option>
                 <option value="contains">contains</option>
@@ -18,14 +18,14 @@
         </td>
         <td>
             <div class="input-group" v-if="showMenuIcon">
-                <input class="form-control input-sm" :name="`filters[${key}][label]`" type="text" @click="loadOptions()" v-model="criterion.label" readonly>
+                <input class="form-control input-sm" :name="`filters[${index}][label]`" type="text" @click="loadOptions()" v-model="criterion.label" readonly>
                 <span class="input-group-btn">
     <button type="button" class="btn btn-default btn-sm" @click="loadOptions()"><i class="fa fa-bars"></i></button>
     </span>
             </div>
-            <input class="form-control input-sm" :name="`filters[${key}][label]`" type="text" v-model="criterion.label" @change="update" v-else>
+            <input class="form-control input-sm" :name="`filters[${index}][label]`" type="text" v-model="criterion.label" @change="update" v-else>
 
-            <input type="hidden" :name="`filters[${key}][value]`" v-model="criterion.value">
+            <input type="hidden" :name="`filters[${index}][value]`" v-model="criterion.value">
         </td>
         <td>
             <button class="btn btn-sm btn-warning pull-right" type="button" @click="remove()">
@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import EventBus from '../Bus';
 const fields = {
     subject: {type: 'text'},
     category: {type: 'select', list: 'category', name: 'Category'},
@@ -48,7 +49,7 @@ const fields = {
 };
 
 export default {
-    props: ['criterion', 'key'],
+    props: ['criterion', 'index'],
 
     data() {
         return {fields: window.fields};
@@ -57,7 +58,6 @@ export default {
     computed: {
         showMenuIcon() {
             const field = fields[this.criterion.field];
-            console.log(this.criterion.field);
             if (!field) {
                 return false;
             }
@@ -71,10 +71,10 @@ export default {
 
             const term = this.modal.search.toLowerCase();
             let filtered = {};
-            for (let key in this.options) {
-                let value = this.options[key];
+            for (let index in this.options) {
+                let value = this.options[index];
                 if (value.toLowerCase().contains(term)) {
-                    filtered[key] = value;
+                    filtered[index] = value;
                 }
             }
 
@@ -88,7 +88,7 @@ export default {
         },
 
         remove() {
-            this.$dispatch('removeCriterion', this.key);
+            this.$dispatch('removeCriterion', this.index);
         },
 
         loadOptions() {
@@ -97,24 +97,21 @@ export default {
                 return false;
             }
 
-            this.$http.get('/list/' + field.list).then(response => {
-                console.log(this.criterion.value);
-                this.$dispatch('openSelectModal', { options: response.data, key: this.key, field: field.name, selected: this.criterion.value.split(',') });
+            jQuery.get('/list/' + field.list).then(response => {
+                EventBus.$emit('openSelectModal', { options: response, index: this.index, field: field.name, selected: this.criterion.value.split(',') });
             });
         }
     },
 
-    
-
-    events: {
-        setCriterionValue(key, values, labels) {
-            if (key != this.key) {
+    created() {
+        EventBus.$on('setCriterionValue', (params) => {
+            if (params.index != this.index) {
                 return false;
             }
 
-            this.criterion.value = values.join(',');
-            this.criterion.label = labels.join(', ');
-        }
+            this.criterion.value = params.values.join(',');
+            this.criterion.label = params.labels.join(', ');
+        });
     }
 }
 

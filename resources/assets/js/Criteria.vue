@@ -129,7 +129,6 @@ export default {
 
     computed: {
         filteredOptions() {
-            console.log(this.modal.options);
             if (!this.modal.search) {
                 return this.modal.options;
             }

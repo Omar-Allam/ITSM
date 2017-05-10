@@ -26,7 +26,7 @@ class ReportController extends Controller
 
             $fields = $request->get('fields');
             $filters = $request->get('filters');
-            $session->set('ticket-report', compact('fields', 'filters'));
+            $session->put('ticket-report', compact('fields', 'filters'));
         } else {
             $fields = $session->get('ticket-report.fields');
             $filters = $session->get('ticket-report.filters');
