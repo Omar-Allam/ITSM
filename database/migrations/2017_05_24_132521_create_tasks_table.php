@@ -29,6 +29,7 @@ class CreateTasksTable extends Migration
             $table->date('actual_start_to');
             $table->string('comments');
             $table->string('additional_cost');
+            $table->string('created_by');
             $table->timestamps();
             $table->softDeletes();
         });

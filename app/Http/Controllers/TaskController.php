@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\NewTaskJob;
 use App\Task;
 use App\Ticket;
 use Illuminate\Http\Request;
@@ -38,7 +39,8 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $task = Task::create($request->all());
-
+        $ticket = Ticket::find($task->ticket_id);
+        $this->dispatch(new NewTaskJob($task,$ticket));
         return \Redirect::back();
     }
 

@@ -15,30 +15,8 @@
 
 
 @section('javascript')
-    <script src="/js/ticket.js"></script>
-    <script>
-        window.x = 0;
-        $('.btn-danger').on('click', function (e) {
+    {{--<script src="/js/ticket.js"></script>--}}
+    <script src="/js/task.js"></script>
 
-
-        });
-        $('.remove-task').on('click', function (e) {
-            alert(window.x);
-//        e.stopPropagation();
-//        e.preventDefault();
-//        let task_id = jQuery('.btn-danger').data('remove');
-//        jQuery.ajax({
-//            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-//            url: '/task/' + task_id,
-//            data: {_method: 'DELETE'},
-//            type: 'delete',
-//        }).done(() => {
-//            console.log('good')
-//        }).fail(() => {
-//            console.log('wrong')
-//        })
-//        jQuery('#removeTaskModal').modal('hide');
-        })
-    </script>
 @endsection
 

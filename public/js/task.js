@@ -9509,12 +9509,33 @@ if (false) {
 
 /***/ }),
 
-/***/ 14:
+/***/ 19:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Task_vue__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Task_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Task_vue__);
+
+
+
+
+window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+    el: '#ticketArea',
+    components: { Attachment: __WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue___default.a, Task: __WEBPACK_IMPORTED_MODULE_2__Task_vue___default.a }
+});
+
+/***/ }),
+
+/***/ 29:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
@@ -9619,178 +9640,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     created: function created() {
         this.loadTasks();
     }
-});
-
-/***/ }),
-
-/***/ 15:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(14),
-  /* template */
-  __webpack_require__(16),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/var/www/html/hubdesk/resources/assets/js/Task.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Task.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1d1879b8", Component.options)
-  } else {
-    hotAPI.reload("data-v-1d1879b8", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 16:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('table', {
-    staticClass: "listing-table",
-    staticStyle: {
-      "margin-top": "40px"
-    }
-  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.tasks), function(task) {
-    return _c('tr', [_c('td', [_c('a', {
-      attrs: {
-        "href": '/task/' + task.task_id
-      }
-    }, [_vm._v(_vm._s(task.title))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(task.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(task.group))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(task.technician))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(task.priority))]), _vm._v(" "), _c('td', [_c('button', {
-      staticClass: "btn btn-danger",
-      on: {
-        "click": function($event) {
-          _vm.showModal(task.task_id, task.title)
-        }
-      }
-    }, [_c('i', {
-      staticClass: "fa fa-trash"
-    }), _vm._v(" Remove\n                ")])])])
-  }))]), _vm._v(" "), _c('div', {
-    staticClass: "modal fade",
-    attrs: {
-      "id": "removeTaskModal",
-      "tabindex": "-1",
-      "role": "dialog",
-      "aria-labelledby": "removeTaskModal"
-    }
-  }, [_c('div', {
-    staticClass: "modal-dialog modal-lg",
-    attrs: {
-      "role": "document"
-    }
-  }, [_c('div', {
-    staticClass: "modal-content"
-  }, [_vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), _c('div', {
-    staticClass: "modal-footer"
-  }, [_c('button', {
-    staticClass: "btn btn-danger",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.removeTask()
-      }
-    }
-  }, [_vm._v("Remove")]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-default",
-    attrs: {
-      "type": "button",
-      "data-dismiss": "modal"
-    }
-  }, [_vm._v("Close")])])])])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', [_c('tr', [_c('th', {
-    staticClass: "col col-md-2"
-  }, [_vm._v(" Title")]), _vm._v(" "), _c('th', {
-    staticClass: "col col-md-2"
-  }, [_vm._v("Description")]), _vm._v(" "), _c('th', {
-    staticClass: "col col-md-1"
-  }, [_vm._v("Group")]), _vm._v(" "), _c('th', {
-    staticClass: "col col-md-1"
-  }, [_vm._v("Assigned To")]), _vm._v(" "), _c('th', {
-    staticClass: "col col-md-1"
-  }, [_vm._v("Priority")]), _vm._v(" "), _c('th', {
-    staticClass: "col col-md-2"
-  }, [_vm._v("Actions")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "modal-header"
-  }, [_c('button', {
-    staticClass: "close",
-    attrs: {
-      "type": "button",
-      "data-dismiss": "modal",
-      "aria-label": "Close"
-    }
-  }, [_c('span', {
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }, [_vm._v("×")])]), _vm._v(" "), _c('h4', {
-    staticClass: "modal-title",
-    attrs: {
-      "id": "myModalLabel"
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-trash"
-  }), _vm._v(" Remove Task")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "modal-body"
-  }, [_c('div', {
-    staticClass: "alert alert-warning lead"
-  }, [_vm._v("\n                        Are You sure to delete "), _c('span', {
-    attrs: {
-      "id": "task_title"
-    }
-  }), _vm._v(" task ?\n                    ")])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-1d1879b8", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 22:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Task_vue__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Task_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Task_vue__);
-
-
-
-
-window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
-    el: '#ticketArea',
-    components: { Attachment: __WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue___default.a, Task: __WEBPACK_IMPORTED_MODULE_2__Task_vue___default.a }
 });
 
 /***/ }),
@@ -9982,6 +9831,156 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
+/***/ 36:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(29),
+  /* template */
+  __webpack_require__(37),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/var/www/html/hubdesk/resources/assets/js/Task.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Task.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1d1879b8", Component.options)
+  } else {
+    hotAPI.reload("data-v-1d1879b8", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 37:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('table', {
+    staticClass: "listing-table",
+    staticStyle: {
+      "margin-top": "40px"
+    }
+  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.tasks), function(task) {
+    return _c('tr', [_c('td', [_c('a', {
+      attrs: {
+        "href": '/task/' + task.task_id
+      }
+    }, [_vm._v(_vm._s(task.title))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(task.description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(task.group))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(task.technician))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(task.priority))]), _vm._v(" "), _c('td', [_c('button', {
+      staticClass: "btn btn-danger",
+      on: {
+        "click": function($event) {
+          _vm.showModal(task.task_id, task.title)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-trash"
+    }), _vm._v(" Remove\n                ")])])])
+  }))]), _vm._v(" "), _c('div', {
+    staticClass: "modal fade",
+    attrs: {
+      "id": "removeTaskModal",
+      "tabindex": "-1",
+      "role": "dialog",
+      "aria-labelledby": "removeTaskModal"
+    }
+  }, [_c('div', {
+    staticClass: "modal-dialog modal-lg",
+    attrs: {
+      "role": "document"
+    }
+  }, [_c('div', {
+    staticClass: "modal-content"
+  }, [_vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), _c('div', {
+    staticClass: "modal-footer"
+  }, [_c('button', {
+    staticClass: "btn btn-danger",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.removeTask()
+      }
+    }
+  }, [_vm._v("Remove")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button",
+      "data-dismiss": "modal"
+    }
+  }, [_vm._v("Close")])])])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', [_c('tr', [_c('th', {
+    staticClass: "col col-md-2"
+  }, [_vm._v(" Title")]), _vm._v(" "), _c('th', {
+    staticClass: "col col-md-2"
+  }, [_vm._v("Description")]), _vm._v(" "), _c('th', {
+    staticClass: "col col-md-1"
+  }, [_vm._v("Group")]), _vm._v(" "), _c('th', {
+    staticClass: "col col-md-1"
+  }, [_vm._v("Assigned To")]), _vm._v(" "), _c('th', {
+    staticClass: "col col-md-1"
+  }, [_vm._v("Priority")]), _vm._v(" "), _c('th', {
+    staticClass: "col col-md-2"
+  }, [_vm._v("Actions")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "modal-header"
+  }, [_c('button', {
+    staticClass: "close",
+    attrs: {
+      "type": "button",
+      "data-dismiss": "modal",
+      "aria-label": "Close"
+    }
+  }, [_c('span', {
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("×")])]), _vm._v(" "), _c('h4', {
+    staticClass: "modal-title",
+    attrs: {
+      "id": "myModalLabel"
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-trash"
+  }), _vm._v(" Remove Task")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "modal-body"
+  }, [_c('div', {
+    staticClass: "alert alert-warning lead"
+  }, [_vm._v("\n                        Are You sure to delete "), _c('span', {
+    attrs: {
+      "id": "task_title"
+    }
+  }), _vm._v(" task ?\n                    ")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-1d1879b8", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ 4:
 /***/ (function(module, exports) {
 
@@ -10013,7 +10012,7 @@ module.exports = g;
 /***/ 47:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(22);
+module.exports = __webpack_require__(19);
 
 
 /***/ }),

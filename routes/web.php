@@ -1,6 +1,6 @@
 <?php
 
-Route::get('/', 'HomeController@home');
+Route::get('/', 'HomeController@home')->middleware('lang');
 
 Route::auth();
 Route::get('auth/google', 'Auth\AuthController@googleRedirect');
