@@ -39,12 +39,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'], 'as' => 'a
     $r->resource('sla', 'Admin\SlaController');
     $r->resource('user', 'Admin\UserController');
 
-    Route::group(['prefix' => 'group'], function(){
+    Route::group(['prefix' => 'group'], function () {
         Route::post('add-user/{group}', ['uses' => 'Admin\GroupController@addUser', 'as' => 'admin.group.add-user']);
         Route::delete('remove-user/{group}/{user}', ['uses' => 'Admin\GroupController@removeUser', 'as' => 'admin.group.remove-user']);
     });
 
-    Route::group(['prefix' => 'user'], function(){
+    Route::group(['prefix' => 'user'], function () {
         Route::post('ldap-import', ['as' => 'user.ldap-import', 'uses' => 'Admin\UserController@ldapImport']);
     });
 });
@@ -72,6 +72,9 @@ Route::group(['middleware' => ['auth']], function () {
         $r->delete('delete/{ticketApproval}', ['as' => 'approval.destroy', 'uses' => 'ApprovalController@destroy']);
     });
 
+    Route::get('/get-tasks/{ticket}',['as'=>'tasks.ticket','uses'=>'TaskController@getTasksOfTicket']);
+    Route::resource('task', 'TaskController');
+
     Route::get('/home', 'HomeController@index');
 
     Route::get('/custom-fields', 'CustomFieldsController@render');
@@ -79,4 +82,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/report', 'ReportController@index');
     Route::get('/report/result', 'ReportController@show');
     Route::post('/report/result', 'ReportController@show');
+
+    Route::get('change-language/{id}',['as'=>'site.changeLanguage','uses'=>'HomeController@changeLanguage']);
 });

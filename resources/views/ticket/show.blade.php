@@ -42,6 +42,8 @@
             </li>
             <li><a href="#conversation" role="tab" data-toggle="tab"><i class="fa fa-comments-o"></i> Conversation</a>
             </li>
+            <li><a href="#tasks" role="tab" data-toggle="tab"><i class="fa fa-tasks"></i> Tasks</a>
+            </li>
             @if ($ticket->resolution || Auth::user()->isTechnician())
                 <li><a href="#resolution" role="tab" data-toggle="tab"><i class="fa fa-support"></i> Resolution</a></li>
             @endif
@@ -78,7 +80,9 @@
                     @include('ticket.tabs._attachment')
                 </div>
             @endif
-        </div>
+            <div role="tabpanel" class="tab-pane" id="tasks">
+                @include('ticket.tabs._tasks')
+            </div>
 
         @include('ticket._assign_modal')
     </section>
@@ -87,4 +91,5 @@
 @section('javascript')
     <script src="{{asset('/js/ticket.js')}}"></script>
     <script src="{{asset('/js/tinymce/tinymce.min.js')}}"></script>
+
 @endsection
