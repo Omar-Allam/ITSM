@@ -1,16 +1,16 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div>
-        <table class="listing-table" style="margin-top: 40px">
+        <table class="listing-table" style="margin-top: 40px" >
             <thead>
             <tr>
-                <th class="col col-md-2"> Title</th>
-                <th class="col col-md-2">Description</th>
+                <th class="col col-md-2" v-text="title"></th>
+                <th class="col col-md-2" v-text="description"></th>
                 <!--<th class="col col-md-1">Status</th>-->
-                <th class="col col-md-1">Group</th>
-                <th class="col col-md-1">Assigned To</th>
-                <th class="col col-md-1">Priority</th>
+                <th class="col col-md-1" v-text="group"></th>
+                <th class="col col-md-1" v-text="assigned"></th>
+                <th class="col col-md-1" v-text="priority"></th>
                 <!--<th class="col col-md-2">Comment</th>-->
-                <th class="col col-md-2">Actions</th>
+                <th class="col col-md-2" v-text="actions"></th>
             </tr>
             </thead>
             <tbody>
@@ -24,7 +24,7 @@
                 <!--<td>{{task.comments}}</td>-->
                 <td>
                     <button class="btn btn-danger" @click="showModal(task.task_id,task.title)"><i
-                            class="fa fa-trash"></i> Remove
+                            class="fa fa-trash"></i> {{remove}}
                     </button>
                 </td>
             </tr>
@@ -61,7 +61,8 @@
 </template>
 <script>
     export default {
-        props: ['ticket'],
+        props: ['ticket','title','description'
+            ,'group','assigned','priority','actions','remove'],
         data() {
             return {
                 tasks: [],
@@ -98,6 +99,7 @@
         },
         created(){
             this.loadTasks()
+
         }
     }
 </script>

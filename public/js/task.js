@@ -9461,7 +9461,7 @@ module.exports = Vue$3;
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('table', {
     staticClass: "listing-table table-condensed"
-  }, [_c('thead', [_c('tr', [_c('th', [_vm._v("Attachments")]), _vm._v(" "), _c('th', {
+  }, [_c('thead', [_c('tr', [_c('th', [_vm._v(_vm._s(_vm.Attachments))]), _vm._v(" "), _c('th', {
     staticClass: "text-right"
   }, [_c('button', {
     staticClass: "btn btn-primary btn-sm",
@@ -9599,7 +9599,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['ticket'],
+    props: ['ticket', 'title', 'description', 'group', 'assigned', 'priority', 'actions', 'remove'],
     data: function data() {
         return {
             tasks: [],
@@ -9875,7 +9875,37 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticStyle: {
       "margin-top": "40px"
     }
-  }, [_vm._m(0), _vm._v(" "), _c('tbody', _vm._l((_vm.tasks), function(task) {
+  }, [_c('thead', [_c('tr', [_c('th', {
+    staticClass: "col col-md-2",
+    domProps: {
+      "textContent": _vm._s(_vm.title)
+    }
+  }), _vm._v(" "), _c('th', {
+    staticClass: "col col-md-2",
+    domProps: {
+      "textContent": _vm._s(_vm.description)
+    }
+  }), _vm._v(" "), _c('th', {
+    staticClass: "col col-md-1",
+    domProps: {
+      "textContent": _vm._s(_vm.group)
+    }
+  }), _vm._v(" "), _c('th', {
+    staticClass: "col col-md-1",
+    domProps: {
+      "textContent": _vm._s(_vm.assigned)
+    }
+  }), _vm._v(" "), _c('th', {
+    staticClass: "col col-md-1",
+    domProps: {
+      "textContent": _vm._s(_vm.priority)
+    }
+  }), _vm._v(" "), _c('th', {
+    staticClass: "col col-md-2",
+    domProps: {
+      "textContent": _vm._s(_vm.actions)
+    }
+  })])]), _vm._v(" "), _c('tbody', _vm._l((_vm.tasks), function(task) {
     return _c('tr', [_c('td', [_c('a', {
       attrs: {
         "href": '/task/' + task.task_id
@@ -9889,7 +9919,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_c('i', {
       staticClass: "fa fa-trash"
-    }), _vm._v(" Remove\n                ")])])])
+    }), _vm._v(" " + _vm._s(_vm.remove) + "\n                ")])])])
   }))]), _vm._v(" "), _c('div', {
     staticClass: "modal fade",
     attrs: {
@@ -9905,7 +9935,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     staticClass: "modal-content"
-  }, [_vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), _c('div', {
+  }, [_vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('div', {
     staticClass: "modal-footer"
   }, [_c('button', {
     staticClass: "btn btn-danger",
@@ -9925,20 +9955,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Close")])])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', [_c('tr', [_c('th', {
-    staticClass: "col col-md-2"
-  }, [_vm._v(" Title")]), _vm._v(" "), _c('th', {
-    staticClass: "col col-md-2"
-  }, [_vm._v("Description")]), _vm._v(" "), _c('th', {
-    staticClass: "col col-md-1"
-  }, [_vm._v("Group")]), _vm._v(" "), _c('th', {
-    staticClass: "col col-md-1"
-  }, [_vm._v("Assigned To")]), _vm._v(" "), _c('th', {
-    staticClass: "col col-md-1"
-  }, [_vm._v("Priority")]), _vm._v(" "), _c('th', {
-    staticClass: "col col-md-2"
-  }, [_vm._v("Actions")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "modal-header"
   }, [_c('button', {

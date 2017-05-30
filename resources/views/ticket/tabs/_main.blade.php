@@ -6,31 +6,31 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4 class="panel-title"><i class="fa fa-ticket"></i> Request Details</h4>
+        <h4 class="panel-title"><i class="fa fa-ticket"></i> {{t('Request Details')}}</h4>
     </div>
     <table class="table table-striped table-condensed">
         <tr>
-            <th>Urgency</th>
+            <th>{{t('Urgency')}}</th>
             <td>{{$ticket->urgency->name or 'Not Assigned'}}</td>
-            <th>SLA</th>
+            <th>{{t('SLA')}}</th>
             <td>{{$ticket->sla->name or 'Not Assigned'}}</td>
         </tr>
         <tr>
-            <th>Due Time</th>
+            <th>{{t('Due Time')}}</th>
             <td>{{$ticket->due_date or 'Not Assigned'}}</td>
-            <th>First Response</th>
+            <th>{{t('First Response')}}</th>
             <td>{{$ticket->first_response_date or 'Not Assigned'}}</td>
         </tr>
         <tr>
-            <th>Group</th>
+            <th>{{t('Group')}}</th>
             <td>{{$ticket->group->name or 'Not Assigned'}}</td>
-            <th>Technician</th>
+            <th>{{t('Technician')}}</th>
             <td>{{$ticket->technician->name or 'Not Assigned'}}</td>
         </tr>
         <tr>
-            <th>Business Unit</th>
+            <th>{{t('Business Unit')}}</th>
             <td>{{$ticket->business_unit->name or 'Not Assigned'}}</td>
-            <th>Location</th>
+            <th>{{t('Location')}}</th>
             <td>{{$ticket->location->name or 'Not Assigned'}}</td>
         </tr>
     </table>
@@ -38,7 +38,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4 class="panel-title"><i class="fa fa-asterisk"></i> Ticket Options</h4>
+        <h4 class="panel-title"><i class="fa fa-asterisk"></i> {{t('Ticket Options')}}</h4>
     </div>
 
     <table class="table table-bordered table-condensed table-striped">
@@ -63,25 +63,25 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4 class="panel-title"><i class="fa fa-user"></i> Requester Details</h4>
+        <h4 class="panel-title"><i class="fa fa-user"></i> {{t('Requester Details')}}</h4>
     </div>
     <table class="table table-striped table-condensed">
         <tr>
-            <th>Name</th>
+            <th>{{t('Name')}}</th>
             <td>{{$ticket->requester->name}}</td>
-            <th>Business Unit</th>
+            <th>{{t('Business Unit')}}</th>
             <td>{{$ticket->requester->business_unit->name or 'Not Assigned'}}</td>
         </tr>
         <tr>
-            <th>Email</th>
+            <th>{{t('Email')}}</th>
             <td>{{$ticket->requester->email or 'Not Assigned'}}</td>
-            <th>Location</th>
+            <th>{{t('Location')}}</th>
             <td>{{$ticket->requester->location->name or 'Not Assigned'}}</td>
         </tr>
         <tr>
-            <th>Phone</th>
+            <th>{{t('Phone')}}</th>
             <td>{{$ticket->requester->phone or 'Not Assigned'}}</td>
-            <th>Mobile</th>
+            <th>{{t('Mobile')}}</th>
             <td>{{$ticket->requester->mobile or 'Not Assigned'}}</td>
         </tr>
     </table>

@@ -5,8 +5,9 @@
 @endsection
 
 @section('body')
+
     <div class="label pull-right">
-        <a class="btn btn-default" href="{{url()->previous()}}"><i class="fa fa-arrow-left"> Back</i></a>
+        <a class="btn btn-default" href="{{url()->previous()}}"><i class="fa fa-arrow-left"> {{t('Back')}}</i></a>
     </div>
     <form action="{{route('task.update',$task)}}" method="POST">
         {{csrf_field()}} {{method_field('PUT')}}
@@ -82,7 +83,6 @@
 
 
     </form>
-
 @endsection
 
 @section('javascript')

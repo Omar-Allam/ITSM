@@ -60,7 +60,7 @@ class TicketController extends Controller
 
         $this->dispatch(new NewTicketJob($ticket));
 
-        flash('Ticket has been saved', 'success');
+        flash(t('Ticket has been saved'), 'success');
 
         return \Redirect::route('ticket.index');
     }
@@ -89,7 +89,7 @@ class TicketController extends Controller
     {
         $ticket->delete();
 
-        flash('Ticket has been deleted', 'success');
+        flash(t('Ticket has been deleted'), 'success');
 
         return \Redirect::route('ticket.index');
     }
@@ -128,7 +128,7 @@ class TicketController extends Controller
             return \Redirect::route('ticket.show', $request->id);
         }
 
-        flash('Ticket not found');
+        flash(t('Ticket not found'));
         return \Redirect::route('ticket.index');
     }
 

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('header')
-    <h4 class="flex">Ticket</h4>
+    <h4 class="flex">{{t('Tickets')}}</h4>
 
     {{ Form::open(['route' => 'ticket.scope', 'class' => 'form-inline ticket-scope heading-actions flex']) }}
     <div class="btn-group">
@@ -38,14 +38,14 @@
             <table class="listing-table">
                 <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Subject</th>
-                    <th>Requester</th>
-                    <th>Technician</th>
-                    <th>Created At</th>
-                    <th>Due Date</th>
-                    <th>Status</th>
-                    <th>Category</th>
+                    <th>{{t('ID')}}</th>
+                    <th>{{t('Subject')}}</th>
+                    <th>{{t('Requester')}}</th>
+                    <th>{{t('Technician')}}</th>
+                    <th>{{t('Created At')}}</th>
+                    <th>{{t('Due Date')}}</th>
+                    <th>{{t('Status')}}</th>
+                    <th>{{t('Category')}}</th>
                 </tr>
                 </thead>
                 <tbody>
