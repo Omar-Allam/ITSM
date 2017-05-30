@@ -10,7 +10,7 @@
                     <i class="fa fa-mail-forward"></i> Re-assign
                 </button>
                 <a href="{{route('ticket.duplicate', $ticket)}}" class="btn btn-sm btn-default"><i class="fa fa-clone"></i>
-                Duplicate</a>
+                {{t('Duplicate')}}</a>
             </div>
         @endif
     </div>

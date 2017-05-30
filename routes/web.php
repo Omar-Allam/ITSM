@@ -83,5 +83,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/report/result', 'ReportController@show');
     Route::post('/report/result', 'ReportController@show');
 
-    Route::get('change-language/{id}',['as'=>'site.changeLanguage','uses'=>'HomeController@changeLanguage']);
+    Route::get('language/{language}',['as'=>'site.changeLanguage','uses'=>'HomeController@changeLanguage'])->middleware('lang');
 });

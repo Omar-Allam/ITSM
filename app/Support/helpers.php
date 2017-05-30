@@ -9,22 +9,25 @@ function flash($message, $type = 'danger')
 
 function t($word, $language = '')
 {
-    $language = $language ?: app()->getLocale();
+    if(Auth::check()){
+        $language = $language ?: \Session::get('personlized-language' . \Auth::user()->id, \Config::get('app.locale'));
 
-    $word_exist = Translation::where('word', $word)
-        ->where('language_id', $language)->first();
+        $word_exist = Translation::where('word', $word)
+            ->where('language', $language)->first();
 
-    if ($word_exist) {
-        if ($word_exist->translation != '') {
-            return $word_exist->translation;
+        if ($word_exist) {
+            if ($word_exist->translation != '') {
+                return $word_exist->translation;
+            }
+            return $word_exist->word;
         }
-        return $word_exist->word;
+
+        $newWord = new Translation();
+        $newWord->word = $word;
+        $newWord->language = $language;
+        $newWord->save();
+        return $newWord->word;
     }
 
-    $newWord = new Translation();
-    $newWord->word = $word;
-    $newWord->language_id = $language;
-    $newWord->save();
-    return $newWord->word;
 
 }

@@ -36,4 +36,11 @@ class HomeController extends Controller
 
         return \Redirect::to($url);
     }
+
+    function changeLanguage($language)
+    {
+        \Session::put('personlized-language'.\Auth::user()->id,$language);
+        return redirect()->back();
+    }
 }
+

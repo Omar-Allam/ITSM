@@ -2,7 +2,7 @@
 
 @section('header')
     <h4 class="flex">Ticket</h4>
-    
+
     {{ Form::open(['route' => 'ticket.scope', 'class' => 'form-inline ticket-scope heading-actions flex']) }}
     <div class="btn-group">
         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
@@ -70,6 +70,7 @@
             </div>
         @endif
     </div>
+    </section>
 @stop
 
 @section('javascript')
