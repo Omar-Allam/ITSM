@@ -4,10 +4,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>HubDesk </title>
+    <title>{{t('HubDesk')}}</title>
 
     @if(\Auth::check() && \Session::has('personlized-language-ar' . \Auth::user()->id))
         <link rel="stylesheet" href="{{asset('/css/app.css')}}">
+        <style>
+            div{
+                direction: rtl;
+            }
+            th,td{
+                text-align: right;
+            }
+
+        </style>
     @else
         <link rel="stylesheet" href="{{asset('/css/app.css')}}">
 
@@ -101,6 +110,16 @@
 </div>
 
 <script src="{{asset('/js/app.js')}}"></script>
+@if(\Auth::check() && \Session::has('personlized-language-ar' . \Auth::user()->id))
+    <script>
+        jQuery(document).ready(function () {
+            jQuery('div[class*=col-md-]').addClass('pull-right').removeClass('pull-left')
+        })
+    </script>
+@else
+    <link rel="stylesheet" href="{{asset('/css/app.css')}}">
+
+@endif
 @yield('javascript')
 </body>
 </html>

@@ -6,13 +6,13 @@
     {{ Form::open(['route' => 'ticket.scope', 'class' => 'form-inline ticket-scope heading-actions flex']) }}
     <div class="btn-group">
         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
-            {{$scopes[$scope]}} <span class="caret"></span>
+            {{t($scopes[$scope])}} <span class="caret"></span>
         </button>
 
         <ul class="dropdown-menu">
             @foreach ($scopes as $key => $value)
                 <li>
-                    <button class="btn btn-link btn-sm" type="submit" name="scope" value="{{$key}}">{{$value}}</button>
+                    <button class="btn btn-link btn-sm" type="submit" name="scope" value="{{$key}}">{{t($value)}}</button>
                 </li>
             @endforeach
         </ul>
@@ -21,7 +21,7 @@
 
     {{Form::open(['route' => 'ticket.jump', 'class' => 'form-inline heading-actions'])}}
     <div class="input-group input-group-sm">
-        <input class="form-control" type="text" name="id" id="ticketID" placeholder="Ticket ID"/>
+        <input class="form-control" type="text" name="id" id="ticketID" placeholder="{{t('Ticket ID')}}"/>
         <span class="input-group-btn">
             <button class="btn btn-default"><i class="fa fa-chevron-right"></i></button>
         </span>
@@ -56,8 +56,8 @@
                         <td>{{ $ticket->requester->name }}</td>
                         <td>{{ $ticket->technician? $ticket->technician->name : 'Not Assigned' }}</td>
                         <td>{{ $ticket->created_at->format('d/m/Y h:i a') }}</td>
-                        <td>{{ $ticket->due_date? $ticket->due_date->format('d/m/Y h:i a') : 'Not Assigned' }}</td>
-                        <td>{{ $ticket->status->name }}</td>
+                        <td>{{ $ticket->due_date? $ticket->due_date->format('d/m/Y h:i a') : t('Not Assigned') }}</td>
+                        <td>{{ t($ticket->status->name) }}</td>
                         <td>{{ $ticket->category->name }}</td>
                     </tr>
                 @endforeach
