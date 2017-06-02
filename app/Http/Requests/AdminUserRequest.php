@@ -13,11 +13,18 @@ class AdminUserRequest extends Request
     {
         $user = $this->route()->parameter('user');
 
-        return [
+        $validatePassword = !empty($user) && !empty($this->get('password'));
+
+        $rules = [
             'name' => 'required',
             'email' => 'required|email',
             'login' => 'required|unique:users,login' . ($user ? ',' . $user->id : ''),
-            'password' => 'min:8|confirmed',
         ];
+
+        if ($validatePassword) {
+            $rules['password'] = 'min:8|confirmed';
+        }
+
+        return $rules;
     }
 }

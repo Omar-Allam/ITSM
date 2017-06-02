@@ -17,6 +17,13 @@ class CalculateTicketTime extends Job implements ShouldQueue
     
     const MINUTES_IN_DAY = 1440;
 
+    protected $workingMinutes = 1440;
+
+    protected $workStart = '00:00';
+
+    protected $workEnd = '23:59';
+
+
     /**
      * @var Ticket
      */
@@ -28,6 +35,12 @@ class CalculateTicketTime extends Job implements ShouldQueue
         $this->ticket = $ticket;
 
         Carbon::setWeekendDays([Carbon::FRIDAY, Carbon::SATURDAY]);
+
+        $this->workStart = env('WORK_START_TIME', '08:00');
+        $this->workEnd = env('WORK_START_TIME', '16:00');
+
+        $this->workingMinutes = Carbon::parse($this->workEnd)->diffInMinutes(Carbon::parse($this->workStart));
+        dd($this->workingMinutes);
     }
 
     public function handle()

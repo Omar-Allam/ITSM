@@ -20,16 +20,18 @@ window.app = new Vue({
     methods: {
         loadCategory(withFields) {
             if (this.category) {
-                $.get(`/list/subcategory/${this.category}`).then(response => this.subcategories = response.data);
+                jQuery.get(`/list/subcategory/${this.category}`).then(response => {
+                    this.subcategories = response;
+                });
                 if (withFields) this.loadCustomFields();
             }
         },
 
         loadSubcategory(withFields) {
             if (this.subcategory) {
-                $.get(`/list/item/${this.subcategory}`).then(response =>
-                    this.items = response.data
-                );
+                jQuery.get(`/list/item/${this.subcategory}`).then(response => {
+                    this.items = response;
+                });
 
                 if (withFields) this.loadCustomFields();
             }
@@ -37,7 +39,7 @@ window.app = new Vue({
 
         loadItem() {
             if (this.item) {
-                this.loadCustomFields();
+                // this.loadCustomFields();
             }
         },
 
@@ -74,11 +76,11 @@ window.app = new Vue({
 
     watch: {
         category() {
-           this.loadCategory(true);
+           this.loadCategory(false);
         },
 
         subcategory() {
-            this.loadSubcategory(true);
+            this.loadSubcategory(false);
         },
 
         item() {
