@@ -13,16 +13,21 @@ use App\Jobs\NewTicketJob;
 use App\Jobs\SendApproval;
 use App\Jobs\TicketAssigned;
 use App\Jobs\TicketReplyJob;
+use App\Mail\EscalationMail;
 use App\Ticket;
 use App\TicketApproval;
 use App\TicketReply;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Mailable;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 
 class TicketController extends Controller
 {
     public function index()
     {
+
         $scope = \Session::get('ticket.scope', 'my_pending');
         if (\Session::has('ticket.filter')) {
             $query = Ticket::scopedView('in_my_groups')->filter(session('ticket.filter'));
@@ -33,7 +38,7 @@ class TicketController extends Controller
         $tickets = $query->latest('id')->paginate();
 
         $scopes = TicketViewScope::getScopes();
-
+        $this->checkSlaForTickets();
         return view('ticket.index', compact('tickets', 'scopes', 'scope'));
     }
 
@@ -182,5 +187,32 @@ class TicketController extends Controller
         \Session::remove('ticket.filter');
 
         return \Redirect::back();
+    }
+
+    function checkSlaForTickets()
+    {
+        date_default_timezone_set('Asia/Riyadh');
+        $openedTickets = Ticket::where('status_id', '<>', '7')
+            ->where('status_id', '<>', '8')->get();
+        /** @var Ticket $ticket */
+        foreach ($openedTickets as $ticket) {
+            $t_sla = $ticket->sla;
+            $sla_time = $t_sla->getDueTime();
+            $t_created_from = $ticket->created_at->diffInMinutes();
+            if ($t_created_from > $sla_time) {
+                $levels = $t_sla->escalations->sortByDesc('level');
+                if ($levels->count()) {
+                    foreach ($levels as $level) {
+                        $levelTime = ($level->hours * 60) + ($level->days * 8 * 60) + ($level->minutes);//2min
+                        $wholeTime = $levelTime + $sla_time;
+                        if ($t_created_from > $wholeTime) {
+                            Mail::to($level->email)->send(new EscalationMail($ticket));
+                        }
+
+                    }
+                }
+
+            }
+        }
     }
 }

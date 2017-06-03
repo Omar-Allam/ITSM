@@ -113,7 +113,7 @@
 @if(\Auth::check() && \Session::has('personlized-language-ar' . \Auth::user()->id))
     <script>
         jQuery(document).ready(function () {
-            jQuery('div[class*=col-md-]').addClass('pull-right').removeClass('pull-left')
+            jQuery('div[class*=col-]').addClass('pull-right').removeClass('pull-left')
         })
     </script>
 @else
