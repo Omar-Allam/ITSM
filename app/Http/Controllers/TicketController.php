@@ -62,7 +62,7 @@ class TicketController extends Controller
 
         flash('Ticket has been saved', 'success');
 
-        return \Redirect::route('ticket.index');
+        return \Redirect::route('ticket.show', $ticket);
     }
 
     public function show(Ticket $ticket)

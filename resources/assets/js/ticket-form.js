@@ -12,7 +12,7 @@ window.app = new Vue({
         technicians: []
     },
 
-    ready() {
+    created() {
         this.loadCategory(false);
         this.loadSubcategory(false);
     },

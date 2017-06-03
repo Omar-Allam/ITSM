@@ -9627,7 +9627,7 @@ window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
         technicians: []
     },
 
-    ready: function ready() {
+    created: function created() {
         this.loadCategory(false);
         this.loadSubcategory(false);
     },

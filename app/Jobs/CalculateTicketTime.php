@@ -40,7 +40,6 @@ class CalculateTicketTime extends Job implements ShouldQueue
         $this->workEnd = env('WORK_START_TIME', '16:00');
 
         $this->workingMinutes = Carbon::parse($this->workEnd)->diffInMinutes(Carbon::parse($this->workStart));
-        dd($this->workingMinutes);
     }
 
     public function handle()
@@ -108,7 +107,7 @@ class CalculateTicketTime extends Job implements ShouldQueue
         }
 
         $today = Carbon::now();
-        $calculate = !in_array($today->dayOfWeek, Carbon::getWeekendDays()) || $this->ticket->sla->critical;
+        $calculate = !in_array($today->dayOfWeek, Carbon::getWeekendDays()) || ($this->ticket->sla && $this->ticket->sla->critical);
         $lastLog = $logs->last();
         if ($lastLog->status->isOpen() && $calculate) {
             $diff += $this->calculateDiff($lastLog->created_at, $today);
