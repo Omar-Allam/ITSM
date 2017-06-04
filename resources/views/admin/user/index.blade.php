@@ -21,7 +21,7 @@
 @stop
 
 @section('body')
-    <section class="cols-m-9">
+    <section class="col-sm-9">
     @if ($users->total())
         <table class="listing-table">
             <thead>
@@ -58,6 +58,7 @@
         <div class="alert alert-info"><i class="fa fa-exclamation-circle"></i> <strong>No users found</strong></div>
     @endif
 
+        {{--
     <div class="modal fade" id="ImportModal" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             {{Form::open(['route' => 'user.ldap-import', 'class' => 'modal-content'])}}
@@ -78,5 +79,6 @@
             {{Form::close()}}
         </div>
     </div>
+    --}}
     </section>
 @stop

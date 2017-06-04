@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 47);
+/******/ 	return __webpack_require__(__webpack_require__.s = 55);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -9455,7 +9455,7 @@ module.exports = Vue$3;
 
 /***/ }),
 
-/***/ 11:
+/***/ 13:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -9503,7 +9503,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-075c01e7", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-a7294246", module.exports)
   }
 }
 
@@ -9518,7 +9518,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Task_vue__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Task_vue__ = __webpack_require__(40);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Task_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Task_vue__);
 
 
@@ -9527,119 +9527,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     el: '#ticketArea',
     components: { Attachment: __WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue___default.a, Task: __WEBPACK_IMPORTED_MODULE_2__Task_vue___default.a }
-});
-
-/***/ }),
-
-/***/ 29:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['ticket', 'title', 'description', 'group', 'assigned', 'priority', 'actions', 'remove'],
-    data: function data() {
-        return {
-            tasks: [],
-            task_id: 0
-        };
-    },
-
-
-    methods: {
-        loadTasks: function loadTasks() {
-            var _this = this;
-
-            jQuery.get('/get-tasks/' + this.ticket).done(function (response) {
-                return _this.tasks = response;
-            });
-        },
-        showModal: function showModal(id, title) {
-            var remove_modal = jQuery('#removeTaskModal');
-            var form = jQuery('#remove-task-form');
-            remove_modal.find('.lead').find('#task_title').text(title);
-            remove_modal.modal('show');
-            this.task_id = id;
-        },
-        removeTask: function removeTask() {
-            $.ajax({
-                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                url: '/task/' + this.task_id,
-                type: 'DELETE',
-                success: function success(response) {
-                    console.log('task is deleted');
-                }
-            });
-            var remove_modal = jQuery('#removeTaskModal');
-            remove_modal.modal('hide');
-            this.loadTasks();
-        }
-    },
-    created: function created() {
-        this.loadTasks();
-    }
 });
 
 /***/ }),
@@ -9831,20 +9718,161 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ 36:
+/***/ 30:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['ticket', 'title', 'description', 'group', 'assigned', 'priority', 'actions', 'remove'],
+    data: function data() {
+        return {
+            tasks: [],
+            task_id: 0
+        };
+    },
+
+
+    methods: {
+        loadTasks: function loadTasks() {
+            var _this = this;
+
+            jQuery.get('/get-tasks/' + this.ticket).done(function (response) {
+                return _this.tasks = response;
+            });
+        },
+        showModal: function showModal(id, title) {
+            var remove_modal = jQuery('#removeTaskModal');
+            var form = jQuery('#remove-task-form');
+            remove_modal.find('.lead').find('#task_title').text(title);
+            remove_modal.modal('show');
+            this.task_id = id;
+        },
+        removeTask: function removeTask() {
+            $.ajax({
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                url: '/task/' + this.task_id,
+                type: 'DELETE',
+                success: function success(response) {
+                    console.log('task is deleted');
+                }
+            });
+            var remove_modal = jQuery('#removeTaskModal');
+            remove_modal.modal('hide');
+            this.loadTasks();
+        }
+    },
+    created: function created() {
+        this.loadTasks();
+    }
+});
+
+/***/ }),
+
+/***/ 4:
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
+/***/ 40:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(29),
+  __webpack_require__(30),
   /* template */
-  __webpack_require__(37),
+  __webpack_require__(46),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/var/www/html/hubdesk/resources/assets/js/Task.vue"
+Component.options.__file = "/Users/hazem/kdesk/resources/assets/js/Task.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Task.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -9855,9 +9883,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1d1879b8", Component.options)
+    hotAPI.createRecord("data-v-7b419a82", Component.options)
   } else {
-    hotAPI.reload("data-v-1d1879b8", Component.options)
+    hotAPI.reload("data-v-7b419a82", Component.options)
   }
 })()}
 
@@ -9866,7 +9894,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 37:
+/***/ 46:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -9991,45 +10019,9 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-1d1879b8", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-7b419a82", module.exports)
   }
 }
-
-/***/ }),
-
-/***/ 4:
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-
-/***/ 47:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(19);
-
 
 /***/ }),
 
@@ -10093,6 +10085,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ 55:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(19);
+
+
+/***/ }),
+
 /***/ 8:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10100,13 +10100,13 @@ var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(5),
   /* template */
-  __webpack_require__(11),
+  __webpack_require__(13),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/var/www/html/hubdesk/resources/assets/js/AttachmentModal.vue"
+Component.options.__file = "/Users/hazem/kdesk/resources/assets/js/AttachmentModal.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] AttachmentModal.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -10117,9 +10117,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-075c01e7", Component.options)
+    hotAPI.createRecord("data-v-a7294246", Component.options)
   } else {
-    hotAPI.reload("data-v-075c01e7", Component.options)
+    hotAPI.reload("data-v-a7294246", Component.options)
   }
 })()}
 

@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 48);
+/******/ 	return __webpack_require__(__webpack_require__.s = 56);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -9455,7 +9455,7 @@ module.exports = Vue$3;
 
 /***/ }),
 
-/***/ 11:
+/***/ 13:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -9503,7 +9503,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-075c01e7", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-a7294246", module.exports)
   }
 }
 
@@ -9532,7 +9532,7 @@ window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
         technicians: []
     },
 
-    ready: function ready() {
+    created: function created() {
         this.loadCategory(false);
         this.loadSubcategory(false);
     },
@@ -9543,8 +9543,8 @@ window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             var _this = this;
 
             if (this.category) {
-                $.get('/list/subcategory/' + this.category).then(function (response) {
-                    return _this.subcategories = response.data;
+                jQuery.get('/list/subcategory/' + this.category).then(function (response) {
+                    _this.subcategories = response;
                 });
                 if (withFields) this.loadCustomFields();
             }
@@ -9553,8 +9553,8 @@ window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             var _this2 = this;
 
             if (this.subcategory) {
-                $.get('/list/item/' + this.subcategory).then(function (response) {
-                    return _this2.items = response.data;
+                jQuery.get('/list/item/' + this.subcategory).then(function (response) {
+                    _this2.items = response;
                 });
 
                 if (withFields) this.loadCustomFields();
@@ -9562,7 +9562,7 @@ window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
         },
         loadItem: function loadItem() {
             if (this.item) {
-                this.loadCustomFields();
+                // this.loadCustomFields();
             }
         },
         loadCustomFields: function loadCustomFields() {
@@ -9598,10 +9598,10 @@ window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 
     watch: {
         category: function category() {
-            this.loadCategory(true);
+            this.loadCategory(false);
         },
         subcategory: function subcategory() {
-            this.loadSubcategory(true);
+            this.loadSubcategory(false);
         },
         item: function item() {
             this.loadItem();
@@ -9828,14 +9828,6 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 48:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(20);
-
-
-/***/ }),
-
 /***/ 5:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -9896,6 +9888,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
+/***/ 56:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(20);
+
+
+/***/ }),
+
 /***/ 8:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9903,13 +9903,13 @@ var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(5),
   /* template */
-  __webpack_require__(11),
+  __webpack_require__(13),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/var/www/html/hubdesk/resources/assets/js/AttachmentModal.vue"
+Component.options.__file = "/Users/hazem/kdesk/resources/assets/js/AttachmentModal.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] AttachmentModal.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -9920,9 +9920,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-075c01e7", Component.options)
+    hotAPI.createRecord("data-v-a7294246", Component.options)
   } else {
-    hotAPI.reload("data-v-075c01e7", Component.options)
+    hotAPI.reload("data-v-a7294246", Component.options)
   }
 })()}
 

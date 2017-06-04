@@ -1,4 +1,4 @@
-window.jQuery = require('jquery');
+window.jQuery = window.$ = require('jquery');
 require('bootstrap-sass');
 require('select2');
 

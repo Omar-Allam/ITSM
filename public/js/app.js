@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 44);
+/******/ 	return __webpack_require__(__webpack_require__.s = 52);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -10332,9 +10332,9 @@ return jQuery;
 /***/ 16:
 /***/ (function(module, exports, __webpack_require__) {
 
-window.jQuery = __webpack_require__(14);
-__webpack_require__(30);
+window.jQuery = window.$ = __webpack_require__(14);
 __webpack_require__(31);
+__webpack_require__(34);
 
 (function ($) {
     $(function () {
@@ -10344,7 +10344,7 @@ __webpack_require__(31);
 
 /***/ }),
 
-/***/ 30:
+/***/ 31:
 /***/ (function(module, exports) {
 
 /*!
@@ -12728,7 +12728,7 @@ if (typeof jQuery === 'undefined') {
 
 /***/ }),
 
-/***/ 31:
+/***/ 34:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var require;var require;/*!
@@ -18463,7 +18463,7 @@ S2.define('jquery.select2',[
 
 /***/ }),
 
-/***/ 44:
+/***/ 52:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(16);

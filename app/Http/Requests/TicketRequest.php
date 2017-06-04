@@ -38,9 +38,11 @@ class TicketRequest extends Request
     public function messages()
     {
         $fields = collect($this->get('cf', []));
-        $messages = CustomField::whereIn('id', $fields->keys())->where('required', true)->get()->reduce(function($rules, $customField) {
+        $messages = CustomField::whereIn('id', $fields->keys())->where('required', true)->get()->map(function($rules, $customField) {
             return $rules->put('cf.' . $customField->id. '.required', 'This field is required');
         }, collect());
+
+        $messages->put('subcategory', 'Valid subcategory required');
 
         return $messages->toArray();
     }
@@ -48,25 +50,29 @@ class TicketRequest extends Request
     protected function customRules()
     {
         \Validator::extend('subcategory', function () {
-            $subcategory_id = $this->get('subcategory_id');
-            if ($subcategory_id) {
-                return Subcategory::where('id', $subcategory_id)->exists();
+            if ($this->get('category_id')) {
+                $subcategory_id = $this->get('subcategory_id');
+                if ($subcategory_id) {
+                    return Subcategory::where('id', $subcategory_id)->exists();
+                }
+
+                return (Category::find($this->get('category_id'))->subcategories()->count() == 0);
             }
 
-            return (Category::find($this->get('category_id'))->subcategories()->count() == 0);
+            return true;
         });
 
         \Validator::extend('item', function () {
-            $item_id = $this->get('item_id');
-            if ($item_id) {
-                return Item::where('id', $item_id)->exists();
+            if ($this->get('category_id') && $this->get('subcategory_id')) {
+                $item_id = $this->get('item_id');
+                if ($item_id) {
+                    return Items::where('id', $item_id)->exists();
+                }
+
+                return (Subcategory::find($this->get('subcategory_id'))->items()->count() == 0);
             }
 
-            if (!$this->get('subcategory_id')) {
-                return true;
-            }
-
-            return (Subcategory::find($this->get('subcategory_id'))->items()->count() == 0);
+            return true;
         });
     }
 }
