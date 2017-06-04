@@ -10,7 +10,7 @@
             </label>
         </div>
     </div>
-    <criteria :criterions="{!!json_encode(Form::getValueAttribute('criterions'))!!}"></criteria>
+    <criteria :criterions="{{json_encode(Form::getValueAttribute('criterions'))}}"></criteria>
     @if ($errors->has('criteria'))
         <div class="panel-footer">
             <div class="error-message">{{$errors->first('criteria')}}</div>

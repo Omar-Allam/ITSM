@@ -48,35 +48,30 @@
 </header>
 
 <div id="wrapper">
-<main class="container-fluid">
-    <div class="row">
-        {{-- @todo: Move this to a view composer --}}
-        {{-- @if (Route::current()->getPrefix() == '/admin')
-            <aside class="col-md-3">
-                @include('admin.partials._sidebar')
-            </aside>
-        @endif --}}
+    <main class="container-fluid">
+        <div class="row">
+            @hasSection('sidebar')
+                @yield('sidebar')
+            @endif
 
-        @hasSection('sidebar')
-            @yield('sidebar')
-        @endif
-        
-        @if(Session::has('flash-message'))
-            @include('partials.alert', [
-                'type' => Session::get('flash-type', 'danger'),
-                'message' => Session::get('flash-message')
-            ])
-        @endif
+            @yield('body')
+        </div>
+    </main>
 
-        @yield('body')
-    </div>
-</main>
-
-<footer>
-    <div class="container-fluid">
-        <p class="text-muted">Copyright &copy; <a href="http://hubtech.sa">Hubtech</a> {{date('Y')}}</p>
-    </div>
-</footer>
+    <footer>
+        <div class="container-fluid">
+            <div class="display-flex">
+                @if(Session::has('flash-message'))
+                    @include('partials.alert', [
+                        'type' => Session::get('flash-type', 'danger'),
+                        'message' => Session::get('flash-message')
+                    ])
+                @endif
+                <p class="text-muted text-right">Copyright &copy;
+                    <a href="http://hubtech.sa">Hubtech</a> {{date('Y')}}</p>
+            </div>
+        </div>
+    </footer>
 </div>
 
 <script src="{{asset('/js/app.js')}}"></script>

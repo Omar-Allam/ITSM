@@ -62,6 +62,9 @@ class CalculateTicketTime extends Job implements ShouldQueue
         }
 
         Ticket::flushEventListeners();
+        if ($this->ticket->sla && $this->ticket->time_spent > $this->ticket->sla->minutes) {
+            $this->ticket->overdue = true;
+        }
         $this->ticket->save();
     }
 

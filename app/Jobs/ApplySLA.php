@@ -8,11 +8,23 @@ use Carbon\Carbon;
 
 class ApplySLA extends MatchCriteria
 {
+    /** @var Ticket */
+    protected $ticket;
+
+    /** @var Carbon  */
+    protected $workStartTime;
+
+    /** @var Carbon  */
+    protected $workEndTime;
+
     public function __construct(Ticket $ticket)
     {
         $this->ticket = $ticket;
 
         Carbon::setWeekendDays([Carbon::SATURDAY, Carbon::FRIDAY]);
+
+        $this->workStartTime = Carbon::parse(config('worktime.end'));
+        $this->workEndTime = Carbon::parse(config('worktime.end'));
     }
 
     public function handle()
@@ -53,6 +65,15 @@ class ApplySLA extends MatchCriteria
         $date->addDays($sla->response_days);
         $date->addHours($sla->response_hours);
         $date->addMinute($sla->response_minutes);
+
+        $end = clone($date);
+        $end->setTimeFromTimeString(config('worktime.end'));
+
+        if ($date->gt($end)) {
+            $diff = $date->diffInMinutes($end);
+            $date->addDay();
+            $date->setTimeFromTimeString(config('worktime.start'))->addMinutes($diff);
+        }
 
         while (!$sla->critical && $date->isWeekend()) {
             $date->addDay();
