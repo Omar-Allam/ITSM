@@ -191,28 +191,25 @@ class TicketController extends Controller
 
     function checkSlaForTickets()
     {
-        date_default_timezone_set('Asia/Riyadh');
-        $openedTickets = Ticket::where('status_id', '<>', '7')
-            ->where('status_id', '<>', '8')->get();
-        /** @var Ticket $ticket */
-        foreach ($openedTickets as $ticket) {
-            $t_sla = $ticket->sla;
-            $sla_time = $t_sla->getDueTime();
-            $t_created_from = $ticket->created_at->diffInMinutes();
-            if ($t_created_from > $sla_time) {
-                $levels = $t_sla->escalations->sortByDesc('level');
-                if ($levels->count()) {
-                    foreach ($levels as $level) {
-                        $levelTime = ($level->hours * 60) + ($level->days * 8 * 60) + ($level->minutes);//2min
-                        $wholeTime = $levelTime + $sla_time;
-                        if ($t_created_from > $wholeTime) {
-                            Mail::to($level->email)->send(new EscalationMail($ticket));
-                        }
-
-                    }
-                }
-
-            }
-        }
+//        date_default_timezone_set('Asia/Riyadh');
+//        $openedTickets = Ticket::where('status_id', '<>', '7')
+//            ->where('status_id', '<>', '8')->get();
+//        /** @var Ticket $ticket */
+//        foreach ($openedTickets as $ticket) {
+//            $sla_time = $ticket->sla->getDueTime();
+//            $t_created_from = $ticket->created_at->diffInMinutes();
+//            if ($t_created_from > $sla_time) {
+//                $levels = $ticket->sla->escalations->sortByDesc('level');
+//                if ($levels->count()) {
+//                    foreach ($levels as $level) {
+//                        $levelTime = ($level->hours * 60) + ($level->days * 8 * 60) + ($level->minutes);//2min
+//                        $wholeTime = $levelTime + $sla_time;
+//                        if ($t_created_from > $wholeTime) {
+//                            Mail::to($level->email)->send(new EscalationMail($ticket));
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
 }

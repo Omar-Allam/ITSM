@@ -57,4 +57,15 @@ class Sla extends KModel
     function getDueTime(){
         return ($this->due_hours * 60) + ($this->due_days * 8 * 60) + ($this->due_minutes);
     }
+    function validateInputs($request,$i){
+        $validator = \Validator::make($request->all(), [
+            'level[' . $i . ']' => 'required',
+            'option' . $i => 'required',
+            'level_days['.$i.']'=>'integer|min:0'
+        ],['level[' . $i . '].required'=>'Determine Escalate to is required','option' . $i.'.required'=>'You should determine Escalate before or after exceed resolution time']);
+
+        if($validator->validate()){
+            return \Redirect::back();
+        }
+    }
 }

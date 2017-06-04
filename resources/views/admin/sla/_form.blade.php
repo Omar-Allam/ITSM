@@ -1,5 +1,14 @@
 {{ csrf_field() }}
 <div class="row">
+    @if($errors->count())
+        <div class="alert alert-danger col-md-12">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="col-md-12">
         <div class="form-group {{$errors->has('name')? 'has-error' : ''}}">
             {{ Form::label('name', 'Name', ['class' => 'control-label']) }}
@@ -106,79 +115,6 @@
             @endif
         </section>
 
-        <section class="panel panel-primary panel-sm">
-            <div class="panel-heading">
-
-                <h4 class="panel-title"><input type="checkbox"  name="enableLeveL[]" id="enableLeveLOne">
-                    Enable Escalation Level 1</h4>
-            </div>
-            <table class="table table-striped">
-                <thead>
-                <tr class="col-md-12">
-                    <td class="col-md-1"><label for="esc_to"> Escalate to</label></td>
-                    <td><input type="text" class="form-control" name="level[]" readonly></td>
-                    <td>
-                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                data-target="#techModal" data-close="chooseTech">Choose
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Days</td>
-                    <td>Hours</td>
-                    <td>Minutes</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>{{ Form::text('level_days[]', 0, ['class' => 'form-control input-sm']) }}</td>
-                    <td>{{ Form::selectRange('level_hours[]', 0, 23, null, ['class' => 'form-control input-sm']) }}
-                    </td>
-                    <td>{{ Form::selectRange('level_minutes[]', 0, 59, null, ['class' => 'form-control input-sm']) }}
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section class="panel panel-primary panel-sm">
-            <div class="panel-heading">
-
-                <h4 class="panel-title"><input type="checkbox"  name="enableLeveL[]" id="enableLeveLTwo">
-                    Enable Escalation Level 2</h4>
-            </div>
-            <table class="table table-striped">
-                <thead>
-                <tr class="col-md-12">
-                    <td class="col-md-1"><label for="esc_to"> Escalate to</label></td>
-                    <td><input type="text" class="form-control" name="level[]" readonly>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                data-target="#techModal" data-close="chooseTech">Choose
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Days</td>
-                    <td>Hours</td>
-                    <td>Minutes</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr></tr>
-                <tr>
-                    <td>{{ Form::text('level_days[]', 0, ['class' => 'form-control input-sm']) }}</td>
-                    <td>{{ Form::selectRange('level_hours[]', 0, 23, null, ['class' => 'form-control input-sm']) }}
-                    </td>
-                    <td>{{ Form::selectRange('level_minutes[]', 0, 59, null, ['class' => 'form-control input-sm']) }}
-                    </td>
-
-                </tr>
-                </tbody>
-            </table>
-        </section>
-
 
         <div class="hiddenInputs">
 
@@ -190,6 +126,13 @@
                 Do not honor service hours
             </label>
         </div>
+        <div id="escalation">
+            <escalation level="1"></escalation>
+            <escalation level="2"></escalation>
+            <escalation level="3"></escalation>
+            <escalation level="4"></escalation>
+
+        </div>
 
         <div class="form-group">
             <button class="btn btn-success"><i class="fa fa-check"></i> Submit</button>
@@ -199,3 +142,4 @@
 
 @include('admin.sla._technician')
 <script type="text/javascript" src="{{asset('/js/criteria.js')}}"></script>
+<script type="text/javascript" src="{{asset('/js/escalation.js')}}"></script>

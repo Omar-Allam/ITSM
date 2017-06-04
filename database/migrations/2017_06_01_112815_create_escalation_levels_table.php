@@ -15,13 +15,14 @@ class CreateEscalationLevelsTable extends Migration
     {
         Schema::create('escalations', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('email');
+            $table->string('user_id');
             $table->integer('sla_id');
             $table->integer('level');
             $table->integer('days')->nullable();
             $table->integer('hours')->nullable();
             $table->integer('minutes')->nullable();
-            $table->tinyInteger('assigned')->default(0);
+            $table->tinyInteger('when_escalate')->default(0);
+            $table->tinyInteger('assign')->default(0);
             $table->timestamps();
         });
     }

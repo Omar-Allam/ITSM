@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class EscalationLevel extends Model
 {
     protected $table = 'escalations';
-    protected $fillable = ['name','email','sla_id','level','days','hours','minutes'];
+    protected $fillable = ['name','user_id','sla_id','level','assign','when_escalate','days','hours','minutes'];
 }

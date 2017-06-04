@@ -15,12 +15,10 @@
         Technician: {{$ticket->technician->name or 'N/A'}}<br />
         Subject: <strong>{{$ticket->subject}}</strong><br />
         Created at: {{$ticket->created_at->format('d/m/Y H:i')}}<br/>
-        Due Date: {{$ticket->due_date? $ticket->due_date->format('d/m/Y H:i') : 'N/A'}}<br/>
-        Content: <br/><br/>
     </font>
 
     <div>
-        {!! $ticket->description !!}
+        Content: {!! $ticket->description !!}
     </div>
 
     <br/><br/>
