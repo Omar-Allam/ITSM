@@ -62,7 +62,7 @@ class TicketController extends Controller
 
         flash('Ticket has been saved', 'success');
 
-        return \Redirect::route('ticket.show', $ticket);
+        return \Redirect::route('ticket.show', $tick);
     }
 
     public function show(Ticket $ticket)
@@ -134,10 +134,7 @@ class TicketController extends Controller
 
     public function reassign(Ticket $ticket, ReassignRequest $request)
     {
-        $ticket->update([
-            'group_id' => $request->get('group_id'),
-            'technician_id' => $request->get('technician_id'),
-        ]);
+        $ticket->update($request->only(['group_id','technician_id']));
 
         $this->dispatch(new TicketAssigned($ticket));
 
@@ -147,7 +144,6 @@ class TicketController extends Controller
 
     public function scope(Request $request)
     {
-//        dd($request->get('scope'));
         \Session::set('ticket.scope', $request->get('scope'));
 
         return \Redirect::route('ticket.index');
