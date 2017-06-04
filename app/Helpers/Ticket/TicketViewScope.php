@@ -131,9 +131,7 @@ class TicketViewScope
 
     public function pending()
     {
-        $this->query->whereHas('status', function(Builder $q){
-            $q->whereIn('type', [Status::OPEN, Status::PENDING]);
-        });
+        $this->query->pending();
     }
 
     public function open()

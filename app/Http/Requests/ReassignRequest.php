@@ -10,11 +10,13 @@ class ReassignRequest extends Request
     {
         $ticket = $this->route('ticket');
 
-        if (!$ticket->technician_id) {
-            return true;
-        }
+//        if (!$ticket->technician_id) {
+//            return true;
+//        }
+//
+//        return $this->user()->id == $ticket->technician_id || $this->user()->hasGroup($ticket->group_id);
 
-        return $this->user()->id == $ticket->technician_id || $this->user()->hasGroup($ticket->group_id);
+        return can('modify', $ticket);
     }
 
     public function rules()
@@ -40,6 +42,7 @@ class ReassignRequest extends Request
         }
 
         flash($msg);
+
         return \Redirect::route('ticket.show', $this->route('ticket'))
             ->withInput($this->all())
             ->withErrors($errors);

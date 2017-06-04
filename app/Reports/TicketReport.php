@@ -31,18 +31,20 @@ class TicketReport
         return $this;
     }
 
-    function filter($criteria)
+    function filter($criteria = [])
     {
-        foreach ($criteria as $criterion) {
-            $value = explode(',', $criterion['value']);
-            if (count($value) == 1) {
-                $value = $value[0];
+        if ($criteria) {
+            foreach ($criteria as $criterion) {
+                $value = explode(',', $criterion['value']);
+                if (count($value) == 1) {
+                    $value = $value[0];
+                }
+                $criterion['value'] = $value;
+
+                $this->filter->addCriteria($criterion);
             }
-            $criterion['value'] = $value;
-
-            $this->filter->addCriteria($criterion);
         }
-
+        
         return $this;
     }
 

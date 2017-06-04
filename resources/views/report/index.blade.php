@@ -6,25 +6,21 @@
 
 @section('body')
 
-    {{Form::open(['url' => '/report/result', 'id' => "ReportArea"])}}
+    {{Form::open(['url' => '/report/result', 'id' => "ReportArea", 'class' => 'col-sm-12'])}}
 
-    <div class="row">
-        <div class="col-sm-5">
-            <div class="form-group {{$errors->first('fields', 'has-error')}}">
-                {{Form::label('field[]', 'Select Fields', ['class' => 'control-label'])}}
-                {{Form::select('fields[]', $fields, session('ticket-report.fields'), ['class' => 'form-control', 'multiple', 'size' => 10])}}
-                {!! $errors->first('fields', '<div class="help-block">:message</div>') !!}
-            </div>
-        </div>
-    </div>
+    <div class="form-group {{ $errors->first('title', 'has-error') }}">
+       <label for="report-title" class="control-label">Title</label>
+       <input type="text" name="title" class="form-control" id="report-title" value="{{$title}}">
+       {!! $errors->first('title', '<div class="help-block">:messahe</div>') !!}
+     </div>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">Criteria</h4>
-        </div>
+    <fields :original="{{ json_encode($fields) }}" :initial="{{ json_encode($selectedFields) }}"></fields>
 
-        <criteria></criteria>
-    </div>
+
+    <section>
+      <h4>Criteria</h4>
+      <criteria :criterions="{{ json_encode($filters) }}"></criteria>
+    </section>
 
     <div class="form-group">
         <button class="btn btn-success"><i class="fa fa-arrow-circle-right"></i> Run Report</button>

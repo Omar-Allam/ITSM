@@ -20,99 +20,100 @@
             <div class="input-group" v-if="showMenuIcon">
                 <input class="form-control input-sm" :name="`filters[${index}][label]`" type="text" @click="loadOptions()" v-model="criterion.label" readonly>
                 <span class="input-group-btn">
-    <button type="button" class="btn btn-default btn-sm" @click="loadOptions()"><i class="fa fa-bars"></i></button>
-    </span>
+                    <button type="button" class="btn btn-default btn-sm" @click="loadOptions()"><i class="fa fa-bars"></i></button>
+                </span>
             </div>
-            <input class="form-control input-sm" :name="`filters[${index}][label]`" type="text" v-model="criterion.label" @change="update" v-else>
+            <input class="form-control input-sm" :name="`filters[${index}][label]`" type="text" v-model="criterion.label" :readonly="!criterion.field || !criterion.operator" @change="update" v-else>
 
             <input type="hidden" :name="`filters[${index}][value]`" v-model="criterion.value">
         </td>
         <td>
             <button class="btn btn-sm btn-warning pull-right" type="button" @click="remove()">
                 <i class="fa fa-remove"></i></button>
-        </td>
-    </tr>
-</template>
+            </td>
+        </tr>
+    </template>
 
-<script>
-import EventBus from '../Bus';
-const fields = {
-    subject: {type: 'text'},
-    category: {type: 'select', list: 'category', name: 'Category'},
-    subcategory: {type: 'select', list: 'subcategory', name: 'Subcategory'},
-    item: {type: 'select', list: 'item', name: 'Item'},
-    location: {type: 'select', list: 'location', name: 'Location'},
-    business_unit: {type: 'select', list: 'business-unit', name: 'Business Unit'},
-    technician: {type: 'select', list: 'technician', name: 'Technician'},
-    requester: {type: 'select', list: 'requester', name: 'Technician'},
-    id: {type: 'text'}
-};
+    <script>
+        import EventBus from '../Bus';
+        const fields = {
+            subject: {type: 'text'},
+            category: {type: 'select', list: 'category', name: 'Category'},
+            subcategory: {type: 'select', list: 'subcategory', name: 'Subcategory'},
+            item: {type: 'select', list: 'item', name: 'Item'},
+            status: {type: 'select', list: 'status', name: 'Status'},
+            location: {type: 'select', list: 'location', name: 'Location'},
+            business_unit: {type: 'select', list: 'business-unit', name: 'Business Unit'},
+            technician: {type: 'select', list: 'technician', name: 'Technician'},
+            requester: {type: 'select', list: 'requester', name: 'Technician'},
+            id: {type: 'text'}
+        };
 
-export default {
-    props: ['criterion', 'index'],
+        export default {
+            props: ['criterion', 'index'],
 
-    data() {
-        return {fields: window.fields};
-    },
+            data() {
+                return {fields: window.fields};
+            },
 
-    computed: {
-        showMenuIcon() {
-            const field = fields[this.criterion.field];
-            if (!field) {
-                return false;
-            }
-            return field.type == 'select' && (this.criterion.operator == 'is' || this.criterion.operator == 'isnot')
-        },
-        
-        filteredOptions() {
-            if (!this.modal.search) {
-                return this.options;
-            }
+            computed: {
+                showMenuIcon() {
+                    const field = fields[this.criterion.field];
+                    if (!field) {
+                        return false;
+                    }
+                    return field.type == 'select' && (this.criterion.operator == 'is' || this.criterion.operator == 'isnot')
+                },
 
-            const term = this.modal.search.toLowerCase();
-            let filtered = {};
-            for (let index in this.options) {
-                let value = this.options[index];
-                if (value.toLowerCase().contains(term)) {
-                    filtered[index] = value;
+                filteredOptions() {
+                    if (!this.modal.search) {
+                        return this.options;
+                    }
+
+                    const term = this.modal.search.toLowerCase();
+                    let filtered = {};
+                    for (let index in this.options) {
+                        let value = this.options[index];
+                        if (value.toLowerCase().contains(term)) {
+                            filtered[index] = value;
+                        }
+                    }
+
+                    return filtered;
                 }
-            }
+            },
 
-            return filtered;
+            methods: {
+                update() {
+                    this.criterion.value = this.criterion.label;
+                },
+
+                remove() {
+                    EventBus.$emit('removeCriterion', this.index);
+                },
+
+                loadOptions() {
+                    const field = fields[this.criterion.field];
+                    if (!field || field.type != 'select') {
+                        return false;
+                    }
+
+                    jQuery.get('/list/' + field.list).then(response => {
+                        EventBus.$emit('openSelectModal', { options: response, index: this.index, field: field.name, selected: this.criterion.value.split(',') });
+                    });
+                }
+            },
+
+            created() {
+                EventBus.$on('setCriterionValue', (params) => {
+                    if (params.index != this.index) {
+                        return false;
+                    }
+
+                    this.criterion.value = params.values.join(',');
+                    this.criterion.label = params.labels.join(', ');
+                });
+            }
         }
-    },
 
-    methods: {
-        update() {
-            this.criterion.value = this.criterion.label;
-        },
-
-        remove() {
-            this.$dispatch('removeCriterion', this.index);
-        },
-
-        loadOptions() {
-            const field = fields[this.criterion.field];
-            if (!field || field.type != 'select') {
-                return false;
-            }
-
-            jQuery.get('/list/' + field.list).then(response => {
-                EventBus.$emit('openSelectModal', { options: response, index: this.index, field: field.name, selected: this.criterion.value.split(',') });
-            });
-        }
-    },
-
-    created() {
-        EventBus.$on('setCriterionValue', (params) => {
-            if (params.index != this.index) {
-                return false;
-            }
-
-            this.criterion.value = params.values.join(',');
-            this.criterion.label = params.labels.join(', ');
-        });
-    }
-}
-
-</script>
+    </script>

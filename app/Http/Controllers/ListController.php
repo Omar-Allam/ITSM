@@ -10,6 +10,7 @@ use App\Impact;
 use App\Item;
 use App\Location;
 use App\Priority;
+use App\Status;
 use App\Subcategory;
 use App\Urgency;
 use App\User;
@@ -76,5 +77,15 @@ class ListController extends Controller
     public function technician()
     {
         return User::technicians()->pluck('name', 'id')->sort();
+    }
+
+    function requester()
+    {
+        return User::orderBy('name')->pluck('name', 'id');
+    }
+
+    function status()
+    {
+        return Status::orderBy('name')->pluck('name', 'id');
     }
 }

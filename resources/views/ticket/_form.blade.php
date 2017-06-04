@@ -46,7 +46,7 @@
 
                 <select class="form-control" name="subcategory_id" id="subcategory_id" v-model="subcategory">
                     <option value="">Select Subcategory</option>
-                    <option v-for="(id, name) in subcategories" :value="id">@{{name}}</option>
+                    <option v-for="(name, id) in subcategories" :value="id">@{{name}}</option>
                 </select>
                 @if ($errors->has('subcategory_id'))
                     <div class="error-message">{{$errors->first('subcategory_id')}}</div>

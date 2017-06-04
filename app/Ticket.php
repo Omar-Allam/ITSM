@@ -290,4 +290,11 @@ class Ticket extends KModel
     function tasks(){
         return $this->hasMany(Task::class);
     }
+
+    function scopePending(Builder $query)
+    {
+        $query->whereHas('status', function(Builder $q){
+            $q->whereIn('type', [Status::OPEN, Status::PENDING]);
+        });
+    }
 }

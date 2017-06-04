@@ -96,7 +96,7 @@ export default {
                 const criterions = [];
                 let i = 0;
                 for (let i = 0; i < this.criteria.length; i++) {
-                    if (i == key) continue;
+                    if (i == index) continue;
                     criterions.push(this.criteria[i]);
                 }
                 this.criteria = criterions;
