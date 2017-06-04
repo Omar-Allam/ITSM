@@ -2,13 +2,13 @@
     <table class="listing-table">
         <thead>
         <tr>
-            <th>Sent to</th>
-            <th>By</th>
-            <th>Sent at</th>
-            <th>Stage</th>
-            <th>Status</th>
-            <th>Comment</th>
-            <th colspan="3" class="text-center">Actions</th>
+            <th>{{t('Sent to')}}</th>
+            <th>{{t('By')}}</th>
+            <th>{{'Sent at'}}</th>
+            <th>{{t('Stage')}}</th>
+            <th>{{t('Status')}}</th>
+            <th>{{t('Comment')}}</th>
+            <th colspan="3" class="text-center">{{t('Actions')}}</th>
         </tr>
         </thead>
         <tbody>
@@ -48,7 +48,7 @@
         </tbody>
     </table>
 @else
-    <div class="alert alert-warning"><i class="fa fa-exclamation-triangle"></i> No approvals yet</div>
+    <div class="alert alert-warning"><i class="fa fa-exclamation-triangle"></i> {{t('No approvals yet')}}</div>
 @endif
 
 @if (Auth::user()->isSupport())
@@ -71,8 +71,8 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group form-group-sm {{$errors->has('approver_id')? 'has-error' : ''}}">
-                {{Form::label('approver_id', 'Send approval to', ['class' => 'control-label'])}}
-                {{Form::select('approver_id', App\User::selection('Select Approver'), null, ['class' => 'form-control select2'])}}
+                {{Form::label('approver_id', t('Send approval to'), ['class' => 'control-label'])}}
+                {{Form::select('approver_id', t(App\User::selection('Select Approver')), null, ['class' => 'form-control select2'])}}
                 @if ($errors->has('approver_id'))
                     <div class="error-message">{{$errors->first('approver_id')}}</div>
                 @endif
@@ -81,7 +81,7 @@
     </div>
 
     <div class="form-group {{$errors->has('content')? 'has-error' : ''}}">
-        {{Form::label('content', 'Description', ['class' => 'control-label'])}}
+        {{Form::label('content', t('Description'), ['class' => 'control-label'])}}
         {{Form::textarea('content', null, ['class' => 'form-control richeditor'])}}
 
         @if ($errors->has('content'))
@@ -98,7 +98,7 @@
     @endif
 
     <div class="form-group">
-        <button type="submit" class="btn btn-success"><i class="fa fa-check-circle"></i> Send approval</button>
+        <button type="submit" class="btn btn-success"><i class="fa fa-check-circle"></i> {{t('Send')}}</button>
     </div>
     {{Form::close()}}
 </section>

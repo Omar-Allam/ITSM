@@ -51,6 +51,6 @@ trait HasCriteria
 
     public function getCriteriaTypeAttribute()
     {
-        return $this->criteria()->first()->type;
+        return $this->criteria()->first()->type ?? '';
     }
 }

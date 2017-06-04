@@ -2,14 +2,14 @@
 <div id="TicketForm">
     @if (!isset($ticket) && Auth::user()->isSupport())
         <div class="form-group form-group-sm {{$errors->has('requester_id')? 'has-error' : ''}}">
-            {{ Form::label('requester_id', 'Requester', ['class' => 'control-label']) }}
+            {{ Form::label('requester_id', t('Requester'), ['class' => 'control-label']) }}
             {{ Form::select('requester_id', App\User::requesterList()->prepend('Create for me', ''), null, ['class' => 'form-control select2']) }}
             {!! $errors->first('requester_id', '<div class="error-message">:message</div>') !!}
         </div>
     @endif
 
     <div class="form-group form-group-sm {{$errors->has('subject')? 'has-error' : ''}}">
-        {{ Form::label('subject', 'Subject', ['class' => 'control-label']) }}
+        {{ Form::label('subject', t('Subject'), ['class' => 'control-label']) }}
         {{ Form::text('subject', null, ['class' => 'form-control']) }}
         @if ($errors->has('subject'))
             <div class="error-message">{{$errors->first('subject')}}</div>
@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-sm-7">
             <div class="form-group form-group-sm {{$errors->has('description')? 'has-error' : ''}}">
-                {{ Form::label('description', 'Description', ['class' => 'control-label']) }}
+                {{ Form::label('description', t('Description'), ['class' => 'control-label']) }}
                 {{ Form::textarea('description', null, ['class' => 'form-control richeditor']) }}
                 @if ($errors->has('description'))
                     <div class="error-message">{{$errors->first('description')}}</div>
@@ -34,7 +34,7 @@
         </div>
         <div class="col-sm-5">
             <div class="form-group form-group-sm {{$errors->has('category_id')? 'has-error' : ''}}">
-                {{ Form::label('category_id', 'Category', ['class' => 'control-label']) }}
+                {{ Form::label('category_id', t('Category'), ['class' => 'control-label']) }}
                 {{ Form::select('category_id', App\Category::selection('Select Category'), null, ['class' => 'form-control', 'v-model' => 'category']) }}
                 @if ($errors->has('category_id'))
                     <div class="error-message">{{$errors->first('category_id')}}</div>
@@ -42,7 +42,7 @@
             </div>
 
             <div class="form-group form-group-sm {{$errors->has('subcategory')? 'has-error' : ''}}">
-                {{ Form::label('subcategory_id', 'Subcategory', ['class' => 'control-label']) }}
+                {{ Form::label('subcategory_id', t('Subcategory'), ['class' => 'control-label']) }}
 
                 <select class="form-control" name="subcategory_id" id="subcategory_id" v-model="subcategory">
                     <option value="">Select Subcategory</option>
@@ -54,7 +54,7 @@
             </div>
 
             <div class="form-group form-group-sm {{$errors->has('item_id')? 'has-error' : ''}}">
-                {{ Form::label('item_id', 'Item', ['class' => 'control-label']) }}
+                {{ Form::label('item_id', t('Item'), ['class' => 'control-label']) }}
                 <select class="form-control" name="item_id" id="item_id" v-model="item">
                     <option value="">Select Item</option>
                     <option v-for="(id, name) in items" :value="id">@{{name}}</option>
@@ -100,7 +100,7 @@
         @if (Auth::user()->isSupport())
             <div class="col-sm-6">
                 <div class="form-group form-group-sm {{$errors->has('group_id')? 'has-error' : ''}}">
-                    {{ Form::label('group_id', 'Group', ['class' => 'control-label']) }}
+                    {{ Form::label('group_id', t('Group'), ['class' => 'control-label']) }}
                     {{ Form::select('group_id', App\Group::support()->selection('Select Group'), null, ['class' => 'form-control']) }}
                     @if ($errors->has('group_id'))
                         <div class="error-message">{{$errors->first('group')}}</div>
@@ -108,7 +108,7 @@
                 </div>
 
                 <div class="form-group form-group-sm {{$errors->has('technician_id')? 'has-error' : ''}}">
-                    {{ Form::label('technician_id', 'Technician', ['class' => 'control-label']) }}
+                    {{ Form::label('technician_id', t('Technician'), ['class' => 'control-label']) }}
                     {{ Form::select('technician_id', App\User::technicians()->selection('Select Technician'), null, ['class' => 'form-control']) }}
                     @if ($errors->has('technician_id'))
                         <div class="error-message">{{$errors->first('technician_id')}}</div>
@@ -116,7 +116,7 @@
                 </div>
 
                 <div class="form-group form-group-sm {{$errors->has('urgency_id')? 'has-error' : ''}}">
-                    {{ Form::label('urgency_id', 'Urgency', ['class' => 'control-label']) }}
+                    {{ Form::label('urgency_id', t('Urgency'), ['class' => 'control-label']) }}
                     {{ Form::select('urgency_id', App\Urgency::selection('Select Urgency'), null, ['class' => 'form-control']) }}
                     @if ($errors->has('urgency_id'))
                         <div class="error-message">{{$errors->first('urgency_id')}}</div>
@@ -127,7 +127,7 @@
     </div>
 
     <div class="form-group">
-        <button class="btn btn-success"><i class="fa fa-check"></i> Submit</button>
+        <button class="btn btn-success"><i class="fa fa-check"></i> {{t('Submit')}}</button>
     </div>
 </div>
 
