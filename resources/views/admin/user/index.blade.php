@@ -58,27 +58,5 @@
         <div class="alert alert-info"><i class="fa fa-exclamation-circle"></i> <strong>No users found</strong></div>
     @endif
 
-        {{--
-    <div class="modal fade" id="ImportModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog">
-            {{Form::open(['route' => 'user.ldap-import', 'class' => 'modal-content'])}}
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Import Users from Active Directory</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        {{Form::label('login', 'Please input login names to import (One per line)')}}
-                        {{Form::textarea('login', null, ['class' => "form-control", 'rows' => 5])}}
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary"><i class="fa fa-download"></i> Import</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i> Close</button>
-                </div>
-            {{Form::close()}}
-        </div>
-    </div>
-    --}}
     </section>
 @stop
