@@ -33,7 +33,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{ Form::text('due_days', null, ['class' => 'form-control input-sm']) }}</td>
+                        <td>{{ Form::text('due_days', old('due_days', 0), ['class' => 'form-control input-sm']) }}</td>
                         <td>{{ Form::selectRange('due_hours', 0, 23, null, ['class' => 'form-control input-sm']) }}</td>
                         <td>{{ Form::selectRange('due_minutes', 0, 59, null, ['class' => 'form-control input-sm']) }}</td>
                     </tr>
@@ -61,7 +61,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{ Form::text('response_days', null, ['class' => 'form-control input-sm']) }}</td>
+                        <td>{{ Form::text('response_days', old('response_days', 0), ['class' => 'form-control input-sm']) }}</td>
                         <td>{{ Form::selectRange('response_hours', 0, 23, null, ['class' => 'form-control input-sm']) }}</td>
                         <td>{{ Form::selectRange('response_minutes', 0, 59, null, ['class' => 'form-control input-sm']) }}</td>
                     </tr>
@@ -75,7 +75,7 @@
         </section>
 
         <section class="panel panel-default panel-sm panel-violet">
-            <div class="panel-heading">
+            <div class="panel-heading bg-violet">
                 <h4 class="panel-title">Approval Escalation</h4>
             </div>
         
@@ -89,7 +89,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{ Form::text('approval_days', null, ['class' => 'form-control input-sm']) }}</td>
+                        <td>{{ Form::text('approval_days', old('approval_days', 0), ['class' => 'form-control input-sm']) }}</td>
                         <td>{{ Form::selectRange('approval_hours', 0, 23, null, ['class' => 'form-control input-sm']) }}</td>
                         <td>{{ Form::selectRange('approval_minutes', 0, 59, null, ['class' => 'form-control input-sm']) }}</td>
                     </tr>
@@ -108,7 +108,7 @@
 
         <div class="checkbox">
             <label class="control-label" for="critical">
-                {{Form::hidden('critical', false)}}
+                {{Form::hidden('critical', 0)}}
                 {{Form::checkbox('critical', 1, null, ['id' => 'critical'])}}
                 Do not honor service hours
             </label>

@@ -9774,11 +9774,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 
@@ -10616,7 +10611,9 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('article', [_c('table', {
+  return _c('section', {
+    staticClass: "table-container"
+  }, [_c('table', {
     staticClass: "listing-table table-bordered"
   }, [_c('thead', [_c('tr', [_c('th', {
     staticClass: "col-md-3"
@@ -10724,7 +10721,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-check-circle"
-  }), _vm._v("\n                        Apply\n                    ")]), _vm._v(" "), _vm._m(1)])])])])])
+  }), _vm._v(" Apply")]), _vm._v(" "), _vm._m(1)])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "close",
@@ -10747,7 +10744,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-times-circle"
-  }), _vm._v(" Cancel\n                    ")])
+  }), _vm._v(" Cancel")])
 }]}
 module.exports.render._withStripped = true
 if (false) {
