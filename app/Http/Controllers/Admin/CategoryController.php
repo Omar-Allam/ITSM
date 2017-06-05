@@ -26,8 +26,8 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $this->validates($request, 'Could not save category');
-
-        Category::create($request->all());
+        $service_request = isset($request->service_request) ? 1 : 0;
+        Category::create([$request->all(), 'service_request'=>$service_request]);
 
         flash('Category has been saved', 'success');
 
@@ -47,8 +47,8 @@ class CategoryController extends Controller
     public function update(Category $category, Request $request)
     {
         $this->validates($request, 'Could not save category');
-
-        $category->update($request->all());
+        $service_request = isset($request->service_request) ? 1 : 0;
+        $category->update([$request->all(), 'service_request'=>$service_request]);
 
         flash('Category has been saved', 'success');
 
