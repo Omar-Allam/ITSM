@@ -46,17 +46,12 @@ class CalculateTicketTime extends Job implements ShouldQueue
     {
         $today = Carbon::now();
 
-
         $critical = $this->ticket->sla_id && $this->ticket->sla->critical;
 
         if ($this->ticket->isOpen() && $this->ticket->logs->count() == 0) {
-            if (!$critical && !in_array($today->dayOfWeek, Carbon::getWeekendDays())) {
+            if ($critical || (!$critical && !in_array($today->dayOfWeek, Carbon::getWeekendDays()))) {
                 $this->ticket->time_spent = $this->calculateDiff($this->ticket->created_at, $today);
             }
-//        } elseif ($this->ticket->resolve_date && $this->ticket->logs->count() == 1) {
-//            if (!$this->ticket->sla->critical && in_array($this->ticket->resolve_date->dayOfWeek, Carbon::getWeekendDays())) {
-//                $this->ticket->time_spent = $this->calculateDiff($this->ticket->created_at, $this->ticket->resolve_date);
-//            }
         } else {
             $this->ticket->time_spent = $this->parseLogs();
         }
