@@ -118,7 +118,6 @@
     </script>
 @else
     <link rel="stylesheet" href="{{asset('/css/app.css')}}">
-
 @endif
 @yield('javascript')
 </body>

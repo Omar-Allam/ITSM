@@ -1,14 +1,6 @@
 {{ csrf_field() }}
 <div class="row">
-    @if($errors->count())
-        <div class="alert alert-danger col-md-12">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+
     <div class="col-md-12">
         <div class="form-group {{$errors->has('name')? 'has-error' : ''}}">
             {{ Form::label('name', 'Name', ['class' => 'control-label']) }}
@@ -83,37 +75,37 @@
             @endif
         </section>
 
-        <section class="panel panel-default panel-sm panel-violet">
-            <div class="panel-heading">
-                <h4 class="panel-title">Approval Escalation</h4>
-            </div>
+        {{--<section class="panel panel-default panel-sm panel-violet">--}}
+        {{--<div class="panel-heading">--}}
+        {{--<h4 class="panel-title">Approval Escalation</h4>--}}
+        {{--</div>--}}
 
-            <table class="table table-bordered table-condensed table-violet">
-                <thead>
-                <tr>
-                    <th class="col-sm-4 bg-violet">{{ Form::label('approval_days', 'Days') }}</th>
-                    <th class="col-sm-4 bg-violet">{{ Form::label('approval_hours', 'Hours') }}</th>
-                    <th class="col-sm-4 bg-violet">{{ Form::label('approval_minutes', 'Minutes') }}</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>{{ Form::text('approval_days', 0, ['class' => 'form-control input-sm']) }}</td>
-                    <td>{{ Form::selectRange('approval_hours', 0, 23, null, ['class' => 'form-control input-sm']) }}</td>
-                    <td>{{ Form::selectRange('approval_minutes', 0, 59, null, ['class' => 'form-control input-sm']) }}</td>
-                </tr>
-                </tbody>
-            </table>
-            @if ($errors->has('approval_days') || $errors->has('approval_hours') || $errors->has('approval_minutes'))
-                <ul class="list-unstyled">
-                    @foreach (['approval_days', 'approval_hours', 'approval_minutes'] as $field)
-                        @if ($errors->has($field))
-                            <li class="error-message">{{ $errors->first($field) }}</li>
-                        @endif
-                    @endforeach
-                </ul>
-            @endif
-        </section>
+        {{--<table class="table table-bordered table-condensed table-violet">--}}
+        {{--<thead>--}}
+        {{--<tr>--}}
+        {{--<th class="col-sm-4 bg-violet">{{ Form::label('approval_days', 'Days') }}</th>--}}
+        {{--<th class="col-sm-4 bg-violet">{{ Form::label('approval_hours', 'Hours') }}</th>--}}
+        {{--<th class="col-sm-4 bg-violet">{{ Form::label('approval_minutes', 'Minutes') }}</th>--}}
+        {{--</tr>--}}
+        {{--</thead>--}}
+        {{--<tbody>--}}
+        {{--<tr>--}}
+        {{--<td>{{ Form::text('approval_days', 0, ['class' => 'form-control input-sm']) }}</td>--}}
+        {{--<td>{{ Form::selectRange('approval_hours', 0, 23, null, ['class' => 'form-control input-sm']) }}</td>--}}
+        {{--<td>{{ Form::selectRange('approval_minutes', 0, 59, null, ['class' => 'form-control input-sm']) }}</td>--}}
+        {{--</tr>--}}
+        {{--</tbody>--}}
+        {{--</table>--}}
+        {{--@if ($errors->has('approval_days') || $errors->has('approval_hours') || $errors->has('approval_minutes'))--}}
+        {{--<ul class="list-unstyled">--}}
+        {{--@foreach (['approval_days', 'approval_hours', 'approval_minutes'] as $field)--}}
+        {{--@if ($errors->has($field))--}}
+        {{--<li class="error-message">{{ $errors->first($field) }}</li>--}}
+        {{--@endif--}}
+        {{--@endforeach--}}
+        {{--</ul>--}}
+        {{--@endif--}}
+        {{--</section>--}}
 
 
         <div class="hiddenInputs">
@@ -127,11 +119,9 @@
             </label>
         </div>
         <div id="escalation">
-            <escalation level="1"></escalation>
-            <escalation level="2"></escalation>
-            <escalation level="3"></escalation>
-            <escalation level="4"></escalation>
-
+            @for($i=0;$i<4;$i++)
+                @include('admin.sla.templates.escalations')
+            @endfor
         </div>
 
         <div class="form-group">

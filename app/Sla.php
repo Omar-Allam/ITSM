@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Behaviors\HasCriteria;
+use App\Http\Requests\Request;
 
 /**
  * App\Sla
@@ -41,8 +42,8 @@ class Sla extends KModel
     use HasCriteria;
 
     protected $fillable = [
-        'name', 'description', 'due_days', 'due_hours', 'due_minutes', 
-        'response_days', 'response_hours', 'response_minutes', 
+        'name', 'description', 'due_days', 'due_hours', 'due_minutes',
+        'response_days', 'response_hours', 'response_minutes',
         'approval_days', 'approval_hours', 'approval_minutes',
         'critical'
     ];
@@ -51,21 +52,28 @@ class Sla extends KModel
 
     protected $criteriaType = 'sla';
 
-    function escalations(){
-        return $this->hasMany(EscalationLevel::class,'sla_id');
+    function escalations()
+    {
+        return $this->hasMany(EscalationLevel::class, 'sla_id');
     }
-    function getDueTime(){
+
+    function getDueTime()
+    {
         return ($this->due_hours * 60) + ($this->due_days * 8 * 60) + ($this->due_minutes);
     }
-    function validateInputs($request,$i){
+
+    function validateInputs($request, $i)
+    {
+
         $validator = \Validator::make($request->all(), [
             'level[' . $i . ']' => 'required',
-            'option' . $i => 'required',
-            'level_days['.$i.']'=>'integer|min:0'
-        ],['level[' . $i . '].required'=>'Determine Escalate to is required','option' . $i.'.required'=>'You should determine Escalate before or after exceed resolution time']);
+        ], ['level[' . $i . '].required' => 'Determine Escalate to is required']);
 
-        if($validator->validate()){
-            return \Redirect::back();
-        }
+
+    }
+
+    function level($level)
+    {
+        return $this->escalations()->where('level', $level)->first();
     }
 }

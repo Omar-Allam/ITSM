@@ -7,6 +7,7 @@ use App\Http\Requests\SlaRequest;
 use App\Sla;
 use App\Http\Controllers\Controller;
 use App\User;
+use Illuminate\Validation\Validator;
 
 class SlaController extends Controller
 {
@@ -48,10 +49,11 @@ class SlaController extends Controller
     public function update(Sla $sla, SlaRequest $request)
     {
         for ($i = 0; $i < count($request->enableLeveL); $i++) {
+
             if (isset($request->enableLeveL[$i]) && $request->enableLeveL[$i]) {
-                  $sla->validateInputs($request,$i);
+                $this->validate($request, ['level-' . $i => 'required','days-' . $i => 'required|min:0|integer']);
                 $escalate_exist = EscalationLevel::where('sla_id', $sla->id)->where('level', $i + 1)->first();
-                if (!$escalate_exist && $request->level[$i]) {
+                if (!$escalate_exist && isset($request->level[$i])) {
                     EscalationLevel::create([
                         'user_id' => User::where('name', $request->level[$i])->first()->id
                         , 'sla_id' => $sla->id, 'level' => '1', 'days' => $request->level_days[$i],
@@ -62,8 +64,8 @@ class SlaController extends Controller
             }
         }
 
-        $sla->update($request->all());
-        $sla->updateCriteria($request);
+//        $sla->update($request->all());
+//        $sla->updateCriteria($request);
         flash('SLA has been saved', 'success');
 
         return \Redirect::route('admin.sla.index');

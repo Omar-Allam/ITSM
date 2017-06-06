@@ -101,6 +101,7 @@ class TicketController extends Controller
 
     public function reply(Ticket $ticket, TicketReplyRequest $request)
     {
+
         $reply = new TicketReply($request->get('reply'));
         $reply->user_id = $request->user()->id;
 
