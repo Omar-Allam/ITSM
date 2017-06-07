@@ -293,4 +293,29 @@ class Ticket extends KModel
             $q->whereIn('type', [Status::OPEN, Status::PENDING]);
         });
     }
+
+    function getStartTimeAttribute()
+    {
+        $critical = $this->sla->critical ?? false;
+        $date = clone $this->created_at;
+
+        if (!$critical) {
+            // If it is not critical and time is outside working hours
+            // move the time to nearest working hour possible.
+            $dayStart = (clone $this->created_at)->setTimeFromTimeString(config('worktime.start'));
+            $dayEnd = (clone $this->created_at)->setTimeFromTimeString(config('worktime.end'));
+
+            if ($date->lt($dayStart)) {
+                // If it is before work start move to work start
+                $date = $dayStart;
+            } elseif ($date->gt($dayEnd)) {
+                // If it is after working hours move to next day's start
+                do {
+                    $date = $dayStart->addDay();
+                } while ($date->isWeekend());
+            }
+        }
+
+        return $date;
+    }
 }

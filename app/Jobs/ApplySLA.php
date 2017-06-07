@@ -21,8 +21,6 @@ class ApplySLA extends MatchCriteria
     {
         $this->ticket = $ticket;
 
-        Carbon::setWeekendDays([Carbon::SATURDAY, Carbon::FRIDAY]);
-
         $this->workStartTime = Carbon::parse(config('worktime.end'));
         $this->workEndTime = Carbon::parse(config('worktime.end'));
     }
@@ -60,25 +58,10 @@ class ApplySLA extends MatchCriteria
 
     protected function calculateTime($days, $hours, $minutes, $critical = false)
     {
-        $date = clone $this->ticket->created_at;
+        $date = clone $this->ticket->start_time;
 
         $workStart = config('worktime.start');
         $workEnd = config('worktime.end');
-
-        if (!$critical) {
-            // If it is not critical and time is outside working hours
-            // move the time to nearest working hour possible.
-            $todayStart = Carbon::parse($workStart);
-            $todayEnd = Carbon::parse($workEnd);
-
-            if ($date->lt($todayStart)) {
-                // If it is before work start move to work start
-                $date->setTimeFromTimeString($workStart);
-            } elseif ($date->gt($todayEnd)) {
-                // If it is after working hours move to next day's start
-                $date->addDay()->setTimeFromTimeString($workStart);
-            }
-        }
 
         $date->addDays($days);
         $date->addHours($hours);
