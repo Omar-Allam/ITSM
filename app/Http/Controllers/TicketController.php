@@ -150,7 +150,7 @@ class TicketController extends Controller
 
     public function scope(Request $request)
     {
-        \Session::set('ticket.scope', $request->get('scope'));
+        \Session::put('ticket.scope', $request->get('scope'));// as set function not documented by laravel
 
         return \Redirect::route('ticket.index');
     }
