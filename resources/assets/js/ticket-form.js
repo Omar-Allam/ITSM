@@ -39,7 +39,6 @@ window.app = new Vue({
 
         loadItem() {
             if (this.item) {
-                // this.loadCustomFields();
             }
         },
 
