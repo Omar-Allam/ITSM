@@ -36,6 +36,9 @@ class Kernel extends ConsoleKernel
             ->sundays()->mondays()->tuesdays()->wednesdays()->thursdays()
             ->everyThirtyMinutes();
 
+        // Calculate time of tickets every minute
+        $schedule->command('tickets:calculate-time')->everyMinute();
+
         // Escalate approvals every hour
 //        $schedule->command('approvals:escalate')->hourly();
     }
