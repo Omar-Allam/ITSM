@@ -287,6 +287,10 @@ class Ticket extends KModel
         return $this->hasMany(TicketCustomField::class);
     }
 
+    function tasks(){
+        return $this->hasMany(Task::class);
+    }
+
     function scopePending(Builder $query)
     {
         $query->whereHas('status', function(Builder $q){

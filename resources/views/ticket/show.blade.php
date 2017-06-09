@@ -7,10 +7,10 @@
         @if (Auth::user()->isSupport())
             <div class="btn-toolbar">
                 <button data-toggle="modal" data-target="#AssignForm" type="button" class="btn btn-sm btn-default" title="Re-assign">
-                    <i class="fa fa-mail-forward"></i> Re-assign
+                    <i class="fa fa-mail-forward"></i> {{t('Re-assign')}}
                 </button>
                 <a href="{{route('ticket.duplicate', $ticket)}}" class="btn btn-sm btn-default"><i class="fa fa-clone"></i>
-                Duplicate</a>
+                {{t('Duplicate')}}</a>
             </div>
         @endif
     </div>
@@ -18,17 +18,17 @@
     <div class="card">
         <ul class="list-unstyled">
             <li>
-                <small><strong>Status:</strong> {{$ticket->status->name}}</small>
+                <small><strong>{{t('Status')}} :</strong> {{$ticket->status->name}}</small>
             </li>
             @if ($ticket->due_date)
             <li>
-                <small><strong>Due Date:</strong> {{$ticket->due_date->format('d/m/Y H:i')}}</small>
+                <small><strong>{{t('Due Date')}} :</strong> {{$ticket->due_date->format('d/m/Y H:i')}}</small>
             </li>
             @endif
 
             @if($ticket->resolve_date)
             <li>
-                <small><strong>Resolve Date:</strong> {{$ticket->resolve_date->format('d/m/Y H:i')}}</small>
+                <small><strong>{{t('Resolve Date')}}:</strong> {{$ticket->resolve_date->format('d/m/Y H:i')}}</small>
             </li>
             @endif
         </ul>
@@ -38,20 +38,22 @@
 @section('body')
     <section class="col-sm-12" id="ticketArea">
         <ul class="nav nav-tabs" role="tablist">
-            <li class="active"><a href="#main" role="tab" data-toggle="tab"><i class="fa fa-ticket"></i> Request</a>
+            <li class="active"><a href="#main" role="tab" data-toggle="tab"><i class="fa fa-ticket"></i> {{t('Request')}}</a>
             </li>
-            <li><a href="#conversation" role="tab" data-toggle="tab"><i class="fa fa-comments-o"></i> Conversation</a>
+            <li><a href="#conversation" role="tab" data-toggle="tab"><i class="fa fa-comments-o"></i> {{t('Conversation')}}</a>
+            </li>
+            <li><a href="#tasks" role="tab" data-toggle="tab"><i class="fa fa-tasks"></i> {{t('Tasks')}}</a>
             </li>
             @if ($ticket->resolution || Auth::user()->isTechnician())
-                <li><a href="#resolution" role="tab" data-toggle="tab"><i class="fa fa-support"></i> Resolution</a></li>
+                <li><a href="#resolution" role="tab" data-toggle="tab"><i class="fa fa-support"></i>{{t('Resolution')}}</a></li>
             @endif
 
             @if ($ticket->approvals->count() || Auth::user()->isSupport())
-                <li><a href="#approvals" role="tab" data-toggle="tab"><i class="fa fa-check"></i> Approvals</a></li>
+                <li><a href="#approvals" role="tab" data-toggle="tab"><i class="fa fa-check"></i> {{t('Approvals')}}</a></li>
             @endif
-            <li><a href="#history" role="tab" data-toggle="tab"><i class="fa fa-history"></i> Ticket Log</a></li>
+            <li><a href="#history" role="tab" data-toggle="tab"><i class="fa fa-history"></i> {{t('Ticket Log')}}</a></li>
             @if ($ticket->files->count())
-                <li><a href="#attachments" role="tab" data-toggle="tab"><i class="fa fa-file-o"></i> Attachments</a>
+                <li><a href="#attachments" role="tab" data-toggle="tab"><i class="fa fa-file-o"></i> {{t('Attachments')}}</a>
                 </li>
             @endif
         </ul>
@@ -78,7 +80,9 @@
                     @include('ticket.tabs._attachment')
                 </div>
             @endif
-        </div>
+            <div role="tabpanel" class="tab-pane" id="tasks">
+                @include('ticket.tabs._tasks')
+            </div>
 
         @include('ticket._assign_modal')
     </section>
@@ -87,4 +91,5 @@
 @section('javascript')
     <script src="{{asset('/js/ticket.js')}}"></script>
     <script src="{{asset('/js/tinymce/tinymce.min.js')}}"></script>
+
 @endsection

@@ -52,6 +52,13 @@ class Sla extends KModel
 
     protected $criteriaType = 'sla';
 
+    function escalations(){
+        return $this->hasMany(EscalationLevel::class,'sla_id');
+    }
+    function getDueTime(){
+        return ($this->due_hours * 60) + ($this->due_days * 8 * 60) + ($this->due_minutes);
+    }
+
     function getMinutesAttribute()
     {
         $startTime = Carbon::parse(config('worktime.start'));

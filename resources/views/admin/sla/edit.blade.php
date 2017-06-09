@@ -17,9 +17,36 @@
 @section('body')
     {{ Form::model($sla, ['route' => ['admin.sla.update', $sla], 'class' => 'col-sm-9']) }}
 
-        {{ method_field('patch') }}
+    {{ method_field('patch') }}
 
-        @include('admin.sla._form')
+    @include('admin.sla._form')
 
     {{ Form::close() }}
 @stop
+@section('javascript')
+    <script>
+        let selectedItems = [];
+        let selectedId = [];
+        var clickedButton;
+        let modalTech = jQuery('#techModal');
+
+        jQuery('button[data-close=chooseTech]').click(function (e) {
+            clickedButton = e;
+        })
+
+        jQuery('#chooseTech').click(function (e) {
+            jQuery('#technicians :selected').each(function (index, item) {
+                selectedItems[index] = jQuery(item).text();
+                selectedId[index] = jQuery(item).val();
+            })
+            jQuery(`<select class="hidden" id='techSelect' name='tech[]'></select>`).appendTo( "div.hiddenInputs" );
+
+            for(i =0 ; i<selectedId.length ; i++){
+                jQuery(`<option value='`+selectedId+`'></option>`).appendTo( "#techSelect" );
+            }
+            jQuery(clickedButton.target).parents('tr').find('input[type=text]').val(selectedItems)
+            modalTech.modal('hide');
+        })
+    </script>
+    {{--<input type='hidden' name='tech"+selectedId[i]+"' value='"+selectedId[i]+"'>--}}
+@endsection
