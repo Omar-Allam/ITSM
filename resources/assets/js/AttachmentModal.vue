@@ -2,7 +2,7 @@
     <table class="listing-table table-condensed">
         <thead>
         <tr>
-            <th>{{Attachments}}</th>
+            <th>Attachments</th>
             <th class="text-right">
                 <button type="button" @click="add" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle"></i></button>
             </th>

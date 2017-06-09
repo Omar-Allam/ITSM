@@ -9461,7 +9461,7 @@ module.exports = Vue$3;
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('table', {
     staticClass: "listing-table table-condensed"
-  }, [_c('thead', [_c('tr', [_c('th', [_vm._v(_vm._s(_vm.Attachments))]), _vm._v(" "), _c('th', {
+  }, [_c('thead', [_c('tr', [_c('th', [_vm._v("Attachments")]), _vm._v(" "), _c('th', {
     staticClass: "text-right"
   }, [_c('button', {
     staticClass: "btn btn-primary btn-sm",
