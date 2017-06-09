@@ -67,7 +67,7 @@ class TicketController extends Controller
 
         flash(t('Ticket has been saved'), 'success');
 
-        return \Redirect::route('ticket.show', $tick);
+        return \Redirect::route('ticket.show', $ticket);
     }
 
     public function show(Ticket $ticket)
@@ -149,7 +149,7 @@ class TicketController extends Controller
 
     public function scope(Request $request)
     {
-        \Session::set('ticket.scope', $request->get('scope'));
+        \Session::put('ticket.scope', $request->get('scope'));
 
         return \Redirect::route('ticket.index');
     }

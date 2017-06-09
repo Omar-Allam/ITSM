@@ -55,7 +55,6 @@ class TicketViewScope
     public function apply($scope)
     {
 //        $scope = session('ticket.scope');
-
         if (method_exists($this, $scope)) {
             if (in_array($scope, self::$statusScopes)) {
                 $this->in_my_groups();
@@ -126,7 +125,9 @@ class TicketViewScope
 
     public function in_my_groups()
     {
-        $this->query->whereIn('group_id', $this->user->groups->pluck('id')->toArray());
+        if (!auth()->user()->isAdmin()) {
+            $this->query->whereIn('group_id', $this->user->groups->pluck('id')->toArray());
+        }
     }
 
     public function pending()

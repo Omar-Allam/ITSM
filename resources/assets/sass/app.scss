@@ -4,7 +4,6 @@
 @import "node_modules/font-awesome/scss/font-awesome.scss";
 @import "node_modules/select2/src/scss/core.scss";
 
-
 // Layout styles
 html, body {
   height: 100%;
@@ -29,7 +28,7 @@ html, body {
 }
 
 .title-bar {
-  .title-container  {
+  .title-container {
     background: #fff;
     min-height: 50px;
     border-bottom: 2px solid $navbar-default-border;
@@ -43,7 +42,7 @@ html, body {
       margin-top: 0;
       margin-bottom: 0;
       flex: 1;
-    
+
       display: inline-block;
     }
 
@@ -75,8 +74,11 @@ body {
 
 footer {
   border-top: 2px solid $navbar-default-border;
-  padding-top: 10px;
   background: #fff;
+
+  p {
+    margin-bottom: 0;
+  }
 }
 
 //Sidebar Styles
@@ -187,7 +189,7 @@ hr.form-divider {
   }
 
   li.active > a, li.active > a:hover, li.active > a:active, li.active > a:focus {
-    border: 1px solid $brand-primary;    
+    border: 1px solid $brand-primary;
     background: $brand-primary;
     color: #fff;
   }
@@ -232,33 +234,17 @@ hr.form-divider {
   flex: 1;
 }
 
-.panel > .table-container > .table-bordered {
-  border: 0;
-  margin-bottom: 0;
-
-  thead > tr > th, tbody > tr:last-child > td {
-    border-bottom: 0;
-  }
-
-  thead > tr > th:first-child,
-  tbody > tr > td:first-child {
-    border-left: 0;
-  }
-
-  thead > tr > th:last-child,
-  tbody > tr > td:last-child {
-    border-right: 0;
-  }
-}
-
 .list-group-item.info {
   background-color: $brand-info;
   color: #fff;
 }
 
 #flash-alert {
-  position: fixed;
-  bottom: 50px;
+  margin-right: 2em;
+  .alert {
+    margin-bottom: 0;
+    padding: 5px;
+  }
 }
 
 .display-flex {
@@ -274,7 +260,7 @@ hr.form-divider {
 }
 
 .title-container .ticket-meta h4 {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 table.table > thead > tr > th {
@@ -285,14 +271,14 @@ table.table > thead > tr > th {
 
   table.table {
 
-    > thead > tr> th {
+    > thead > tr > th {
       background-color: #CBD5EB;
       color: #333;
       border: 1px solid #fff;
       border-bottom-width: 2px;
     }
 
-    > tbody > tr> td {
+    > tbody > tr > td {
       background-color: #eee;
       color: #333;
       border: 1px solid #fff;
@@ -310,5 +296,42 @@ table.table > thead > tr > th {
 
   .page-header {
     margin: 10px 0 20px;
+  }
+}
+
+.panel .table-container {
+  .table {
+    margin-bottom: 0;
+    border: 0;
+  }
+
+  .table-bordered {
+    > thead > tr > th:first-child, > thead > tr > td:first-child, > tbody > tr > th:first-child, > tbody > tr > td:first-child, > tfoot > tr > th:first-child, > tfoot > tr > td:first-child > thead > tr > th:first-child > thead > tr > td:first-child > tbody > tr > th:first-child > tbody > tr > td:first-child > tfoot > tr > th:first-child > tfoot > tr > td:first-child {
+      border-left: 0;
+    }
+
+    > thead > tr:first-child > td, > thead > tr:first-child > th, > tbody > tr:first-child > td, > tbody > tr:first-child > th {
+      border-bottom: 0;
+    }
+
+    > tbody:last-child > tr:last-child td:first-child, > tbody:last-child > tr:last-child th:first-child {
+      border-bottom-left-radius: 3px;
+    }
+
+    > tbody > tr:last-child > td, > tbody > tr:last-child > th, > tfoot > tr:last-child > td, > tfoot > tr:last-child > th {
+      border-bottom: 0;
+    }
+
+    thead > tr:first-child > th, thead > tr:first-child > td {
+      border-top: 0;
+    }
+
+     > thead > tr > th:last-child,  > thead > tr > td:last-child,  > tbody > tr > th:last-child,  > tbody > tr > td:last-child,  > tfoot > tr > th:last-child,  > tfoot > tr > td:last-child{
+      border-right: 0;
+    }
+
+    > tbody:last-child > tr:last-child td:last-child, .panel > .listing-table:last-child > tbody:last-child > tr:last-child td:last-child, > tbody:last-child > tr:last-child th:last-child, .panel > .listing-table:last-child > tbody:last-child > tr:last-child th:last-child, > tfoot:last-child > tr:last-child td:last-child, .panel > .listing-table:last-child > tfoot:last-child > tr:last-child td:last-child, > tfoot:last-child > tr:last-child th:last-child, .panel > .listing-table:last-child > tfoot:last-child > tr:last-child th:last-child {
+      border-bottom-right-radius: 3px;
+    }
   }
 }

@@ -25,18 +25,18 @@
             </div>
             <table class="table table-bordered table-condensed">
                 <thead>
-                <tr>
-                    <th class="col-sm-4 bg-danger">{{ Form::label('due_days', 'Days', ['class' => 'control-label']) }}</th>
-                    <th class="col-sm-4 bg-danger">{{ Form::label('due_hours', 'Hours', ['class' => 'control-label']) }}</th>
-                    <th class="col-sm-4 bg-danger">{{ Form::label('due_minutes', 'Minutes', ['class' => 'control-label']) }}</th>
-                </tr>
+                    <tr>
+                        <th class="col-sm-4">{{ Form::label('due_days', 'Days', ['class' => 'control-label']) }}</th>
+                        <th class="col-sm-4">{{ Form::label('due_hours', 'Hours', ['class' => 'control-label']) }}</th>
+                        <th class="col-sm-4">{{ Form::label('due_minutes', 'Minutes', ['class' => 'control-label']) }}</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>{{ Form::text('due_days', null, ['class' => 'form-control input-sm']) }}</td>
-                    <td>{{ Form::selectRange('due_hours', 0, 23, null, ['class' => 'form-control input-sm']) }}</td>
-                    <td>{{ Form::selectRange('due_minutes', 0, 59, null, ['class' => 'form-control input-sm']) }}</td>
-                </tr>
+                    <tr>
+                        <td>{{ Form::text('due_days', old('due_days', 0), ['class' => 'form-control input-sm']) }}</td>
+                        <td>{{ Form::selectRange('due_hours', 0, 23, null, ['class' => 'form-control input-sm']) }}</td>
+                        <td>{{ Form::selectRange('due_minutes', 0, 59, null, ['class' => 'form-control input-sm']) }}</td>
+                    </tr>
                 </tbody>
             </table>
             @if ($errors->has('due_days'))
@@ -54,14 +54,14 @@
             <table class="table table-bordered table-condensed">
                 <thead>
                 <tr>
-                    <th class="col-sm-4 bg-warning">{{ Form::label('response_days', 'Days', ['class' => 'control-label']) }}</th>
-                    <th class="col-sm-4 bg-warning">{{ Form::label('response_hours', 'Hours', ['class' => 'control-label']) }}</th>
-                    <th class="col-sm-4 bg-warning">{{ Form::label('response_minutes', 'Minutes', ['class' => 'control-label']) }}</th>
+                    <th class="col-sm-4">{{ Form::label('response_days', 'Days', ['class' => 'control-label']) }}</th>
+                    <th class="col-sm-4">{{ Form::label('response_hours', 'Hours', ['class' => 'control-label']) }}</th>
+                    <th class="col-sm-4">{{ Form::label('response_minutes', 'Minutes', ['class' => 'control-label']) }}</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td>{{ Form::text('response_days', null, ['class' => 'form-control input-sm']) }}</td>
+                    <td>{{ Form::text('response_days', old('response_days', 0), ['class' => 'form-control input-sm']) }}</td>
                     <td>{{ Form::selectRange('response_hours', 0, 23, null, ['class' => 'form-control input-sm']) }}</td>
                     <td>{{ Form::selectRange('response_minutes', 0, 59, null, ['class' => 'form-control input-sm']) }}</td>
                 </tr>
@@ -82,17 +82,17 @@
             <table class="table table-bordered table-condensed table-violet">
                 <thead>
                 <tr>
-                    <th class="col-sm-4 bg-violet">{{ Form::label('approval_days', 'Days') }}</th>
-                    <th class="col-sm-4 bg-violet">{{ Form::label('approval_hours', 'Hours') }}</th>
-                    <th class="col-sm-4 bg-violet">{{ Form::label('approval_minutes', 'Minutes') }}</th>
+                    <th class="col-sm-4">{{ Form::label('approval_days', 'Days') }}</th>
+                    <th class="col-sm-4">{{ Form::label('approval_hours', 'Hours') }}</th>
+                    <th class="col-sm-4">{{ Form::label('approval_minutes', 'Minutes') }}</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>{{ Form::text('approval_days', 0, ['class' => 'form-control input-sm']) }}</td>
-                    <td>{{ Form::selectRange('approval_hours', 0, 23, null, ['class' => 'form-control input-sm']) }}</td>
-                    <td>{{ Form::selectRange('approval_minutes', 0, 59, null, ['class' => 'form-control input-sm']) }}</td>
-                </tr>
+                    <tr>
+                        <td>{{ Form::text('approval_days', old('approval_days', 0), ['class' => 'form-control input-sm']) }}</td>
+                        <td>{{ Form::selectRange('approval_hours', 0, 23, null, ['class' => 'form-control input-sm']) }}</td>
+                        <td>{{ Form::selectRange('approval_minutes', 0, 59, null, ['class' => 'form-control input-sm']) }}</td>
+                    </tr>
                 </tbody>
             </table>
             @if ($errors->has('approval_days') || $errors->has('approval_hours') || $errors->has('approval_minutes'))
@@ -185,7 +185,7 @@
         </div>
         <div class="checkbox">
             <label class="control-label" for="critical">
-                {{Form::hidden('critical', false)}}
+                {{Form::hidden('critical', 0)}}
                 {{Form::checkbox('critical', 1, null, ['id' => 'critical'])}}
                 Do not honor service hours
             </label>

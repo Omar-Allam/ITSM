@@ -9743,7 +9743,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         var requirements = [];
         if (this.criterions && this.criterions.length) {
-            requirements = criterions;
+            requirements = this.criterions;
         }
 
         return {
@@ -9774,13 +9774,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         __WEBPACK_IMPORTED_MODULE_1__Bus__["a" /* default */].$on('removeCriterion', function (index) {
             if (_this.requirements.length > 1) {
-                var _criterions = [];
+                var criterions = [];
                 var i = 0;
                 for (var _i = 0; _i < _this.requirements.length; _i++) {
                     if (_i == index) continue;
-                    _criterions.push(_this.requirements[_i]);
+                    criterions.push(_this.requirements[_i]);
                 }
-                _this.requirements = _criterions;
+                _this.requirements = criterions;
             }
         });
     },
