@@ -30,18 +30,28 @@ trait LdapSync
      */
     protected function syncEntry(LdapConnect $ldap, $entry)
     {
+        if (empty($entry['mail'])) {
+            return false;
+        }
+
         $businessUnit = !empty($entry['company'])? BusinessUnit::whereName($entry['company'])->first() : null;
+        if (!$businessUnit) {
+            return false;
+        }
+
         $location = null;
         if (!empty($entry['l'])) {
             $location = Location::whereName(trim($entry['l']))->first();
-        } elseif ($businessUnit) {
+        }
+
+        if (!$location && $businessUnit->location) {
             $location = $businessUnit->location;
         }
 
-        if (!$businessUnit || !$location || empty($entry['mail'])) {
+        /*if (!$businessUnit || !$location || empty($entry['mail'])) {
             \Log::warning("<{$entry['samaccountname']}>");
             return false;
-        }
+        }*/
 
         $user = [
             'name' => $entry['displayname'],
@@ -68,7 +78,10 @@ trait LdapSync
             }
         }
 
-        $dbUser = User::where('login', $entry['samaccountname'])->orWhere('email', $entry['mail'])->first();
+        $dbUser = User::where('login', $user['login'])->orWhere('email', $user['email'])->first();
+        if ($user['email'] == '') {
+            dd($dbUser);
+        }
         if ($dbUser) {
             $dbUser->update($user);
             return $dbUser;

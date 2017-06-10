@@ -33,9 +33,7 @@ class LdapImportAll extends Command
 
         $bar = $this->output->createProgressBar($count);
         foreach ($users as $user) {
-            if (!$this->syncEntry($this->ldap, $user)) {
-//                dump($user);
-            }
+            $this->syncEntry($this->ldap, $user);
             $bar->advance();
         }
     }

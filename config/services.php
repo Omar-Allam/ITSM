@@ -39,5 +39,10 @@ return [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_SECRET'),
         'redirect' => env('GOOGLE_REDIRECT_URI', env('APP_URL') . '/auth/google/continue'),
+    ],
+
+    'sdp' => [
+        'key' => env('SDP_API_KEY'),
+        'base_url' => env('SDP_BASE_URL', 'http://helpdesk.alkifah.com'),
     ]
 ];

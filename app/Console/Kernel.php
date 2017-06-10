@@ -21,6 +21,7 @@ class Kernel extends ConsoleKernel
         Commands\AutoCloseResolvedTickets::class,
         Commands\EscalateApprovals::class,
         Commands\CalculateOpenRequestsTime::class,
+        Commands\SyncServiceDeskPlus::class,
     ];
 
     /**
