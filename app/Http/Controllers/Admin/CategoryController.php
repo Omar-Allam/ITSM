@@ -27,7 +27,9 @@ class CategoryController extends Controller
     {
         $this->validates($request, 'Could not save category');
         $service_request = isset($request->service_request) ? 1 : 0;
-        Category::create([$request->all(), 'service_request'=>$service_request]);
+        $data = $request->all();
+        $data['service_request'] = $service_request;
+        Category::create($data);
 
         flash('Category has been saved', 'success');
 
@@ -48,10 +50,10 @@ class CategoryController extends Controller
     {
         $this->validates($request, 'Could not save category');
         $service_request = isset($request->service_request) ? 1 : 0;
-        $category->update([$request->all(), 'service_request'=>$service_request]);
-
+        $data = $request->all();
+        $data['service_request'] = $service_request;
+        $category->update($data);
         flash('Category has been saved', 'success');
-
         return \Redirect::route('admin.category.index');
     }
 

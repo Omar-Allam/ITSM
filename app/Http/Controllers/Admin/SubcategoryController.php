@@ -32,8 +32,9 @@ class SubcategoryController extends Controller
     {
         $this->validates($request, 'Could not save category');
         $service_request = isset($request->service_request) ? 1 : 0;
-
-        $subcategory = Subcategory::create([$request->all(), 'service_request'=>$service_request]);
+        $data = $request->all();
+        $data['service_request'] = $service_request;
+        $subcategory = Subcategory::create($data);
 
         flash('Subcategory has been saved', 'success');
 
@@ -54,7 +55,9 @@ class SubcategoryController extends Controller
     {
         $this->validates($request, 'Could not save category');
         $service_request = isset($request->service_request) ? 1 : 0;
-        $subcategory->update([$request->all(), 'service_request'=>$service_request]);
+        $data = $request->all();
+        $data['service_request'] = $service_request;
+        $subcategory->update($data);
 
         flash('Subcategory has been saved', 'success');
 

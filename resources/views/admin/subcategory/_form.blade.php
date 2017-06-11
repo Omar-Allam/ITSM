@@ -31,7 +31,7 @@
 
         <div class="form-group">
             <input type="checkbox" class="checkbox-tick"
-                   id="service_request" name="service_request" @if($subcategory->service_request) checked @endif >
+                   id="service_request" name="service_request" @if(isset($subcategory->service_request) && $subcategory->service_request ) checked @endif >
             <label for="service_request">Is a service request ?</label>
         </div>
 

@@ -20,7 +20,7 @@
 
         <div class="form-group">
             <input type="checkbox"
-                   id="service_request" name="service_request" @if($category->service_request) checked @endif>
+                   id="service_request" name="service_request" @if(isset($category->service_request) && $category->service_request ) checked @endif>
             <label for="service_request">Is a service request ?</label>
         </div>
 
