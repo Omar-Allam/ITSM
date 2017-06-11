@@ -5,6 +5,9 @@
     <a href="{{route('admin.department.create')}}" class="btn btn-sm btn-primary pull-right"><i class="fa fa-plus"></i></a>
 @stop
 
+@section('sidebar')
+    @include('admin.partials._sidebar')
+@stop
 @section('body')
     <section class="col-sm-9">
     @if ($departments->total())
