@@ -61,45 +61,34 @@
 </header>
 
 <div id="wrapper">
-<main class="container-fluid">
-    <div class="row">
-         @hasSection('sidebar')
-         @yield('sidebar')
+    <main class="container-fluid">
+        <div class="row">
+            @hasSection('sidebar')
+                @yield('sidebar')
             @endif
 
             @yield('body')
         </div>
-</main>
+    </main>
 
-            <footer>
+    <footer>
         <div class="container-fluid">
-        <div class="display-flex">
-        @if(Session::has('flash-message'))
-            @include('partials.alert', [
-                'type' => Session::get('flash-type', 'danger'),
-                'message' => Session::get('flash-message')
-            ])
-        @endif
+            <div class="display-flex">
+                @if(Session::has('flash-message'))
+                    @include('partials.alert', [
+                        'type' => Session::get('flash-type', 'danger'),
+                        'message' => Session::get('flash-message')
+                    ])
+                @endif
 
 
-        <p class="text-mutedtext-right">{{t('Copyright')}} &copy; <a href="http://hubtech.sa">Hubtech</a> {{date('Y')}}</p></div>
-    </div>
-</footer>
+                <p class="text-mutedtext-right">{{t('Copyright')}} &copy;
+                    <a href="http://hubtech.sa">Hubtech</a> {{date('Y')}}</p></div>
+        </div>
+    </footer>
 </div>
 
 <script src="{{asset('/js/app.js')}}"></script>
-<<<<<<< HEAD
-@if(\Auth::check() && \Session::has('personlized-language-ar' . \Auth::user()->id))
-    <script>
-        jQuery(document).ready(function () {
-            jQuery('div[class*=col-]').addClass('pull-right').removeClass('pull-left')
-        })
-    </script>
-@else
-    <link rel="stylesheet" href="{{asset('/css/app.css')}}">
-@endif
-=======
->>>>>>> master
 @yield('javascript')
 </body>
 </html>
