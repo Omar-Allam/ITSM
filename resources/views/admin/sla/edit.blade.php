@@ -39,14 +39,11 @@
                 selectedItems[index] = jQuery(item).text();
                 selectedId[index] = jQuery(item).val();
             })
-            jQuery(`<select class="hidden" id='techSelect' name='tech[]'></select>`).appendTo( "div.hiddenInputs" );
 
-            for(i =0 ; i<selectedId.length ; i++){
-                jQuery(`<option value='`+selectedId+`'></option>`).appendTo( "#techSelect" );
-            }
             jQuery(clickedButton.target).parents('tr').find('input[type=text]').val(selectedItems)
             modalTech.modal('hide');
         })
+
     </script>
     {{--<input type='hidden' name='tech"+selectedId[i]+"' value='"+selectedId[i]+"'>--}}
 @endsection

@@ -88,6 +88,18 @@
 </div>
 
 <script src="{{asset('/js/app.js')}}"></script>
+<<<<<<< HEAD
+@if(\Auth::check() && \Session::has('personlized-language-ar' . \Auth::user()->id))
+    <script>
+        jQuery(document).ready(function () {
+            jQuery('div[class*=col-]').addClass('pull-right').removeClass('pull-left')
+        })
+    </script>
+@else
+    <link rel="stylesheet" href="{{asset('/css/app.css')}}">
+@endif
+=======
+>>>>>>> master
 @yield('javascript')
 </body>
 </html>

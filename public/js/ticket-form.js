@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 56);
+/******/ 	return __webpack_require__(__webpack_require__.s = 60);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -9451,7 +9451,7 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(3)))
 
 /***/ }),
 
@@ -9509,111 +9509,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 20:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue__);
-
-
-
-window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
-    el: '#TicketForm',
-    data: {
-        category: window.category,
-        subcategory: window.subcategory,
-        item: window.item,
-        subcategories: {},
-        items: {},
-        technicians: []
-    },
-
-    created: function created() {
-        this.loadCategory(false);
-        this.loadSubcategory(false);
-    },
-
-
-    methods: {
-        loadCategory: function loadCategory(withFields) {
-            var _this = this;
-
-            if (this.category) {
-                jQuery.get('/list/subcategory/' + this.category).then(function (response) {
-                    _this.subcategories = response;
-                });
-                if (withFields) this.loadCustomFields();
-            }
-        },
-        loadSubcategory: function loadSubcategory(withFields) {
-            var _this2 = this;
-
-            if (this.subcategory) {
-                jQuery.get('/list/item/' + this.subcategory).then(function (response) {
-                    _this2.items = response;
-                });
-
-                if (withFields) this.loadCustomFields();
-            }
-        },
-        loadItem: function loadItem() {
-            if (this.item) {
-                // this.loadCustomFields();
-            }
-        },
-        loadCustomFields: function loadCustomFields() {
-            var $ = window.jQuery;
-            var customFieldsContainer = $('#CustomFields');
-            var fieldValues = {};
-
-            customFieldsContainer.find('.cf').each(function (idx, element) {
-                var id = element.id;
-                var type = element.type;
-                if (type == 'checkbox') {
-                    fieldValues[id] = element.checked;
-                } else {
-                    fieldValues[id] = $(element).val();
-                }
-            });
-
-            var url = '/custom-fields?category=' + this.category + '&subcategory=' + this.subcategory + '&item=' + this.item;
-            $.get(url).then(function (response) {
-                var newFields = $(response.data);
-                for (var id in fieldValues) {
-                    var field = newFields.find('#' + id);
-                    if (field.attr('type') == 'checkbox') {
-                        field.prop('checked', fieldValues[id]);
-                    } else {
-                        field.val(fieldValues[id]);
-                    }
-                }
-                customFieldsContainer.html('').append(newFields);
-            });
-        }
-    },
-
-    watch: {
-        category: function category() {
-            this.loadCategory(false);
-        },
-        subcategory: function subcategory() {
-            this.loadSubcategory(false);
-        },
-        item: function item() {
-            this.loadItem();
-        }
-    },
-
-    components: { Attachments: __WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue___default.a }
-});
-
-/***/ }),
-
-/***/ 3:
+/***/ 2:
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -9800,7 +9696,109 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ 4:
+/***/ 21:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue__);
+
+
+
+window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+    el: '#TicketForm',
+    data: {
+        category: window.category,
+        subcategory: window.subcategory,
+        item: window.item,
+        subcategories: {},
+        items: {},
+        technicians: []
+    },
+
+    created: function created() {
+        this.loadCategory(false);
+        this.loadSubcategory(false);
+    },
+
+
+    methods: {
+        loadCategory: function loadCategory(withFields) {
+            var _this = this;
+
+            if (this.category) {
+                jQuery.get('/list/subcategory/' + this.category).then(function (response) {
+                    _this.subcategories = response;
+                });
+                if (withFields) this.loadCustomFields();
+            }
+        },
+        loadSubcategory: function loadSubcategory(withFields) {
+            var _this2 = this;
+
+            if (this.subcategory) {
+                jQuery.get('/list/item/' + this.subcategory).then(function (response) {
+                    _this2.items = response;
+                });
+
+                if (withFields) this.loadCustomFields();
+            }
+        },
+        loadItem: function loadItem() {
+            if (this.item) {}
+        },
+        loadCustomFields: function loadCustomFields() {
+            var $ = window.jQuery;
+            var customFieldsContainer = $('#CustomFields');
+            var fieldValues = {};
+
+            customFieldsContainer.find('.cf').each(function (idx, element) {
+                var id = element.id;
+                var type = element.type;
+                if (type == 'checkbox') {
+                    fieldValues[id] = element.checked;
+                } else {
+                    fieldValues[id] = $(element).val();
+                }
+            });
+
+            var url = '/custom-fields?category=' + this.category + '&subcategory=' + this.subcategory + '&item=' + this.item;
+            $.get(url).then(function (response) {
+                var newFields = $(response.data);
+                for (var id in fieldValues) {
+                    var field = newFields.find('#' + id);
+                    if (field.attr('type') == 'checkbox') {
+                        field.prop('checked', fieldValues[id]);
+                    } else {
+                        field.val(fieldValues[id]);
+                    }
+                }
+                customFieldsContainer.html('').append(newFields);
+            });
+        }
+    },
+
+    watch: {
+        category: function category() {
+            this.loadCategory(false);
+        },
+        subcategory: function subcategory() {
+            this.loadSubcategory(false);
+        },
+        item: function item() {
+            this.loadItem();
+        }
+    },
+
+    components: { Attachments: __WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue___default.a }
+});
+
+/***/ }),
+
+/***/ 3:
 /***/ (function(module, exports) {
 
 var g;
@@ -9888,10 +9886,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 56:
+/***/ 60:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(20);
+module.exports = __webpack_require__(21);
 
 
 /***/ }),

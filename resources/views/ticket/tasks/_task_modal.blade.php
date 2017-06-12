@@ -33,9 +33,6 @@
                     </div>
                 </div>
 
-
-
-
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group form-group-sm {{$errors->has('priority_id')? 'has-error' : ''}}">

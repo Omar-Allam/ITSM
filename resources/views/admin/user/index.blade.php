@@ -5,13 +5,14 @@
     <div class="heading-actions pull-right">
         <form action="" class="form-inline" method="get">
             <div class="input-group">
-                <input class="form-control input-sm" type="search" name="q" id="searchTerm" placeholder="Search" value="{{Request::get('q', '')}}">
+                <input class="form-control input-sm" type="search" name="q" id="searchTerm" placeholder="Search"
+                       value="{{Request::get('q', '')}}">
                 <span class="input-group-btn">
                     <button class="btn btn-default btn-sm"><i class="fa fa-search"></i></button>
                 </span>
             </div>
-        {{--<a title="Import from active directory" href="#ImportModal" data-toggle="modal" class="btn btn-sm btn-primary"><i class="fa fa-download"></i></a>--}}
-        <a href="{{ route('admin.user.create') }} " class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
+            {{--<a title="Import from active directory" href="#ImportModal" data-toggle="modal" class="btn btn-sm btn-primary"><i class="fa fa-download"></i></a>--}}
+            <a href="{{ route('admin.user.create') }} " class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
         </form>
     </div>
 @stop
@@ -22,63 +23,41 @@
 
 @section('body')
     <section class="col-sm-9">
-    @if ($users->total())
-        <table class="listing-table">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Login</th>
-                <th>Business Unit</th>
-                <th>Location</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($users as $user)
+        @if ($users->total())
+            <table class="listing-table">
+                <thead>
                 <tr>
-                    <td><a href="{{ route('admin.user.edit', $user) }}">{{ $user->name }}</a></td>
-                    <td><a href="{{ route('admin.user.edit', $user) }}">{{ $user->login }}</a></td>
-                    <td>{{ $user->business_unit->name or 'Not Assigned' }}</td>
-                    <td>{{ $user->location->name or 'Not Assigned' }}</td>
-                    <td class="col-md-2">
-                        <form action="{{ route('admin.user.destroy', $user) }}" method="post">
-                            {{csrf_field()}} {{method_field('delete')}}
-                            <a class="btn btn-sm btn-primary" href="{{ route('admin.user.edit', $user) }} "><i
-                                        class="fa fa-edit"></i> Edit</a>
-                            <button class="btn btn-sm btn-warning"><i class="fa fa-remove"></i> Delete</button>
-                        </form>
-                    </td>
+                    <th>Name</th>
+                    <th>Login</th>
+                    <th>Business Unit</th>
+                    <th>Location</th>
+                    <th>Actions</th>
                 </tr>
-            @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                @foreach($users as $user)
+                    <tr>
+                        <td><a href="{{ route('admin.user.edit', $user) }}">{{ $user->name }}</a></td>
+                        <td><a href="{{ route('admin.user.edit', $user) }}">{{ $user->login }}</a></td>
+                        <td>{{ $user->business_unit->name or 'Not Assigned' }}</td>
+                        <td>{{ $user->location->name or 'Not Assigned' }}</td>
+                        <td class="col-md-2">
+                            <form action="{{ route('admin.user.destroy', $user) }}" method="post">
+                                {{csrf_field()}} {{method_field('delete')}}
+                                <a class="btn btn-sm btn-primary" href="{{ route('admin.user.edit', $user) }} "><i
+                                            class="fa fa-edit"></i> Edit</a>
+                                <button class="btn btn-sm btn-warning"><i class="fa fa-remove"></i> Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
 
-        @include('partials._pagination', ['items' => $users])
-    @else
-        <div class="alert alert-info"><i class="fa fa-exclamation-circle"></i> <strong>No users found</strong></div>
-    @endif
+            @include('partials._pagination', ['items' => $users])
+        @else
+            <div class="alert alert-info"><i class="fa fa-exclamation-circle"></i> <strong>No users found</strong></div>
+        @endif
 
-        {{--
-    <div class="modal fade" id="ImportModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog">
-            {{Form::open(['route' => 'user.ldap-import', 'class' => 'modal-content'])}}
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Import Users from Active Directory</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        {{Form::label('login', 'Please input login names to import (One per line)')}}
-                        {{Form::textarea('login', null, ['class' => "form-control", 'rows' => 5])}}
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary"><i class="fa fa-download"></i> Import</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-remove"></i> Close</button>
-                </div>
-            {{Form::close()}}
-        </div>
-    </div>
-    --}}
     </section>
 @stop

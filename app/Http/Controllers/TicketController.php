@@ -100,6 +100,7 @@ class TicketController extends Controller
 
     public function reply(Ticket $ticket, TicketReplyRequest $request)
     {
+
         $reply = new TicketReply($request->get('reply'));
         $reply->user_id = $request->user()->id;
 
@@ -148,8 +149,7 @@ class TicketController extends Controller
 
     public function scope(Request $request)
     {
-        \Session::put('ticket.scope', $request->get('scope'));
-
+        \Session::put('ticket.scope', $request->get('scope')); // as set function deprecated by laravel
         return \Redirect::route('ticket.index');
     }
 
