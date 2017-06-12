@@ -12,7 +12,7 @@
                 @endif
             </div>
         @endif
-        
+
         <div class="form-group {{$errors->has('name')? 'has-error' : ''}}">
             {{Form::label('name', 'Name', ['class' => 'control-label'])}}
             {{Form::text('name', null, ['class' => 'form-control'])}}
@@ -27,6 +27,12 @@
             @if ($errors->has('description'))
                 <div class="error-message">{{$errors->first('description')}}</div>
             @endif
+        </div>
+
+        <div class="form-group">
+            <input type="checkbox" class="checkbox-tick"
+                   id="service_request" name="service_request" @if(isset($subcategory->service_request) && $subcategory->service_request ) checked @endif >
+            <label for="service_request">Is a service request ?</label>
         </div>
 
         <div class="form-group">

@@ -38,6 +38,8 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,['title'=>'required',
+            'technician_id'=>'required|min:1'],['technician_id.min'=>'Technician should be selected']);
         $task = Task::create($request->all());
         $ticket = Ticket::find($task->ticket_id);
         $this->dispatch(new NewTaskJob($task,$ticket));
@@ -75,6 +77,7 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
+        $this->validate($request,['title'=>'required']);
         Task::where('id',$task->id)->update(['title'=>$request->title,
             'description'=>$request->description,
             'priority_id'=>$request->priority_id,

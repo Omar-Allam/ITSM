@@ -42,8 +42,8 @@ class Sla extends KModel
     use HasCriteria;
 
     protected $fillable = [
-        'name', 'description', 'due_days', 'due_hours', 'due_minutes', 
-        'response_days', 'response_hours', 'response_minutes', 
+        'name', 'description', 'due_days', 'due_hours', 'due_minutes',
+        'response_days', 'response_hours', 'response_minutes',
         'approval_days', 'approval_hours', 'approval_minutes',
         'critical'
     ];
@@ -52,11 +52,20 @@ class Sla extends KModel
 
     protected $criteriaType = 'sla';
 
-    function escalations(){
-        return $this->hasMany(EscalationLevel::class,'sla_id');
+    function escalations()
+    {
+        return $this->hasMany(EscalationLevel::class, 'sla_id');
     }
-    function getDueTime(){
+
+    function getDueTime()
+    {
         return ($this->due_hours * 60) + ($this->due_days * 8 * 60) + ($this->due_minutes);
+    }
+
+
+    function level($level)
+    {
+        return $this->escalations()->where('level', $level)->first();
     }
 
     function getMinutesAttribute()

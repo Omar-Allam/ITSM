@@ -32,7 +32,8 @@ class ItemController extends Controller
     {
         $this->validates($request, 'Could not save item');
 
-        $item = Item::create($request->all());
+        $service_request = isset($request->service_request) ? 1 : 0;
+        $item = Item::create([$request->all(), 'service_request'=>$service_request]);
 
         flash('Item has been saved', 'success');
 
@@ -52,8 +53,8 @@ class ItemController extends Controller
     public function update(Item $item, Request $request)
     {
         $this->validates($request, 'Could not save item');
-
-        $item->update($request->all());
+        $service_request = isset($request->service_request) ? 1 : 0;
+        $item->update([$request->all(), 'service_request'=>$service_request]);
 
         flash('Item has been saved', 'success');
 

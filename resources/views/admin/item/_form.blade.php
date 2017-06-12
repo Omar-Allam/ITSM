@@ -30,6 +30,12 @@
         </div>
 
         <div class="form-group">
+            <input type="checkbox" class="checkbox-tick"
+                   id="service_request" name="service_request" @if($item->service_request) checked @endif>
+            <label for="service_request">Is a service request ?</label>
+        </div>
+
+        <div class="form-group">
             <button class="btn btn-success"><i class="fa fa-check-circle"></i> Submit</button>
         </div>
     </div>

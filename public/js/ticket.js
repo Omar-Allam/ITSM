@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 58);
+/******/ 	return __webpack_require__(__webpack_require__.s = 62);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -9451,7 +9451,7 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(3)))
 
 /***/ }),
 
@@ -9509,26 +9509,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 22:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue__);
-
-
-
-window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
-    el: '#ticketArea',
-    components: { Attachment: __WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue___default.a }
-});
-
-/***/ }),
-
-/***/ 3:
+/***/ 2:
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -9715,7 +9696,26 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ 4:
+/***/ 23:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue__);
+
+
+
+window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+    el: '#ticketArea',
+    components: { Attachment: __WEBPACK_IMPORTED_MODULE_1__AttachmentModal_vue___default.a }
+});
+
+/***/ }),
+
+/***/ 3:
 /***/ (function(module, exports) {
 
 var g;
@@ -9803,10 +9803,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 58:
+/***/ 62:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(22);
+module.exports = __webpack_require__(23);
 
 
 /***/ }),
