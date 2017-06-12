@@ -61,6 +61,6 @@ class BusinessUnitController extends Controller
 
         flash('BusinessUnit has been deleted', 'success');
 
-        return \Redirect::action('admin.business-unit.index');
+        return \Redirect::route('admin.business-unit.index');
     }
 }

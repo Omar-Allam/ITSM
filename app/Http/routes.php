@@ -80,3 +80,4 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/report/result', 'ReportController@show');
     Route::post('/report/result', 'ReportController@show');
 });
+

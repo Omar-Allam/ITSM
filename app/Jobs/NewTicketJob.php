@@ -25,11 +25,13 @@ class NewTicketJob extends Job implements ShouldQueue
 
     public function handle()
     {
-        \Mail::send('emails.ticket.new-ticket', ['ticket' => $this->ticket], function(Message $msg) {
-            $ticket = $this->ticket;
-            $msg->subject('A new ticket #' . $ticket->id . ' has been created for you');
-            $msg->to($ticket->requester->email);
-        });
+        if (!$this->ticket->sdp_id) {
+            \Mail::send('emails.ticket.new-ticket', ['ticket' => $this->ticket], function(Message $msg) {
+                $ticket = $this->ticket;
+                $msg->subject('A new ticket #' . $ticket->id . ' has been created for you');
+                $msg->to($ticket->requester->email);
+            });
+        }
 
         dispatch(new TicketAssigned($this->ticket));
     }
