@@ -107,8 +107,6 @@ class TicketController extends Controller
         // Fires creating event in \App\Providers\TicketReplyEventProvider
         $ticket->replies()->save($reply);
 
-        $this->dispatch(new TicketReplyJob($reply));
-
         //@todo: Calculate elapsed time
         return $this->backSuccessResponse($request, 'Reply has been added');
     }

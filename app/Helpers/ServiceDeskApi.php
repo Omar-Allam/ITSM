@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use App\Ticket;
+use App\TicketReply;
 use GuzzleHttp\Client;
 
 class ServiceDeskApi
@@ -50,9 +52,13 @@ class ServiceDeskApi
         return $request;
     }
 
-    function addReply()
+    function addReply(TicketReply $reply)
     {
-
+        $this->send('/sdpapi/request/' . $reply->ticket->sdp_id, 'REPLY_REQUEST', [
+            ['parameter' => ['name' => 'to', 'value' => $reply->ticket->requester->email]],
+            ['parameter' => ['name' => 'subject', 'value' => 'Re: ' . $reply->ticket->subject]],
+            ['parameter' => ['name' => 'description', 'value' => 'Re: ' . $reply->content]],
+        ]);
     }
 
     function getConversations()
@@ -67,7 +73,6 @@ class ServiceDeskApi
 
     function addResolution()
     {
-
     }
 
     function getResolution()
@@ -111,7 +116,9 @@ class ServiceDeskApi
         $string = '';
 
         foreach ($data as $key => $value) {
-            $string .= "<{$key}>";
+            if (!is_numeric($key)) {
+                $string .= "<{$key}>";
+            }
 
             if (is_array($value)) {
                 $string .= $this->buildXML($value);
@@ -119,7 +126,9 @@ class ServiceDeskApi
                 $string .= htmlspecialchars($value);
             }
 
-            $string .= "</{$key}>";
+            if (!is_numeric($key)) {
+                $string .= "</{$key}>";
+            }
         }
 
         return $string;

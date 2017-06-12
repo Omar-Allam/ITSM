@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Attachment;
+use App\Helpers\ServiceDeskApi;
+use App\Jobs\TicketReplyJob;
 use App\TicketLog;
 use App\TicketReply;
 use Carbon\Carbon;
@@ -28,6 +30,13 @@ class TicketReplyEventsProvider extends ServiceProvider
 
         TicketReply::created(function(TicketReply $reply) {
             Attachment::uploadFiles(Attachment::TICKET_REPLY_TYPE, $reply->id);
+
+            if ($reply->ticket->sdp_id) {
+                $sdp = new ServiceDeskApi();
+                $sdp->addReply($reply);
+            } else {
+                dispatch(new TicketReplyJob($reply));
+            }
         });
     }
 

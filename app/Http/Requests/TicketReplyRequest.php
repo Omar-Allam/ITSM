@@ -15,11 +15,12 @@ class TicketReplyRequest extends Request
      */
     public function authorize()
     {
-        $user_id = $this->user()->id;
-
+//        $user_id = $this->user()->id;
+//
         $ticket = $this->route()->parameter('ticket');
-
-        return in_array($user_id, [$ticket->technician_id, $ticket->requester_id, $ticket->creator_id]);
+//
+//        return in_array($user_id, [$ticket->technician_id, $ticket->requester_id, $ticket->creator_id]);
+        return can('reply', $ticket);
     }
 
     /**
