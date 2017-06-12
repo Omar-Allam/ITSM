@@ -4,24 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{t('HubDesk')}}</title>
+    <title>HubDesk</title>
 
-    @if(\Auth::check() && \Session::has('personlized-language-ar' . \Auth::user()->id))
-        <link rel="stylesheet" href="{{asset('/css/app.css')}}">
-        <style>
-            div{
-                direction: rtl;
-            }
-            th,td{
-                text-align: right;
-            }
-
-        </style>
-    @else
-        <link rel="stylesheet" href="{{asset('/css/app.css')}}">
-
-    @endif
-
+    <link rel="stylesheet" href="{{asset('/css/app.css')}}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700">
     @yield('stylesheets')
 </head>
@@ -30,7 +15,8 @@
 <header>
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container-fluid">
-            <div class="navbar-brand"><a href="{{url('/')}}"><i class="fa fa-bolt"></i> {{t('HubDesk')}}</a></div>
+            <div class="navbar-brand"><a href="{{url('/')}}"><i class="fa fa-bolt"></i> HubDesk</a></div>
+
             @if (!\Auth::guest())
                 <ul class="nav navbar-nav">
                     <li><a href="{{route('ticket.index')}}"><i class="fa fa-ticket"></i> {{t('Tickets')}}</a></li>
@@ -41,9 +27,6 @@
                         <li><a href="{{url('/admin')}}"><i class="fa fa-cogs"></i> {{t('Admin')}}</a></li>
                     @endif
                 </ul>
-
-
-
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
@@ -78,38 +61,34 @@
 </header>
 
 <div id="wrapper">
-    <main class="container-fluid">
-        <div class="row">
-            {{-- @todo: Move this to a view composer --}}
-            {{-- @if (Route::current()->getPrefix() == '/admin')
-                <aside class="col-md-3">
-                    @include('admin.partials._sidebar')
-                </aside>
-            @endif --}}
-
-            @hasSection('sidebar')
-                @yield('sidebar')
-            @endif
-
-            @if(Session::has('flash-message'))
-                @include('partials.alert', [
-                    'type' => Session::get('flash-type', 'danger'),
-                    'message' => Session::get('flash-message')
-                ])
+<main class="container-fluid">
+    <div class="row">
+         @hasSection('sidebar')
+         @yield('sidebar')
             @endif
 
             @yield('body')
         </div>
-    </main>
+</main>
 
-    <footer>
+            <footer>
         <div class="container-fluid">
-            <p class="text-muted">{{t('Copyright')}} &copy; <a href="http://hubtech.sa">Hubtech</a> {{date('Y')}}</p>
-        </div>
-    </footer>
+        <div class="display-flex">
+        @if(Session::has('flash-message'))
+            @include('partials.alert', [
+                'type' => Session::get('flash-type', 'danger'),
+                'message' => Session::get('flash-message')
+            ])
+        @endif
+
+
+        <p class="text-mutedtext-right">{{t('Copyright')}} &copy; <a href="http://hubtech.sa">Hubtech</a> {{date('Y')}}</p></div>
+    </div>
+</footer>
 </div>
 
 <script src="{{asset('/js/app.js')}}"></script>
+<<<<<<< HEAD
 @if(\Auth::check() && \Session::has('personlized-language-ar' . \Auth::user()->id))
     <script>
         jQuery(document).ready(function () {
@@ -119,6 +98,8 @@
 @else
     <link rel="stylesheet" href="{{asset('/css/app.css')}}">
 @endif
+=======
+>>>>>>> master
 @yield('javascript')
 </body>
 </html>

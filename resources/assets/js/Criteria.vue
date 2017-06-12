@@ -56,7 +56,7 @@ export default {
     data() {
         let requirements = [];
         if (this.criterions && this.criterions.length) {
-            requirements = criterions;
+            requirements = this.criterions;
         }
 
         return {

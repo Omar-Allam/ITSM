@@ -3,7 +3,7 @@
 namespace App;
 
 use App\Behaviors\HasCriteria;
-use App\Http\Requests\Request;
+use Carbon\Carbon;
 
 /**
  * App\Sla
@@ -62,18 +62,19 @@ class Sla extends KModel
         return ($this->due_hours * 60) + ($this->due_days * 8 * 60) + ($this->due_minutes);
     }
 
-    function validateInputs($request, $i)
-    {
-
-        $validator = \Validator::make($request->all(), [
-            'level[' . $i . ']' => 'required',
-        ], ['level[' . $i . '].required' => 'Determine Escalate to is required']);
-
-
-    }
 
     function level($level)
     {
         return $this->escalations()->where('level', $level)->first();
+    }
+
+    function getMinutesAttribute()
+    {
+        $startTime = Carbon::parse(config('worktime.start'));
+        $endTime = Carbon::parse(config('worktime.end'));
+
+        $minutesPerDay = $endTime->diffInMinutes($startTime);
+
+        return ($this->due_days * $minutesPerDay) + ($this->due_hours * 60) + $this->due_minutes;
     }
 }

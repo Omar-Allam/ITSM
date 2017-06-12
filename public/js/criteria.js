@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 50);
+/******/ 	return __webpack_require__(__webpack_require__.s = 57);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -9462,13 +9462,13 @@ var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(7),
   /* template */
-  __webpack_require__(13),
+  __webpack_require__(12),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/var/www/html/hubdesk/resources/assets/js/Criterion.vue"
+Component.options.__file = "/Users/hazem/kdesk/resources/assets/js/Criterion.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Criterion.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -9479,9 +9479,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4f9f057e", Component.options)
+    hotAPI.createRecord("data-v-56dcd2f4", Component.options)
   } else {
-    hotAPI.reload("data-v-4f9f057e", Component.options)
+    hotAPI.reload("data-v-56dcd2f4", Component.options)
   }
 })()}
 
@@ -9490,7 +9490,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 12:
+/***/ 11:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -9634,13 +9634,13 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-0d23bddc", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-2db46648", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 13:
+/***/ 12:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -9887,7 +9887,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4f9f057e", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-56dcd2f4", module.exports)
   }
 }
 
@@ -10140,7 +10140,7 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 50:
+/***/ 57:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(18);
@@ -10214,7 +10214,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         var requirements = [];
         if (this.criterions && this.criterions.length) {
-            requirements = criterions;
+            requirements = this.criterions;
         }
 
         return {
@@ -10245,13 +10245,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         __WEBPACK_IMPORTED_MODULE_1__Bus__["a" /* default */].$on('removeCriterion', function (index) {
             if (_this.requirements.length > 1) {
-                var _criterions = [];
+                var criterions = [];
                 var i = 0;
                 for (var _i = 0; _i < _this.requirements.length; _i++) {
                     if (_i == index) continue;
-                    _criterions.push(_this.requirements[_i]);
+                    criterions.push(_this.requirements[_i]);
                 }
-                _this.requirements = _criterions;
+                _this.requirements = criterions;
             }
         });
     },
@@ -10444,13 +10444,13 @@ var Component = __webpack_require__(0)(
   /* script */
   __webpack_require__(6),
   /* template */
-  __webpack_require__(12),
+  __webpack_require__(11),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "/var/www/html/hubdesk/resources/assets/js/Criteria.vue"
+Component.options.__file = "/Users/hazem/kdesk/resources/assets/js/Criteria.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Criteria.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -10461,9 +10461,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0d23bddc", Component.options)
+    hotAPI.createRecord("data-v-2db46648", Component.options)
   } else {
-    hotAPI.reload("data-v-0d23bddc", Component.options)
+    hotAPI.reload("data-v-2db46648", Component.options)
   }
 })()}
 

@@ -38,12 +38,9 @@
 @section('body')
     <section class="col-sm-12" id="ticketArea">
         <ul class="nav nav-tabs" role="tablist">
-            <li class="active"><a href="#main" role="tab" data-toggle="tab"><i class="fa fa-ticket"></i> {{t('Request')}}</a>
-            </li>
-            <li><a href="#conversation" role="tab" data-toggle="tab"><i class="fa fa-comments-o"></i> {{t('Conversation')}}</a>
-            </li>
-            <li><a href="#tasks" role="tab" data-toggle="tab"><i class="fa fa-tasks"></i> {{t('Tasks')}}</a>
-            </li>
+            <li class="active"><a href="#main" role="tab" data-toggle="tab"><i class="fa fa-ticket"></i> {{t('Request')}}</a></li>
+            <li><a href="#conversation" role="tab" data-toggle="tab"><i class="fa fa-comments-o"></i> {{t('Conversation')}}</a></li>
+            {{--<li><a href="#tasks" role="tab" data-toggle="tab"><i class="fa fa-tasks"></i> {{t('Tasks')}}</a></li>--}}
             @if ($ticket->resolution || Auth::user()->isTechnician())
                 <li><a href="#resolution" role="tab" data-toggle="tab"><i class="fa fa-support"></i>{{t('Resolution')}}</a></li>
             @endif
@@ -51,10 +48,11 @@
             @if ($ticket->approvals->count() || Auth::user()->isSupport())
                 <li><a href="#approvals" role="tab" data-toggle="tab"><i class="fa fa-check"></i> {{t('Approvals')}}</a></li>
             @endif
+
             <li><a href="#history" role="tab" data-toggle="tab"><i class="fa fa-history"></i> {{t('Ticket Log')}}</a></li>
+
             @if ($ticket->files->count())
-                <li><a href="#attachments" role="tab" data-toggle="tab"><i class="fa fa-file-o"></i> {{t('Attachments')}}</a>
-                </li>
+                <li><a href="#attachments" role="tab" data-toggle="tab"><i class="fa fa-file-o"></i> {{t('Attachments')}}</a></li>
             @endif
         </ul>
 
@@ -62,15 +60,19 @@
             <div role="tabpanel" class="tab-pane active" id="main">
                 @include('ticket.tabs._main')
             </div>
+
             <div role="tabpanel" class="tab-pane" id="conversation">
                 @include('ticket.tabs._conversation')
             </div>
+
             <div role="tabpanel" class="tab-pane" id="resolution">
                 @include('ticket.tabs._resolution')
             </div>
+
             <div role="tabpanel" class="tab-pane" id="history">
                 @include('ticket.tabs._history')
             </div>
+
             <div role="tabpanel" class="tab-pane" id="approvals">
                 @include('ticket.tabs._approvals')
             </div>
@@ -80,11 +82,13 @@
                     @include('ticket.tabs._attachment')
                 </div>
             @endif
-            <div role="tabpanel" class="tab-pane" id="tasks">
-                @include('ticket.tabs._tasks')
-            </div>
 
-        @include('ticket._assign_modal')
+            {{--<div role="tabpanel" class="tab-pane" id="tasks">
+                @include('ticket.tabs._tasks')
+            </div>--}}
+
+            @include('ticket._assign_modal')
+        </div>
     </section>
 @endsection
 

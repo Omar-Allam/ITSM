@@ -26,18 +26,18 @@
             </div>
             <table class="table table-bordered table-condensed">
                 <thead>
-                <tr>
-                    <th class="col-sm-4 bg-danger">{{ Form::label('due_days', 'Days', ['class' => 'control-label']) }}</th>
-                    <th class="col-sm-4 bg-danger">{{ Form::label('due_hours', 'Hours', ['class' => 'control-label']) }}</th>
-                    <th class="col-sm-4 bg-danger">{{ Form::label('due_minutes', 'Minutes', ['class' => 'control-label']) }}</th>
-                </tr>
+                    <tr>
+                        <th class="col-sm-4">{{ Form::label('due_days', 'Days', ['class' => 'control-label']) }}</th>
+                        <th class="col-sm-4">{{ Form::label('due_hours', 'Hours', ['class' => 'control-label']) }}</th>
+                        <th class="col-sm-4">{{ Form::label('due_minutes', 'Minutes', ['class' => 'control-label']) }}</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>{{ Form::text('due_days', null, ['class' => 'form-control input-sm']) }}</td>
-                    <td>{{ Form::selectRange('due_hours', 0, 23, null, ['class' => 'form-control input-sm']) }}</td>
-                    <td>{{ Form::selectRange('due_minutes', 0, 59, null, ['class' => 'form-control input-sm']) }}</td>
-                </tr>
+                    <tr>
+                        <td>{{ Form::text('due_days', old('due_days', 0), ['class' => 'form-control input-sm']) }}</td>
+                        <td>{{ Form::selectRange('due_hours', 0, 23, null, ['class' => 'form-control input-sm']) }}</td>
+                        <td>{{ Form::selectRange('due_minutes', 0, 59, null, ['class' => 'form-control input-sm']) }}</td>
+                    </tr>
                 </tbody>
             </table>
             @if ($errors->has('due_days'))
@@ -55,14 +55,14 @@
             <table class="table table-bordered table-condensed">
                 <thead>
                 <tr>
-                    <th class="col-sm-4 bg-warning">{{ Form::label('response_days', 'Days', ['class' => 'control-label']) }}</th>
-                    <th class="col-sm-4 bg-warning">{{ Form::label('response_hours', 'Hours', ['class' => 'control-label']) }}</th>
-                    <th class="col-sm-4 bg-warning">{{ Form::label('response_minutes', 'Minutes', ['class' => 'control-label']) }}</th>
+                    <th class="col-sm-4">{{ Form::label('response_days', 'Days', ['class' => 'control-label']) }}</th>
+                    <th class="col-sm-4">{{ Form::label('response_hours', 'Hours', ['class' => 'control-label']) }}</th>
+                    <th class="col-sm-4">{{ Form::label('response_minutes', 'Minutes', ['class' => 'control-label']) }}</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td>{{ Form::text('response_days', null, ['class' => 'form-control input-sm']) }}</td>
+                    <td>{{ Form::text('response_days', old('response_days', 0), ['class' => 'form-control input-sm']) }}</td>
                     <td>{{ Form::selectRange('response_hours', 0, 23, null, ['class' => 'form-control input-sm']) }}</td>
                     <td>{{ Form::selectRange('response_minutes', 0, 59, null, ['class' => 'form-control input-sm']) }}</td>
                 </tr>
@@ -107,13 +107,85 @@
         {{--@endif--}}
         {{--</section>--}}
 
+        <section class="panel panel-primary panel-sm">
+            <div class="panel-heading">
+
+                <h4 class="panel-title"><input type="checkbox"  name="enableLeveL[]" id="enableLeveLOne">
+                    Enable Escalation Level 1</h4>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                <tr class="col-md-12">
+                    <td class="col-md-1"><label for="esc_to"> Escalate to</label></td>
+                    <td><input type="text" class="form-control" name="level[]" readonly></td>
+                    <td>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                data-target="#techModal" data-close="chooseTech">Choose
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Days</td>
+                    <td>Hours</td>
+                    <td>Minutes</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ Form::text('level_days[]', 0, ['class' => 'form-control input-sm']) }}</td>
+                    <td>{{ Form::selectRange('level_hours[]', 0, 23, null, ['class' => 'form-control input-sm']) }}
+                    </td>
+                    <td>{{ Form::selectRange('level_minutes[]', 0, 59, null, ['class' => 'form-control input-sm']) }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="panel panel-primary panel-sm">
+            <div class="panel-heading">
+
+                <h4 class="panel-title"><input type="checkbox"  name="enableLeveL[]" id="enableLeveLTwo">
+                    Enable Escalation Level 2</h4>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                <tr class="col-md-12">
+                    <td class="col-md-1"><label for="esc_to"> Escalate to</label></td>
+                    <td><input type="text" class="form-control" name="level[]" readonly>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                data-target="#techModal" data-close="chooseTech">Choose
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Days</td>
+                    <td>Hours</td>
+                    <td>Minutes</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr></tr>
+                <tr>
+                    <td>{{ Form::text('level_days[]', 0, ['class' => 'form-control input-sm']) }}</td>
+                    <td>{{ Form::selectRange('level_hours[]', 0, 23, null, ['class' => 'form-control input-sm']) }}
+                    </td>
+                    <td>{{ Form::selectRange('level_minutes[]', 0, 59, null, ['class' => 'form-control input-sm']) }}
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+        </section>
 
         <div class="hiddenInputs">
 
         </div>
         <div class="checkbox">
             <label class="control-label" for="critical">
-                {{Form::hidden('critical', false)}}
+                {{Form::hidden('critical', 0)}}
                 {{Form::checkbox('critical', 1, null, ['id' => 'critical'])}}
                 Do not honor service hours
             </label>

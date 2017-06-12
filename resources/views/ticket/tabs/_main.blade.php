@@ -36,7 +36,7 @@
     </table>
 </div>
 
-<div class="panel panel-default">
+{{--<div class="panel panel-default">
     <div class="panel-heading">
         <h4 class="panel-title"><i class="fa fa-asterisk"></i> {{t('Ticket Options')}}</h4>
     </div>
@@ -59,7 +59,7 @@
         @endforeach
         </tbody>
     </table>
-</div>
+</div>--}}
 
 <div class="panel panel-default">
     <div class="panel-heading">

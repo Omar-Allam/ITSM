@@ -1,55 +1,50 @@
 <template>
-<article>
-    <table class="listing-table table-bordered">
-        <thead>
-        <tr>
-            <th class="col-md-3">Field</th>
-            <th class="col-md-2">Operator</th>
-            <th class="col-md-6">Value</th>
-            <th>
-                <button class="btn btn-sm btn-primary pull-right" @click="addCriterion" type="button">
-                    <i class="fa fa-plus-circle"></i></button>
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr is="Criterion" v-for="(criterion, index) in criteria" :index="index" :criterion="criterion"></tr>
-        </tbody>
-    </table>
+    <section class="table-container">
+        <table class="listing-table table-bordered">
+            <thead>
+            <tr>
+                <th class="col-md-3">Field</th>
+                <th class="col-md-2">Operator</th>
+                <th class="col-md-6">Value</th>
+                <th>
+                    <button class="btn btn-sm btn-primary pull-right" @click="addCriterion" type="button"><i class="fa fa-plus-circle"></i></button>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr is="Criterion" v-for="(criterion, index) in criteria" :index="index" :criterion="criterion"></tr>
+            </tbody>
+        </table>
 
 
-    <div class="modal fade selection-modal" tabindex="-1" role="dialog" id="CriteriaSelectionModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">{{modal.field}}</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <input type="search" class="form-control" v-model="modal.search" placeholder="Filters">
+        <div class="modal fade selection-modal" tabindex="-1" role="dialog" id="CriteriaSelectionModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">{{modal.field}}</h4>
                     </div>
-                    <div class="form-group">
-                        <select class="form-control" v-model="modal.selected" multiple="multiple">
-                            <option v-for="(label, index) in filteredOptions" :value="index">
-                                {{label}}
-                            </option>
-                        </select>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="search" class="form-control" v-model="modal.search" placeholder="Filters">
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" v-model="modal.selected" multiple="multiple">
+                                <option v-for="(label, index) in filteredOptions" :value="index">
+                                    {{label}}
+                                </option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" @click="modalApply"><i class="fa fa-check-circle"></i>
-                        Apply
-                    </button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                        <i class="fa fa-times-circle"></i> Cancel
-                    </button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" @click="modalApply"><i class="fa fa-check-circle"></i> Apply</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times-circle"></i> Cancel</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</article>
+    </section>
 </template>
 
 <script>
@@ -155,4 +150,5 @@ export default {
 
     components: { Criterion }
 };
+
 </script>
