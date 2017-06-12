@@ -66,10 +66,8 @@
 
             @include('partials._pagination', ['items' => $tickets])
         @else
-            <div class="alert alert-info"><i class="fa fa-exclamation-circle"></i> <strong>No tickets found</strong>
-            </div>
+            <div class="alert alert-info"><i class="fa fa-exclamation-circle"></i> <strong>No tickets found</strong></div>
         @endif
-    </div>
     </section>
 @stop
 

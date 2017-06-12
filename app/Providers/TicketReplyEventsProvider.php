@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Attachment;
 use App\Helpers\ServiceDeskApi;
 use App\Jobs\TicketReplyJob;
+use App\Status;
 use App\TicketLog;
 use App\TicketReply;
 use Carbon\Carbon;
@@ -33,7 +34,12 @@ class TicketReplyEventsProvider extends ServiceProvider
 
             if ($reply->ticket->sdp_id) {
                 $sdp = new ServiceDeskApi();
-                $sdp->addReply($reply);
+
+                if ($reply->status_id == 7) {
+                    $sdp->addResolution($reply);
+                } else {
+                    $sdp->addReply($reply);
+                }
             } else {
                 dispatch(new TicketReplyJob($reply));
             }

@@ -28,7 +28,7 @@ class TicketReplyJob extends Job implements ShouldQueue
         \Mail::send('emails.ticket.reply', ['reply' => $this->reply], function(Message $msg) {
             $ticket = $this->reply->ticket;
             $msg->subject('Re: Ticket #' . $ticket->id);
-            $msg->to([$ticket->requester->email, $ticket->technician->email]);
+            $msg->to(array_filter([$ticket->requester->email, $ticket->technician->email ?? '']));
         });
     }
 }

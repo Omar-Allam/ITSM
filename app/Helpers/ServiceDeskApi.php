@@ -71,8 +71,15 @@ class ServiceDeskApi
 
     }
 
-    function addResolution()
+    function addResolution(TicketReply $reply)
     {
+        $this->send('/sdpapi/request/' . $reply->ticket->sdp_id . '/resolution', 'ADD_RESOLUTION', [
+            'resolution' => ['resolutiontext' => $reply->content,]
+        ]);
+
+        $this->send('/sdpapi/request/' . $reply->ticket->sdp_id, 'EDIT_REQUEST', [
+            ['parameter' => ['name' => 'status', 'value' => 'Resolved']]
+        ]);
     }
 
     function getResolution()

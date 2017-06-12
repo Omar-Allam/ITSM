@@ -6,14 +6,16 @@
                 <h4 class="modal-title">{{t('Assign Ticket')}}</h4>
             </div>
             <div class="modal-body">
-                <div class="form-group">
+                <div class="form-group {{$errors->first('group_id', 'has-error')}}">
                     {{Form::label('group_id', t('Group'), ['class' => 'control-label'])}}
                     {{Form::select('group_id', App\Group::selection('Select Group'), null, ['class' => 'form-control'])}}
+                    {!! $errors->first('group_id', '<div class="help-block">:message</div>') !!}
                 </div>
 
-                <div class="form-group">
+                <div class="form-group {{$errors->first('technician_id', 'has-error')}}">
                     {{Form::label('technician_id', t('Technician'), ['class' => 'control-label'])}}
                     {{Form::select('technician_id', App\User::technicians()->selection('Select Technician'), null, ['class' => 'form-control'])}}
+                    {!! $errors->first('technician_id', '<div class="help-block">:message</div>') !!}
                 </div>
             </div>
             <div class="modal-footer">

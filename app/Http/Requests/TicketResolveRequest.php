@@ -6,8 +6,7 @@ class TicketResolveRequest extends Request
 {
     public function authorize()
     {
-        $ticket = $this->route()->parameter('ticket');
-        return $this->user()->isTechnician() && ($this->user()->id == $ticket->technician_id || $this->user()->hasGroup($ticket->group_id));
+        return can('resolve', $this->route('ticket'));
     }
 
     public function rules()

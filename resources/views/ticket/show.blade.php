@@ -41,8 +41,8 @@
             <li class="active"><a href="#main" role="tab" data-toggle="tab"><i class="fa fa-ticket"></i> {{t('Request')}}</a></li>
             <li><a href="#conversation" role="tab" data-toggle="tab"><i class="fa fa-comments-o"></i> {{t('Conversation')}}</a></li>
             {{--<li><a href="#tasks" role="tab" data-toggle="tab"><i class="fa fa-tasks"></i> {{t('Tasks')}}</a></li>--}}
-            @if ($ticket->resolution || Auth::user()->isTechnician())
-                <li><a href="#resolution" role="tab" data-toggle="tab"><i class="fa fa-support"></i>{{t('Resolution')}}</a></li>
+            @if ($ticket->resolution || can('resolve', $ticket))
+                <li><a href="#resolution" role="tab" data-toggle="tab"><i class="fa fa-support"></i> {{t('Resolution')}}</a></li>
             @endif
 
             @if ($ticket->approvals->count() || Auth::user()->isSupport())
