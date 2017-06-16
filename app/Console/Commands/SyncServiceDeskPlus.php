@@ -49,20 +49,21 @@ class SyncServiceDeskPlus extends Command
             $subcategory = Subcategory::where('name', $request['category'])->first();
             $item = Item::where('name', $request['category'])->first();
 
+            if (!Ticket::where('sdp_id', $request['workorderid'])->exists()) {
+                $attributes = [
+                    'requester_id' => $requester->id,
+                    'creator_id' => $createdby->id ?? $requester->id,
+                    'subject' => $request['subject'],
+                    'description' => $request['description'],
+                    'category_id' => $category->id ?? 0,
+                    'subcategory_id' => $subcategory->id ?? 0,
+                    'item_id' => $item->id ?? 0,
+                    'sdp_id' => $request['workorderid'],
+                    'status_id' => $this->statusMap[$request['status']]
+                ];
 
-            $attributes = [
-                'requester_id' => $requester->id,
-                'creator_id' => $createdby->id,
-                'subject' => $request['subject'],
-                'description' => $request['description'],
-                'category_id' => $category->id ?? 0,
-                'subcategory_id' => $subcategory->id ?? 0,
-                'item_id' => $item->id ?? 0,
-                'sdp_id' => $request['workorderid'],
-                'status_id' => $this->statusMap[$request['status']]
-            ];
-
-            Ticket::create($attributes);
+                Ticket::create($attributes);
+            }
         }
     }
 }

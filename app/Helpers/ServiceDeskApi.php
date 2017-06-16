@@ -105,7 +105,7 @@ class ServiceDeskApi
         $response = $this->client->post($url, [
             'form_params' => $params
         ])->getBody()->getContents();
-
+        
         return simplexml_load_string($response);
     }
 

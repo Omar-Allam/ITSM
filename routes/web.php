@@ -88,4 +88,4 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('language/{language}',['as'=>'site.changeLanguage','uses'=>'HomeController@changeLanguage'])->middleware('lang');
 });
 
-Route::get('inlineimages/WorkOrder/{request_id}/{image}', 'SdpImagesController@redirect');
+Route::get('inlineimages/{any?}', 'SdpImagesController@redirect')->where('any', '(.*)');
