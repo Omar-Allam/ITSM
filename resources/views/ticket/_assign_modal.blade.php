@@ -1,4 +1,4 @@
-{{Form::open(['route' => ['ticket.reassign', $ticket], 'class' => 'modal fade', 'id' => 'AssignForm'])}}
+{{Form::model($ticket, ['route' => ['ticket.reassign', $ticket], 'class' => 'modal fade', 'id' => 'AssignForm'])}}
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

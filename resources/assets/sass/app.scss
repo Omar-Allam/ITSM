@@ -36,8 +36,12 @@ html, body {
     line-height: 1.25;
     padding-top: 5px;
     padding-bottom: 5px;
-    font-weight: 16px;
+    font-weight: 700;
     height: 30px;
+  }
+
+  &.navbar-default {
+    border-top: 4px solid #40c0ff;
   }
 }
 
@@ -45,7 +49,8 @@ html, body {
   .title-container {
     background: #fff;
     min-height: 40px;
-    border-bottom: 4px solid $navbar-default-border;
+    border-bottom: 1px solid #40c0ff;
+    margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
