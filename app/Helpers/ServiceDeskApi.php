@@ -28,13 +28,15 @@ class ServiceDeskApi
 
         $requests = [];
 
-        foreach ($response->response->operation->Details->record as $record) {
-            $request = [];
-            foreach ($record as $value) {
-                $key = (string)$value->name;
-                $request[$key] = ((string)$value->value);
+        if (isset($response->response->operation->Details->record)) {
+            foreach ($response->response->operation->Details->record as $record) {
+                $request = [];
+                foreach ($record as $value) {
+                    $key = (string)$value->name;
+                    $request[$key] = ((string)$value->value);
+                }
+                $requests[] = $request;
             }
-            $requests[] = $request;
         }
 
         return $requests;
