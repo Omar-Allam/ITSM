@@ -67,9 +67,12 @@ class ServiceDeskApi
     {
         $result = $this->send('/sdpapi/request/' . $id . '/converations', 'GET_CONVERSATIONS');
 
-        foreach ($result->response->operation->Details->record as $record) {
+        if (isset($result->response->operation->Details->record)) {
+            foreach ($result->response->operation->Details->record as $record) {
 
+            }
         }
+
         return $result;
     }
 
