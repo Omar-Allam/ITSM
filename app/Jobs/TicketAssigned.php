@@ -9,10 +9,8 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class TicketAssigned extends Job implements ShouldQueue
+class TicketAssigned extends Job
 {
-    use InteractsWithQueue, SerializesModels;
-
     /**
      * @var Ticket
      */
