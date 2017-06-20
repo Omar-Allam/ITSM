@@ -61,9 +61,14 @@ class ServiceDeskApi
         ]);
     }
 
-    function getConversations()
+    function getConversations($id)
     {
+        $result = $this->send('/sdpapi/request/' . $id . '/converations', 'GET_CONVERSATIONS');
 
+        foreach ($result->response->operation->Details->record as $record) {
+
+        }
+        return $result;
     }
 
     function getConversation()

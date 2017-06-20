@@ -10,6 +10,7 @@ use App\Subcategory;
 use App\Ticket;
 use App\User;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Collection;
 
 class SyncServiceDeskPlus extends Command
 {
@@ -34,6 +35,12 @@ class SyncServiceDeskPlus extends Command
 
     public function handle()
     {
+        $this->getNewTicketFromSDP();
+        $this->syncConversations();
+    }
+
+    protected function getNewTicketFromSDP()
+    {
         Ticket::unguard();
 
         $requests = $this->api->getRequests();
@@ -50,6 +57,9 @@ class SyncServiceDeskPlus extends Command
             $item = Item::where('name', $request['category'])->first();
 
             if (!Ticket::where('sdp_id', $request['workorderid'])->exists()) {
+                if (!$requester) {
+                    dd($request['requester']);
+                }
                 $attributes = [
                     'requester_id' => $requester->id,
                     'creator_id' => $createdby->id ?? $requester->id,
@@ -66,4 +76,18 @@ class SyncServiceDeskPlus extends Command
             }
         }
     }
+
+    protected function syncConversations()
+    {
+        /** @var Collection $tickets */
+        $tickets = Ticket::hasSdp()->pending()->get();
+
+        $tickets->each(function (Ticket $ticket) {
+
+            $this->api->getConversations($ticket->sdp_id);
+
+        });
+    }
+
+
 }

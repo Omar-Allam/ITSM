@@ -322,4 +322,13 @@ class Ticket extends KModel
 
         return $date;
     }
+
+    /**
+     * Filters only tickets that is connected to SDP
+     * @param Builder $query
+     */
+    function scopeHasSdp(Builder $query)
+    {
+        $query->whereNotNull('sdp_id');
+    }
 }
