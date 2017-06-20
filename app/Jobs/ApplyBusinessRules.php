@@ -15,6 +15,10 @@ class ApplyBusinessRules extends MatchCriteria
 
     public function handle()
     {
+        if (!$this->ticket->shouldApplyRules()) {
+            return false;
+        }
+
         $rules = BusinessRule::with('criterions')->with('rules')->get();
 
         foreach ($rules as $rule) {
@@ -27,7 +31,7 @@ class ApplyBusinessRules extends MatchCriteria
             }
         }
 
-        $this->ticket->stopLog(true);
+        $this->ticket->stopLog(true)->setApplyRules(false);
         $this->ticket->save();
     }
 

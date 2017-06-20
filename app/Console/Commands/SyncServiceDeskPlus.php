@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use App\Category;
 use App\Helpers\ServiceDeskApi;
 use App\Item;
+use App\Jobs\ApplyBusinessRules;
+use App\Jobs\ApplySLA;
 use App\Jobs\NewTicketJob;
 use App\Status;
 use App\Subcategory;
@@ -55,12 +57,13 @@ class SyncServiceDeskPlus extends Command
             $createdby = User::where('name', $request['createdby'])->first();
 
             $category = Category::where('name', $request['category'])->first();
-            $subcategory = Subcategory::where('name', $request['category'])->first();
-            $item = Item::where('name', $request['category'])->first();
+            $subcategory = Subcategory::where('name', $request['subcategory'] ?? 0)->first();
+            $item = Item::where('name', $request['item'] ?? 0)->first();
 
             if (!Ticket::where('sdp_id', $request['workorderid'])->exists()) {
                 if (!$requester) {
-                    dd($request['requester']);
+                    dump($request['requester']);
+                    continue;
                 }
                 $attributes = [
                     'requester_id' => $requester->id,
@@ -74,8 +77,11 @@ class SyncServiceDeskPlus extends Command
                     'status_id' => $this->statusMap[$request['status']]
                 ];
 
+                Ticket::flushEventListeners();
                 $ticket = Ticket::create($attributes);
                 dispatch(new NewTicketJob($ticket));
+                dispatch(new ApplyBusinessRules($ticket));
+                dispatch(new ApplySLA($ticket));
                 ++$counter;
             }
         }

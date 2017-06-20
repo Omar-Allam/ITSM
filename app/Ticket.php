@@ -93,6 +93,8 @@ class Ticket extends KModel
      */
     protected $attachments;
 
+    protected $shouldApplyRules = true;
+
     public function requester()
     {
         return $this->belongsTo(User::class, 'requester_id');
@@ -130,6 +132,16 @@ class Ticket extends KModel
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function subcategory()
+    {
+        return $this->belongsTo(Subcategory::class);
+    }
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
     }
 
     public function status()
@@ -344,5 +356,17 @@ class Ticket extends KModel
     public function shouldApplySla()
     {
         return $this->shouldApplySla;
+    }
+
+    public function setApplyRules($value)
+    {
+        $this->shouldApplyRules = $value;
+
+        return $this;
+    }
+
+    public function shouldApplyRules()
+    {
+        return $this->shouldApplyRules;
     }
 }

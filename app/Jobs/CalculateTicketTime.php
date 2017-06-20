@@ -58,7 +58,6 @@ class CalculateTicketTime extends Job
             $this->ticket->time_spent = $this->parseLogs();
         }
 
-        Ticket::flushEventListeners();
         if ($this->ticket->sla && $this->ticket->time_spent > $this->ticket->sla->minutes) {
             $this->ticket->overdue = true;
         }
