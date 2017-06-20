@@ -74,6 +74,8 @@ class Ticket extends KModel
 {
     protected $stopLog = false;
 
+    protected $shouldApplySla = true;
+
     protected $fillable = [
         'subject', 'description', 'category_id', 'subcategory_id', 'item_id', 'group_id', 'technician_id',
         'priority_id', 'impact_id', 'urgency_id', 'requester_id'
@@ -330,5 +332,17 @@ class Ticket extends KModel
     function scopeHasSdp(Builder $query)
     {
         $query->whereNotNull('sdp_id');
+    }
+
+    public function setApplySla($value)
+    {
+        $this->shouldApplySla = $value;
+
+        return $this;
+    }
+
+    public function shouldApplySla()
+    {
+        return $this->shouldApplySla;
     }
 }

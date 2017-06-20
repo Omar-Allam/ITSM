@@ -27,6 +27,9 @@ class ApplySLA extends MatchCriteria
 
     public function handle()
     {
+        if (!$this->ticket->shouldApplySla()) {
+            return false;
+        }
         $sla = $this->fetchSLA();
 
         if ($sla) {
@@ -39,7 +42,7 @@ class ApplySLA extends MatchCriteria
             $this->ticket->first_response_date = null;
         }
 
-        Ticket::flushEventListeners();
+        $this->ticket->setApplySla(false);
         $this->ticket->save();
     }
 
