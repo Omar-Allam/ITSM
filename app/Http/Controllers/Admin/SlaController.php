@@ -20,7 +20,7 @@ class SlaController extends Controller
 
     public function create()
     {
-        return view('admin.sla.create');
+        return view('admin.sla.create', ['sla' => new Sla()]);
     }
 
     public function store(SlaRequest $request)
