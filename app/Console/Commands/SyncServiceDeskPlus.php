@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Category;
 use App\Helpers\ServiceDeskApi;
 use App\Item;
+use App\Jobs\NewTicketJob;
 use App\Status;
 use App\Subcategory;
 use App\Ticket;
@@ -72,7 +73,8 @@ class SyncServiceDeskPlus extends Command
                     'status_id' => $this->statusMap[$request['status']]
                 ];
 
-                Ticket::create($attributes);
+                $ticket = Ticket::create($attributes);
+                dispatch(new NewTicketJob($ticket));
             }
         }
     }
