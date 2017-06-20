@@ -10,6 +10,18 @@
     </div>
     <table class="table table-striped table-condensed">
         <tr>
+            <th>{{t('Category')}}</th>
+            <td>{{$ticket->category->name or 'Not Assigned'}}</td>
+            <th>{{t('Subcategory')}}</th>
+            <td>{{$ticket->subcategory->name or 'Not Assigned'}}</td>
+        </tr>
+        <tr>
+            <th>{{t('Item')}}</th>
+            <td>{{$ticket->Item->name or 'Not Assigned'}}</td>
+            <th>&nbsp;</th>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
             <th>{{t('Urgency')}}</th>
             <td>{{$ticket->urgency->name or 'Not Assigned'}}</td>
             <th>{{t('SLA')}}</th>
