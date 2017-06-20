@@ -40,6 +40,9 @@ class Kernel extends ConsoleKernel
         // Calculate time of tickets every minute
         $schedule->command('tickets:calculate-time')->everyMinute();
 
+        // Get requests from service desk plus
+        $schedule->command('sdp:sync')->everyTenMinutes();
+
         // Escalate approvals every hour
 //        $schedule->command('approvals:escalate')->hourly();
     }
