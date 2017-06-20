@@ -57,7 +57,7 @@
                 {{ Form::label('item_id', t('Item'), ['class' => 'control-label']) }}
                 <select class="form-control" name="item_id" id="item_id" v-model="item">
                     <option value="">Select Item</option>
-                    <option v-for="(id, name) in items" :value="id">@{{name}}</option>
+                    <option v-for="(name, id) in items" :value="id" v-text="name"></option>
                 </select>
                 @if ($errors->has('item_id'))
                     <div class="error-message">{{$errors->first('item_id')}}</div>
