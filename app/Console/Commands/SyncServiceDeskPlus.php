@@ -47,6 +47,7 @@ class SyncServiceDeskPlus extends Command
         $requests = $this->api->getRequests();
 
         $ids = array_map('intval', array_pluck($requests, 'workorderid'));
+        $counter = 0;
         foreach ($ids as $id) {
             $request = $this->api->getRequest($id);
 
@@ -75,8 +76,11 @@ class SyncServiceDeskPlus extends Command
 
                 $ticket = Ticket::create($attributes);
                 dispatch(new NewTicketJob($ticket));
+                ++$counter;
             }
         }
+
+        \Log::info("$counter tickets has been synchronized");
     }
 
     protected function syncConversations()
