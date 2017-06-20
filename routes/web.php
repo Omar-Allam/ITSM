@@ -3,6 +3,7 @@
 Route::get('/', 'HomeController@home')->middleware('lang');
 
 Route::auth();
+Route::get('logout', 'Auth\LoginController@logout');
 Route::get('auth/google', 'Auth\AuthController@googleRedirect');
 Route::get('auth/google/continue', 'Auth\AuthController@googleHandle');
 
