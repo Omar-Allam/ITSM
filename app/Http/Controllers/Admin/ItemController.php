@@ -25,7 +25,8 @@ class ItemController extends Controller
             $subcategory_id = $request->get('subcategory');
         }
 
-        return view('admin.item.create', compact('subcategory_id'));
+        $item = new Item();
+        return view('admin.item.create', compact('subcategory_id', 'item'));
     }
 
     public function store(Request $request)
