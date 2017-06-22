@@ -22,7 +22,7 @@ class TicketPolicy
     function modify(User $user, Ticket $ticket)
     {
         return in_array($user->id, [$ticket->technician_id, $ticket->coordinator_id]) ||
-            $user->groups->contains($user->id);
+            $user->groups->contains($ticket->group_id);
     }
 
     function resolve(User $user, Ticket $ticket)
