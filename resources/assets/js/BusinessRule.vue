@@ -21,6 +21,7 @@
 
 <script>
 import EventBus from './Bus';
+import axios from 'axios';
 
 var fields = {
     group_id: {type: 'select', list: 'support-groups', name: 'Group'},
@@ -44,7 +45,7 @@ export default {
         return { fields, options: [] }
     },
 
-    ready() {
+    created() {
         this.loadOptions();
     },
 
@@ -60,8 +61,8 @@ export default {
                 return false;
             }
 
-            jQuery.get('/list/' + field.list)
-                .done(response => this.options = response);
+            axios.get('/list/' + field.list)
+                .then(response => this.options = response.data);
         }
     },
 

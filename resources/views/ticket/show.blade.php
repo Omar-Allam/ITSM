@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('header')
+
 <div class="display-flex ticket-meta">
     <div class="flex">
         <h4>#{{$ticket->id}} - {{$ticket->subject}}</h4>
@@ -59,14 +60,17 @@
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="main">
                 @include('ticket.tabs._main')
+
             </div>
 
             <div role="tabpanel" class="tab-pane" id="conversation">
                 @include('ticket.tabs._conversation')
+
             </div>
 
             <div role="tabpanel" class="tab-pane" id="resolution">
                 @include('ticket.tabs._resolution')
+
             </div>
 
             <div role="tabpanel" class="tab-pane" id="history">

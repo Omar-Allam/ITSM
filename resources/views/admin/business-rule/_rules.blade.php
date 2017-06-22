@@ -3,6 +3,7 @@
         <h4 class="panel-title pull-left">Actions</h4>
     </div>
 
+
     <business-rules :rules="{{json_encode(Form::getValueAttribute('rules'))}}"></business-rules>
 
     @if ($errors->has('rules'))
