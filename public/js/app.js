@@ -6,9 +6,9 @@
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-/******/
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
@@ -32,9 +32,6 @@
 /******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// identity function for calling harmony imports with the correct context
-/******/ 	__webpack_require__.i = function(value) { return value; };
 /******/
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
@@ -63,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 55);
+/******/ 	return __webpack_require__(__webpack_require__.s = 21);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -10329,12 +10326,21 @@ return jQuery;
 
 /***/ }),
 
-/***/ 16:
+/***/ 21:
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(22);
+module.exports = __webpack_require__(25);
+
+
+/***/ }),
+
+/***/ 22:
 /***/ (function(module, exports, __webpack_require__) {
 
 window.jQuery = window.$ = __webpack_require__(14);
-__webpack_require__(33);
-__webpack_require__(36);
+__webpack_require__(23);
+__webpack_require__(24);
 
 (function ($) {
     $(function () {
@@ -10344,7 +10350,7 @@ __webpack_require__(36);
 
 /***/ }),
 
-/***/ 33:
+/***/ 23:
 /***/ (function(module, exports) {
 
 /*!
@@ -12728,7 +12734,7 @@ if (typeof jQuery === 'undefined') {
 
 /***/ }),
 
-/***/ 36:
+/***/ 24:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var require;var require;/*!
@@ -18463,11 +18469,10 @@ S2.define('jquery.select2',[
 
 /***/ }),
 
-/***/ 55:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 25:
+/***/ (function(module, exports) {
 
-module.exports = __webpack_require__(16);
-
+// removed by extract-text-webpack-plugin
 
 /***/ })
 
