@@ -27,6 +27,8 @@ class TicketEventsProvider extends ServiceProvider
         Ticket::updated(function (Ticket $ticket) {
             dispatch(new ApplySLA($ticket));
             dispatch(new CalculateTicketTime($ticket));
+
+            $ticket->setApplySla(false)->setApplyRules(false)->stopLog();
         });
         
         Ticket::updating(function (Ticket $ticket) {
