@@ -7,7 +7,7 @@ class ApprovalRequest extends Request
     public function authorize()
     {
         $ticket = $this->route()->parameter('ticket');
-        return can('modify', $ticket);
+        return can('send_approval', $ticket);
 //        return true;
     }
 
