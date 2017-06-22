@@ -42,7 +42,7 @@ class ApplySLA extends MatchCriteria
             $this->ticket->first_response_date = null;
         }
 
-        $this->ticket->setApplySla(false);
+        $this->ticket->setApplySla(false)->stopLog();
         $this->ticket->save();
     }
 
