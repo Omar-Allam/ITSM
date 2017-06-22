@@ -64,6 +64,7 @@ class CalculateTicketTime extends Job
 
         $this->ticket->setApplySla(false)->setApplyRules(false)->stopLog(true);
         $this->ticket->save();
+
         return $this->ticket->time_spent;
     }
 
