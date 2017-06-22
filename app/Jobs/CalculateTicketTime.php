@@ -62,7 +62,7 @@ class CalculateTicketTime extends Job
             $this->ticket->overdue = true;
         }
 
-        $this->ticket->setApplySla(false)->setApplyRules(false)->stopLog();
+        $this->ticket->setApplySla(false)->setApplyRules(false)->stopLog(true);
         $this->ticket->save();
         return $this->ticket->time_spent;
     }
