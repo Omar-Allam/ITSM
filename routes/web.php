@@ -90,3 +90,14 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 Route::get('inlineimages/{any?}', 'SdpImagesController@redirect')->where('any', '(.*)');
+
+Route::get('/check-mail', function() {
+    $ticket = \App\Ticket::first();
+
+    \Mail::send('emails.ticket.assigned', ['ticket' => $ticket], function(\Illuminate\Mail\Message $msg) use ($ticket) {
+        $msg->subject('Ticket #' . $ticket->id . ' has been assigned to you');
+        $msg->to('hazem.mohamed@alkifah.com');
+    });
+
+    return 1;
+});
