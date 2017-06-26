@@ -12,7 +12,8 @@
         "laravel/framework": "5.4.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "^1.0",
-        "laravelcollective/html": "^5.4"
+        "laravelcollective/html": "^5.4",
+        "symfony/dom-crawler": "^3.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
