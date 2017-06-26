@@ -12,6 +12,7 @@ use App\Jobs\NewTicketJob;
 use App\Status;
 use App\Subcategory;
 use App\Ticket;
+use App\TicketReply;
 use App\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
@@ -108,6 +109,10 @@ class SyncServiceDeskPlus extends Command
     {
         $conversations = $this->api->getConversations($ticket->sdp_id);
         foreach ($conversations as $conversation) {
+            if (TicketReply::where('sdp_id', $conversation['conversationid'])->exists()) {
+                continue;
+            }
+
             $details = $this->api->getConversation($ticket->sdp_id, $conversation['conversationid']);
 
             $fromRequester = $details['from'] == $ticket->requester->name;
@@ -118,6 +123,7 @@ class SyncServiceDeskPlus extends Command
                 'user_id' => $by,
                 'status_id' => $status,
                 'content' => $details['description'],
+                'sdp_id' => $conversation['conversationid'],
                 'is_resolution' => false
             ]);
         }
