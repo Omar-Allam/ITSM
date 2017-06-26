@@ -10,14 +10,25 @@ class AttachmentEventsServiceProvider extends ServiceProvider
     public function boot()
     {
         Attachment::saving(function (Attachment $attachment) {
-            $file = $attachment->uploadedFile();
-            $filename = uniqid() . '_' . $file->getClientOriginalName();
+            if (!$attachment->path) {
+                $file = $attachment->uploadedFile();
+                $filename = $file->getClientOriginalName();
 
-            $folder = '/attachments/';
-            $path = $folder . $filename;
-            $file->move(public_path($folder), $filename);
+                $folder = storage_path('/attachments/{$attachment->ticket_id}/');
+                if (!is_dir($folder)) {
+                    mkdir($folder, 0775, true);
+                }
 
-            $attachment->path = $path;
+                $path = $folder . $filename;
+                if (is_file($path)) {
+                    $filename = uniqid() . '_' . $filename;
+                    $path = $folder . $filename;
+                }
+
+                $file->move(public_path($folder), $filename);
+
+                $attachment->path = $path;
+            }
         });
     }
 

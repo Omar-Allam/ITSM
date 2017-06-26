@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Attachment;
 use App\Category;
 use App\Helpers\ServiceDeskApi;
 use App\Item;
@@ -12,8 +13,11 @@ use App\Status;
 use App\Subcategory;
 use App\Ticket;
 use App\User;
+use GuzzleHttp\Client;
+use GuzzleHttp\Cookie\CookieJar;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Collection;
+use Symfony\Component\DomCrawler\Crawler;
 
 class SyncServiceDeskPlus extends Command
 {
@@ -27,8 +31,11 @@ class SyncServiceDeskPlus extends Command
     protected $api;
 
     protected $statusMap = [
-        'Open' => 1, 'Onhold' => 4
+        'Open' => 1,
+        'Onhold' => 4
     ];
+
+    protected $webClient = null;
 
     public function __construct(ServiceDeskApi $api)
     {
@@ -45,10 +52,12 @@ class SyncServiceDeskPlus extends Command
     protected function getNewTicketFromSDP()
     {
         Ticket::unguard();
+        Attachment::flushEventListeners();
 
-        $requests = $this->api->getRequests();
+//        $requests = $this->api->getRequests();
 
-        $ids = array_map('intval', array_pluck($requests, 'workorderid'));
+//        $ids = array_map('intval', array_pluck($requests, 'workorderid'));
+        $ids = ['95259'];
         $counter = 0;
         foreach ($ids as $id) {
             $request = $this->api->getRequest($id);
@@ -82,6 +91,8 @@ class SyncServiceDeskPlus extends Command
                 dispatch(new NewTicketJob($ticket));
                 dispatch(new ApplyBusinessRules($ticket));
                 dispatch(new ApplySLA($ticket));
+
+                $this->handleAttachments($ticket);
                 ++$counter;
             }
         }
@@ -101,5 +112,63 @@ class SyncServiceDeskPlus extends Command
         });
     }
 
+    protected function handleAttachments($ticket)
+    {
+        $client = $this->webLogin();
 
+        $response = $client->get("/WorkOrder.do?woMode=viewWO&woID={$ticket->sdp_id}");
+
+        $parser = new Crawler($response->getBody()->getContents());
+        /** @var \DOMElement $icon */
+        foreach ($parser->filter('body .attachfileicon') as $icon) {
+            $path = $icon->parentNode->attributes['href']->value;
+            $filename = "/attachments/{$ticket->id}/" . $icon->nextSibling->textContent;
+            $storage_path = storage_path('app/public' . $filename);
+
+            if (!is_dir($dir = dirname($storage_path))) {
+                mkdir($dir, 0775, true);
+            }
+
+            $client->get($path, ['sink' => $storage_path]);
+
+
+            $attachment = new Attachment();
+            $attachment->type = 1;
+            $attachment->reference = $ticket->id;
+            $attachment->path = $filename;
+            $attachment->save();
+        }
+    }
+
+    /**
+     * @return Client
+     */
+    protected function webLogin(): Client
+    {
+        if ($this->webClient) {
+            return $this->webClient;
+        }
+
+        $this->webClient = new Client([
+            'base_uri' => config('services.sdp.base_url'),
+            'cookies' => true
+        ]);
+
+        $domain = config('services.sdp.admin.domain');
+        $response = $this->webClient->post('/j_security_check', [
+            'form_params' => [
+                'j_username' => config('services.sdp.admin.user'),
+                'j_password' => config('services.sdp.admin.password'),
+                'domain' => 0,
+                'checkbox' => 'checkbox',
+                'DOMAIN_NAME' => $domain,
+                'DomainCount' => 1,
+                'LocalAuth' => $domain ? 'No' : 'YES',
+                'logonDomainName' => $domain,
+                'loginButton' => 'Login'
+            ]
+        ]);
+
+        return $this->webClient;
+    }
 }

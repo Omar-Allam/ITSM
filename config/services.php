@@ -44,5 +44,9 @@ return [
     'sdp' => [
         'key' => env('SDP_API_KEY'),
         'base_url' => env('SDP_BASE_URL', 'http://helpdesk.alkifah.com'),
+        'admin' => [
+            'user' => env('SDP_ADMIN_USER'), 'password' => env('SDP_ADMIN_PASSWORD'),
+            'domain' => env('SDP_ADMIN_DOMAIN')
+        ]
     ]
 ];
