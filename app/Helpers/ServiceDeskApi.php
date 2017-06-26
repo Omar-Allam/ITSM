@@ -67,18 +67,30 @@ class ServiceDeskApi
     {
         $result = $this->send('/sdpapi/request/' . $id . '/converations', 'GET_CONVERSATIONS');
 
+        $conversations = [];
         if (isset($result->response->operation->Details->record)) {
             foreach ($result->response->operation->Details->record as $record) {
-
+                $conversation = [];
+                foreach ($record->parameter as $param) {
+                    $conversation[strval($param->name)] = strval($param->value);
+                }
+                $conversations[] = $conversation;
             }
         }
 
-        return $result;
+        return $conversations;
     }
 
-    function getConversation()
+    function getConversation($request_id, $conversation_id)
     {
+        $response = $this->send("/sdpapi/request/{$request_id}/conversation/{$conversation_id}", 'GET_CONVERSATION');
 
+        $conversation = [];
+        foreach ($response->response->operation->Details->record->parameter as $param) {
+            $conversation[strval($param->name)] = strval($param->value);
+        }
+
+        return $conversation;
     }
 
     function addResolution(TicketReply $reply)

@@ -40,9 +40,9 @@ class TicketReplyEventsProvider extends ServiceProvider
                 } else {
                     $sdp->addReply($reply);
                 }
-            } else {
-                dispatch(new TicketReplyJob($reply));
             }
+
+            dispatch(new TicketReplyJob($reply));
         });
     }
 
