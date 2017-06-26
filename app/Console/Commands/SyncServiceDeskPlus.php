@@ -46,7 +46,6 @@ class SyncServiceDeskPlus extends Command
     public function handle()
     {
         $this->getNewTicketFromSDP();
-        $this->syncConversations();
     }
 
     protected function getNewTicketFromSDP()
@@ -54,9 +53,10 @@ class SyncServiceDeskPlus extends Command
         Ticket::unguard();
         Attachment::flushEventListeners();
 
-        $requests = $this->api->getRequests();
+//        $requests = $this->api->getRequests();
 
-        $ids = array_map('intval', array_pluck($requests, 'workorderid'));
+//        $ids = array_map('intval', array_pluck($requests, 'workorderid'));
+        $ids = [94939];
         $counter = 0;
         foreach ($ids as $id) {
             $request = $this->api->getRequest($id);
@@ -68,7 +68,8 @@ class SyncServiceDeskPlus extends Command
             $subcategory = Subcategory::where('name', $request['subcategory'] ?? 0)->first();
             $item = Item::where('name', $request['item'] ?? 0)->first();
 
-            if (!Ticket::where('sdp_id', $request['workorderid'])->exists()) {
+            $query = Ticket::where('sdp_id', $request['workorderid']);
+            if (!$query->exists()) {
                 if (!$requester) {
                     dump($request['requester']);
                     continue;
@@ -92,23 +93,34 @@ class SyncServiceDeskPlus extends Command
                 dispatch(new ApplySLA($ticket));
 
                 $this->handleAttachments($ticket);
+                $this->syncConversations($ticket);
                 ++$counter;
+            } else {
+                $ticket = $query->first();
+                $this->syncConversations($ticket);
             }
         }
 
         \Log::info("$counter tickets has been synchronized");
     }
 
-    protected function syncConversations()
+    protected function syncConversations(Ticket $ticket)
     {
-        /** @var Collection $tickets */
-        $tickets = Ticket::hasSdp()->pending()->get();
+        $conversations = $this->api->getConversations($ticket->sdp_id);
+        foreach ($conversations as $conversation) {
+            $details = $this->api->getConversation($ticket->sdp_id, $conversation['conversationid']);
 
-        $tickets->each(function (Ticket $ticket) {
+            $fromRequester = $details['from'] == $ticket->requester->name;
+            $by = $fromRequester? $ticket->requester_id : 0;
+            $status = $fromRequester? 1 : $ticket->status_id;
 
-            $this->api->getConversations($ticket->sdp_id);
-
-        });
+            $ticket->replies()->create([
+                'user_id' => $by,
+                'status_id' => $status,
+                'content' => $details['description'],
+                'is_resolution' => false
+            ]);
+        }
     }
 
     protected function handleAttachments($ticket)
