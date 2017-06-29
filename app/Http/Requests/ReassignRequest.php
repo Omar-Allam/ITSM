@@ -8,7 +8,7 @@ class ReassignRequest extends Request
 {
     public function authorize()
     {
-        $ticket = $this->route('ticket');
+        // $ticket = $this->route('ticket');
 
 //        if (!$ticket->technician_id) {
 //            return true;
@@ -16,7 +16,8 @@ class ReassignRequest extends Request
 //
 //        return $this->user()->id == $ticket->technician_id || $this->user()->hasGroup($ticket->group_id);
 
-        return can('modify', $ticket);
+        // return can('modify', $ticket);
+        return true;
     }
 
     public function rules()
