@@ -72,7 +72,7 @@ class TicketLog extends KModel
 
     public static function makeLog(Ticket $ticket, $type, $user_id = null)
     {
-        $user_id = $user_id ?: \Auth::user()->id;
+        $user_id = $user_id ?: \Auth::user()->id ?? 0;
         return $ticket->logs()->create([
             'user_id' => $user_id,
             'type' => $type,
