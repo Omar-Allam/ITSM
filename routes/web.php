@@ -20,6 +20,7 @@ Route::group(['prefix' => 'list'], function (\Illuminate\Routing\Router $r) {
     $r->get('/technician', 'ListController@technician');
     $r->get('/status', 'ListController@status');
     $r->get('/requester', 'ListController@requester');
+    $r->get('/group', 'ListController@supportGroup');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'], 'as' => 'admin.'], function (\Illuminate\Routing\Router $r) {
