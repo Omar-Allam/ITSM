@@ -71,4 +71,9 @@ class Attachment extends KModel
 
         return $user->name;
     }
+
+    public function getUrlAttribute()
+    {
+        return url('/storage' . $this->path);
+    }
 }
