@@ -65,8 +65,8 @@ class SyncServiceDeskPlus extends Command
             $createdby = User::where('name', $request['createdby'])->first();
 
             $category = Category::where('name', $request['category'])->first();
-            $subcategory = Subcategory::where('name', $request['subcategory'])->first();
-            $item = Item::where('name', $request['item'])->first();
+            $subcategory = Subcategory::where('name', $request['subcategory'] ?? '')->first();
+            $item = Item::where('name', $request['item'] ?? '')->first();
 
             $query = Ticket::where('sdp_id', $request['workorderid']);
             if (!$query->exists()) {
