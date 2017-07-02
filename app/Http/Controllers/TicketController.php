@@ -136,7 +136,7 @@ class TicketController extends Controller
 
     public function reassign(Ticket $ticket, ReassignRequest $request)
     {
-        $ticket->update($request->only(['group_id','technician_id']));
+        $ticket->update($request->only(['group_id','technician_id','category_id','subcategory_id','item_id']));
 
         $this->dispatch(new TicketAssigned($ticket));
 
