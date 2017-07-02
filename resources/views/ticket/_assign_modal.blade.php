@@ -6,59 +6,63 @@
                         aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">{{t('Assign Ticket')}}</h4>
         </div>
+
         <div class="modal-body" id="TicketForm">
-
-            <div class="form-group {{$errors->first('group_id', 'has-error')}}">
-                {{Form::label('group_id', t('Group'), ['class' => 'control-label'])}}
-                {{Form::select('group_id', App\Group::selection('Select Group'), null, ['class' => 'form-control'])}}
-                {!! $errors->first('group_id', '<div class="help-block">:message</div>') !!}
-            </div>
-
-            <div class="form-group {{$errors->first('technician_id', 'has-error')}}">
-                {{Form::label('technician_id', t('Technician'), ['class' => 'control-label'])}}
-                {{Form::select('technician_id', App\User::technicians()->selection('Select Technician'), null, ['class' => 'form-control'])}}
-                {!! $errors->first('technician_id', '<div class="help-block">:message</div>') !!}
-            </div>
             <div class="row">
-                <div class="form-group col-md-4  {{$errors->has('category_id')? 'has-error' : ''}}">
-                    {{ Form::label('category_id', t('Category'), ['class' => 'control-label']) }}
-                    {{ Form::select('category_id', App\Category::selection('Select Category'),null, ['class' => 'form-control',  'v-model' => 'category']) }}
-                    @if ($errors->has('category_id'))
-                        <div class="error-message">{{$errors->first('category_id')}}</div>
-                    @endif
+                <div class="col-md-6">
+                    <div class="form-group {{$errors->first('group_id', 'has-error')}}">
+                        {{Form::label('group_id', t('Group'), ['class' => 'control-label'])}}
+                        {{Form::select('group_id', App\Group::selection('Select Group'), null, ['class' => 'form-control'])}}
+                        {!! $errors->first('group_id', '<div class="help-block">:message</div>') !!}
+                    </div>
+
+                    <div class="form-group {{$errors->first('technician_id', 'has-error')}}">
+                        {{Form::label('technician_id', t('Technician'), ['class' => 'control-label'])}}
+                        {{Form::select('technician_id', App\User::technicians()->selection('Select Technician'), null, ['class' => 'form-control'])}}
+                        {!! $errors->first('technician_id', '<div class="help-block">:message</div>') !!}
+                    </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="form-group   {{$errors->has('category_id')? 'has-error' : ''}}">
+                        {{ Form::label('category_id', t('Category'), ['class' => 'control-label']) }}
+                        {{ Form::select('category_id', App\Category::selection('Select Category'),null, ['class' => 'form-control',  'v-model' => 'category']) }}
+                        @if ($errors->has('category_id'))
+                            <div class="error-message">{{$errors->first('category_id')}}</div>
+                        @endif
+                    </div>
 
-                <div class="form-group col-md-4  {{$errors->has('subcategory')? 'has-error' : ''}}">
-                    {{ Form::label('subcategory_id', t('Subcategory'), ['class' => 'control-label']) }}
+                    <div class="form-group   {{$errors->has('subcategory')? 'has-error' : ''}}">
+                        {{ Form::label('subcategory_id', t('Subcategory'), ['class' => 'control-label']) }}
 
-                    <select class="form-control" name="subcategory_id" id="subcategory_id" v-model="subcategory" >
-                        <option value="">Select Subcategory</option>
-                        <option v-for="(name, id) in subcategories" :value="id"> @{{name}}</option>
-                    </select>
-                    @if ($errors->has('subcategory_id'))
-                        <div class="error-message">{{$errors->first('subcategory_id')}}</div>
-                    @endif
+                        <select class="form-control" name="subcategory_id" id="subcategory_id" v-model="subcategory">
+                            <option value="">Select Subcategory</option>
+                            <option v-for="(name, id) in subcategories" :value="id"> @{{name}}</option>
+                        </select>
+                        @if ($errors->has('subcategory_id'))
+                            <div class="error-message">{{$errors->first('subcategory_id')}}</div>
+                        @endif
+                    </div>
+
+                    <div class="form-group  {{$errors->has('item_id')? 'has-error' : ''}}">
+                        {{ Form::label('item_id', t('Item'), ['class' => 'control-label']) }}
+                        <select class="form-control" name="item_id" id="item_id" v-model="item">
+                            <option value="">Select Item</option>
+                            <option v-for="(name, id) in items" :value="id" v-text="name"></option>
+                        </select>
+                        @if ($errors->has('item_id'))
+                            <div class="error-message">{{$errors->first('item_id')}}</div>
+                        @endif
+                    </div>
+
+                    <div id="CustomFields">
+                        @include('custom-fields.render', [
+                            'category' => App\Category::find(old('category_id')),
+                            'subcategory' => App\Category::find(old('subcategory_id')),
+                            'item' => App\Item::find(old('item_id'))
+                        ])
+                    </div>
+
                 </div>
-
-                <div class="form-group col-md-4  {{$errors->has('item_id')? 'has-error' : ''}}">
-                    {{ Form::label('item_id', t('Item'), ['class' => 'control-label']) }}
-                    <select class="form-control" name="item_id" id="item_id" v-model="item">
-                        <option value="">Select Item</option>
-                        <option v-for="(name, id) in items" :value="id" v-text="name"></option>
-                    </select>
-                    @if ($errors->has('item_id'))
-                        <div class="error-message">{{$errors->first('item_id')}}</div>
-                    @endif
-                </div>
-            </div>
-
-
-            <div id="CustomFields">
-                @include('custom-fields.render', [
-                    'category' => App\Category::find(old('category_id')),
-                    'subcategory' => App\Category::find(old('subcategory_id')),
-                    'item' => App\Item::find(old('item_id'))
-                ])
             </div>
 
         </div>
