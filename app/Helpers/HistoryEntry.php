@@ -77,7 +77,7 @@ class HistoryEntry
             }
 
             $obj = $query->find($value);
-            return $this->cache($value, $obj->name);
+            return $this->cache($value, $obj->name ?? '');
         }
 
         if (is_array($value)) {
