@@ -88,13 +88,12 @@ window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
         group: window.group,
         subcategories: {},
         items: {},
-        technicians: []
+        technicians: {}
     },
 
     created: function created() {
         this.loadCategory(false);
         this.loadSubcategory(false);
-        this.loadTechnicians();
     },
 
     methods: {
@@ -173,7 +172,7 @@ window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             this.loadItem();
         },
         group: function group() {
-            this.loadTechnicians();
+            this.loadTechnicians(false);
         }
     },
 

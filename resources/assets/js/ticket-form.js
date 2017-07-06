@@ -10,13 +10,12 @@ window.app = new Vue({
         group: window.group,
         subcategories: {},
         items: {},
-        technicians: [],
+        technicians: {},
     },
 
     created() {
         this.loadCategory(false);
         this.loadSubcategory(false);
-        this.loadTechnicians();
     },
     methods: {
         loadCategory(withFields) {
@@ -40,9 +39,10 @@ window.app = new Vue({
         loadTechnicians(){
             if (this.group) {
                 jQuery.get(`/list/group-technicians/${this.group}`).then(response => {
-                    this.technicians = response;
+                    this.technicians = response
                 });
             }
+
         },
         loadItem() {
             if (this.item) {
@@ -94,7 +94,7 @@ window.app = new Vue({
         },
 
         group(){
-            this.loadTechnicians();
+            this.loadTechnicians(false);
         },
     },
 

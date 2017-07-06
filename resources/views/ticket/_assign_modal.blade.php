@@ -16,11 +16,11 @@
                         {!! $errors->first('group_id', '<div class="help-block">:message</div>') !!}
                     </div>
 
-                    <div class="form-group   {{$errors->has('technician')? 'has-error' : ''}}">
+                    <div class="form-group ">
                         {{ Form::label('technician_id', t('Technician'), ['class' => 'control-label']) }}
-                        <select class="form-control" name="technician_id" id="technician_id"  v-model="technicians">
+                        <select  class="form-control" name="technician_id" id="technician_id">
                             <option value="">Select Technician</option>
-                            <option v-for="(name, id) in technicians" :value="id"> @{{name}}</option>
+                            <option v-for="(name,id) in technicians" :value="id"> @{{name}}</option>
                         </select>
                         @if ($errors->has('technician_id'))
                             <div class="error-message">{{$errors->first('technician_id')}}</div>
