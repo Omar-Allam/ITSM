@@ -12,14 +12,19 @@
                 <div class="col-md-6">
                     <div class="form-group {{$errors->first('group_id', 'has-error')}}">
                         {{Form::label('group_id', t('Group'), ['class' => 'control-label'])}}
-                        {{Form::select('group_id', App\Group::selection('Select Group'), null, ['class' => 'form-control'])}}
+                        {{Form::select('group_id', App\Group::selection('Select Group'), null, ['class' => 'form-control','v-model'=>'group'])}}
                         {!! $errors->first('group_id', '<div class="help-block">:message</div>') !!}
                     </div>
 
-                    <div class="form-group {{$errors->first('technician_id', 'has-error')}}">
-                        {{Form::label('technician_id', t('Technician'), ['class' => 'control-label'])}}
-                        {{Form::select('technician_id', App\User::technicians()->selection('Select Technician'), null, ['class' => 'form-control'])}}
-                        {!! $errors->first('technician_id', '<div class="help-block">:message</div>') !!}
+                    <div class="form-group   {{$errors->has('technician')? 'has-error' : ''}}">
+                        {{ Form::label('technician_id', t('Technician'), ['class' => 'control-label']) }}
+                        <select class="form-control" name="technician_id" id="technician_id"  v-model="technicians">
+                            <option value="">Select Technician</option>
+                            <option v-for="(name, id) in technicians" :value="id"> @{{name}}</option>
+                        </select>
+                        @if ($errors->has('technician_id'))
+                            <div class="error-message">{{$errors->first('technician_id')}}</div>
+                        @endif
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -79,6 +84,7 @@
         var category = '{{Form::getValueAttribute('category_id') ?? $ticket->category_id}}';
         var subcategory = '{{Form::getValueAttribute('subcategory_id') ?? $ticket->subcategory_id}}';
         var item = '{{Form::getValueAttribute('item_id') ?? $ticket->item_id}}';
+        var group = '{{Form::getValueAttribute('group_id') ?? $ticket->group_id}}'
     </script>
     <script src="{{asset('/js/ticket-form.js')}}"></script>
     <script src="{{asset('/js/tinymce/tinymce.min.js')}}"></script>

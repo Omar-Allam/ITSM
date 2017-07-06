@@ -12,6 +12,7 @@ use App\Location;
 use App\Priority;
 use App\Status;
 use App\Subcategory;
+use App\Ticket;
 use App\Urgency;
 use App\User;
 
@@ -87,5 +88,12 @@ class ListController extends Controller
     function status()
     {
         return Status::orderBy('name')->pluck('name', 'id');
+    }
+    function technicians($group){
+        $technicians = collect(\DB::select('SELECT id,name from users where id  In (select user_id from group_user where group_id='.$group.')'))->map(function($item){
+            return ['id'=>$item->id, 'name'=>$item->name];
+        });
+
+        return collect($technicians)->toJson();
     }
 }
