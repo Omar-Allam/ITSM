@@ -44,7 +44,7 @@
                     <th>{{t('Technician')}}</th>
                     <th>{{t('Created At')}}</th>
                     <th>{{t('Due Date')}}</th>
-                    <th>{{t('Status')}}</th>
+                    <th><td>{{t('Status')}}</td>
                     <th>{{t('Category')}}</th>
                 </tr>
                 </thead>
@@ -57,7 +57,7 @@
                         <td>{{ $ticket->technician? $ticket->technician->name : 'Not Assigned' }}</td>
                         <td>{{ $ticket->created_at->format('d/m/Y h:i a') }}</td>
                         <td>{{ $ticket->due_date? $ticket->due_date->format('d/m/Y h:i a') : t('Not Assigned') }}</td>
-                        <td>{{ t($ticket->status->name) }}</td>
+                        <td colspan="2">@if($ticket->overdue) <i class="fa fa-flag text-danger" aria-hidden="true" title="SLA violated"></i> @endif  {{ t($ticket->status->name) }}</td>
                         <td>{{ t($ticket->category->name) }}</td>
                     </tr>
                 @endforeach
