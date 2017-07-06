@@ -44,7 +44,7 @@
                     <th>{{t('Technician')}}</th>
                     <th>{{t('Created At')}}</th>
                     <th>{{t('Due Date')}}</th>
-                    <th><td>{{t('Status')}}</td>
+                    <th>{{t('Status')}}</th>
                     <th>{{t('Category')}}</th>
                 </tr>
                 </thead>
