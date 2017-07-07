@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Ticket\TicketViewScope;
 use App\Http\Requests\ApprovalRequest;
+use App\Http\Requests\NoteRequest;
 use App\Http\Requests\ReassignRequest;
 use App\Http\Requests\TicketReplyRequest;
 use App\Http\Requests\TicketRequest;
@@ -16,6 +17,7 @@ use App\Jobs\TicketReplyJob;
 use App\Mail\EscalationMail;
 use App\Ticket;
 use App\TicketApproval;
+use App\TicketNote;
 use App\TicketReply;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -136,7 +138,7 @@ class TicketController extends Controller
 
     public function reassign(Ticket $ticket, ReassignRequest $request)
     {
-        $ticket->update($request->only(['group_id','technician_id','category_id','subcategory_id','item_id']));
+        $ticket->update($request->only(['group_id', 'technician_id', 'category_id', 'subcategory_id', 'item_id']));
 
         $this->dispatch(new TicketAssigned($ticket));
 
@@ -177,6 +179,15 @@ class TicketController extends Controller
     public function clear()
     {
         \Session::remove('ticket.filter');
+
+        return \Redirect::back();
+    }
+
+    public function addNote(Ticket $ticket, NoteRequest $request)
+    {
+        TicketNote::create(['ticket_id'=>$ticket->id,
+            'user_id'=>$request->user()->id,
+            'note'=>$request->get('note')]);
 
         return \Redirect::back();
     }

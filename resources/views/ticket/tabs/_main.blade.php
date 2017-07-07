@@ -1,7 +1,7 @@
 <div class="panel panel-default">
     <div class="panel-body">
         {!! $ticket->description !!}
-    </div>    
+    </div>
 </div>
 
 <div class="panel panel-default">
@@ -98,3 +98,20 @@
         </tr>
     </table>
 </div>
+
+@if($ticket->notes->count())
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title"><i class="fa fa-sticky-note-o"></i> {{t('Notes')}}</h4>
+        </div>
+        <table class="table table-striped table-condensed">
+            @foreach($ticket->notes as $note)
+                <tr>
+                    <th class="col-md-3">{{t('Created By')}} : {{$note->creator->name}}</th>
+                    <th class="col-md-2">{{t('Note')}}</th>
+                    <td>{!!$note->note or 'Not Assigned' !!}</td>
+                </tr>
+            @endforeach
+        </table>
+    </div>
+@endif

@@ -169,6 +169,10 @@ class Ticket extends KModel
         return $this->hasMany(TicketReply::class);
     }
 
+    public function notes(){
+        return $this->hasMany(TicketNote::class);
+    }
+
     public function approvals()
     {
         $relation = $this->hasMany(TicketApproval::class);
