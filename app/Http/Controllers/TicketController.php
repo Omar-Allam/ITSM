@@ -136,7 +136,7 @@ class TicketController extends Controller
 
     public function reassign(Ticket $ticket, ReassignRequest $request)
     {
-        $ticket->update($request->only(['group_id','technician_id','category_id','subcategory_id','item_id']));
+        $ticket->update($request->only(['group_id', 'technician_id', 'category_id', 'subcategory_id', 'item_id']));
 
         $this->dispatch(new TicketAssigned($ticket));
 
@@ -178,6 +178,14 @@ class TicketController extends Controller
     {
         \Session::remove('ticket.filter');
 
+        return \Redirect::back();
+    }
+
+    public function editResolution(Ticket $ticket, TicketResolveRequest $request)
+    {
+       $ticket->replies()->where('status_id',7)
+            ->update(['content'=>$request->get('content')]);
+        flash('Resolution saved successfully', 'success');
         return \Redirect::back();
     }
 }
