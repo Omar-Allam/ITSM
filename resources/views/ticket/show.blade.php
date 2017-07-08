@@ -19,7 +19,7 @@
     <div class="card">
         <ul class="list-unstyled">
             <li>
-                <small><strong>{{t('Status')}} :</strong> {{$ticket->status->name}}</small>
+                <small><strong>{{t('Status')}} :</strong> @if($ticket->overdue) <i class="fa fa-flag text-danger" aria-hidden="true" title="SLA violated" ></i> @endif  {{$ticket->status->name}}</small>
             </li>
             @if ($ticket->due_date)
             <li>
