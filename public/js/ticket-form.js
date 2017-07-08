@@ -94,6 +94,7 @@ window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     created: function created() {
         this.loadCategory(false);
         this.loadSubcategory(false);
+        this.loadTechnicians();
     },
 
     methods: {
