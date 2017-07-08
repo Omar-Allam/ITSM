@@ -48,30 +48,26 @@
     </table>
 </div>
 
-{{--<div class="panel panel-default">
+@if ($ticket->fields->count())
+<div class="panel panel-default">
     <div class="panel-heading">
-        <h4 class="panel-title"><i class="fa fa-asterisk"></i> {{t('Ticket Options')}}</h4>
+        <h4 class="panel-title"><i class="fa fa-asterisk"></i> {{t('Additional Information')}}</h4>
     </div>
 
     <table class="table table-bordered table-condensed table-striped">
         <tbody>
         @foreach($ticket->fields as $field)
             <tr>
-                <td class="text-right"><strong>{{$field->custom_field->name}}</strong></td>
+                <td class="col-sm-4 text-right"><strong>{{$field->name}}</strong></td>
                 <td>
-                    @if ($field->custom_field->type == 'checkbox')
-                        {{$field->value ? 'Yes' : 'No'}}
-                    @elseif ($field->custom_field->type == 'date')
-                        {{\Carbon\Carbon::parse($field->value)->format('d/m/Y')}}
-                    @else
-                        {{$field->value}}
-                    @endif
+                    {{$field->value}}
                 </td>
             </tr>
         @endforeach
         </tbody>
     </table>
-</div>--}}
+</div>
+@endif
 
 <div class="panel panel-default">
     <div class="panel-heading">
