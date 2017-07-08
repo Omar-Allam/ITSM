@@ -5,7 +5,7 @@
 
             </p></div>
         <div class="col-md-2">@if(Auth::user()->id == $ticket->resolution->user_id)
-                <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal">Edit
+                <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#editResolution">Edit
                 </button>
             @endif</div>
     </div>
@@ -29,7 +29,7 @@
 @endif
 
 @if($ticket-> resolution && Auth::user()->id == $ticket->resolution->user_id)
-    <div id="myModal" class="modal fade" role="dialog">
+    <div id="editResolution" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
