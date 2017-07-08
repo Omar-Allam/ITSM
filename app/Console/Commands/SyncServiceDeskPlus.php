@@ -54,10 +54,8 @@ class SyncServiceDeskPlus extends Command
         Ticket::unguard();
         Attachment::flushEventListeners();
 
-//        $requests = $this->api->getRequests();
-//        $ids = array_map('intval', array_pluck($requests, 'workorderid'));
-
-        $ids = [95920];
+        $requests = $this->api->getRequests();
+        $ids = array_map('intval', array_pluck($requests, 'workorderid'));
 
         $counter = 0;
         Ticket::flushEventListeners();
