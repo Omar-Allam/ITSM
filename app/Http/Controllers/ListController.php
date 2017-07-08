@@ -12,6 +12,7 @@ use App\Location;
 use App\Priority;
 use App\Status;
 use App\Subcategory;
+use App\Ticket;
 use App\Urgency;
 use App\User;
 
@@ -68,12 +69,12 @@ class ListController extends Controller
     {
         return Impact::selection();
     }
-    
-    public function supportGroup() 
+
+    public function supportGroup()
     {
         return Group::support()->pluck('name', 'id')->sort();
     }
-    
+
     public function technician()
     {
         return User::technicians()->pluck('name', 'id')->sort();
@@ -87,5 +88,16 @@ class ListController extends Controller
     function status()
     {
         return Status::orderBy('name')->pluck('name', 'id');
+    }
+
+    function technicians($group=false)
+    {
+        $query = User::query();
+
+        $techs = collect(\DB::select('SELECT user_id FROM group_user WHERE group_id=' . $group))->pluck('user_id');
+        if ($group) {
+            return $query->whereIn('id', $techs)->selection();
+        }
+        return $query->canonicalList();
     }
 }

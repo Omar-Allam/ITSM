@@ -18,6 +18,7 @@ Route::group(['prefix' => 'list'], function (\Illuminate\Routing\Router $r) {
     $r->get('/impact', 'ListController@impact');
     $r->get('/support-groups', 'ListController@supportGroup');
     $r->get('/technician', 'ListController@technician');
+    $r->get('/group-technicians/{group?}', 'ListController@technicians');
     $r->get('/status', 'ListController@status');
     $r->get('/requester', 'ListController@requester');
     $r->get('/group', 'ListController@supportGroup');
