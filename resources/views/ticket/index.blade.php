@@ -52,12 +52,12 @@
                 @foreach($tickets as $ticket)
                     <tr>
                         <td><a href="{{ route('ticket.show', $ticket) }}">{{ $ticket->id }}</a></td>
-                        <td><a href="{{ route('ticket.show', $ticket) }}">{{ $ticket->subject }}</a></td>
+                        <td>@if($ticket->overdue) <i class="fa fa-flag text-danger" aria-hidden="true" title="SLA violated"></i> @endif  <a href="{{ route('ticket.show', $ticket) }}">{{ $ticket->subject }}</a></td>
                         <td>{{ $ticket->requester->name }}</td>
                         <td>{{ $ticket->technician? $ticket->technician->name : 'Not Assigned' }}</td>
                         <td>{{ $ticket->created_at->format('d/m/Y h:i a') }}</td>
                         <td>{{ $ticket->due_date? $ticket->due_date->format('d/m/Y h:i a') : t('Not Assigned') }}</td>
-                        <td colspan="2">@if($ticket->overdue) <i class="fa fa-flag text-danger" aria-hidden="true" title="SLA violated"></i> @endif  {{ t($ticket->status->name) }}</td>
+                        <td colspan="2">{{ t($ticket->status->name) }}</td>
                         <td>{{ t($ticket->category->name) }}</td>
                     </tr>
                 @endforeach
