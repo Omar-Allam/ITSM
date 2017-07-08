@@ -125,7 +125,12 @@ class TicketController extends Controller
     public function jump(Request $request)
     {
         $ticket = Ticket::find(intval($request->id));
-
+        if (!$ticket) {
+            $ticket = Ticket::where('sdp_id', $request->id)->first();
+            if($ticket){
+                return \Redirect::route('ticket.show', $ticket->id);
+            }
+        }
         if ($ticket) {
             return \Redirect::route('ticket.show', $request->id);
         }
@@ -183,8 +188,8 @@ class TicketController extends Controller
 
     public function editResolution(Ticket $ticket, TicketResolveRequest $request)
     {
-       $ticket->replies()->where('status_id',7)
-            ->update(['content'=>$request->get('content')]);
+        $ticket->replies()->where('status_id', 7)
+            ->update(['content' => $request->get('content')]);
         flash('Resolution saved successfully', 'success');
         return \Redirect::back();
     }
