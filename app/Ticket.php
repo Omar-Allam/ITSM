@@ -166,7 +166,9 @@ class Ticket extends KModel
 
     public function replies()
     {
-        return $this->hasMany(TicketReply::class);
+        $relation = $this->hasMany(TicketReply::class);
+        $relation->orderBy('id', 'desc');
+        return $relation;
     }
 
     public function approvals()
@@ -174,6 +176,11 @@ class Ticket extends KModel
         $relation = $this->hasMany(TicketApproval::class);
         $relation->orderBy('stage');
         return $relation;
+    }
+
+    function fields()
+    {
+        return  $this->hasMany(TicketField::class);
     }
 
     public function logs()
@@ -296,10 +303,10 @@ class Ticket extends KModel
         $this->fields()->createMany($customFields->toArray());
     }
 
-    function fields()
+    /*function fields()
     {
         return $this->hasMany(TicketCustomField::class);
-    }
+    }*/
 
     function tasks(){
         return $this->hasMany(Task::class);

@@ -54,24 +54,37 @@ class SyncServiceDeskPlus extends Command
         Ticket::unguard();
         Attachment::flushEventListeners();
 
-        $requests = $this->api->getRequests();
+//        $requests = $this->api->getRequests();
+//        $ids = array_map('intval', array_pluck($requests, 'workorderid'));
 
-        $ids = array_map('intval', array_pluck($requests, 'workorderid'));
+        $ids = [95920];
+
         $counter = 0;
+        Ticket::flushEventListeners();
+
         foreach ($ids as $id) {
             $request = $this->api->getRequest($id);
 
             $requester = User::where('name', $request['requester'])->first();
             $createdby = User::where('name', $request['createdby'])->first();
 
-            $category = Category::where('name', $request['category'])->first();
-            $subcategory = Subcategory::where('name', $request['subcategory'] ?? '')->first();
-            $item = Item::where('name', $request['item'] ?? '')->first();
+            $is_template = ($request['is_catalog_template'] ?? '') == "true";
+            if (!$is_template) {
+                $category = Category::where('name', $request['category'])->first();
+                $subcategory = Subcategory::where('name', $request['subcategory'] ?? '')->first();
+                $item = Item::where('name', $request['item'] ?? '')->first();
+                $additionalFields = [];
+            } else {
+                $attributes = $this->fetchRequestFromWeb($id);
+                $category = Category::where('name', $attributes['category'] ?? '')->first();
+                $subcategory = Subcategory::where('name', $request['requesttemplate'] ?? '')->first();
+                $additionalFields = $attributes['additionalFields'];
+            }
 
             $query = Ticket::where('sdp_id', $request['workorderid']);
             if (!$query->exists()) {
                 if (!$requester) {
-                    dump($request['requester']);
+                    \Log::warning("[sdp-sync] Requester not found: " . $request['requester']);
                     continue;
                 }
                 $attributes = [
@@ -86,8 +99,10 @@ class SyncServiceDeskPlus extends Command
                     'status_id' => $this->statusMap[$request['status']]
                 ];
 
-                Ticket::flushEventListeners();
                 $ticket = Ticket::create($attributes);
+                foreach ($additionalFields as $name => $value) {
+                    $ticket->fields()->create(compact('name', 'value'));
+                }
                 dispatch(new NewTicketJob($ticket));
                 dispatch(new ApplyBusinessRules($ticket));
                 dispatch(new ApplySLA($ticket));
@@ -128,13 +143,51 @@ class SyncServiceDeskPlus extends Command
         }
     }
 
+    /**
+     * @param $id
+     * @return array
+     */
+    protected function fetchRequestFromWeb($id)
+    {
+        $client = $this->webLogin();
+
+        $response = $client->get("/WorkOrder.do?woMode=viewWO&woID=$id");
+
+        $parser = new Crawler();
+        $parser->addHtmlContent($content = $response->getBody()->getContents());
+
+
+        /** @var Crawler $tags */
+        $tags = $parser->filter('body #Spot_SERVICEID');
+
+        $category = trim($tags->first()->text());
+
+        $additionalFields = [];
+        $matches = [];
+        preg_match_all('/"ServiceReq_\d+_UDF_.*?_CUR"/', $content, $matches);
+        if ($matches[0]) {
+            foreach ($matches[0] as $match) {
+                /** @var Crawler $node */
+                $node = $parser->filter('body #' . trim($match, '""'))->first();
+                $value = $node->text();
+
+                $name = trim($node->parents()->filter('table')->filter('b')->text());
+                $additionalFields[$name] = $value;
+            }
+        }
+
+        return compact('category', 'additionalFields');
+    }
+
     protected function handleAttachments($ticket)
     {
         $client = $this->webLogin();
 
         $response = $client->get("/WorkOrder.do?woMode=viewWO&woID={$ticket->sdp_id}");
 
-        $parser = new Crawler($response->getBody()->getContents());
+        $parser = new Crawler();
+        $parser->addHtmlContent($response->getBody()->getContents());
+
         /** @var \DOMElement $icon */
         foreach ($parser->filter('body .attachfileicon') as $icon) {
             $path = $icon->parentNode->attributes['href']->value;
