@@ -8,7 +8,7 @@
                 <strong>Ticket has been closed by the system</strong>
             @else
                 <strong>{{t('Ticket '.$log->type_action.' by')}}   {{$log->user->name}}
-                    {{t('at')}} {{$ticket->created_at->format('d/m/Y H:i')}}</strong>
+                    {{t('at')}} {{$log->created_at->format('d/m/Y H:i')}}</strong>
                 <ul>
                     @foreach($log->entries as $entry)
                         <li>
