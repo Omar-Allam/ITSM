@@ -34,7 +34,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{ Form::text('due_days', old('due_days', 0), ['class' => 'form-control input-sm']) }}</td>
+                        <td>{{ Form::text('due_days', $sla->due_days ?? old('due_days', 0), ['class' => 'form-control input-sm']) }}</td>
                         <td>{{ Form::selectRange('due_hours', 0, 23, null, ['class' => 'form-control input-sm']) }}</td>
                         <td>{{ Form::selectRange('due_minutes', 0, 59, null, ['class' => 'form-control input-sm']) }}</td>
                     </tr>
@@ -62,7 +62,7 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>{{ Form::text('response_days', old('response_days', 0), ['class' => 'form-control input-sm']) }}</td>
+                    <td>{{ Form::text('response_days', $sla->response_days ?? old('response_days', 0), ['class' => 'form-control input-sm']) }}</td>
                     <td>{{ Form::selectRange('response_hours', 0, 23, null, ['class' => 'form-control input-sm']) }}</td>
                     <td>{{ Form::selectRange('response_minutes', 0, 59, null, ['class' => 'form-control input-sm']) }}</td>
                 </tr>
