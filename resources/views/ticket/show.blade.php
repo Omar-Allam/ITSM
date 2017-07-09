@@ -4,7 +4,8 @@
 
 <div class="display-flex ticket-meta">
     <div class="flex">
-        <h4>#{{$ticket->id}} - {{$ticket->subject}}</h4>
+        <h4>#{{$ticket->id}} - {{$ticket->subject}}</h4><br>
+        @if($ticket->sdp_id) <h4>Helpdesk : #{{$ticket->sdp_id ?? ''}}</h4> @endif
         @if (Auth::user()->isSupport())
             <div class="btn-toolbar">
                 <button data-toggle="modal" data-target="#AssignForm" type="button" class="btn btn-sm btn-default" title="Re-assign">
