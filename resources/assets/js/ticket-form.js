@@ -15,7 +15,8 @@ window.app = new Vue({
 
     created() {
         this.loadCategory(false);
-        this.loadSubcategory(false);
+        this.loadSubcategory(false)
+        this.loadTechnicians()
     },
     methods: {
         loadCategory(withFields) {
