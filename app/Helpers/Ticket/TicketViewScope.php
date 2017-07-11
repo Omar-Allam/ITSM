@@ -35,6 +35,7 @@ class TicketViewScope
             "my_completed" => "My Completed Ticket",
             "mine" => "All My Tickets",
             'for_approval' => 'Ticket waiting my approval',
+
 //            "open" => 'All Open Tickets',
 //            "on_hold" => "All On-Hold Tickets",
 //            "pending" => 'All Pending Tickets',
@@ -46,6 +47,9 @@ class TicketViewScope
             $scopes["on_hold_in_my_groups"] = "All On-Hold Tickets";
             $scopes["pending_in_my_groups"] = 'All Pending Tickets';
             $scopes["completed_in_my_groups"] = 'All Completed Tickets';
+            $scopes["open_assigned_to_me"] = 'All My Open Assigned Tickets';
+            $scopes["on_hold_assigned_to_me"] = 'All My On-Hold Assigned Tickets';
+            $scopes["completed_assigned_to_me"] = 'All My Completed Assigned Tickets';
             $scopes["in_my_groups"] = 'All Tickets';
         }
 
@@ -149,6 +153,7 @@ class TicketViewScope
         });
     }
 
+
     public function on_hold()
     {
         $this->query->whereHas('status', function(Builder $q){
@@ -162,5 +167,33 @@ class TicketViewScope
             $q->where('approver_id', \Auth::user()->id)
                 ->where('status', TicketApproval::PENDING_APPROVAL);
         });
+    }
+
+    public function open_assigned(){
+        $this->query->where('technician_id', $this->user->id)
+        ->where('status_id',1);
+    }
+
+    public function onHoldAssigned()
+    {
+        $this->query->where('technician_id', $this->user->id)
+            ->whereIn('status_id',[4,5,6]);
+    }
+
+    public function completedAssigned()
+    {
+        $this->query->where('technician_id', $this->user->id)
+            ->whereIn('status_id',[7,8]);
+    }
+    public function open_assigned_to_me(){
+        $this->open_assigned();
+    }
+
+    public function on_hold_assigned_to_me()
+    {
+        $this->onHoldAssigned();
+    }
+    public function completed_assigned_to_me(){
+        $this->completedAssigned();
     }
 }
