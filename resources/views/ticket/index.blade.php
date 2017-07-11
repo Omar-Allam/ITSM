@@ -27,7 +27,7 @@
             <button class="btn btn-default"><i class="fa fa-chevron-right"></i></button>
         </span>
     </div>
-    <a href="{{ route('ticket.create') }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
+    {{--<a href="{{ route('ticket.create') }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>--}}
     <a href="#SearchForm" data-toggle="collapse" class="btn btn-info btn-sm"><i class="fa fa-search"></i></a>
     {{Form::close()}}
 @stop
