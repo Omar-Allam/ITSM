@@ -12,7 +12,8 @@
         <ul class="dropdown-menu">
             @foreach ($scopes as $key => $value)
                 <li>
-                    <button class="btn btn-link btn-sm" type="submit" name="scope" value="{{$key}}">{{t($value)}}</button>
+                    <button class="btn btn-link btn-sm" type="submit" name="scope"
+                            value="{{$key}}">{{t($value)}}</button>
                 </li>
             @endforeach
         </ul>
@@ -26,7 +27,7 @@
             <button class="btn btn-default"><i class="fa fa-chevron-right"></i></button>
         </span>
     </div>
-    <a href="{{ route('ticket.create') }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
+    {{--<a href="{{ route('ticket.create') }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>--}}
     <a href="#SearchForm" data-toggle="collapse" class="btn btn-info btn-sm"><i class="fa fa-search"></i></a>
     {{Form::close()}}
 @stop
@@ -39,6 +40,7 @@
                 <thead>
                 <tr>
                     <th>{{t('ID')}}</th>
+                    <th>{{t('Helpdesk ID')}}</th>
                     <th>{{t('Subject')}}</th>
                     <th>{{t('Requester')}}</th>
                     <th>{{t('Technician')}}</th>
@@ -52,7 +54,10 @@
                 @foreach($tickets as $ticket)
                     <tr>
                         <td><a href="{{ route('ticket.show', $ticket) }}">{{ $ticket->id }}</a></td>
-                        <td><a href="{{ route('ticket.show', $ticket) }}">{{ $ticket->subject }}</a></td>
+                        <td><a href="{{ route('ticket.show', $ticket) }}">{{ $ticket->sdp_id ?? ''}}</a></td>
+                        <td>@if($ticket->overdue) <i class="fa fa-flag text-danger" aria-hidden="true"
+                                                     title="SLA violated"></i> @endif <a
+                                    href="{{ route('ticket.show', $ticket) }}">{{ $ticket->subject }}</a></td>
                         <td>{{ $ticket->requester->name }}</td>
                         <td>{{ $ticket->technician? $ticket->technician->name : 'Not Assigned' }}</td>
                         <td>{{ $ticket->created_at->format('d/m/Y h:i a') }}</td>
@@ -66,7 +71,8 @@
 
             @include('partials._pagination', ['items' => $tickets])
         @else
-            <div class="alert alert-info"><i class="fa fa-exclamation-circle"></i> <strong>No tickets found</strong></div>
+            <div class="alert alert-info"><i class="fa fa-exclamation-circle"></i> <strong>No tickets found</strong>
+            </div>
         @endif
     </section>
 @stop

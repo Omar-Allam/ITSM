@@ -7,16 +7,17 @@ window.app = new Vue({
         category: window.category,
         subcategory: window.subcategory,
         item: window.item,
+        group: window.group,
         subcategories: {},
         items: {},
-        technicians: []
+        technicians: {},
     },
 
     created() {
         this.loadCategory(false);
-        this.loadSubcategory(false);
+        this.loadSubcategory(false)
+        this.loadTechnicians()
     },
-
     methods: {
         loadCategory(withFields) {
             if (this.category) {
@@ -36,7 +37,14 @@ window.app = new Vue({
                 if (withFields) this.loadCustomFields();
             }
         },
+        loadTechnicians(){
+            if (this.group) {
+                jQuery.get(`/list/group-technicians/${this.group}`).then(response => {
+                    this.technicians = response
+                });
+            }
 
+        },
         loadItem() {
             if (this.item) {
             }
@@ -75,7 +83,7 @@ window.app = new Vue({
 
     watch: {
         category() {
-           this.loadCategory(false);
+            this.loadCategory(false);
         },
 
         subcategory() {
@@ -84,7 +92,11 @@ window.app = new Vue({
 
         item() {
             this.loadItem();
-        }
+        },
+
+        group(){
+            this.loadTechnicians(false);
+        },
     },
 
     components: {Attachments}

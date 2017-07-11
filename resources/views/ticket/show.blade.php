@@ -4,7 +4,8 @@
 
 <div class="display-flex ticket-meta">
     <div class="flex">
-        <h4>#{{$ticket->id}} - {{$ticket->subject}}</h4>
+        <h4>#{{$ticket->id}} - {{$ticket->subject}}</h4><br>
+        @if($ticket->sdp_id) <h4>Helpdesk : #{{$ticket->sdp_id ?? ''}}</h4> @endif
         @if (Auth::user()->isSupport())
             <div class="btn-toolbar">
                 <button data-toggle="modal" data-target="#AssignForm" type="button" class="btn btn-sm btn-default" title="Re-assign">
@@ -19,7 +20,7 @@
     <div class="card">
         <ul class="list-unstyled">
             <li>
-                <small><strong>{{t('Status')}} :</strong> {{$ticket->status->name}}</small>
+                <small><strong>{{t('Status')}} :</strong> @if($ticket->overdue) <i class="fa fa-flag text-danger" aria-hidden="true" title="SLA violated" ></i> @endif  {{$ticket->status->name}}</small>
             </li>
             @if ($ticket->due_date)
             <li>
