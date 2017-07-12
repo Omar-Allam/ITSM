@@ -72,7 +72,7 @@
         <div class="col-md-6">
             <div class="form-group form-group-sm {{$errors->has('approver_id')? 'has-error' : ''}}">
                 {{Form::label('approver_id', t('Send approval to'), ['class' => 'control-label'])}}
-                {{Form::select('approver_id', t(App\User::selection('Select Approver')), null, ['class' => 'form-control select2'])}}
+                {{Form::select('approver_id', App\User::orderBy('email')->pluck('email','id'), null, ['class' => 'form-control select2'])}}
                 @if ($errors->has('approver_id'))
                     <div class="error-message">{{$errors->first('approver_id')}}</div>
                 @endif
