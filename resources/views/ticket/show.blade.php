@@ -11,8 +11,13 @@
                 <button data-toggle="modal" data-target="#AssignForm" type="button" class="btn btn-sm btn-default" title="Re-assign">
                     <i class="fa fa-mail-forward"></i> {{t('Re-assign')}}
                 </button>
-                <a href="{{route('ticket.duplicate', $ticket)}}" class="btn btn-sm btn-default"><i class="fa fa-clone"></i>
-                {{t('Duplicate')}}</a>
+
+                <button data-toggle="modal" data-target="#DuplicateForm" type="button" class="btn btn-sm btn-default" title="Re-assign">
+                    <i class="fa fa-mail-forward"></i> {{t('Duplicate')}}
+                </button>
+
+                {{--<a href="{{route('ticket.duplicate', $ticket)}}" class="btn btn-sm btn-default"><i class="fa fa-clone"></i>--}}
+                {{--{{t('Duplicate')}}</a>--}}
             </div>
         @endif
     </div>
@@ -93,6 +98,7 @@
             </div>--}}
 
             @include('ticket._assign_modal')
+            @include('ticket._duplicate_modal')
         </div>
     </section>
 @endsection
