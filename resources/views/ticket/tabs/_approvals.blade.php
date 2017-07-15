@@ -34,7 +34,7 @@
                 </td>
                 <td>
                     @if ($approval->pending)
-                        @if (Auth::user()->id == $approval->creator_id)
+                        @if (Auth::user()->id == $approval->creator_id || Auth::user()->id == $ticket->technician->id)
                             {{Form::open(['route' => ['approval.destroy', $approval], 'method' => 'delete'])}}
                             <button type="submit" title="Remove approval" class="btn btn-xs btn-warning">
                                 <i class="fa fa-remove"></i>
