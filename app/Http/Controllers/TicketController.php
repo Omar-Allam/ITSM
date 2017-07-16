@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Attachment;
 use App\Helpers\Ticket\TicketViewScope;
 use App\Http\Requests\ApprovalRequest;
 use App\Http\Requests\ReassignRequest;
@@ -127,7 +128,7 @@ class TicketController extends Controller
         $ticket = Ticket::find(intval($request->id));
         if (!$ticket) {
             $ticket = Ticket::where('sdp_id', $request->id)->first();
-            if($ticket){
+            if ($ticket) {
                 return \Redirect::route('ticket.show', $ticket->id);
             }
         }
@@ -192,5 +193,14 @@ class TicketController extends Controller
             ->update(['content' => $request->get('content')]);
         flash('Resolution saved successfully', 'success');
         return \Redirect::back();
+    }
+
+    public function download(Attachment $file)
+    {
+        $target_file = storage_path() . $file->path;
+        if (\File::mimeType($target_file) == 'application/pdf' || \File::mimeType($target_file) == 'image/png' || \File::mimeType($target_file) == 'image/jpeg') {
+            return response()->file($target_file);
+        }
+        return response()->download($target_file);
     }
 }

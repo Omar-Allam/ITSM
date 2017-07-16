@@ -1,11 +1,12 @@
 @if ($ticket->resolution)
     <div class="row">
-        <div class="col-md-2"> <p>Added by {{$ticket->resolution->user->name }}
+        <div class="col-md-2"><p>Added by {{$ticket->resolution->user->name }}
                 at {{$ticket->resolution->created_at->format('d/m/Y H:i:s')}}
 
             </p></div>
         <div class="col-md-2">@if(Auth::user()->id == $ticket->resolution->user_id)
-                <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#editResolution">Edit
+                <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#editResolution">
+                    Edit
                 </button>
             @endif</div>
     </div>
@@ -14,13 +15,32 @@
         {!! $ticket->resolution->content !!}
     </div>
 @elseif (can('resolve', $ticket))
-    {{Form::open(['route' => ['ticket.resolution', $ticket]])}}
+    {{Form::open(['route' => ['ticket.resolution', $ticket],'files'=>'true'])}}
     {{csrf_field()}}
 
     <div class="form-group">
         {{Form::label('content', 'Description', ['class' => 'control-label'])}}
         {{Form::textarea('content', null, ['class' => 'form-control richeditor'])}}
+        <div class="row">
+            <div class="col-md-4">
+                <table class="listing-table table-condensed">
+                    <thead>
+                    <tr>
+                        <th>Attachments</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="col-md-10">
+                            <input type="file" class="form-control input-xs" name="attachments[]" multiple>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+
 
     <div class="form-group">
         <button type="submit" class="btn btn-success"><i class="fa fa-check-circle"></i> Add resolution</button>
@@ -43,6 +63,7 @@
                         {{Form::label('content', 'Description', ['class' => 'control-label'])}}
                         {{Form::textarea('content',  $ticket->resolution->content ?? '' , ['class' => 'form-control richeditor'])}}
                     </div>
+
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save
