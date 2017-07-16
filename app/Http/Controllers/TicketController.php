@@ -158,19 +158,20 @@ class TicketController extends Controller
 
     public function duplicate(Ticket $ticket, Request $request)
     {
-        $data = $ticket->toArray();
+        if($request->tickets_count > 0 && $request->tickets_count <= 10){
+            for ($i = 1; $i <= $request->tickets_count; $i++) {
+                $data = $ticket->toArray();
+                unset($data['id'], $data['created_at'], $data['updated_at']);
+                $newTicket = new Ticket($data);
+                $newTicket->creator_id = $request->user()->id;
+                $newTicket->status_id = 1;
+                $newTicket->save();
+                $this->dispatch(new NewTicketJob($newTicket));
+            }
+            return \Redirect::route('ticket.show', $newTicket);
+        }
+        return \Redirect::back();
 
-        unset($data['id'], $data['created_at'], $data['updated_at']);
-
-        $newTicket = new Ticket($data);
-        $newTicket->creator_id = $request->user()->id;
-        $newTicket->status_id = 1;
-
-        $newTicket->save();
-
-        $this->dispatch(new NewTicketJob($newTicket));
-
-        return \Redirect::route('ticket.show', $newTicket);
     }
 
     public function filter(Request $request)
