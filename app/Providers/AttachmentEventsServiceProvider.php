@@ -19,7 +19,7 @@ class AttachmentEventsServiceProvider extends ServiceProvider
                     mkdir($folder, 0775, true);
                 }
 
-                $path = $folder . $filename;
+                $path = $folder . 'attachments/'.$attachment->ticket_id.'/';
                 if (is_file($path)) {
                     $filename = uniqid() . '_' . $filename;
                     $path = $folder . $filename;
@@ -27,7 +27,7 @@ class AttachmentEventsServiceProvider extends ServiceProvider
 
                 $file->move($folder, $filename);
 
-                $attachment->path = $path;
+                $attachment->path = '/attachments/'.$attachment->ticket_id.'/'.$filename;
             }
         });
 
