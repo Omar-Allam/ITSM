@@ -14,7 +14,7 @@ class AttachmentEventsServiceProvider extends ServiceProvider
                 $file = $attachment->uploadedFile();
                 $filename = $file->getClientOriginalName();
 
-                $folder = storage_path('/attachments/{$attachment->ticket_id}/');
+                $folder = storage_path('attachments/'.$attachment->ticket_id.'/');
                 if (!is_dir($folder)) {
                     mkdir($folder, 0775, true);
                 }
