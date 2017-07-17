@@ -14,7 +14,7 @@ class AttachmentEventsServiceProvider extends ServiceProvider
                 $file = $attachment->uploadedFile();
                 $filename = $file->getClientOriginalName();
 
-                $folder = storage_path('/attachments/'.$attachment->ticket_id.'/');
+                $folder = storage_path('/attachments/{$attachment->ticket_id}/');
                 if (!is_dir($folder)) {
                     mkdir($folder, 0775, true);
                 }
@@ -25,12 +25,12 @@ class AttachmentEventsServiceProvider extends ServiceProvider
                     $path = $folder . $filename;
                 }
 
-                $file->move($folder, $filename);
+                $file->move(public_path($folder), $filename);
 
-                $save_path = '/attachments/'.$attachment->ticket_id.'/'.$filename;
-                $attachment->path = $save_path;
+                $attachment->path = $path;
             }
         });
+
     }
 
     /**
