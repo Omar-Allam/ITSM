@@ -29,7 +29,7 @@ class TicketReplyJob extends Job implements ShouldQueue
             $ticket = $this->reply->ticket;
             $msg->subject('Re: Ticket #' . $ticket->id);
 
-            $to = [$ticket->technician->email ?? ''];
+            $to = [$ticket->requester->email ?? ''];
             if (!$ticket->sdp_id) {
                 $to[] = $ticket->requester->email;
             }
