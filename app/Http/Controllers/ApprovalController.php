@@ -9,7 +9,6 @@ use App\Jobs\SendApproval;
 use App\Jobs\UpdateApprovalJob;
 use App\Ticket;
 use App\TicketApproval;
-use App\TicketLog;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Redirect;
@@ -35,8 +34,8 @@ class ApprovalController extends Controller
 
     public function resend(TicketApproval $ticketApproval, Request $request)
     {
-        TicketLog::addApproval($ticketApproval);
         $this->dispatch(new SendApproval($ticketApproval));
+
         return $this->backSuccessResponse($request, 'Approval has been sent');
     }
 
