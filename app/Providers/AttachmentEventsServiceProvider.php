@@ -25,7 +25,7 @@ class AttachmentEventsServiceProvider extends ServiceProvider
                     $path = $folder . $filename;
                 }
 
-                $file->move(public_path($folder), $filename);
+                $file->move($folder, $filename);
 
                 $attachment->path = $path;
             }

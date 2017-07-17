@@ -66,6 +66,7 @@ Route::group(['middleware' => ['auth']], function () {
         $r->get('duplicate/{ticket}', ['as' => 'ticket.duplicate', 'uses' => 'TicketController@duplicate']);
         $r->post('filter', ['as' => 'ticket.filter', 'uses' => 'TicketController@filter']);
         $r->get('clear', ['as' => 'ticket.clear', 'uses' => 'TicketController@clear']);
+        $r->get('download/{file}', ['as' => 'attach.download', 'uses' => 'TicketController@download']);
     });
 
     Route::resource('ticket', 'TicketController');
