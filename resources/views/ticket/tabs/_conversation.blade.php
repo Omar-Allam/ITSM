@@ -46,24 +46,24 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-6">
-            <table class="listing-table table-condensed">
-                <thead>
-                <tr>
-                    <th>Attachments</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="col-md-10">
-                        <input type="file" class="form-control input-xs" name="attachments[]">
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    {{--<div class="row">--}}
+        {{--<div class="col-md-6">--}}
+            {{--<table class="listing-table table-condensed">--}}
+                {{--<thead>--}}
+                {{--<tr>--}}
+                    {{--<th>Attachments</th>--}}
+                {{--</tr>--}}
+                {{--</thead>--}}
+                {{--<tbody>--}}
+                {{--<tr>--}}
+                    {{--<td class="col-md-10">--}}
+                        {{--<input type="file" class="form-control input-xs" name="attachments[]">--}}
+                    {{--</td>--}}
+                {{--</tr>--}}
+                {{--</tbody>--}}
+            {{--</table>--}}
+        {{--</div>--}}
+    {{--</div>--}}
 
 
     <div class="form-group">
