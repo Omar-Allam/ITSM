@@ -21,25 +21,25 @@
     <div class="form-group">
         {{Form::label('content', 'Description', ['class' => 'control-label'])}}
         {{Form::textarea('content', null, ['class' => 'form-control richeditor'])}}
-        <div class="row">
-            <div class="col-md-4">
-                <table class="listing-table table-condensed">
-                    <thead>
-                    <tr>
-                        <th>Attachments</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="col-md-10">
-                            <input type="file" class="form-control input-xs" name="attachments[]" multiple>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+        {{--<div class="row">--}}
+            {{--<div class="col-md-4">--}}
+                {{--<table class="listing-table table-condensed">--}}
+                    {{--<thead>--}}
+                    {{--<tr>--}}
+                        {{--<th>Attachments</th>--}}
+                    {{--</tr>--}}
+                    {{--</thead>--}}
+                    {{--<tbody>--}}
+                    {{--<tr>--}}
+                        {{--<td class="col-md-10">--}}
+                            {{--<input type="file" class="form-control input-xs" name="attachments[]" multiple>--}}
+                        {{--</td>--}}
+                    {{--</tr>--}}
+                    {{--</tbody>--}}
+                {{--</table>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</div>--}}
 
 
     <div class="form-group">
