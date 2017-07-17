@@ -4,11 +4,13 @@
                 at {{$ticket->resolution->created_at->format('d/m/Y H:i:s')}}
 
             </p></div>
-        <div class="col-md-2">@if(Auth::user()->id == $ticket->resolution->user_id)
+        <div class="col-md-2">
+            @if(Auth::user()->id == $ticket->resolution->user_id)
                 <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#editResolution">
                     Edit
                 </button>
-            @endif</div>
+            @endif
+        </div>
     </div>
 
     <div class="well well-sm well-white">
@@ -23,6 +25,25 @@
         {{Form::textarea('content', null, ['class' => 'form-control richeditor'])}}
     </div>
 
+    <div class="row">
+        <div class="col-md-4">
+            <table class="listing-table table-condensed">
+                <thead>
+                <tr>
+                    <th>Attachments</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="col-md-10">
+                        <input type="file" class="form-control input-xs" name="attachments[]" multiple>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     <div class="form-group">
         <button type="submit" class="btn btn-success"><i class="fa fa-check-circle"></i> Add resolution</button>
