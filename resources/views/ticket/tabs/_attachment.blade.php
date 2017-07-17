@@ -13,8 +13,7 @@
         <td><a href="{{route('attach.download',$file)}}" target="_blank" >{{$file->display_name}}</a></td>
         <td>{{$file->uploaded_by}}</td>
         <td>{{$file->created_at->format('d/m/Y H:i')}}</td>
-        <th><a href="{{route('attach.download',$file)}}" target="_blank" class="btn btn-sm btn-info"><i class="fa fa-download"></i> Download</a></th>
-    </tr>
+        <th><a href="{{$file->url}}" target="_blank" class="btn btn-sm btn-info"><i class="fa fa-download"></i> Download</a></th>    </tr>
     @endforeach
 </table>
 
