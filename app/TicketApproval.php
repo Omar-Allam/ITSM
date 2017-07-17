@@ -122,4 +122,8 @@ class TicketApproval extends KModel
     {
         return $this->status == static::PENDING_APPROVAL;
     }
+    function getApprovalStatusAttribute(){
+        return array_get(self::$statuses,$this->status);
+    }
+
 }
