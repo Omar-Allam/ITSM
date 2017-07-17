@@ -14,12 +14,12 @@ class AttachmentEventsServiceProvider extends ServiceProvider
                 $file = $attachment->uploadedFile();
                 $filename = $file->getClientOriginalName();
 
-                $folder = storage_path('attachments/'.$attachment->ticket_id.'/');
+                $folder = storage_path('app/public/attachments/'.$attachment->ticket_id.'/');
                 if (!is_dir($folder)) {
                     mkdir($folder, 0775, true);
                 }
 
-                $path = $folder . 'attachments/'.$attachment->ticket_id.'/';
+                $path = $folder . $filename;
                 if (is_file($path)) {
                     $filename = uniqid() . '_' . $filename;
                     $path = $folder . $filename;
