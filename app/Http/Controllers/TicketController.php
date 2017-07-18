@@ -142,7 +142,7 @@ class TicketController extends Controller
 
     public function reassign(Ticket $ticket, ReassignRequest $request)
     {
-        if ($ticket->technician && $request->technician_id != $ticket->technician->id) {
+        if (!$ticket->technician || $request->technician_id != $ticket->technician->id) {
             $ticket->update($request->only(['group_id', 'technician_id', 'category_id', 'subcategory_id', 'item_id']));
             $this->dispatch(new TicketAssigned($ticket));
         }
