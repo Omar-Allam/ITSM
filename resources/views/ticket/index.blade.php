@@ -6,7 +6,7 @@
     {{ Form::open(['route' => 'ticket.scope', 'class' => 'form-inline ticket-scope heading-actions flex']) }}
     <div class="btn-group">
         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
-            {{t($scopes[$scope])}} <span class="caret"></span>
+            {{t($scopes[$scope])}} ( {{\App\Ticket::scopedView($scope)->count()}} ) <span class="caret"></span>
         </button>
 
         <ul class="dropdown-menu">
