@@ -108,7 +108,15 @@ class ServiceDeskApi
     {
 
     }
+    function addCompletedWithoutSolution(TicketReply $reply){
+        $this->send('/sdpapi/request/' . $reply->ticket->sdp_id . '/resolution', 'ADD_RESOLUTION', [
+            'resolution' => ['resolutiontext' => $reply->content,]
+        ]);
 
+        $this->send('/sdpapi/request/' . $reply->ticket->sdp_id, 'EDIT_REQUEST', [
+            ['parameter' => ['name' => 'status', 'value' => 'Completed without solution']]
+        ]);
+    }
     protected function send($url, $operation, $data = '')
     {
         $params = [

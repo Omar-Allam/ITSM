@@ -24,12 +24,12 @@ class TicketReplyEventsProvider extends ServiceProvider
                     $reply->ticket->resolve_date = Carbon::now();
                 }
             }
-            
+
             TicketLog::addReply($reply);
             $reply->ticket->save();
         });
 
-        TicketReply::created(function(TicketReply $reply) {
+        TicketReply::created(function (TicketReply $reply) {
             Attachment::uploadFiles(Attachment::TICKET_REPLY_TYPE, $reply->id);
 
             if ($reply->ticket->sdp_id) {
@@ -37,6 +37,8 @@ class TicketReplyEventsProvider extends ServiceProvider
 
                 if ($reply->status_id == 7) {
                     $sdp->addResolution($reply);
+                } elseif ($reply->status_id == 9) {
+                    $sdp->addCompletedWithoutSolution($reply);
                 } else {
                     $sdp->addReply($reply);
                 }
