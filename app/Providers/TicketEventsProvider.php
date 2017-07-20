@@ -10,6 +10,7 @@ use App\Jobs\SendApproval;
 use App\Ticket;
 use App\TicketApproval;
 use App\TicketLog;
+use App\TicketNote;
 use Illuminate\Support\ServiceProvider;
 
 class TicketEventsProvider extends ServiceProvider
@@ -51,6 +52,8 @@ class TicketEventsProvider extends ServiceProvider
                 $approval->ticket->save();
             }
         });
+
+
     }
 
 

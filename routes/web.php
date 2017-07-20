@@ -18,7 +18,6 @@ Route::group(['prefix' => 'list'], function (\Illuminate\Routing\Router $r) {
     $r->get('/impact', 'ListController@impact');
     $r->get('/support-groups', 'ListController@supportGroup');
     $r->get('/technician', 'ListController@technician');
-    $r->get('/group-technicians/{group?}', 'ListController@technicians');
     $r->get('/status', 'ListController@status');
     $r->get('/requester', 'ListController@requester');
     $r->get('/group', 'ListController@supportGroup');
@@ -55,10 +54,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'], 'as' => 'a
 });
 
 Route::group(['middleware' => ['auth']], function () {
-
     Route::group(['prefix' => 'ticket'], function (\Illuminate\Routing\Router $r) {
         $r->post('resolution/{ticket}', ['as' => 'ticket.resolution', 'uses' => 'TicketController@resolution']);
-        $r->post('edit-resolution/{ticket}', ['as' => 'ticket.edit-resolution', 'uses' => 'TicketController@editResolution']);
+        $r->post('note/{ticket}', ['as' => 'ticket.note', 'uses' => 'TicketController@addNote']);
+        $r->post('note-edit/{note}', ['as' => 'note.edit', 'uses' => 'TicketController@editNote']);
+        $r->post('remove-note/{note}', ['as' => 'note.remove', 'uses' => 'TicketController@deleteNote']);
         $r->post('reply/{ticket}', ['as' => 'ticket.reply', 'uses' => 'TicketController@reply']);
         $r->post('jump', ['as' => 'ticket.jump', 'uses' => 'TicketController@jump']);
         $r->post('reassign/{ticket}', ['as' => 'ticket.reassign', 'uses' => 'TicketController@reassign']);
@@ -66,7 +66,6 @@ Route::group(['middleware' => ['auth']], function () {
         $r->get('duplicate/{ticket}', ['as' => 'ticket.duplicate', 'uses' => 'TicketController@duplicate']);
         $r->post('filter', ['as' => 'ticket.filter', 'uses' => 'TicketController@filter']);
         $r->get('clear', ['as' => 'ticket.clear', 'uses' => 'TicketController@clear']);
-        $r->get('download/{file}', ['as' => 'attach.download', 'uses' => 'TicketController@download']);
     });
 
     Route::resource('ticket', 'TicketController');
