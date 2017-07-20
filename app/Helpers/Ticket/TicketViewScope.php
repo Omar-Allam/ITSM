@@ -171,7 +171,7 @@ class TicketViewScope
 
     public function open_assigned(){
         $this->query->where('technician_id', $this->user->id)
-        ->where('status_id',1);
+            ->where('status_id',1);
     }
 
     public function onHoldAssigned()

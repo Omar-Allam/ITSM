@@ -36,6 +36,7 @@ class TicketLog extends KModel
     const DENIED = 5;
     const CLOSED_TYPE = 7;
     const AUTO_CLOSE = 10;
+    const NOTE_TYPE = 11;
 //    const REOPENED_TYPE = 8;
 
     protected $casts = ['old_data' => 'array', 'new_data' => 'array'];
@@ -43,6 +44,11 @@ class TicketLog extends KModel
     public static function addReply(TicketReply $reply)
     {
         self::makeLog($reply->ticket, static::REPLY_TYPE, $reply->user_id);
+    }
+
+    public static function addNote(TicketNote $note)
+    {
+        self::makeLog($note->ticket, static::NOTE_TYPE, $note->user_id);
     }
 
     public static function addApproval(TicketApproval $approval)
@@ -104,6 +110,7 @@ class TicketLog extends KModel
             self::APPROVAL_TYPE => 'submitted for approval',
             self::APPROVED => 'approved',
             self::DENIED => 'denied',
+            self::NOTE_TYPE => 'Updated by a note',
         ];
 
         if (isset($actions[$this->type])) {
