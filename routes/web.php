@@ -54,10 +54,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'], 'as' => 'a
 });
 
 Route::group(['middleware' => ['auth']], function () {
-
     Route::group(['prefix' => 'ticket'], function (\Illuminate\Routing\Router $r) {
         $r->post('resolution/{ticket}', ['as' => 'ticket.resolution', 'uses' => 'TicketController@resolution']);
         $r->post('note/{ticket}', ['as' => 'ticket.note', 'uses' => 'TicketController@addNote']);
+        $r->post('note-edit/{note}', ['as' => 'note.edit', 'uses' => 'TicketController@editNote']);
+        $r->post('remove-note/{note}', ['as' => 'note.remove', 'uses' => 'TicketController@deleteNote']);
         $r->post('reply/{ticket}', ['as' => 'ticket.reply', 'uses' => 'TicketController@reply']);
         $r->post('jump', ['as' => 'ticket.jump', 'uses' => 'TicketController@jump']);
         $r->post('reassign/{ticket}', ['as' => 'ticket.reassign', 'uses' => 'TicketController@reassign']);

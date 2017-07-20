@@ -17,6 +17,7 @@ class NoteRequest extends FormRequest
     }
 
 
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -27,5 +28,17 @@ class NoteRequest extends FormRequest
         return [
             'note' => 'required',
         ];
+    }
+    public function messages()
+    {
+        return ['text' => 'Note cannot created'];
+    }
+    public function response(array $errors)
+    {
+        $msg = 'Note Cannot Created';
+        flash($msg);
+        return \Redirect::route('ticket.show', $this->route('ticket'))
+            ->withInput($this->all())
+            ->withErrors($errors);
     }
 }

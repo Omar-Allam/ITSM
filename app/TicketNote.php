@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TicketNote extends Model
 {
-    protected $fillable = ['ticket_id', 'user_id', 'note'];
+    protected $fillable = ['ticket_id', 'user_id', 'note','display_to_requester','email_to_technician','as_first_response'];
 
     public function creator()
     {
@@ -16,5 +16,4 @@ class TicketNote extends Model
     {
         return $this->belongsTo(Ticket::class);
     }
-
 }

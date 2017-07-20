@@ -15,10 +15,8 @@
                                 class="fa fa-clone"></i>
                         {{t('Duplicate')}}</a>
 
-                    @if(Auth::user()->id == $ticket->created_by->id
-                    || Auth::user()->id == $ticket->technician->id
-                    || Auth::user()->id == $ticket->requester->id)
-                        <button type="button" class="btn btn-default btn-sm" data-toggle="modal"
+                    @if(Auth::user()->isSupport())
+                        <button type="button" class="btn btn-default btn-sm addNote" data-toggle="modal"
                                 data-target="#ReplyModal">
                             <i class="fa fa-sticky-note"></i> Add Note
                         </button>
@@ -47,75 +45,76 @@
                 @endif
             </ul>
         </div>
-        @endsection
+    </div>
+@endsection
 
-        @section('body')
-            <section class="col-sm-12" id="ticketArea">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="active"><a href="#main" role="tab" data-toggle="tab"><i
-                                    class="fa fa-ticket"></i> {{t('Request')}}</a></li>
-                    <li><a href="#conversation" role="tab" data-toggle="tab"><i
-                                    class="fa fa-comments-o"></i> {{t('Conversation')}}</a></li>
-                    {{--<li><a href="#tasks" role="tab" data-toggle="tab"><i class="fa fa-tasks"></i> {{t('Tasks')}}</a></li>--}}
-                    @if ($ticket->resolution || can('resolve', $ticket))
-                        <li><a href="#resolution" role="tab" data-toggle="tab"><i
-                                        class="fa fa-support"></i> {{t('Resolution')}}</a></li>
-                    @endif
+@section('body')
+    <section class="col-sm-12" id="ticketArea">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active"><a href="#main" role="tab" data-toggle="tab"><i
+                            class="fa fa-ticket"></i> {{t('Request')}}</a></li>
+            <li><a href="#conversation" role="tab" data-toggle="tab"><i
+                            class="fa fa-comments-o"></i> {{t('Conversation')}}</a></li>
+            {{--<li><a href="#tasks" role="tab" data-toggle="tab"><i class="fa fa-tasks"></i> {{t('Tasks')}}</a></li>--}}
+            @if ($ticket->resolution || can('resolve', $ticket))
+                <li><a href="#resolution" role="tab" data-toggle="tab"><i
+                                class="fa fa-support"></i> {{t('Resolution')}}</a></li>
+            @endif
 
-                    @if ($ticket->approvals->count() || Auth::user()->isSupport())
-                        <li><a href="#approvals" role="tab" data-toggle="tab"><i
-                                        class="fa fa-check"></i> {{t('Approvals')}}</a></li>
-                    @endif
+            @if ($ticket->approvals->count() || Auth::user()->isSupport())
+                <li><a href="#approvals" role="tab" data-toggle="tab"><i
+                                class="fa fa-check"></i> {{t('Approvals')}}</a></li>
+            @endif
 
-                    <li><a href="#history" role="tab" data-toggle="tab"><i
-                                    class="fa fa-history"></i> {{t('Ticket Log')}}</a></li>
+            <li><a href="#history" role="tab" data-toggle="tab"><i
+                            class="fa fa-history"></i> {{t('Ticket Log')}}</a></li>
 
-                    @if ($ticket->files->count())
-                        <li><a href="#attachments" role="tab" data-toggle="tab"><i
-                                        class="fa fa-file-o"></i> {{t('Attachments')}}</a></li>
-                    @endif
-                </ul>
+            @if ($ticket->files->count())
+                <li><a href="#attachments" role="tab" data-toggle="tab"><i
+                                class="fa fa-file-o"></i> {{t('Attachments')}}</a></li>
+            @endif
+        </ul>
 
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="main">
-                        @include('ticket.tabs._main')
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="main">
+                @include('ticket.tabs._main')
 
-                    </div>
+            </div>
 
-                    <div role="tabpanel" class="tab-pane" id="conversation">
-                        @include('ticket.tabs._conversation')
-                    </div>
+            <div role="tabpanel" class="tab-pane" id="conversation">
+                @include('ticket.tabs._conversation')
+            </div>
 
-                    <div role="tabpanel" class="tab-pane" id="resolution">
-                        @include('ticket.tabs._resolution')
-                    </div>
+            <div role="tabpanel" class="tab-pane" id="resolution">
+                @include('ticket.tabs._resolution')
+            </div>
 
-                    <div role="tabpanel" class="tab-pane" id="history">
-                        @include('ticket.tabs._history')
-                    </div>
+            <div role="tabpanel" class="tab-pane" id="history">
+                @include('ticket.tabs._history')
+            </div>
 
-                    <div role="tabpanel" class="tab-pane" id="approvals">
-                        @include('ticket.tabs._approvals')
-                    </div>
+            <div role="tabpanel" class="tab-pane" id="approvals">
+                @include('ticket.tabs._approvals')
+            </div>
 
-                    @if ($ticket->files->count())
-                        <div role="tabpanel" class="tab-pane" id="attachments">
-                            @include('ticket.tabs._attachment')
-                        </div>
-                    @endif
-
-                    {{--<div role="tabpanel" class="tab-pane" id="tasks">
-                        @include('ticket.tabs._tasks')
-                    </div>--}}
-
-                    @include('ticket._notes_modal')
-                    @include('ticket._assign_modal')
+            @if ($ticket->files->count())
+                <div role="tabpanel" class="tab-pane" id="attachments">
+                    @include('ticket.tabs._attachment')
                 </div>
-            </section>
-        @endsection
+            @endif
 
-        @section('javascript')
-            <script src="{{asset('/js/ticket.js')}}"></script>
-            <script src="{{asset('/js/tinymce/tinymcebasic.min.js')}}"></script>
+            {{--<div role="tabpanel" class="tab-pane" id="tasks">
+                @include('ticket.tabs._tasks')
+            </div>--}}
 
+            @include('ticket._notes_modal')
+            @include('ticket._remove_note_modal')
+            @include('ticket._assign_modal')
+        </div>
+    </section>
+@endsection
+
+@section('javascript')
+    <script src="{{asset('/js/ticket.js')}}"></script>
+    <script src="{{asset('/js/tinymce/tinymcebasic.min.js')}}"></script>
 @endsection
