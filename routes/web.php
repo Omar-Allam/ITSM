@@ -18,6 +18,7 @@ Route::group(['prefix' => 'list'], function (\Illuminate\Routing\Router $r) {
     $r->get('/impact', 'ListController@impact');
     $r->get('/support-groups', 'ListController@supportGroup');
     $r->get('/technician', 'ListController@technician');
+    $r->get('/group-technicians/{group?}', 'ListController@technicians');
     $r->get('/status', 'ListController@status');
     $r->get('/requester', 'ListController@requester');
     $r->get('/group', 'ListController@supportGroup');
@@ -56,6 +57,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin'], 'as' => 'a
 Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'ticket'], function (\Illuminate\Routing\Router $r) {
         $r->post('resolution/{ticket}', ['as' => 'ticket.resolution', 'uses' => 'TicketController@resolution']);
+        $r->post('edit-resolution/{ticket}', ['as' => 'ticket.edit-resolution', 'uses' => 'TicketController@editResolution']);
         $r->post('note/{ticket}', ['as' => 'ticket.note', 'uses' => 'TicketController@addNote']);
         $r->post('note-edit/{note}', ['as' => 'note.edit', 'uses' => 'TicketController@editNote']);
         $r->post('remove-note/{note}', ['as' => 'note.remove', 'uses' => 'TicketController@deleteNote']);

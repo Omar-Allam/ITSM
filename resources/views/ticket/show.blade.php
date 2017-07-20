@@ -4,16 +4,18 @@
 
     <div class="display-flex ticket-meta">
         <div class="flex">
-            <h4>#{{$ticket->id}} - {{$ticket->subject}}</h4>
+            <h4>#{{$ticket->id}} - {{$ticket->subject}}</h4><br>
+            @if($ticket->sdp_id) <h4>Helpdesk : #{{$ticket->sdp_id ?? ''}}</h4> @endif
             @if (Auth::user()->isSupport())
                 <div class="btn-toolbar">
                     <button data-toggle="modal" data-target="#AssignForm" type="button" class="btn btn-sm btn-default"
                             title="Re-assign">
                         <i class="fa fa-mail-forward"></i> {{t('Re-assign')}}
                     </button>
-                    <a href="{{route('ticket.duplicate', $ticket)}}" class="btn btn-sm btn-default"><i
-                                class="fa fa-clone"></i>
-                        {{t('Duplicate')}}</a>
+
+                    <button data-toggle="modal" data-target="#DuplicateForm" type="button" class="btn btn-sm btn-default" title="Re-assign">
+                        <i class="fa fa-mail-forward"></i> {{t('Duplicate')}}
+                    </button>
 
                     @if(Auth::user()->isSupport())
                         <button type="button" class="btn btn-default btn-sm addNote" data-toggle="modal"
@@ -107,9 +109,10 @@
                 @include('ticket.tabs._tasks')
             </div>--}}
 
+            @include('ticket._assign_modal')
             @include('ticket._notes_modal')
             @include('ticket._remove_note_modal')
-            @include('ticket._assign_modal')
+            @include('ticket._duplicate_modal')
         </div>
     </section>
 @endsection
