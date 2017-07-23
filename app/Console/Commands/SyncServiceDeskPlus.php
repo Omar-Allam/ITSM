@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Attachment;
+use App\BusinessUnit;
 use App\Category;
 use App\Helpers\ServiceDeskApi;
 use App\Item;
@@ -54,6 +55,7 @@ class SyncServiceDeskPlus extends Command
         Ticket::unguard();
         Attachment::flushEventListeners();
 
+//        $ids = [96976];
         $requests = $this->api->getRequests();
         $ids = array_map('intval', array_pluck($requests, 'workorderid'));
 
@@ -64,6 +66,10 @@ class SyncServiceDeskPlus extends Command
             $request = $this->api->getRequest($id);
 
             $requester = User::where('name', $request['requester'])->first();
+            if (!$requester) {
+                $requester = $this->getRequestFromSDP($request['requester']);
+            }
+
             $createdby = User::where('name', $request['createdby'])->first();
 
             $is_template = ($request['is_catalog_template'] ?? '') == "true";
@@ -85,6 +91,7 @@ class SyncServiceDeskPlus extends Command
                     \Log::warning("[sdp-sync] Requester not found: " . $request['requester']);
                     continue;
                 }
+
                 $attributes = [
                     'requester_id' => $requester->id,
                     'creator_id' => $createdby->id ?? $requester->id,
@@ -238,5 +245,58 @@ class SyncServiceDeskPlus extends Command
         ]);
 
         return $this->webClient;
+    }
+
+    protected function getRequestFromSDP($name)
+    {
+        $attributes = $this->api->getRequester($name);
+
+        $company = $this->getCompanyForRequester($name);
+        $businessUnit = BusinessUnit::where('name', $company)->first();
+        if ($name == 'Babar J. Cheema') {
+            dd($company);
+        }
+        if (!$businessUnit) {
+            return false;
+        }
+
+        $user = User::create([
+            'email' => $attributes['emailid'],
+            'login' => $attributes['loginname'],
+            'name' => $name,
+            'mobile1' => $attributes['mobile'],
+            'phone' => $attributes['landline'],
+            'job' => $attributes['jobtitle'],
+            'business_unit_id' => $businessUnit->id,
+        ]);
+
+        return $user;
+    }
+
+    protected function getCompanyForRequester($name)
+    {
+        $xml = "<API version=\"1.0\" locale=\"en\">
+<citype>
+    <name>Requester</name> 
+        <criterias>
+            <criteria>
+                <parameter>
+                    <name compOperator=\"START WITH\">CI Name</name>
+                    <value>$name</value>
+                </parameter>
+            </criteria>
+        </criterias>
+        <returnFields>
+            <name>Company</name>
+        </returnFields>
+         <range>
+            <startindex>1</startindex>
+            <limit>50</limit>
+        </range>
+</citype>
+</API>";
+
+        $result = $this->api->send('/api/cmdb/ci/', 'read', $xml);
+        return strval($result->response->operation->Details->{'field-values'}->record->value);
     }
 }
