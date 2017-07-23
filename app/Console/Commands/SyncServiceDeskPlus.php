@@ -253,9 +253,6 @@ class SyncServiceDeskPlus extends Command
 
         $company = $this->getCompanyForRequester($name);
         $businessUnit = BusinessUnit::where('name', $company)->first();
-        if ($name == 'Babar J. Cheema') {
-            dd($company);
-        }
         if (!$businessUnit) {
             return false;
         }
@@ -297,6 +294,10 @@ class SyncServiceDeskPlus extends Command
 </API>";
 
         $result = $this->api->send('/api/cmdb/ci/', 'read', $xml);
-        return strval($result->response->operation->Details->{'field-values'}->record->value);
+        $company = '';
+        foreach ($result->response->operation->Details->{'field-values'}->record as $record) {
+            $company = strval($record->value);
+        }
+        return $company;
     }
 }
