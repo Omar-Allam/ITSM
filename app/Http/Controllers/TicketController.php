@@ -158,6 +158,7 @@ class TicketController extends Controller
 
     public function duplicate(Ticket $ticket, Request $request)
     {
+        Ticket::flushEventListeners(); //as business rule change the technician
         if($request->tickets_count > 0 && $request->tickets_count <= 10){
             for ($i = 1; $i <= $request->tickets_count; $i++) {
                 $data = $ticket->toArray();
@@ -166,7 +167,8 @@ class TicketController extends Controller
                 $newTicket->creator_id = $request->user()->id;
                 $newTicket->status_id = 1;
                 $newTicket->save();
-                $this->dispatch(new NewTicketJob($newTicket));
+                dispatch(new ApplySLA($newTicket));
+//                $this->dispatch(new NewTicketJob($newTicket));
             }
             return \Redirect::route('ticket.show', $newTicket);
         }
