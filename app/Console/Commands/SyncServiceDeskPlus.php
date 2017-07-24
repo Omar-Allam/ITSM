@@ -340,7 +340,7 @@ class SyncServiceDeskPlus extends Command
             foreach ($additionalFields as $name => $value) {
                 $ticket->fields()->create(compact('name', 'value'));
             }
-//            dispatch(new NewTicketJob($ticket));
+            dispatch(new NewTicketJob($ticket));
             dispatch(new ApplyBusinessRules($ticket));
             dispatch(new ApplySLA($ticket));
 //
