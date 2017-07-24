@@ -24,6 +24,7 @@ class TicketReplyEventsProvider extends ServiceProvider
                     $reply->ticket->resolve_date = Carbon::now();
                 }
             }
+
             TicketLog::addReply($reply);
             $reply->ticket->save();
         });
