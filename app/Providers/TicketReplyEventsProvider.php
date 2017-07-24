@@ -26,7 +26,6 @@ class TicketReplyEventsProvider extends ServiceProvider
             }
             TicketLog::addReply($reply);
             $reply->ticket->save();
-
         });
 
         TicketReply::created(function(TicketReply $reply) {
