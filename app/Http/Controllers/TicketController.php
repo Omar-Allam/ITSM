@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Attachment;
 use App\Helpers\Ticket\TicketViewScope;
 use App\Http\Requests\ApprovalRequest;
+use App\Http\Requests\NoteRequest;
 use App\Http\Requests\ReassignRequest;
 use App\Http\Requests\TicketReplyRequest;
 use App\Http\Requests\TicketRequest;
 use App\Http\Requests\TicketResolveRequest;
 use App\Jobs\ApplySLA;
+use App\Jobs\NewNoteJob;
 use App\Jobs\NewTicketJob;
 use App\Jobs\SendApproval;
 use App\Jobs\TicketAssigned;
@@ -17,6 +18,7 @@ use App\Jobs\TicketReplyJob;
 use App\Mail\EscalationMail;
 use App\Ticket;
 use App\TicketApproval;
+use App\TicketNote;
 use App\TicketReply;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -142,13 +144,9 @@ class TicketController extends Controller
 
     public function reassign(Ticket $ticket, ReassignRequest $request)
     {
-        if (!$ticket->technician || $request->technician_id != $ticket->technician->id) {
-            $ticket->update($request->only(['group_id', 'technician_id', 'category_id', 'subcategory_id', 'item_id']));
-            $this->dispatch(new TicketAssigned($ticket));
-        }
-        else{
-            $ticket->update($request->only(['group_id','category_id', 'subcategory_id', 'item_id']));
-        }
+        $ticket->update($request->only(['group_id', 'technician_id', 'category_id', 'subcategory_id', 'item_id']));
+
+        $this->dispatch(new TicketAssigned($ticket));
 
         flash('Ticket has been re-assigned', 'success');
         return \Redirect::route('ticket.show', $ticket);
@@ -191,6 +189,25 @@ class TicketController extends Controller
         return \Redirect::back();
     }
 
+    public function addNote(Ticket $ticket, NoteRequest $request)
+    {
+        $note = TicketNote::create(['ticket_id' => $ticket->id,
+            'user_id' => $request->user()->id,
+            'note' => $request->get('note'),
+            'display_to_requester' => $request->display_to_requester ? 1 : 0,
+            'email_to_technician' => $request->email_to_technician ? 1 : 0,
+            'as_first_response' => $request->as_first_response ? 1 : 0
+        ]);
+        if ($note->email_to_technician) {
+            $this->dispatch(new NewNoteJob($note));
+        }
+        if ($note->as_first_response) {
+            $this->dispatch(new ApplySLA($note->ticket));
+        }
+        flash('Your note has been created', 'success');
+        return \Redirect::route('ticket.show', $note->ticket);
+    }
+
     public function editResolution(Ticket $ticket, TicketResolveRequest $request)
     {
         $ticket->replies()->where('status_id', 7)
@@ -199,12 +216,36 @@ class TicketController extends Controller
         return \Redirect::back();
     }
 
-    public function download(Attachment $file)
+
+    public function editNote($note, Request $request)
     {
-        $target_file = storage_path() . $file->path;
-        if (\File::mimeType($target_file) == 'application/pdf' || \File::mimeType($target_file) == 'image/png' || \File::mimeType($target_file) == 'image/jpeg') {
-            return response()->file($target_file);
+        $note = TicketNote::find($note);
+        $validate = \Validator::make($request->all(), [
+            'note' => 'required',
+        ]);
+        if($validate->fails()){
+            flash('Your note has not been updated', 'danger');
+            return \Redirect::route('ticket.show', $note->ticket);
         }
-        return response()->download($target_file);
+        $note->note = $request->note;
+        $note->display_to_requester = $request->display_to_requester ? 1 : 0;
+        $note->email_to_technician = $request->email_to_technician ? 1 : 0;
+        $note->as_first_response = $request->as_first_response ? 1 : 0;
+        $note->save();
+
+        if ($note->email_to_technician) {
+            $this->dispatch(new NewNoteJob($note));
+        }
+        flash('Your note has been updated', 'success');
+        return \Redirect::route('ticket.show', $note->ticket);
+    }
+
+    public function deleteNote($note)
+    {
+        $target_note = TicketNote::find($note);
+        $ticket = $target_note->ticket;
+        $target_note->delete();
+        flash('Your note has been deleted', 'success');
+        return \Redirect::route('ticket.show', $ticket);
     }
 }

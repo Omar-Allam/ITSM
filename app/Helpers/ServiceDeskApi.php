@@ -117,11 +117,13 @@ class ServiceDeskApi
             ['parameter' => ['name' => 'status', 'value' => 'Completed without solution']]
         ]);
     }
-    protected function send($url, $operation, $data = '')
+
+    public function send($url, $operation, $data = '')
     {
         $params = [
             'TECHNICIAN_KEY' => $this->key,
-            'OPERATION_NAME' => $operation
+            'OPERATION_NAME' => $operation,
+            'format' => 'xml'
         ];
 
         if ($data) {
@@ -169,5 +171,19 @@ class ServiceDeskApi
         }
 
         return $string;
+    }
+
+    public function getRequester($name)
+    {
+        $result = $this->send('/sdpapi/requester/', 'GET_ALL', [
+            'name' => $name
+        ]);
+
+        $attributes = [];
+        foreach ($result->response->operation->Details->record->parameter as $param) {
+            $attributes[strval($param->name)] = strval($param->value);
+        }
+
+        return $attributes;
     }
 }

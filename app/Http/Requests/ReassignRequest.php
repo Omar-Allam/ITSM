@@ -61,6 +61,7 @@ class ReassignRequest extends Request
         return \Redirect::route('ticket.show', $this->route('ticket'));
     }
 
+
     protected function defineCustomRules()
     {
         \Validator::extend('matches_group', function() {
