@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\LdapImportUser;
+use App\Console\Commands\SyncByRequest;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Make\Console\Command\Module;
@@ -22,6 +23,7 @@ class Kernel extends ConsoleKernel
         Commands\EscalateApprovals::class,
         Commands\CalculateOpenRequestsTime::class,
         Commands\SyncServiceDeskPlus::class,
+        Commands\SyncByRequest::class,
     ];
 
     /**
