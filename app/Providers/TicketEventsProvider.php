@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Attachment;
+use App\ExtractImages;
 use App\Jobs\ApplyBusinessRules;
 use App\Jobs\ApplySLA;
 use App\Jobs\CalculateTicketTime;
@@ -21,7 +22,8 @@ class TicketEventsProvider extends ServiceProvider
         Ticket::created(function (Ticket $ticket) {
             dispatch(new ApplyBusinessRules($ticket));
             dispatch(new ApplySLA($ticket));
-
+            $extract_image = new ExtractImages($ticket->description);
+            $ticket->description = $extract_image->extract();
             Attachment::uploadFiles(Attachment::TICKET_TYPE, $ticket->id);
         });
 
@@ -37,6 +39,8 @@ class TicketEventsProvider extends ServiceProvider
 
         TicketApproval::created(function (TicketApproval $approval){
             $approval->ticket->status_id = 6;
+            $extract_image = new ExtractImages($approval->content);
+            $approval->content = $extract_image->extract();
             TicketLog::addApproval($approval);
             $approval->ticket->save();
             

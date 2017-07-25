@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ExtractImages;
 use App\Helpers\Ticket\TicketViewScope;
 use App\Http\Requests\ApprovalRequest;
 use App\Http\Requests\NoteRequest;
@@ -23,6 +24,7 @@ use App\TicketReply;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Mailable;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 
@@ -105,11 +107,10 @@ class TicketController extends Controller
     {
         $reply = new TicketReply($request->get('reply'));
         $reply->user_id = $request->user()->id;
-
         // Fires creating event in \App\Providers\TicketReplyEventProvider
         $ticket->replies()->save($reply);
-
-        //@todo: Calculate elapsed time
+//
+//        //@todo: Calculate elapsed time
         return $this->backSuccessResponse($request, 'Reply has been added');
     }
 
@@ -161,7 +162,7 @@ class TicketController extends Controller
     public function duplicate(Ticket $ticket, Request $request)
     {
         Ticket::flushEventListeners(); //as business rule change the technician
-        if($request->tickets_count > 0 && $request->tickets_count <= 10){
+        if ($request->tickets_count > 0 && $request->tickets_count <= 10) {
             for ($i = 1; $i <= $request->tickets_count; $i++) {
                 $data = $ticket->toArray();
                 unset($data['id'], $data['created_at'], $data['updated_at']);
@@ -194,9 +195,11 @@ class TicketController extends Controller
 
     public function addNote(Ticket $ticket, NoteRequest $request)
     {
+        $extract_image = new ExtractImages($request['note']);
+        $request['note'] = $extract_image->extract();
         $note = TicketNote::create(['ticket_id' => $ticket->id,
             'user_id' => $request->user()->id,
-            'note' => $request->get('note'),
+            'note' => $request['note'],
             'display_to_requester' => $request->display_to_requester ? 1 : 0,
             'email_to_technician' => $request->email_to_technician ? 1 : 0,
             'as_first_response' => $request->as_first_response ? 1 : 0
@@ -226,7 +229,7 @@ class TicketController extends Controller
         $validate = \Validator::make($request->all(), [
             'note' => 'required',
         ]);
-        if($validate->fails()){
+        if ($validate->fails()) {
             flash('Your note has not been updated', 'danger');
             return \Redirect::route('ticket.show', $note->ticket);
         }
