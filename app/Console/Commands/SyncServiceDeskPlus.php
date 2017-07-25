@@ -137,7 +137,7 @@ class SyncServiceDeskPlus extends Command
             $user = User::where('name', $details['from'])->first();
             $by = $user->id;
             $fromRequester = $user->id == $ticket->requester_id;
-            $status = $fromRequester? 1 : $ticket->status_id;
+            $status = $fromRequester ? 1 : $ticket->status_id;
 
             $ticket->replies()->create([
                 'user_id' => $by,
@@ -299,5 +299,54 @@ class SyncServiceDeskPlus extends Command
             $company = strval($record->value);
         }
         return $company;
+    }
+
+
+    public function getRequestById($id)
+    {
+        $request = $this->api->getRequest($id);
+        $ticket_exist = Ticket::where('sdp_id', $request['workorderid'])->first();
+        if (!$ticket_exist) {
+            $requester = User::where('name', $request['requester'])->first();
+            $createdby = User::where('name', $request['createdby'])->first();
+            $is_template = ($request['is_catalog_template'] ?? '') == "true";
+            if (!$is_template) {
+                $category = Category::where('name', $request['category'])->first();
+                $subcategory = Subcategory::where('name', $request['subcategory'] ?? '')->first();
+                $item = Item::where('name', $request['item'] ?? '')->first();
+                $additionalFields = [];
+            } else {
+                $attributes = $this->fetchRequestFromWeb($id);
+                $category = Category::where('name', $attributes['category'] ?? '')->first();
+                $subcategory = Subcategory::where('name', $request['requesttemplate'] ?? '')->first();
+                $additionalFields = $attributes['additionalFields'];
+            }
+//            dd($request);
+            if (!$requester) {
+                $requester = $this->getRequestFromSDP($request['requester']);
+            }
+            $attributes = [
+                'requester_id' => $requester->id,
+                'creator_id' => $createdby->id ?? $requester->id,
+                'subject' => $request['subject'],
+                'description' => $request['description'],
+                'category_id' => $category->id ?? 0,
+                'subcategory_id' => $subcategory->id ?? 0,
+                'item_id' => $item->id ?? 0,
+                'sdp_id' => $request['workorderid'],
+                'status_id' => $this->statusMap[$request['status']]
+            ];
+            $ticket = Ticket::create($attributes);
+            foreach ($additionalFields as $name => $value) {
+                $ticket->fields()->create(compact('name', 'value'));
+            }
+            dispatch(new NewTicketJob($ticket));
+            dispatch(new ApplyBusinessRules($ticket));
+            dispatch(new ApplySLA($ticket));
+//
+            $this->handleAttachments($ticket);
+            $this->syncConversations($ticket);
+        }
+
     }
 }
