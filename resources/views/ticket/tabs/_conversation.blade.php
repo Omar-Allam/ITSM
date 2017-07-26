@@ -1,13 +1,15 @@
 @if ($ticket->replies->count())
     <section class="replies">
         <div class="form-group clearfix">
-            <a href="#ReplyForm" class="btn btn-primary pull-right"><i class="fa fa-commenting"></i> {{t('Add reply')}}</a>
+            <a href="#ReplyForm" class="btn btn-primary pull-right"><i class="fa fa-commenting"></i> {{t('Add reply')}}
+            </a>
         </div>
 
         @foreach($ticket->replies()->latest()->get() as $reply)
             <div class="panel panel-sm panel-{{$reply->class}}">
                 <div class="panel-heading">
-                    <h5 class="panel-title"><a href="#reply{{$reply->id}}" data-toggle="collapse">{{t('By')}}: {{$reply->user->name}} On {{$reply->created_at->format('d/m/Y H:i A')}}</a> </h5>
+                    <h5 class="panel-title"><a href="#reply{{$reply->id}}" data-toggle="collapse">{{t('By')}}
+                            : {{$reply->user->name}} On {{$reply->created_at->format('d/m/Y H:i A')}}</a></h5>
                 </div>
                 <div class="panel-body collapse" id="reply{{$reply->id}}">
                     <div class="reply">
