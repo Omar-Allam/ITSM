@@ -44,7 +44,7 @@ class TicketReplyEventsProvider extends ServiceProvider
                 }
             }
 
-            dispatch(new TicketReplyJob($reply));
+//            dispatch(new TicketReplyJob($reply));
         });
     }
 
