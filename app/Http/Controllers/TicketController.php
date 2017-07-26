@@ -195,8 +195,6 @@ class TicketController extends Controller
 
     public function addNote(Ticket $ticket, NoteRequest $request)
     {
-        $extract_image = new ExtractImages($request['note']);
-        $request['note'] = $extract_image->extract();
         $note = TicketNote::create(['ticket_id' => $ticket->id,
             'user_id' => $request->user()->id,
             'note' => $request['note'],

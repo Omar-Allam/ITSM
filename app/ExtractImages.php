@@ -20,12 +20,12 @@ class ExtractImages
 
     public function extract()
     {
-        $images_exist = preg_match_all('/<img([\w\W]+?)\/>/', $this->content, $images, PREG_SET_ORDER);
+        $images_exist = preg_match_all('/<img src="data:image([\w\W]+?)\/>/', $this->content, $images, PREG_SET_ORDER);
         if ($images_exist) {
             foreach ($images as $image) {
                 $data = explode(',', str_replace('/>', '', $image[0]));
                 $extension = explode('/', explode(';', explode(';', $image[0])[0])[0]);
-                $final_image = base64_decode($data[1]);
+                $final_image = base64_decode($data[1] ?? $data[0]);
                 $folder = storage_path('app/public/images/');
                 if (!is_dir($folder)) {
                     mkdir($folder, 0775, true);

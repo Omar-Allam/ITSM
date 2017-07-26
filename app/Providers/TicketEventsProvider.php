@@ -57,6 +57,11 @@ class TicketEventsProvider extends ServiceProvider
             }
         });
 
+        TicketNote::saving(function (TicketNote $note){
+            $extract_image = new ExtractImages($note->note);
+            $note['note'] = $extract_image->extract();
+        });
+
 
     }
 
