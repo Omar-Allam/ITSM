@@ -29,7 +29,7 @@
             <div class="row form-group {{$errors->has('status')? 'has-error' : ''}}">
                 <div class="col-md-3">
                     <label for="approve" class="radio-online">
-                        {{Form::radio('status', \App\TicketApproval::APPROVED, null, ['id' => 'approve'])}}
+                        {{Form::radio('statusTicket', \App\TicketApproval::APPROVED, null, ['id' => 'approve'])}}
                         Approve {{-- <i class="fa fa-thumbs-o-up"></i>--}}
                     </label>
                 </div>
@@ -62,96 +62,5 @@
             {{Form::close()}}
         </section>
     </section>
-    <section class="col-sm-6">
-        <section class="ticket">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><i class="fa fa-user"></i> {{t('Requester Details')}}</h4>
-                </div>
-                <table class="table table-striped table-condensed">
-                    <tr>
-                        <th>{{t('Name')}}</th>
-                        <td>{{$ticketApproval->ticket->requester->name}}</td>
-                        <th>{{t('Business Unit')}}</th>
-                        <td>{{$ticketApproval->ticket->requester->business_unit->name or 'Not Assigned'}}</td>
-                    </tr>
-                    <tr>
-                        <th>{{t('Email')}}</th>
-                        <td>{{$ticketApproval->ticket->requester->email or 'Not Assigned'}}</td>
-                        <th>{{t('Location')}}</th>
-                        <td>{{$ticketApproval->ticket->requester->location->name or 'Not Assigned'}}</td>
-                    </tr>
-                    <tr>
-                        <th>{{t('Phone')}}</th>
-                        <td>{{$ticketApproval->ticket->requester->phone or 'Not Assigned'}}</td>
-                        <th>{{t('Mobile')}}</th>
-                        <td>{{$ticketApproval->ticket->requester->mobile or 'Not Assigned'}}</td>
-                    </tr>
-                </table>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><i class="fa fa-ticket"></i> {{t('Request Details')}}</h4>
-                </div>
-                <table class="table table-striped table-condensed">
-                    <tr>
-                        <th>{{t('Category')}}</th>
-                        <td>{{$ticketApproval->ticket->category->name or 'Not Assigned'}}</td>
-                        <th>{{t('Subcategory')}}</th>
-                        <td>{{$ticketApproval->ticket->subcategory->name or 'Not Assigned'}}</td>
-                    </tr>
-                    <tr>
-                        <th>{{t('Item')}}</th>
-                        <td>{{$ticketApproval->ticket->Item->name or 'Not Assigned'}}</td>
-                        <th>&nbsp;</th>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <th>{{t('Urgency')}}</th>
-                        <td>{{$ticketApproval->ticket->urgency->name or 'Not Assigned'}}</td>
-                        <th>{{t('SLA')}}</th>
-                        <td>{{$ticketApproval->ticket->sla->name or 'Not Assigned'}}</td>
-                    </tr>
-                    <tr>
-                        <th>{{t('Due Time')}}</th>
-                        <td>{{$ticketApproval->ticket->due_date or 'Not Assigned'}}</td>
-                        <th>{{t('First Response')}}</th>
-                        <td>{{$ticketApproval->ticket->first_response_date or 'Not Assigned'}}</td>
-                    </tr>
-                    <tr>
-                        <th>{{t('Group')}}</th>
-                        <td>{{$ticketApproval->ticket->group->name or 'Not Assigned'}}</td>
-                        <th>{{t('Technician')}}</th>
-                        <td>{{$ticketApproval->ticket->technician->name or 'Not Assigned'}}</td>
-                    </tr>
-                    <tr>
-                        <th>{{t('Business Unit')}}</th>
-                        <td>{{$ticketApproval->ticket->business_unit->name or 'Not Assigned'}}</td>
-                        <th>{{t('Location')}}</th>
-                        <td>{{$ticketApproval->ticket->location->name or 'Not Assigned'}}</td>
-                    </tr>
-                </table>
-            </div>
-            @if ($ticketApproval->ticket->fields->count())
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title"><i class="fa fa-asterisk"></i> {{t('Additional Information')}}</h4>
-                    </div>
-
-                    <table class="table table-bordered table-condensed table-striped">
-                        <tbody>
-                        @foreach($ticketApproval->ticket->fields as $field)
-                            <tr>
-                                <td class="col-sm-4 text-right"><strong>{{$field->name}}</strong></td>
-                                <td>
-                                    {{$field->value}}
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            @endif
-        </section>
-    </section>
+    @include('approval._approval_additional_information')
 @stop
