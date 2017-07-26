@@ -43,8 +43,7 @@ class TicketReplyEventsProvider extends ServiceProvider
                     $sdp->addReply($reply);
                 }
             }
-
-            if(!$reply->ticket->sdp_id){
+            else{
                 dispatch(new TicketReplyJob($reply));
             }
         });
