@@ -44,7 +44,9 @@ class TicketReplyEventsProvider extends ServiceProvider
                 }
             }
 
-//            dispatch(new TicketReplyJob($reply));
+            if(!$reply->ticket->sdp_id){
+                dispatch(new TicketReplyJob($reply));
+            }
         });
     }
 
