@@ -62,5 +62,12 @@
             {{Form::close()}}
         </section>
     </section>
-    @include('approval._approval_additional_information')
+    <section class="col-sm-6">
+        <section class="ticket">
+            @include('ticket.partials._requester_details',['ticket'=>$ticketApproval->ticket])
+            @if ($ticketApproval->ticket->fields->count())
+                @include('ticket.partials._ticket_addtional_fields',['ticket'=>$ticketApproval->ticket])
+            @endif
+        </section>
+    </section>
 @stop
