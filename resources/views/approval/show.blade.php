@@ -65,9 +65,7 @@
     <section class="col-sm-6">
         <section class="ticket">
             @include('ticket.partials._requester_details',['ticket'=>$ticketApproval->ticket])
-            @if ($ticketApproval->ticket->fields->count())
-                @include('ticket.partials._ticket_addtional_fields',['ticket'=>$ticketApproval->ticket])
-            @endif
+            @include('ticket.partials._ticket_additional_fields',['ticket'=>$ticketApproval->ticket])
         </section>
     </section>
 @stop

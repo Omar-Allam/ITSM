@@ -48,11 +48,8 @@
     </table>
 </div>
 
-@if ($ticket->fields->count())
-    @include('ticket.partials._ticket_addtional_fields',['ticket'=>$ticket])
 
-@endif
-
+@include('ticket.partials._ticket_additional_fields',['ticket'=>$ticket])
 @include('ticket.partials._requester_details',['ticket'=>$ticket])
 
 @if($ticket->notes->count())
