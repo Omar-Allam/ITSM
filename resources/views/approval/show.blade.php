@@ -29,7 +29,7 @@
             <div class="row form-group {{$errors->has('status')? 'has-error' : ''}}">
                 <div class="col-md-3">
                     <label for="approve" class="radio-online">
-                        {{Form::radio('statusTicket', \App\TicketApproval::APPROVED, null, ['id' => 'approve'])}}
+                        {{Form::radio('status', \App\TicketApproval::APPROVED, null, ['id' => 'approve'])}}
                         Approve {{-- <i class="fa fa-thumbs-o-up"></i>--}}
                     </label>
                 </div>
