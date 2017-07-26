@@ -3,15 +3,15 @@
 @section('header')
     <h4 class="pull-left">#{{$ticketApproval->ticket->id}} - {{$ticketApproval->ticket->subject}} - Approval</h4>
     <div class="heading-actions pull-right">
-        <a href="{{route('ticket.show', $ticketApproval->ticket)}}" class="btn btn-sm btn-default"
-           title="Back to ticket" target="_blank"><i class="fa fa-ticket"></i></a>
+        <a href="{{route('ticket.show', $ticketApproval->ticket)}}" class="btn btn-sm btn-info"
+           title="Back to ticket" target="_blank"><i class="fa fa-ticket"></i> Display Ticket</a>
     </div>
 @stop
 
 @section('body')
-    <section class="col-sm-9">
+    <section class="col-sm-6">
         <section id="ticket">
-            <h4>Request</h4>
+            <h4>Request Description</h4>
             <div class="well well-sm well-white">
                 {!! $ticketApproval->ticket->description !!}
             </div>
@@ -60,6 +60,12 @@
             </div>
 
             {{Form::close()}}
+        </section>
+    </section>
+    <section class="col-sm-6">
+        <section class="ticket">
+            @include('ticket.partials._requester_details',['ticket'=>$ticketApproval->ticket])
+            @include('ticket.partials._ticket_additional_fields',['ticket'=>$ticketApproval->ticket])
         </section>
     </section>
 @stop

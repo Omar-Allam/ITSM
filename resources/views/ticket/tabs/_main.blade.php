@@ -48,52 +48,9 @@
     </table>
 </div>
 
-@if ($ticket->fields->count())
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h4 class="panel-title"><i class="fa fa-asterisk"></i> {{t('Additional Information')}}</h4>
-    </div>
 
-    <table class="table table-bordered table-condensed table-striped">
-        <tbody>
-        @foreach($ticket->fields as $field)
-            <tr>
-                <td class="col-sm-4 text-right"><strong>{{$field->name}}</strong></td>
-                <td>
-                    {{$field->value}}
-                </td>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
-</div>
-@endif
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h4 class="panel-title"><i class="fa fa-user"></i> {{t('Requester Details')}}</h4>
-    </div>
-    <table class="table table-striped table-condensed">
-        <tr>
-            <th>{{t('Name')}}</th>
-            <td>{{$ticket->requester->name}}</td>
-            <th>{{t('Business Unit')}}</th>
-            <td>{{$ticket->requester->business_unit->name or 'Not Assigned'}}</td>
-        </tr>
-        <tr>
-            <th>{{t('Email')}}</th>
-            <td>{{$ticket->requester->email or 'Not Assigned'}}</td>
-            <th>{{t('Location')}}</th>
-            <td>{{$ticket->requester->location->name or 'Not Assigned'}}</td>
-        </tr>
-        <tr>
-            <th>{{t('Phone')}}</th>
-            <td>{{$ticket->requester->phone or 'Not Assigned'}}</td>
-            <th>{{t('Mobile')}}</th>
-            <td>{{$ticket->requester->mobile or 'Not Assigned'}}</td>
-        </tr>
-    </table>
-</div>
+@include('ticket.partials._ticket_additional_fields',['ticket'=>$ticket])
+@include('ticket.partials._requester_details',['ticket'=>$ticket])
 
 @if($ticket->notes->count())
     <div class="panel panel-default">

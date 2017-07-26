@@ -6,7 +6,7 @@
         <form action="" class="form-inline" method="get">
             <div class="input-group">
                 <input class="form-control input-sm" type="search" name="q" id="searchTerm" placeholder="Search"
-                       value="{{Request::get('q', '')}}">
+                       value="{{Request::query('q', '')}}">
                 <span class="input-group-btn">
                     <button class="btn btn-default btn-sm"><i class="fa fa-search"></i></button>
                 </span>

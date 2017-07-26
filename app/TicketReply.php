@@ -55,4 +55,12 @@ class TicketReply extends KModel
             return 'default';
         }
     }
+
+    function getImagesAttribute()
+    {
+        $images = Attachment::where('reference',$this->id)
+            ->where('type',Attachment::TICKET_REPLY_TYPE)->get();
+
+        return $images;
+    }
 }

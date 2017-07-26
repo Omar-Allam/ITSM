@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Attachment;
+use App\ExtractImages;
 use App\Helpers\ServiceDeskApi;
+use App\Images;
 use App\Jobs\TicketReplyJob;
 use App\Status;
 use App\TicketLog;
@@ -24,17 +26,16 @@ class TicketReplyEventsProvider extends ServiceProvider
                     $reply->ticket->resolve_date = Carbon::now();
                 }
             }
-
+            $extract_image = new ExtractImages($reply->content);
+            $reply->content = $extract_image->extract();
             TicketLog::addReply($reply);
             $reply->ticket->save();
         });
 
         TicketReply::created(function (TicketReply $reply) {
             Attachment::uploadFiles(Attachment::TICKET_REPLY_TYPE, $reply->id);
-
             if ($reply->ticket->sdp_id) {
                 $sdp = new ServiceDeskApi();
-
                 if ($reply->status_id == 7) {
                     $sdp->addResolution($reply);
                 } elseif ($reply->status_id == 9) {
@@ -43,8 +44,9 @@ class TicketReplyEventsProvider extends ServiceProvider
                     $sdp->addReply($reply);
                 }
             }
-
-            dispatch(new TicketReplyJob($reply));
+            else{
+                dispatch(new TicketReplyJob($reply));
+            }
         });
     }
 
