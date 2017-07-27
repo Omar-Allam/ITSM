@@ -29,7 +29,7 @@ class AutoCloseResolvedTickets extends Command
 
     public function handle()
     {
-        $tickets = Ticket::where('status_id', 7)->get();
+        $tickets = Ticket::whereIn('status_id', [7, 9])->get();
 
         Ticket::flushEventListeners();
         /** @var Ticket $ticket */
@@ -48,7 +48,11 @@ class AutoCloseResolvedTickets extends Command
 
     private function shouldClose(Ticket $ticket)
     {
-        $date = clone $ticket->resolve_date;
+        if (!$ticket->resolve_date) {
+            $date = clone $ticket->updated_at; // for old not closed tickets
+        } else {
+            $date = clone $ticket->resolve_date;
+        }
 
         for ($i = 0; $i < 3; ++$i) {
             $date->addDay();
