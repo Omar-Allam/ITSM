@@ -48,7 +48,7 @@ class AutoCloseResolvedTickets extends Command
 
     private function shouldClose(Ticket $ticket)
     {
-        if (!$ticket->resolve_date) {
+        if (!$ticket->resolve_date && $ticket->status_id == 9) {
             $date = clone $ticket->updated_at; // for old not closed tickets
         } else {
             $date = clone $ticket->resolve_date;
