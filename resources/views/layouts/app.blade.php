@@ -17,7 +17,7 @@
         <div class="container-fluid">
             <div class="navbar-brand">
                 <a href="{{url('/')}}">
-                    <img src="{{asset('/images/hubdesk.png')}}" style="padding-bottom: 5px;" height="25" width="100">
+                    <img src="{{asset('/images/hubdesk.png')}}" class="logo-image">
                 </a>
             </div>
             @if (!\Auth::guest())
