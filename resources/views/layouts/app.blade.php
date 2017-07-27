@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>HubDesk</title>
-
+    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
     <link rel="stylesheet" href="{{asset('/css/app.css')}}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700">
     @yield('stylesheets')
@@ -15,8 +15,11 @@
 <header>
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container-fluid">
-            <div class="navbar-brand"><a href="{{url('/')}}"><i class="fa fa-bolt"></i> HubDesk</a></div>
-
+            <div class="navbar-brand">
+                <a href="{{url('/')}}">
+                    <img src="{{asset('/images/hubdesk.png')}}" class="logo-image">
+                </a>
+            </div>
             @if (!\Auth::guest())
                 <ul class="nav navbar-nav">
                     <li><a href="{{route('ticket.index')}}"><i class="fa fa-ticket"></i> {{t('Tickets')}}</a></li>
