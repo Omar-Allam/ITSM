@@ -12594,6 +12594,6 @@ img {
 .logo-image {
   padding-bottom: 5px;
   height: 25px;
-  width: 100px;
+  width: auto;
 }
 
