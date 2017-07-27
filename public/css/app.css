@@ -12274,13 +12274,13 @@ body {
 }
 
 .navbar.navbar-default {
-  border-top: 4px solid #40c0ff;
+  border-top: 4px solid #1f648b;
 }
 
 .title-bar .title-container {
   background: #fff;
   min-height: 40px;
-  border-bottom: 1px solid #40c0ff;
+  border-bottom: 1px solid #1f648b;
   margin-bottom: 10px;
   display: -webkit-box;
   display: -ms-flexbox;
