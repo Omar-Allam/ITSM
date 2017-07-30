@@ -75,6 +75,7 @@
                 <div class="form-group form-group-sm {{$errors->has('approver_id')? 'has-error' : ''}}">
                     {{Form::label('approver_id', t('Send approval to'), ['class' => 'control-label'])}}
                     <select class="form-control select2" name="approver_id" id="approver_id">
+                        <option value=""></option>
                         @foreach(App\User::orderBy('name')->get() as $user)
                             <option value="{{$user->id}}">
                                 {{$user->name}} ( {{$user->email}} )
