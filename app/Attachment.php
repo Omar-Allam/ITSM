@@ -79,7 +79,7 @@ class Attachment extends KModel
     {
         $basename = str_replace('+',' ',urlencode(basename($this->path)));
         $dirname = dirname($this->path);
-        $path = $dirname.$basename;
+        $path = $dirname.'/'.$basename;
         return url('/storage' . $path);
     }
 }
