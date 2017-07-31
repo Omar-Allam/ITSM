@@ -13,6 +13,7 @@ use App\Http\Requests\TicketResolveRequest;
 use App\Jobs\ApplySLA;
 use App\Jobs\NewNoteJob;
 use App\Jobs\NewTicketJob;
+use App\Jobs\PickUpTicketJob;
 use App\Jobs\SendApproval;
 use App\Jobs\TicketAssigned;
 use App\Jobs\TicketReplyJob;
@@ -251,5 +252,16 @@ class TicketController extends Controller
         $target_note->delete();
         flash('Your note has been deleted', 'success');
         return \Redirect::route('ticket.show', $ticket);
+    }
+
+    public function pickupTicket(Ticket $ticket)
+    {
+        if($ticket->technician_id!=\Auth::id()){
+            $ticket->technician_id = \Auth::user()->id;
+            $ticket->update();
+            $this->dispatch(new PickUpTicketJob($ticket));
+        }
+        return \Redirect::route('ticket.show', $ticket);
+
     }
 }
