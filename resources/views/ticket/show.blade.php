@@ -31,7 +31,10 @@
         <div class="card">
             <ul class="list-unstyled">
                 <li>
-                    <small><strong>{{t('Status')}} :</strong> {{$ticket->status->name}}</small>
+                    <small><strong>{{t('Status')}}:</strong> {{$ticket->status->name}}</small>
+                </li>
+                <li>
+                    <small><strong>{{t('Created at')}}:</strong> {{$ticket->created_at->format('d/m/Y H:i')}}</small>
                 </li>
                 @if ($ticket->due_date)
                     <li>
