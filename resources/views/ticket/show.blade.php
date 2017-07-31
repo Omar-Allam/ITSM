@@ -36,7 +36,10 @@
                         <i class="fa fa-flag text-danger" aria-hidden="true"
                            title="SLA violated"></i>
                     @endif
-                    <small><strong>{{t('Status')}} :</strong> {{$ticket->status->name}}</small>
+                    <small><strong>{{t('Status')}}:</strong> {{$ticket->status->name}}</small>
+                </li>
+                <li>
+                    <small><strong>{{t('Created at')}}:</strong> {{$ticket->created_at->format('d/m/Y H:i')}}</small>
                 </li>
                 @if ($ticket->due_date)
                     <li>
