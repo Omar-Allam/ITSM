@@ -13,14 +13,15 @@
                         <i class="fa fa-mail-forward"></i> {{t('Re-assign')}}
                     </button>
 
-                    <button data-toggle="modal" data-target="#DuplicateForm" type="button" class="btn btn-sm btn-default" title="Re-assign">
+                    <button data-toggle="modal" data-target="#DuplicateForm" type="button"
+                            class="btn btn-sm btn-default" title="Re-assign">
                         <i class="fa fa-mail-forward"></i> {{t('Duplicate')}}
                     </button>
 
                     @if(Auth::user()->isSupport())
                         <button type="button" class="btn btn-default btn-sm addNote" data-toggle="modal"
                                 data-target="#ReplyModal">
-                            <i class="fa fa-sticky-note"></i> Add Note
+                            <i class="fa fa-sticky-note"></i> {{t('Add Note')}}
                         </button>
                     @endif
 
@@ -31,6 +32,10 @@
         <div class="card">
             <ul class="list-unstyled">
                 <li>
+                    @if($ticket->overdue)
+                        <i class="fa fa-flag text-danger" aria-hidden="true"
+                           title="SLA violated"></i>
+                    @endif
                     <small><strong>{{t('Status')}} :</strong> {{$ticket->status->name}}</small>
                 </li>
                 @if ($ticket->due_date)
