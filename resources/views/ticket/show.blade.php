@@ -8,33 +8,23 @@
             @if($ticket->sdp_id) <h4>Helpdesk : #{{$ticket->sdp_id ?? ''}}</h4> @endif
             @if (Auth::user()->isSupport())
                 <div class="btn-toolbar">
-                    <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            Assign
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li><a href="#" data-target="#AssignForm" data-toggle="modal" title="Re-assign">
-                                    <i class="fa fa-share"></i> {{t('Re-assign')}}</a>
-                            </li>
-                            <li><a href="{{route('ticket.pickup',$ticket)}}" title="Pick Up">
-                                    <i class="fa fa-hand-o-down"></i> {{t('Pick Up')}}</a></li>
-                        </ul>
-                    </div>
+                    <a href="#" data-target="#AssignForm" data-toggle="modal" title="Re-assign"
+                       class="btn btn-sm btn-default">
+                        <i class="fa fa-share"></i> {{t('Re-assign')}}</a>
+
 
                     <button data-toggle="modal" data-target="#DuplicateForm" type="button"
                             class="btn btn-sm btn-default" title="Duplicate">
                         <i class="fa fa-copy"></i> {{t('Duplicate')}}
                     </button>
-
-                    @if(Auth::user()->isSupport())
-                        <button type="button" class="btn btn-default btn-sm addNote" data-toggle="modal"
-                                data-target="#ReplyModal">
-                            <i class="fa fa-sticky-note"></i> Add Note
-                        </button>
+                    @if($ticket->group && Auth::user()->hasGroup($ticket->group) && Auth::user()->id != $ticket->technician_id)
+                        <a href="{{route('ticket.pickup',$ticket)}}" title="Pick Up" class="btn btn-sm btn-default">
+                            <i class="fa fa-hand-lizard-o"></i> {{t('Pick Up')}}</a>
                     @endif
-
+                    <button type="button" class="btn btn-default btn-sm addNote" data-toggle="modal"
+                            data-target="#ReplyModal">
+                        <i class="fa fa-sticky-note"></i> {{t('Add Note')}}
+                    </button>
                 </div>
             @endif
         </div>

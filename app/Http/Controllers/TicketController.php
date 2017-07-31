@@ -256,12 +256,10 @@ class TicketController extends Controller
 
     public function pickupTicket(Ticket $ticket)
     {
-        if($ticket->technician_id!=\Auth::id()){
+        if ($ticket->technician_id != \Auth::id()) {
             $ticket->technician_id = \Auth::user()->id;
             $ticket->update();
-            $this->dispatch(new PickUpTicketJob($ticket));
         }
         return \Redirect::route('ticket.show', $ticket);
-
     }
 }
