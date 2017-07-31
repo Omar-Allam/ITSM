@@ -13,7 +13,6 @@ use App\Http\Requests\TicketResolveRequest;
 use App\Jobs\ApplySLA;
 use App\Jobs\NewNoteJob;
 use App\Jobs\NewTicketJob;
-use App\Jobs\PickUpTicketJob;
 use App\Jobs\SendApproval;
 use App\Jobs\TicketAssigned;
 use App\Jobs\TicketReplyJob;
