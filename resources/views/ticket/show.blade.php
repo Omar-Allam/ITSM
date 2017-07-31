@@ -17,10 +17,10 @@
                             class="btn btn-sm btn-default" title="Duplicate">
                         <i class="fa fa-copy"></i> {{t('Duplicate')}}
                     </button>
-                    @if($ticket->group && Auth::user()->hasGroup($ticket->group) && Auth::user()->id != $ticket->technician_id)
+                    @can('pick',$ticket)
                         <a href="{{route('ticket.pickup',$ticket)}}" title="Pick Up" class="btn btn-sm btn-default">
                             <i class="fa fa-hand-lizard-o"></i> {{t('Pick Up')}}</a>
-                    @endif
+                    @endcan
                     <button type="button" class="btn btn-default btn-sm addNote" data-toggle="modal"
                             data-target="#ReplyModal">
                         <i class="fa fa-sticky-note"></i> {{t('Add Note')}}

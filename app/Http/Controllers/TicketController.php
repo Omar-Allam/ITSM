@@ -255,9 +255,11 @@ class TicketController extends Controller
 
     public function pickupTicket(Ticket $ticket)
     {
-        if ($ticket->technician_id != \Auth::id()) {
-            $ticket->technician_id = \Auth::user()->id;
-            $ticket->update();
+        if (can('pick', $ticket)) {
+            if ($ticket->technician_id != \Auth::id()) {
+                $ticket->technician_id = \Auth::user()->id;
+                $ticket->update();
+            }
         }
         return \Redirect::route('ticket.show', $ticket);
     }
