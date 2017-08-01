@@ -9,18 +9,19 @@
             @if (Auth::user()->isSupport())
                 <div class="btn-toolbar">
                     <button data-toggle="modal" data-target="#AssignForm" type="button" class="btn btn-sm btn-default"
-                            title="Re-assign">
+                            title="{{t('Re-assign')}}">
                         <i class="fa fa-mail-forward"></i> {{t('Re-assign')}}
                     </button>
 
-                    <button data-toggle="modal" data-target="#DuplicateForm" type="button" class="btn btn-sm btn-default" title="Re-assign">
+                    <button data-toggle="modal" data-target="#DuplicateForm" type="button"
+                            class="btn btn-sm btn-default" title="{{t('Duplicate')}}n">
                         <i class="fa fa-mail-forward"></i> {{t('Duplicate')}}
                     </button>
 
                     @if(Auth::user()->isSupport())
                         <button type="button" class="btn btn-default btn-sm addNote" data-toggle="modal"
-                                data-target="#ReplyModal">
-                            <i class="fa fa-sticky-note"></i> Add Note
+                                data-target="#ReplyModal" title="{{t('Add Note')}}">
+                            <i class="fa fa-sticky-note"></i> {{t('Add Note')}}
                         </button>
                     @endif
 
@@ -31,6 +32,10 @@
         <div class="card">
             <ul class="list-unstyled">
                 <li>
+                    @if($ticket->overdue)
+                        <i class="fa fa-flag text-danger" aria-hidden="true"
+                           title="{{t('SLA violated')}}"></i>
+                    @endif
                     <small><strong>{{t('Status')}}:</strong> {{$ticket->status->name}}</small>
                 </li>
                 <li>
@@ -56,8 +61,10 @@
 @section('body')
     <section class="col-sm-12" id="ticketArea">
         <ul class="nav nav-tabs" role="tablist">
-            <li class="active"><a href="#main" role="tab" data-toggle="tab"><i
-                            class="fa fa-ticket"></i> {{t('Request')}}</a></li>
+            <li class="active">
+                <a href="#main" role="tab" data-toggle="tab"><i
+                            class="fa fa-ticket"></i> {{t('Request')}}</a>
+            </li>
             <li><a href="#conversation" role="tab" data-toggle="tab"><i
                             class="fa fa-comments-o"></i> {{t('Conversation')}}</a></li>
             {{--<li><a href="#tasks" role="tab" data-toggle="tab"><i class="fa fa-tasks"></i> {{t('Tasks')}}</a></li>--}}
