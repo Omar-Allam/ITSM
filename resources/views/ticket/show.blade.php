@@ -14,8 +14,8 @@
                     </button>
 
                     <button data-toggle="modal" data-target="#DuplicateForm" type="button"
-                            class="btn btn-sm btn-default" title="{{t('Duplicate')}}n">
-                        <i class="fa fa-mail-forward"></i> {{t('Duplicate')}}
+                            class="btn btn-sm btn-default" title="Duplicate">
+                        <i class="fa fa-copy"></i> {{t('Duplicate')}}
                     </button>
 
                     @if(Auth::user()->isSupport())
@@ -24,7 +24,11 @@
                             <i class="fa fa-sticky-note"></i> {{t('Add Note')}}
                         </button>
                     @endif
-
+                    
+                    @can('pick',$ticket)
+                        <a href="{{route('ticket.pickup',$ticket)}}" title="Pick Up" class="btn btn-sm btn-default">
+                            <i class="fa fa-hand-lizard-o"></i> {{t('Pick Up')}}</a>
+                    @endcan
                 </div>
             @endif
         </div>

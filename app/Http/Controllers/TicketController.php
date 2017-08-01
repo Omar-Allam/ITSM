@@ -252,4 +252,15 @@ class TicketController extends Controller
         flash('Your note has been deleted', 'success');
         return \Redirect::route('ticket.show', $ticket);
     }
+
+    public function pickupTicket(Ticket $ticket)
+    {
+        if (can('pick', $ticket)) {
+            if ($ticket->technician_id != \Auth::id()) {
+                $ticket->technician_id = \Auth::user()->id;
+                $ticket->update();
+            }
+        }
+        return \Redirect::route('ticket.show', $ticket);
+    }
 }

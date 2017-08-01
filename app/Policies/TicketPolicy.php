@@ -48,5 +48,14 @@ class TicketPolicy
         return false;
     }
 
+    function pick(User $user ,Ticket $ticket)
+    {
+        if (($user->hasGroup($ticket->group) && $user->id != $ticket->technician_id)) {
+            return true;
+        }
+//        dd($ticket);
+        return false;
+    }
+
 
 }
