@@ -33,7 +33,7 @@ class TicketViewScope
             "my_on_hold" => "My On-Hold Tickets",
             "my_pending" => "My Pending Tickets",
             "my_completed" => "My Completed Ticket",
-            "mine" => "All My Tickets",
+            "all_mine" => "All My Tickets",
             'for_approval' => 'Ticket waiting my approval',
 
 //            "open" => 'All Open Tickets',
@@ -70,6 +70,11 @@ class TicketViewScope
         }
     }
 
+    public function all_mine()
+    {
+        $this->mine_with_approvals();
+    }
+
     public function my_open()
     {
         $this->mine();
@@ -96,10 +101,23 @@ class TicketViewScope
 
     public function mine()
     {
-        $this->query->where(function(Builder $q) {
+        $this->query->where(function (Builder $q) {
             $q->where('technician_id', $this->user->id)
                 ->orWhere('requester_id', $this->user->id)
                 ->orWhere('coordinator_id', $this->user->id);
+        });
+    }
+
+    public function mine_with_approvals()
+    {
+        $this->query->where(function (Builder $q) {
+            $q->where('technician_id', $this->user->id)
+                ->orWhere('requester_id', $this->user->id)
+                ->orWhere('coordinator_id', $this->user->id)
+                ->orwhereHas('approvals', function (Builder $q) {
+                    $q->where('approver_id', \Auth::user()->id)
+                        ->where('status', TicketApproval::PENDING_APPROVAL);
+                });
         });
     }
 
@@ -141,14 +159,14 @@ class TicketViewScope
 
     public function open()
     {
-        $this->query->whereHas('status', function(Builder $q){
+        $this->query->whereHas('status', function (Builder $q) {
             $q->where('type', Status::OPEN);
         });
     }
 
     public function completed()
     {
-        $this->query->whereHas('status', function(Builder $q){
+        $this->query->whereHas('status', function (Builder $q) {
             $q->where('type', Status::COMPLETE);
         });
     }
@@ -156,36 +174,39 @@ class TicketViewScope
 
     public function on_hold()
     {
-        $this->query->whereHas('status', function(Builder $q){
+        $this->query->whereHas('status', function (Builder $q) {
             $q->where('type', Status::PENDING);
         });
     }
 
     public function for_approval()
     {
-        $this->query->whereHas('approvals', function(Builder $q){
+        $this->query->whereHas('approvals', function (Builder $q) {
             $q->where('approver_id', \Auth::user()->id)
                 ->where('status', TicketApproval::PENDING_APPROVAL);
         });
     }
 
-    public function open_assigned(){
+    public function open_assigned()
+    {
         $this->query->where('technician_id', $this->user->id)
-            ->where('status_id',1);
+            ->where('status_id', 1);
     }
 
     public function onHoldAssigned()
     {
         $this->query->where('technician_id', $this->user->id)
-            ->whereIn('status_id',[4,5,6]);
+            ->whereIn('status_id', [4, 5, 6]);
     }
 
     public function completedAssigned()
     {
         $this->query->where('technician_id', $this->user->id)
-            ->whereIn('status_id',[7,8]);
+            ->whereIn('status_id', [7, 8,9]);
     }
-    public function open_assigned_to_me(){
+
+    public function open_assigned_to_me()
+    {
         $this->open_assigned();
     }
 
@@ -193,7 +214,9 @@ class TicketViewScope
     {
         $this->onHoldAssigned();
     }
-    public function completed_assigned_to_me(){
+
+    public function completed_assigned_to_me()
+    {
         $this->completedAssigned();
     }
 }

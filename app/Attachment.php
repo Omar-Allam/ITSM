@@ -77,6 +77,9 @@ class Attachment extends KModel
 
     public function getUrlAttribute()
     {
-        return url('/storage' . urlencode($this->path));
+        $basename = str_replace('+',' ',urlencode(basename($this->path)));
+        $dirname = dirname($this->path);
+        $path = $dirname.'/'.$basename;
+        return url('/storage' . $path);
     }
 }
