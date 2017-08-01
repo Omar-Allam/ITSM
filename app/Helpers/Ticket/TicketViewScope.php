@@ -202,7 +202,7 @@ class TicketViewScope
     public function completedAssigned()
     {
         $this->query->where('technician_id', $this->user->id)
-            ->whereIn('status_id', [7, 8]);
+            ->whereIn('status_id', [7, 8,9]);
     }
 
     public function open_assigned_to_me()
