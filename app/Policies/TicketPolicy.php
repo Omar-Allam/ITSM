@@ -50,7 +50,7 @@ class TicketPolicy
 
     function pick(User $user ,Ticket $ticket)
     {
-        if (($user->hasGroup($ticket->group) && $user->id != $ticket->technician_id) || $user->isAdmin()) {
+        if (($user->hasGroup($ticket->group) && $user->id != $ticket->technician_id)) {
             return true;
         }
 //        dd($ticket);
