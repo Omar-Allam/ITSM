@@ -8,7 +8,7 @@
             @if($ticket->sdp_id)
                 <h4>Helpdesk : #{{$ticket->sdp_id ?? ''}}</h4><br>
             @endif
-            <h7><strong>{{t('By')}}: {{$ticket->requester->name}}</strong></h7>
+            <h4><strong>{{t('By')}}: {{$ticket->requester->name}}</strong></h4>
             <br>
             @if (Auth::user()->isSupport())
                 <div class="btn-toolbar">
