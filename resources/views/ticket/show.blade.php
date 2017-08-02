@@ -4,8 +4,8 @@
 
     <div class="display-flex ticket-meta">
         <div class="flex">
-            <h4>#{{$ticket->id}} - {{$ticket->subject}}</h4><br>
-            @if($ticket->sdp_id) <h4>Helpdesk : #{{$ticket->sdp_id ?? ''}}</h4> @endif
+            <h4>#{{$ticket->id}} - {{$ticket->subject}}</h4>
+            <h4>@if($ticket->sdp_id) Helpdesk : #{{$ticket->sdp_id ?? ''}}  -  @endif<strong>{{t('By')}}: {{$ticket->requester->name}}</strong></h4>
             @if (Auth::user()->isSupport())
                 <div class="btn-toolbar">
                     <button data-toggle="modal" data-target="#AssignForm" type="button" class="btn btn-sm btn-default"
@@ -24,7 +24,7 @@
                             <i class="fa fa-sticky-note"></i> {{t('Add Note')}}
                         </button>
                     @endif
-                    
+
                     @can('pick',$ticket)
                         <a href="{{route('ticket.pickup',$ticket)}}" title="Pick Up" class="btn btn-sm btn-default">
                             <i class="fa fa-hand-lizard-o"></i> {{t('Pick Up')}}</a>
