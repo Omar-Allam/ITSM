@@ -6,10 +6,9 @@
         <div class="flex">
             <h4>#{{$ticket->id}} - {{$ticket->subject}}</h4><br>
             @if($ticket->sdp_id)
-                <h4>Helpdesk : #{{$ticket->sdp_id ?? ''}}</h4><br>
+                <h4>Helpdesk : #{{$ticket->sdp_id ?? ''}} &emsp; - &emsp; <strong>{{t('By')}}: {{$ticket->requester->name}}</strong></h4><br>
             @endif
-            <h4><strong>{{t('By')}}: {{$ticket->requester->name}}</strong></h4>
-            <br>
+
             @if (Auth::user()->isSupport())
                 <div class="btn-toolbar">
                     <button data-toggle="modal" data-target="#AssignForm" type="button" class="btn btn-sm btn-default"
