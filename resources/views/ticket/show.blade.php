@@ -57,6 +57,12 @@
                         </small>
                     </li>
                 @endif
+                @if($ticket->last_updated_approval)
+                    <li>
+                        <small><strong>{{t('Approval Status')}}:</strong> {{\App\TicketApproval::$statuses[$ticket->last_updated_approval->status]}}
+                        </small>
+                    </li>
+                @endif
             </ul>
         </div>
     </div>

@@ -78,7 +78,7 @@ class Ticket extends KModel
 
     protected $fillable = [
         'subject', 'description', 'category_id', 'subcategory_id', 'item_id', 'group_id', 'technician_id',
-        'priority_id', 'impact_id', 'urgency_id', 'requester_id','creator_id','status_id','sdp_id'
+        'priority_id', 'impact_id', 'urgency_id', 'requester_id', 'creator_id', 'status_id', 'sdp_id'
     ];
 
     protected $dates = ['created_at', 'updated_at', 'due_date', 'first_response_date', 'resolve_date', 'close_date'];
@@ -109,6 +109,7 @@ class Ticket extends KModel
     {
         return $this->belongsTo(Priority::class);
     }
+
     public function urgency()
     {
         return $this->belongsTo(Urgency::class);
@@ -171,7 +172,8 @@ class Ticket extends KModel
         return $relation;
     }
 
-    public function notes(){
+    public function notes()
+    {
         return $this->hasMany(TicketNote::class);
     }
 
@@ -184,7 +186,7 @@ class Ticket extends KModel
 
     function fields()
     {
-        return  $this->hasMany(TicketField::class);
+        return $this->hasMany(TicketField::class);
     }
 
     public function logs()
@@ -232,7 +234,7 @@ class Ticket extends KModel
 
         return $this;
     }
-    
+
     public function scopeScopedView(Builder $query, $scope)
     {
         $viewScope = new TicketViewScope($query);
@@ -312,13 +314,14 @@ class Ticket extends KModel
         return $this->hasMany(TicketCustomField::class);
     }*/
 
-    function tasks(){
+    function tasks()
+    {
         return $this->hasMany(Task::class);
     }
 
     function scopePending(Builder $query)
     {
-        $query->whereHas('status', function(Builder $q){
+        $query->whereHas('status', function (Builder $q) {
             $q->whereIn('type', [Status::OPEN, Status::PENDING]);
         });
     }
@@ -379,5 +382,10 @@ class Ticket extends KModel
     public function shouldApplyRules()
     {
         return $this->shouldApplyRules;
+    }
+
+    function last_updated_approval()
+    {
+        return $this->hasOne(TicketApproval::class)->whereIn('status',[1,-1,-2])->orderBy('approval_date', 'desc');
     }
 }
