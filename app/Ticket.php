@@ -384,10 +384,8 @@ class Ticket extends KModel
         return $this->shouldApplyRules;
     }
 
-    function getLastUpdatedApprovalAttribute()
+    function last_updated_approval()
     {
-        return TicketApproval::$statuses[$this->approvals()
-            ->whereIn('status', [1, -1, -2])
-            ->orderBy('updated_at', 'desc')->first()->status];
+        return $this->hasOne(TicketApproval::class)->whereIn('status',[1,-1,-2])->orderBy('approval_date', 'desc');
     }
 }

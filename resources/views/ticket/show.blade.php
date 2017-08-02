@@ -57,9 +57,9 @@
                         </small>
                     </li>
                 @endif
-                @if($ticket->approvals->count())
+                @if($ticket->last_updated_approval)
                     <li>
-                        <small><strong>{{t('Approval Status')}}:</strong> {{$ticket->last_updated_approval}}
+                        <small><strong>{{t('Approval Status')}}:</strong> {{\App\TicketApproval::$statuses[$ticket->last_updated_approval->status]}}
                         </small>
                     </li>
                 @endif
