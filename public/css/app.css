@@ -12305,7 +12305,7 @@ body {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
-  display: inline-block;
+  display: block;
 }
 
 .title-bar .title-container form {
