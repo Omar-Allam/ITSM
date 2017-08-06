@@ -75,11 +75,12 @@ abstract class MatchCriteria extends Job
 
         foreach ($criterions as $criterion) {
             $result = $this->checkCriterion($criterion);
+
             if ($result && $criterion->criteria->type == Criteria::ANY) {
                 return true;
             }
 
-            if (!$result) {
+            if (!$result && $criterion->criteria->type != Criteria::ANY) {
                 return false;
             }
         }
