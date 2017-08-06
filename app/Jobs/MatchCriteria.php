@@ -73,19 +73,28 @@ abstract class MatchCriteria extends Job
     {
         $criterions = $relation->criterions;
 
-        foreach ($criterions as $criterion) {
-            $result = $this->checkCriterion($criterion);
+        $type = $criterions->first()->criteria->type;
+        if ($type == Criteria::ANY) {
+            foreach ($criterions as $criterion) {
+                $result = $this->checkCriterion($criterion);
 
-            if ($result && $criterion->criteria->type == Criteria::ANY) {
-                return true;
+                if ($result) {
+                    return true;
+                }
             }
 
-            if (!$result && $criterion->criteria->type != Criteria::ANY) {
-                return false;
+            return false;
+        } else {
+            foreach ($criterions as $criterion) {
+                $result = $this->checkCriterion($criterion);
+
+                if (!$result) {
+                    return false;
+                }
             }
+
+            return true;
         }
-
-        return true;
     }
 
 }
