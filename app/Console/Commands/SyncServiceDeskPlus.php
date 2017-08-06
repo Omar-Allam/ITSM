@@ -13,6 +13,7 @@ use App\Jobs\NewTicketJob;
 use App\Status;
 use App\Subcategory;
 use App\Ticket;
+use App\TicketLog;
 use App\TicketReply;
 use App\User;
 use GuzzleHttp\Client;
@@ -55,7 +56,7 @@ class SyncServiceDeskPlus extends Command
         Ticket::unguard();
         Attachment::flushEventListeners();
 
-//        $ids = [96976];
+//        $ids = [98111];
         $requests = $this->api->getRequests();
         $ids = array_map('intval', array_pluck($requests, 'workorderid'));
 
@@ -64,10 +65,10 @@ class SyncServiceDeskPlus extends Command
 
         foreach ($ids as $id) {
             $request = $this->api->getRequest($id);
-
             $requester = User::where('name', $request['requester'])->first();
             if (!$requester) {
                 $requester = $this->getRequestFromSDP($request['requester']);
+//                dd($requester,$request);
             }
 
             $createdby = User::where('name', $request['createdby'])->first();
@@ -116,6 +117,11 @@ class SyncServiceDeskPlus extends Command
                 $this->syncConversations($ticket);
                 ++$counter;
             } else {
+                $ticket = $query->first();
+                if($ticket->status->name != $request['status']){
+                    $status = Status::find($this->statusMap[$request['status']]);
+                    $query->update(['status_id'=>$status->id]);
+                }
                 $ticket = $query->first();
                 $this->syncConversations($ticket);
             }
@@ -256,16 +262,18 @@ class SyncServiceDeskPlus extends Command
         if (!$businessUnit) {
             return false;
         }
-
-        $user = User::create([
-            'email' => $attributes['emailid'],
-            'login' => $attributes['loginname'],
-            'name' => $name,
-            'mobile1' => $attributes['mobile'],
-            'phone' => $attributes['landline'],
-            'job' => $attributes['jobtitle'],
-            'business_unit_id' => $businessUnit->id,
-        ]);
+        $user = User::where('email',$attributes['emailid'])->first();
+        if(!$user){
+            $user = User::create([
+                'email' => $attributes['emailid'],
+                'login' => $attributes['loginname'],
+                'name' => $name,
+                'mobile1' => $attributes['mobile'],
+                'phone' => $attributes['landline'],
+                'job' => $attributes['jobtitle'],
+                'business_unit_id' => $businessUnit->id,
+            ]);
+        }
 
         return $user;
     }
