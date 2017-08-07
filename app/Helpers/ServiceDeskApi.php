@@ -187,5 +187,12 @@ class ServiceDeskApi
         return $attributes;
     }
 
+    public function addOnHoldStatus($reply)
+    {
+        $this->send('/sdpapi/request/' . $reply->ticket->sdp_id, 'EDIT_REQUEST', [
+            ['parameter' => ['name' => 'status', 'value' => 'On Hold']],
+        ]);
+    }
+
 
 }

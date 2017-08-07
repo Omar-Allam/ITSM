@@ -36,11 +36,15 @@ class TicketReplyEventsProvider extends ServiceProvider
             Attachment::uploadFiles(Attachment::TICKET_REPLY_TYPE, $reply->id);
             if ($reply->ticket->sdp_id) {
                 $sdp = new ServiceDeskApi();
+
                 if ($reply->status_id == 7) {
                     $sdp->addResolution($reply);
                 } elseif ($reply->status_id == 9) {
                     $sdp->addCompletedWithoutSolution($reply);
-                } else {
+                }elseif (in_array($reply->status_id,[4,5,6])){
+                    $sdp->addOnHoldStatus($reply);
+                }
+                else {
                     $sdp->addReply($reply);
                 }
             }
