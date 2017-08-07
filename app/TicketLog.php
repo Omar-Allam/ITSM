@@ -37,6 +37,7 @@ class TicketLog extends KModel
     const CLOSED_TYPE = 7;
     const AUTO_CLOSE = 10;
     const NOTE_TYPE = 11;
+    const RESEND_APPROVAL = 12;
 //    const REOPENED_TYPE = 8;
 
     protected $casts = ['old_data' => 'array', 'new_data' => 'array'];
@@ -54,6 +55,17 @@ class TicketLog extends KModel
     public static function addApproval(TicketApproval $approval)
     {
         return self::makeLog($approval->ticket, static::APPROVAL_TYPE, $approval->creator_id);
+    }
+    public static function resendApproval(TicketApproval $approval){
+        $ticket = $approval->ticket;
+        $user_id =  \Auth::user()->id ?? $ticket->technician_id;
+        return $approval->ticket->logs()->create([
+            'user_id' => $user_id,
+            'type' => self::RESEND_APPROVAL,
+            'old_data' => $ticket->getDirtyOriginals(),
+            'new_data' => ['approval_id'=>$approval->id],
+            'status_id' => $ticket->status_id
+        ]);
     }
 
     public static function addApprovalUpdate(TicketApproval $approval, $approved = true)
@@ -111,6 +123,7 @@ class TicketLog extends KModel
             self::APPROVED => 'approved',
             self::DENIED => 'denied',
             self::NOTE_TYPE => 'Updated by a note',
+            self::RESEND_APPROVAL => 'Updated by resend an approval ',
         ];
 
         if (isset($actions[$this->type])) {
@@ -158,4 +171,5 @@ class TicketLog extends KModel
 
         return $date;
     }
+
 }
