@@ -262,7 +262,8 @@ class SyncServiceDeskPlus extends Command
         if (!$businessUnit) {
             return false;
         }
-        $user = User::where('email',$attributes['emailid'])->first();
+        $user = User::withTrashed()->where('email',$attributes['emailid'])->first();
+
         if(!$user){
             $user = User::create([
                 'email' => $attributes['emailid'],
