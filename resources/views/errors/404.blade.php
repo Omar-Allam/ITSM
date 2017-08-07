@@ -10,17 +10,20 @@
         <p>&nbsp;</p>
         <p>&nbsp;</p>
         <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p class="lead"><strong><i class="fa fa-exclamation-triangle"></i> Sorry, The page you are trying to access is not found</strong></p>
+
+        <p><i class="fa fa-exclamation-triangle fa-4x"></i></p>
+
+        <p class="lead"><strong>Sorry, the page you are trying to access is not found</strong></p>
 
         <p>&nbsp;</p>
 
-        <p><strong><small>URL: <a href="{{request()->url()}}">{{ request()->url() }}</a></small></strong></p>
+        <p><strong><small>URL: <a href="{{request()->getUri()}}">{{ request()->getUri() }}</a></small></strong></p>
 
         <p>&nbsp;</p>
 
-        <p><a href="{{URL::previous('/')}}" class="btn btn-default"><i class="fa fa-chevron-left"></i> Go Back</a></p>
-        <p>&nbsp;</p>
+        <p><a href="{{URL::previous('/')}}" class="btn btn-default">
+                <span class="text-warning"><i class="fa fa-chevron-left"></i> Go Back</span>
+            </a></p>
         <p>&nbsp;</p>
         <p>&nbsp;</p>
         <p>&nbsp;</p>

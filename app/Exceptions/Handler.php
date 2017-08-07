@@ -62,4 +62,24 @@ class Handler extends ExceptionHandler
 
         return redirect()->guest(route('login'));
     }
+
+    /**
+     * Create a Symfony response for the given exception.
+     *
+     * @param  \Exception  $e
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function convertExceptionToResponse(Exception $e)
+    {
+        if (config('app.debug')) {
+            return parent::convertExceptionToResponse($e);
+        }
+
+        view()->replaceNamespace('errors', [
+            resource_path('views/errors'),
+            __DIR__.'/views',
+        ]);
+
+        return \Symfony\Component\HttpFoundation\Response::create(view('errors::500', compact('e'))->render(), 500);
+    }
 }
