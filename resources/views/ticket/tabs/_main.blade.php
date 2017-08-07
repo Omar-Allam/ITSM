@@ -1,6 +1,6 @@
 <div class="panel panel-default">
     <div class="panel-body">
-        {!! $ticket->description !!}
+        {!! tidy_repair_string($ticket->description, [], 'utf8') !!}
     </div>
 </div>
 

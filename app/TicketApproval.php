@@ -126,4 +126,16 @@ class TicketApproval extends KModel
         return array_get(self::$statuses,$this->status);
     }
 
+    function getResendAttribute(){
+        $approvals = TicketLog::where('ticket_id',$this->ticket->id)->where('type',TicketLog::RESEND_APPROVAL)->get();
+        $count = 0;
+        foreach ($approvals as $approval){
+            if(isset($approval->new_data['approval_id']) && $this->id == $approval->new_data['approval_id']){
+                $count++;
+            }
+        }
+        return $count;
+    }
+
+
 }

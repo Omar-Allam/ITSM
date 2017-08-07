@@ -8,6 +8,7 @@
             <th>{{t('Stage')}}</th>
             <th>{{t('Status')}}</th>
             <th>{{t('Comment')}}</th>
+            <th>{{t('Resend')}}</th>
             <th colspan="3" class="text-center">{{t('Actions')}}</th>
         </tr>
         </thead>
@@ -20,6 +21,7 @@
                 <td>{{$approval->stage}}</td>
                 <td>{{App\TicketApproval::$statuses[$approval->status]}}</td>
                 <td>{{$approval->comment}}</td>
+                <td>{{$approval->resend}}</td>
                 <td>
                     @if ($approval->pending && $approval->approver_id == \Auth::user()->id)
                         <a href="{{route('approval.show', $approval)}}" class="btn btn-xs btn-info"><i
