@@ -117,7 +117,7 @@ class SyncServiceDeskPlus extends Command
                 ++$counter;
             } else {
                 $ticket = $query->first();
-                if ($ticket->status->name != $request['status']) {
+                if ($ticket->status->name != $request['status'] && in_array($ticket->status_id,[7,8,9])) {
                     $status = Status::find($this->statusMap[$request['status']]);
                     $query->update(['status_id' => $status->id]);
                 }
