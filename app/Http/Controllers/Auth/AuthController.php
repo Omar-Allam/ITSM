@@ -70,7 +70,7 @@ class AuthController extends Controller
 
         if ($user) {
             \Auth::login($user);
-            return \Redirect::to($this->redirectTo);
+            return \Redirect::intended($this->redirectTo);
         } else {
             flash('Invalid user');
             return \Redirect::to('/login');
