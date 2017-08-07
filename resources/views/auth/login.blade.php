@@ -4,7 +4,7 @@
     <h4 class="panel-title">Login</h4>
 @endsection
 @section('body')
-    <form class="col-sm-8 col-sm-offset-2 form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
+    <form class="col-sm-8 col-sm-offset-1 form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
         {!! csrf_field() !!}
 
         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
@@ -45,6 +45,10 @@
 
                 <a href="/auth/google" class="btn btn-danger">
                     <i class="fa fa-btn fa-google-plus"></i> Login using Google
+                </a>
+
+                <a href="{{route('password.request')}}" class="btn btn-success">
+                    <i class="fa fa-btn fa-unlock"></i> Reset Password
                 </a>
             </div>
         </div>

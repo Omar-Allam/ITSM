@@ -95,6 +95,8 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'name' => 'HubDesk',
+
     /*
     |--------------------------------------------------------------------------
     | Logging Configuration
@@ -168,6 +170,7 @@ return [
         App\Providers\KdeskAuthProvider::class,
         App\Providers\AttachmentEventsServiceProvider::class,
         \Laravel\Socialite\SocialiteServiceProvider::class,
+        Illuminate\Notifications\NotificationServiceProvider::class,
     ],
 
     /*
@@ -216,5 +219,6 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Form' => Collective\Html\FormFacade::class,
         'Socialite' => \Laravel\Socialite\Facades\Socialite::class,
+        'Notification' => Illuminate\Support\Facades\Notification::class,
     ],
 ];
