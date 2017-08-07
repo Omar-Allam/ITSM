@@ -68,7 +68,6 @@ class SyncServiceDeskPlus extends Command
             $requester = User::where('name', $request['requester'])->first();
             if (!$requester) {
                 $requester = $this->getRequestFromSDP($request['requester']);
-//                dd($requester,$request);
             }
 
             $createdby = User::where('name', $request['createdby'])->first();
@@ -118,9 +117,9 @@ class SyncServiceDeskPlus extends Command
                 ++$counter;
             } else {
                 $ticket = $query->first();
-                if($ticket->status->name != $request['status']){
+                if ($ticket->status->name != $request['status']) {
                     $status = Status::find($this->statusMap[$request['status']]);
-                    $query->update(['status_id'=>$status->id]);
+                    $query->update(['status_id' => $status->id]);
                 }
                 $ticket = $query->first();
                 $this->syncConversations($ticket);
@@ -263,8 +262,7 @@ class SyncServiceDeskPlus extends Command
             return false;
         }
         $user = User::withTrashed()->where('email',$attributes['emailid'])->first();
-
-        if(!$user){
+        if (!$user) {
             $user = User::create([
                 'email' => $attributes['emailid'],
                 'login' => $attributes['loginname'],
@@ -275,7 +273,10 @@ class SyncServiceDeskPlus extends Command
                 'business_unit_id' => $businessUnit->id,
             ]);
         }
-
+        if ($user->deleted_at) {
+            $user->deleted_at = null;
+            $user->save();
+        }
         return $user;
     }
 
