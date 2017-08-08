@@ -118,4 +118,9 @@ class TicketFilters
     {
         $this->addWhere('item.id', $criterion['operator'], $criterion['value']);
     }
+
+    protected function filterCreatedAt($criterion)
+    {
+        $this->addWhere('tickets.created_at', $criterion['operator'], $criterion['value']);   
+    }
 }
