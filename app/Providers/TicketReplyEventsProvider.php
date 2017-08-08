@@ -34,7 +34,7 @@ class TicketReplyEventsProvider extends ServiceProvider
 
         TicketReply::created(function (TicketReply $reply) {
             Attachment::uploadFiles(Attachment::TICKET_REPLY_TYPE, $reply->id);
-            if ($reply->ticket->sdp_id) {
+            if ($reply->sdp_id) {
                 $sdp = new ServiceDeskApi();
 
                 if ($reply->status_id == 7) {
@@ -43,12 +43,16 @@ class TicketReplyEventsProvider extends ServiceProvider
                     $sdp->addCompletedWithoutSolution($reply);
                 }elseif (in_array($reply->status_id,[4,5,6])){
                     $sdp->addOnHoldStatus($reply);
+                } else {
+                    if (!$reply->sdp_id) {
+                        $sdp->addReply($reply);
+                    }
                 }
-                else {
-                    $sdp->addReply($reply);
+
+                if ($reply->user_id != $reply->ticket->technician_id) {
+                    dispatch(new TicketReplyJob($reply));
                 }
-            }
-            else{
+            } else{
                 dispatch(new TicketReplyJob($reply));
             }
         });
