@@ -28,10 +28,15 @@ class TicketReplyJob extends Job implements ShouldQueue
         if (!$this->reply->sdp_id && $this->reply->user_id == $this->reply->ticket->technician_id) {
             return false;
         }
-        
+
         \Mail::send('emails.ticket.reply', ['reply' => $this->reply], function(Message $msg) {
             $ticket = $this->reply->ticket;
-            $msg->subject('Re: Ticket #' . $ticket->id);
+            $subject = 'Re: Ticket #' . $ticket->id . ' ' . $this->reply->ticket->subject;
+            if ($this->reply->ticket->sdp_id) {
+                $subject .= " [Request ##{$this->reply->ticket->sdp_id}##]";
+            }
+            
+            $msg->subject($subject);
 
             $to = [];
             if (!$this->reply->sdp_id) {
