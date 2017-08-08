@@ -2,12 +2,16 @@
 
 namespace App\Exceptions;
 
+use App\ErrorLog;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
+    /** ErrorLog */
+    protected $log;
+
     /**
      * A list of the exception types that should not be reported.
      *
@@ -33,6 +37,10 @@ class Handler extends ExceptionHandler
     public function report(Exception $exception)
     {
         parent::report($exception);
+
+        if (!config('app.debug')) {
+            $this->log = ErrorLog::log($exception);
+        }
     }
 
     /**
@@ -80,6 +88,8 @@ class Handler extends ExceptionHandler
             __DIR__.'/views',
         ]);
 
-        return \Symfony\Component\HttpFoundation\Response::create(view('errors::500', compact('e'))->render(), 500);
+        $log = $this->log;
+
+        return \Symfony\Component\HttpFoundation\Response::create(view('errors::500', compact('e', 'log'))->render(), 500);
     }
 }

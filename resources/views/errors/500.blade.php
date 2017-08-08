@@ -22,7 +22,7 @@
 
             <p><strong>Please contact your system administrator</strong></p>
 
-            <p><strong>Error Code: #{{time()}}</strong></p>
+            <p><strong>Error Code: #{{$log->id}}</strong></p>
 
             <p>&nbsp;</p>
 
