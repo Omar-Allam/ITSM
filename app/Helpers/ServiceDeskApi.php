@@ -58,7 +58,7 @@ class ServiceDeskApi
     {
         $this->send('/sdpapi/request/' . $reply->ticket->sdp_id, 'REPLY_REQUEST', [
             ['parameter' => ['name' => 'to', 'value' => $reply->ticket->requester->email]],
-            ['parameter' => ['name' => 'subject', 'value' => 'Re: ' . $reply->ticket->subject]],
+            ['parameter' => ['name' => 'subject', 'value' => "Re: [Request ID :##{$reply->ticket->sdp_id}##] : " . $reply->ticket->subject]],
             ['parameter' => ['name' => 'description', 'value' => 'Re: ' . $reply->content]],
         ]);
     }
