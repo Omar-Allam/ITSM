@@ -13,7 +13,7 @@
                 </div>
                 <div class="panel-body collapse" id="reply{{$reply->id}}">
                     <div class="reply">
-                        {!! $reply->content !!}
+                        {!! tidy_repair_string($reply->content, [], 'utf8') !!}
                     </div>
                     <br>
                     <span class="label label-default">Status: {{t($reply->status->name)}}</span>
