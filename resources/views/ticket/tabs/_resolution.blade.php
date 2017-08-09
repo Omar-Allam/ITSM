@@ -14,7 +14,7 @@
     </div>
 
     <div class="well well-sm well-white">
-        {!! $ticket->resolution->content !!}
+        {!! tidy_repair_string($ticket->resolution->content,[],'utf8') !!}
     </div>
 @elseif (can('resolve', $ticket))
     {{Form::open(['route' => ['ticket.resolution', $ticket],'files'=>'true'])}}
