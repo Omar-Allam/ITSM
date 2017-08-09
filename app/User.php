@@ -4,9 +4,11 @@ namespace App;
 
 use App\Behaviors\Listable;
 use App\Http\Requests\Request;
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * App\User
@@ -48,9 +50,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Query\Builder|\App\User selection($empty = false)
  * @mixin \Eloquent
  */
-class User extends Authenticatable
+class User extends Authenticatable implements CanResetPassword
 {
-    use SoftDeletes;
+    use SoftDeletes , Notifiable;
 
     protected $fillable = [
         'name', 'email', 'login', 'password', 'location_id', 'location_id', 'business_unit_id',
