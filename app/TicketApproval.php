@@ -137,5 +137,11 @@ class TicketApproval extends KModel
         return $count;
     }
 
+    function getActionDateAttribute(){
+        if($this->status == 1 || $this->status == -1){
+            return $this->approval_date->format('Y/m/d h:i');
+        }
+    }
+
 
 }
