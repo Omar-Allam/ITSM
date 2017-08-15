@@ -4,6 +4,8 @@ namespace App\Helpers\Ticket;
 
 use App\Status;
 use App\TicketApproval;
+use Carbon\Carbon;
+use App\Ticket;
 use Illuminate\Database\Eloquent\Builder;
 
 class TicketViewScope
@@ -33,8 +35,9 @@ class TicketViewScope
             "my_on_hold" => "My On-Hold Tickets",
             "my_pending" => "My Pending Tickets",
             "my_completed" => "My Completed Ticket",
-            "all_mine" => "All My Tickets",
             'for_approval' => 'Ticket waiting my approval',
+            "all_mine" => "All My Tickets",
+
 
 //            "open" => 'All Open Tickets',
 //            "on_hold" => "All On-Hold Tickets",
@@ -49,7 +52,10 @@ class TicketViewScope
             $scopes["completed_in_my_groups"] = 'All Completed Tickets';
             $scopes["open_assigned_to_me"] = 'All My Open Assigned Tickets';
             $scopes["on_hold_assigned_to_me"] = 'All My On-Hold Assigned Tickets';
+            $scopes["pending_assigned_to_me"] = 'All My Pending Assigned Tickets';
             $scopes["completed_assigned_to_me"] = 'All My Completed Assigned Tickets';
+            $scopes["due_by_today"] = 'All Tickets due by today';
+            $scopes["over_due"] = 'All Overdue Tickets';
             $scopes["in_my_groups"] = 'All Tickets';
         }
 
@@ -202,7 +208,7 @@ class TicketViewScope
     public function completedAssigned()
     {
         $this->query->where('technician_id', $this->user->id)
-            ->whereIn('status_id', [7, 8,9]);
+            ->whereIn('status_id', [7, 8, 9]);
     }
 
     public function open_assigned_to_me()
@@ -218,5 +224,39 @@ class TicketViewScope
     public function completed_assigned_to_me()
     {
         $this->completedAssigned();
+    }
+
+    function due_by_today()
+    {
+        $this->dueByToday();
+    }
+
+    function over_due()
+    {
+        $this->overdue();
+    }
+
+    function pending_assigned_to_me()
+    {
+        $this->pendingAssigned();
+    }
+
+    public function dueByToday()
+    {
+        $this->query->where('due_date', '>', Carbon::today()->format('Y-m-d') . ' 00:00:00.000000')
+            ->where('due_date', '<', Carbon::today()->format('Y-m-d') . ' 23:59:59.000000')
+            ->where('technician_id', $this->user->id)
+            ->whereNotIn('status_id', [7, 8, 9]);
+    }
+
+    public function overdue()
+    {
+        $this->query->where('overdue', 1)
+            ->where('technician_id', $this->user->id);
+    }
+
+    public function pendingAssigned()
+    {
+        $this->query->whereNotIn('status_id', [7, 8, 9])->where('technician_id', $this->user->id);
     }
 }
