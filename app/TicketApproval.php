@@ -138,8 +138,8 @@ class TicketApproval extends KModel
     }
 
     function getActionDateAttribute(){
-        if($this->status == 1 || $this->status == -1){
-            return $this->approval_date->format('Y/m/d h:i');
+        if($this->status != 0){
+            return $this->approval_date->format('d/m/Y h:i A');
         }
     }
 
