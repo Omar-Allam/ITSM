@@ -38,7 +38,6 @@ class TicketViewScope
             'for_approval' => 'Ticket waiting my approval',
             "all_mine" => "All My Tickets",
 
-
 //            "open" => 'All Open Tickets',
 //            "on_hold" => "All On-Hold Tickets",
 //            "pending" => 'All Pending Tickets',
@@ -55,6 +54,7 @@ class TicketViewScope
             $scopes["pending_assigned_to_me"] = 'All My Pending Assigned Tickets';
             $scopes["completed_assigned_to_me"] = 'All My Completed Assigned Tickets';
             $scopes["due_by_today"] = 'All Tickets due by today';
+            $scopes["my_over_due"] = 'All My Overdue Tickets';
             $scopes["over_due"] = 'All Overdue Tickets';
             $scopes["in_my_groups"] = 'All Tickets';
         }
@@ -231,11 +231,14 @@ class TicketViewScope
         $this->dueByToday();
     }
 
-    function over_due()
+    function my_over_due()
     {
         $this->overdue();
     }
 
+    function over_due(){
+        $this->allOverdue();
+    }
     function pending_assigned_to_me()
     {
         $this->pendingAssigned();
@@ -251,8 +254,13 @@ class TicketViewScope
 
     public function overdue()
     {
-        $this->query->where('overdue', 1)
-            ->where('technician_id', $this->user->id);
+        $this->query->where('overdue', 1)->where('technician_id',$this->user->id);
+    }
+
+    public function allOverdue()
+    {
+        $this->in_my_groups();
+        $this->query->where('overdue', 1);
     }
 
     public function pendingAssigned()
