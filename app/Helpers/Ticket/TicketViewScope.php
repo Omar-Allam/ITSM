@@ -254,13 +254,13 @@ class TicketViewScope
 
     public function overdue()
     {
-        $this->query->where('overdue', 1)->where('technician_id',$this->user->id);
+        $this->query->where('overdue', 1)->where('technician_id',$this->user->id)->whereNotIn('status_id',[7,8,9]);
     }
 
     public function allOverdue()
     {
         $this->in_my_groups();
-        $this->query->where('overdue', 1);
+        $this->query->where('overdue', 1)->whereNotIn('status_id',[7,8,9]);
     }
 
     public function pendingAssigned()
