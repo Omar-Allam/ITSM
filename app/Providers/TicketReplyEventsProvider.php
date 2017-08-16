@@ -41,18 +41,16 @@ class TicketReplyEventsProvider extends ServiceProvider
                     $sdp->addResolution($reply);
                 } elseif ($reply->status_id == 9) {
                     $sdp->addCompletedWithoutSolution($reply);
-                }elseif (in_array($reply->status_id,[4,5,6])){
+                } elseif (in_array($reply->status_id, [4, 5, 6])) {
                     $sdp->addOnHoldStatus($reply);
                 } else {
-                    if (!$reply->sdp_id) {
-                        $sdp->addReply($reply);
-                    }
+                    $sdp->addReply($reply);
                 }
 
                 if ($reply->user_id != $reply->ticket->technician_id) {
                     dispatch(new TicketReplyJob($reply));
                 }
-            } else{
+            } else {
                 dispatch(new TicketReplyJob($reply));
             }
         });
