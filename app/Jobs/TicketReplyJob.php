@@ -25,7 +25,7 @@ class TicketReplyJob extends Job implements ShouldQueue
 
     public function handle()
     {
-        if (!$this->reply->sdp_id && $this->reply->user_id == $this->reply->ticket->technician_id) {
+        if ($this->reply->user_id == $this->reply->ticket->technician_id) {
             return false;
         }
 

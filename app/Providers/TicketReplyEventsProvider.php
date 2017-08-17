@@ -6,11 +6,14 @@ use App\Attachment;
 use App\ExtractImages;
 use App\Helpers\ServiceDeskApi;
 use App\Images;
+use App\Jobs\TicketReplyAttachmentsJob;
 use App\Jobs\TicketReplyJob;
+use App\Mail\AttachmentsReplyJob;
 use App\Status;
 use App\TicketLog;
 use App\TicketReply;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
 
 class TicketReplyEventsProvider extends ServiceProvider
@@ -41,18 +44,18 @@ class TicketReplyEventsProvider extends ServiceProvider
                     $sdp->addResolution($reply);
                 } elseif ($reply->status_id == 9) {
                     $sdp->addCompletedWithoutSolution($reply);
-                }elseif (in_array($reply->status_id,[4,5,6])){
+                } elseif (in_array($reply->status_id, [4, 5, 6])) {
                     $sdp->addOnHoldStatus($reply);
                 } else {
-                    if (!$reply->sdp_id) {
-                        $sdp->addReply($reply);
-                    }
+                    $sdp->addReply($reply);
                 }
 
-                if ($reply->user_id != $reply->ticket->technician_id) {
-                    dispatch(new TicketReplyJob($reply));
+                dispatch(new TicketReplyJob($reply));
+
+                if ($reply->attachments->count()) {
+                    Mail::send(new AttachmentsReplyJob($reply->attachments));
                 }
-            } else{
+            } else {
                 dispatch(new TicketReplyJob($reply));
             }
         });
