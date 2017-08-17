@@ -37,7 +37,12 @@ class SendApproval extends Job implements ShouldQueue
 
         \Mail::send('emails.ticket.approval-request', ['approval' => $this->approval, 'content' => $content], function(Message $msg) {
             $msg->to($this->approval->approver->email);
-            $msg->subject('Approval required for request #' . $this->approval->ticket_id);
+            if(!$this->approval->ticket->sdp_id){
+                $msg->subject('Approval required for request #' . $this->approval->ticket_id);
+            }
+            else{
+                $msg->subject("Approval required for [Request ##{$this->approval->ticket->sdp_id}##]");
+            }
         });
     }
 }
