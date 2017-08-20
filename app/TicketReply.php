@@ -63,4 +63,8 @@ class TicketReply extends KModel
 
         return $images;
     }
+
+    function getAttachmentsAttribute(){
+        return Attachment::where('type',Attachment::TICKET_REPLY_TYPE)->where('reference',$this->id)->get();
+    }
 }
