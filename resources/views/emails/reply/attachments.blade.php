@@ -5,13 +5,13 @@
     <title>Approval request</title>
 </head>
 <body style="margin: 10px;padding: 10px">
-<p>There are attachments have been uploaded to your request by {{$ticket->technician->name}} on your Ticket #{{$ticket->sdp_id}}</p><br>
+<p>Attachments have been uploaded to your request ##{{$ticket->sdp_id}}## by {{$ticket->technician->name}}</p><br>
 
 <div style="font-size: 13px; font-family: 'Helvetica Neue', Helvetica, Arial,sans-serif">
     @foreach($attachs as $key=>$attach)
         {{$key+1}} : <a href="{{$attach->url}}"> {{basename($attach->url)}}</a><br>
     @endforeach
-    To view ticket details please go to {{route('ticket.show', $ticket->id)}}
+    To view ticket details please go to http://helpdesk.alkifah.com/WorkOrder.do?woMode=viewWO&woID={{$ticket->sdp_id}}
 </div>
 </body>
 </html>
