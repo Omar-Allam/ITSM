@@ -192,6 +192,7 @@ class ServiceDeskApi
         $this->send('/sdpapi/request/' . $reply->ticket->sdp_id, 'EDIT_REQUEST', [
             ['parameter' => ['name' => 'status', 'value' => 'On Hold']],
         ]);
+        $this->addReply($reply);
     }
 
 
