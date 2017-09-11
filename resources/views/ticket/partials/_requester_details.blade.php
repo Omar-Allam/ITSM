@@ -4,10 +4,10 @@
     </div>
     <table class="table table-striped table-condensed">
         <tr>
-            <th>{{t('Name')}}</th>
-            <td>{{$ticket->requester->name}}</td>
-            <th>{{t('Business Unit')}}</th>
-            <td>{{$ticket->requester->business_unit->name or 'Not Assigned'}}</td>
+            <th class="col-sm-3">{{t('Name')}}</th>
+            <td class="col-sm-3">{{$ticket->requester->name}}</td>
+            <th class="col-sm-3">{{t('Business Unit')}}</th>
+            <td class="col-sm-3">{{$ticket->requester->business_unit->name or 'Not Assigned'}}</td>
         </tr>
         <tr>
             <th>{{t('Email')}}</th>

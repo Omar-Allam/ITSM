@@ -24,36 +24,37 @@ html, body {
 
 .navbar {
   margin-bottom: 0;
-  min-height: 30px;
+  min-height: 50px;
 
   .navbar-nav li a {
     line-height: 1.5;
-    padding-top: 6px;
-    padding-bottom: 6px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-weight: 700;
   }
 
   .navbar-brand {
     line-height: 1.25;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     font-weight: 700;
     height: 30px;
   }
 
-  &.navbar-default {
-    border-top: 4px solid #1f648b;
-  }
+  border-bottom: none;
 }
 
 .title-bar {
   .title-container {
-    background: #fff;
+    background: $blend-color;
     min-height: 40px;
-    border-bottom: 1px solid #1f648b;
+    border-bottom: none; //1px solid darken($blend-color, 10%);
     margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
 
     h1, h2, h3, h4, h5 {
       font-size: 14px;
@@ -63,6 +64,12 @@ html, body {
       flex: 1;
 
       display: block;
+    }
+
+    .ticket-meta {
+      h1, h2, h3, h4, h5 {
+        margin-bottom: 5px;
+      }
     }
 
     form {
@@ -95,6 +102,10 @@ footer {
   border-top: 2px solid $navbar-default-border;
   background: #fff;
 
+  .footer-container {
+    min-height: 30px;
+  }
+
   p {
     margin-bottom: 0;
   }
@@ -115,9 +126,9 @@ footer {
 //-----------------------------------
 .listing-table {
   @extend .table;
-  @extend .table-condensed;
+  // @extend .table-condensed;
   @extend .table-striped;
-  //@extend .table-hover;
+  @extend .table-hover;
 }
 
 .listing-table > tr > td,
@@ -129,7 +140,50 @@ footer {
 
 // Buttons
 .btn {
-  font-weight: 600;
+  font-weight: 400;
+}
+
+.btn-sm.btn-rounded {
+  border-radius: 15px;
+}
+
+.btn-outlined {
+  background-color: transparent;
+
+  &.btn-primary {
+    color: $brand-primary;
+
+    &:hover,&:active,&:focus {
+      background-color: $btn-primary-bg;
+      color: $btn-primary-color;
+    }
+  }
+
+  &.btn-info {
+    color: $brand-info;
+    &:hover,&:active,&:focus {
+      background-color: $btn-info-bg;
+      color: $btn-info-color;
+    }
+  }
+
+  &.btn-success {
+    color: $brand-success;
+    &:hover,&:active,&:focus {
+      background-color: $btn-success-bg;
+      color: $btn-success-color;
+    }
+  }
+
+
+&.btn-warning {
+    color: $brand-warning;
+    &:hover,&:active,&:focus {
+      background-color: $btn-warning-bg;
+      color: $btn-warning-color;
+    }
+  }
+
 }
 
 // Form styles
@@ -161,6 +215,17 @@ footer {
 .selection-modal {
   select.form-control {
     min-height: 300px;
+  }
+}
+
+.modal {
+  .modal-header, .modal-footer {
+    background-color: darken($blend-color, 2%);
+  }
+
+  .modal-footer {
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 }
 
