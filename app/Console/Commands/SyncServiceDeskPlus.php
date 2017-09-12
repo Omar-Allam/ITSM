@@ -140,9 +140,14 @@ class SyncServiceDeskPlus extends Command
             $details = $this->api->getConversation($ticket->sdp_id, $conversation['conversationid']);
             $user = User::where('name', $details['from'])->first();
             if (!$user) {
-                return;
+                $user = $this->getRequestFromSDP($details['from']);
+                
+                if (!$user) {
+                    dump($details['from']);
+                    continue;                    
+                }
             }
-            
+
             $by = $user->id;
             $fromRequester = $user->id == $ticket->requester_id;
             $status = $fromRequester ? 1 : $ticket->status_id;
