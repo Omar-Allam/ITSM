@@ -141,9 +141,8 @@ class SyncServiceDeskPlus extends Command
             $user = User::where('name', $details['from'])->first();
             if (!$user) {
                 $user = $this->getRequestFromSDP($details['from']);
-                
+
                 if (!$user) {
-                    dump($details['from']);
                     continue;                    
                 }
             }
