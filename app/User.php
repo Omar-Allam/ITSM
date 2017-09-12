@@ -134,9 +134,9 @@ class User extends Authenticatable implements CanResetPassword
 
     public function scopeQuickSearch(Builder $query)
     {
-        if (\Request::has('q')) {
+        if (\Request::has('search')) {
             $query->where(function(Builder $q){
-                $term = '%' . \Request::get('q') . '%';
+                $term = '%' . \Request::get('search') . '%';
                 $q->where('login', 'LIKE', $term)
                     ->orWhere('name', 'LIKE', $term)
                     ->orWhere('email', 'LIKE', $term);

@@ -138,8 +138,15 @@ class SyncServiceDeskPlus extends Command
             }
 
             $details = $this->api->getConversation($ticket->sdp_id, $conversation['conversationid']);
-
             $user = User::where('name', $details['from'])->first();
+            if (!$user) {
+                $user = $this->getRequestFromSDP($details['from']);
+
+                if (!$user) {
+                    continue;                    
+                }
+            }
+
             $by = $user->id;
             $fromRequester = $user->id == $ticket->requester_id;
             $status = $fromRequester ? 1 : $ticket->status_id;
@@ -356,6 +363,8 @@ class SyncServiceDeskPlus extends Command
 //
             $this->handleAttachments($ticket);
             $this->syncConversations($ticket);
+        } else {
+            $this->syncConversations($ticket_exist);
         }
 
     }

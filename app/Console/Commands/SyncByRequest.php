@@ -13,10 +13,11 @@ class SyncByRequest extends Command
 
 
     protected $syncrequest;
-    public function __construct(ServiceDeskApi $api)
+
+    public function __construct(SyncServiceDeskPlus $syncrequest)
     {
         parent::__construct();
-        $this->syncrequest= new SyncServiceDeskPlus($api);
+        $this->syncrequest= $syncrequest;
     }
 
     public function handle()
