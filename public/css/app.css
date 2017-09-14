@@ -12495,8 +12495,7 @@ table.listing-table > thead > tr > th {
   vertical-align: middle;
 }
 
-.report-container table.table,
-.report-container table.listing-table {
+.report-container {
   font-size: 10px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -12526,6 +12525,20 @@ table.listing-table > thead > tr > th {
 .report-container table.table table.listing-table,
 .report-container table.listing-table table.listing-table {
   width: auto;
+}
+
+.report-container .report-horizontal-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.report-container .report-horizontal-scroll .report-head {
+  margin-bottom: 0;
+}
+
+.report-container .reprot-vertical-scroll {
+  max-height: 500px;
+  overflow-y: auto;
 }
 
 .report-container .page-header {

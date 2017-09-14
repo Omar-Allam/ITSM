@@ -263,9 +263,10 @@ table.table > thead > tr > th {
 }
 
 .report-container {
+  font-size: 10px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 
   table.table {
-
     > thead > tr > th {
       background-color: #CBD5EB;
       color: #333;
@@ -285,8 +286,20 @@ table.table > thead > tr > th {
     table.table {
       width: auto;
     }
-    font-size: 10px;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  .report-horizontal-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+
+    .report-head {
+      margin-bottom: 0;
+    }
+  }
+
+  .reprot-vertical-scroll {
+    max-height: 500px;
+    overflow-y: auto;
   }
 
   .page-header {
@@ -321,7 +334,7 @@ table.table > thead > tr > th {
       border-top: 0;
     }
 
-     > thead > tr > th:last-child,  > thead > tr > td:last-child,  > tbody > tr > th:last-child,  > tbody > tr > td:last-child,  > tfoot > tr > th:last-child,  > tfoot > tr > td:last-child{
+    > thead > tr > th:last-child,  > thead > tr > td:last-child,  > tbody > tr > th:last-child,  > tbody > tr > td:last-child,  > tfoot > tr > th:last-child,  > tfoot > tr > td:last-child{
       border-right: 0;
     }
 
