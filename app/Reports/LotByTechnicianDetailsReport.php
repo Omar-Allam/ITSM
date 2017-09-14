@@ -16,6 +16,8 @@ class LotByTechnicianDetailsReport extends ReportContract
     /** @var Builder */
     protected $query;
 
+    protected $view = 'reports.lot_by_technician';
+
     function run()
     {
         if (empty($this->parameters['start_date'])) {
@@ -30,13 +32,29 @@ class LotByTechnicianDetailsReport extends ReportContract
             ->leftJoin('subcategories as subcat', 't.subcategory_id', '=', 'subcat.id')
             ->leftJoin('items as item', 't.item_id', '=', 'item.id')
             ->leftJoin('slas as sla', 't.sla_id', '=', 'sla.id')
-            ->orderBy('tech.name')->orderBy('t.id')
-            ->selectRaw('t.id as id, t.subject, t.created_at, t.due_date, t.resolve_date, tech.name as technician, req.name as requester')
-            ->selectRaw('t.sla_id, resolve_date, overdue, time_spent, t.sdp_id')
-            ->selectRaw('cat.name as category, subcat.name as subcategory, item.name as item')
             ->where('st.type', Status::COMPLETE);
 
+        $this->fields();
+        $this->group();
+        $this->sort();
+
         $this->applyFilters();
+    }
+
+    protected function fields()
+    {
+        $this->query->selectRaw('t.id as id, t.subject, t.created_at, t.due_date, t.resolve_date, tech.name as technician, req.name as requester')
+            ->selectRaw('t.sla_id, resolve_date, overdue, time_spent, t.sdp_id')
+            ->selectRaw('cat.name as category, subcat.name as subcategory, item.name as item');
+    }
+
+    protected function sort()
+    {
+        $this->query->orderBy('tech.name')->orderBy('t.id');
+    }
+
+    protected function group()
+    {
     }
 
     protected function process(Collection $data)
@@ -81,7 +99,7 @@ class LotByTechnicianDetailsReport extends ReportContract
             'path' => LengthAwarePaginator::resolveCurrentPath(),
         ]);
 
-        return view('reports.lot_by_technician', ['data' => $data, 'report' => $this->report]);
+        return view($this->view, ['data' => $data, 'report' => $this->report]);
     }
 
     function excel()
@@ -127,6 +145,13 @@ class LotByTechnicianDetailsReport extends ReportContract
 
     protected function applyFilters()
     {
+        // Show only tickets that user can show
+        $user = auth()->user();
+        if (!$user->isAdmin()) {
+            $this->query->whereIn('t.group_id', $user->groups()->pluck('group_id'));
+        }
+
+        // Start data is required parameter
         $start_date = Carbon::parse($this->parameters['start_date']);
         $start_date->setTime(0, 0, 0);
 

@@ -12632,7 +12632,7 @@ table.listing-table > thead > tr > th {
 }
 
 .report-container .reprot-vertical-scroll {
-  max-height: 500px;
+  max-height: 450px;
   overflow-y: auto;
 }
 
