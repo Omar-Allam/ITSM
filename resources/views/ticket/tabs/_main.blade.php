@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-    <div class="panel-body">
+    <div class="panel-body ticket-description">
         {!! tidy_repair_string($ticket->description, [], 'utf8') !!}
     </div>
 </div>
@@ -10,10 +10,10 @@
     </div>
     <table class="table table-striped table-condensed">
         <tr>
-            <th>{{t('Category')}}</th>
-            <td>{{$ticket->category->name or 'Not Assigned'}}</td>
-            <th>{{t('Subcategory')}}</th>
-            <td>{{$ticket->subcategory->name or 'Not Assigned'}}</td>
+            <th class="col-sm-3">{{t('Category')}}</th>
+            <td class="col-sm-3">{{$ticket->category->name or 'Not Assigned'}}</td>
+            <th class="col-sm-3">{{t('Subcategory')}}</th>
+            <td class="col-sm-3">{{$ticket->subcategory->name or 'Not Assigned'}}</td>
         </tr>
         <tr>
             <th>{{t('Item')}}</th>
@@ -30,7 +30,7 @@
         <tr>
             <th>{{t('Due Time')}}</th>
             <td>{{$ticket->due_date or 'Not Assigned'}}</td>
-            <th>{{t('First Response')}}</th>
+            <th>{{t('First Response Due Time')}}</th>
             <td>{{$ticket->first_response_date or 'Not Assigned'}}</td>
         </tr>
         <tr>
