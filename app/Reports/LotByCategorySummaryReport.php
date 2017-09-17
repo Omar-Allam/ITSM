@@ -9,6 +9,8 @@ class LotByCategorySummaryReport extends LotByTechnicianDetailsReport
 {
     protected $view = 'reports.lot_summary_by_category';
 
+    protected $row = 1;
+
     protected function fields()
     {
         $workStart = Carbon::parse(config('worktime.start'));
@@ -59,6 +61,24 @@ class LotByCategorySummaryReport extends LotByTechnicianDetailsReport
 
     function excel()
     {
-        $data = $this->query->get();
+        $data = $this->process($this->query->get());
+
+        return \Excel::create('lot_summary_by_category', function($excel) use ($data) {
+            $excel->sheet('LOT By Category', function ($sheet) use ($data) {
+                $sheet->row($this->row, ['Category', 'Subcategory', 'Target Time', "Resolve Time", 'Performance']);
+
+                $data->each(function($ticket) use ($sheet) {
+                    $sheet->row(++$this->row, [$ticket->category, $ticket->subcategory, $ticket->target_time, $ticket->resolve_time, $ticket->performance / 100]);
+                });
+
+                $sheet->setColumnFormat(["C2:D{$this->row}" => '#,##0.00']);
+                $sheet->setColumnFormat(["E2:E{$this->row}" => '0.00%']);
+
+                $sheet->setAutoFilter();
+                $sheet->setAutoSize(true);
+            });
+
+            $excel->download('xlsx');
+        });
     }
 }
