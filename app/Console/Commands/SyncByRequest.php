@@ -20,7 +20,7 @@ class SyncByRequest extends Command
             return 1;
         }
         $job = new SyncSDPRequest($id);
-        $job->onQueue('sdp-sync');
+        $job->onQueue('sync-sdp');
         dispatch($job);
     }
 
