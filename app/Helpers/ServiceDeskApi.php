@@ -61,6 +61,14 @@ class ServiceDeskApi
             ['parameter' => ['name' => 'subject', 'value' => "Re: [Request ID :##{$reply->ticket->sdp_id}##] : " . $reply->ticket->subject]],
             ['parameter' => ['name' => 'description', 'value' => 'Re: ' . $reply->content]],
         ]);
+
+        $conversations = $this->getConversations($reply->ticket->sdp_id);
+        $reply_id = 0;
+        foreach ($conversations as $conversation) {
+            $reply_id = intval($conversation['conversationid']);
+        }
+
+        return $reply_id;
     }
 
     function getConversations($id)
@@ -102,12 +110,21 @@ class ServiceDeskApi
         $this->send('/sdpapi/request/' . $reply->ticket->sdp_id, 'EDIT_REQUEST', [
             ['parameter' => ['name' => 'status', 'value' => 'Resolved']]
         ]);
+
+        $conversations = $this->getConversations($reply->ticket->sdp_id);
+        $reply_id = 0;
+        foreach ($conversations as $conversation) {
+            $reply_id = intval($conversation['conversationid']);
+        }
+
+        return $reply_id;
     }
 
     function getResolution()
     {
 
     }
+
     function addCompletedWithoutSolution(TicketReply $reply){
         $this->send('/sdpapi/request/' . $reply->ticket->sdp_id . '/resolution', 'ADD_RESOLUTION', [
             'resolution' => ['resolutiontext' => $reply->content,]
@@ -116,6 +133,14 @@ class ServiceDeskApi
         $this->send('/sdpapi/request/' . $reply->ticket->sdp_id, 'EDIT_REQUEST', [
             ['parameter' => ['name' => 'status', 'value' => 'Completed without solution']]
         ]);
+
+        $conversations = $this->getConversations($reply->ticket->sdp_id);
+        $reply_id = 0;
+        foreach ($conversations as $conversation) {
+            $reply_id = intval($conversation['conversationid']);
+        }
+
+        return $reply_id;
     }
 
     public function send($url, $operation, $data = '')
@@ -192,7 +217,8 @@ class ServiceDeskApi
         $this->send('/sdpapi/request/' . $reply->ticket->sdp_id, 'EDIT_REQUEST', [
             ['parameter' => ['name' => 'status', 'value' => 'On Hold']],
         ]);
-        $this->addReply($reply);
+
+        return $this->addReply($reply);
     }
 
 
