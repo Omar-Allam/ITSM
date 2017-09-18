@@ -13,7 +13,6 @@ use App\Status;
 use App\TicketLog;
 use App\TicketReply;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
 
 class TicketReplyEventsProvider extends ServiceProvider
@@ -33,29 +32,33 @@ class TicketReplyEventsProvider extends ServiceProvider
             $reply->content = $extract_image->extract();
             TicketLog::addReply($reply);
             $reply->ticket->save();
-        });
 
-        TicketReply::created(function (TicketReply $reply) {
-            Attachment::uploadFiles(Attachment::TICKET_REPLY_TYPE, $reply->id);
-
-            if ($reply->ticket->sdp_id) {
+            if ($reply->ticket->sdp_id && !$reply->sdp_id) {
                 $sdp = new ServiceDeskApi();
                 if ($reply->status_id == 7) {
-                    $sdp->addResolution($reply);
+                    $reply_id = $sdp->addResolution($reply);
                 } elseif ($reply->status_id == 9) {
-                    $sdp->addCompletedWithoutSolution($reply);
+                    $reply_id = $sdp->addCompletedWithoutSolution($reply);
                 } elseif (in_array($reply->status_id, [4, 5, 6])) {
-                    $sdp->addOnHoldStatus($reply);
+                    $reply_id = $sdp->addOnHoldStatus($reply);
                 } else {
-                    $sdp->addReply($reply);
+                    $reply_id = $sdp->addReply($reply);
                 }
 
                 dispatch(new TicketReplyJob($reply));
 
                 if ($reply->attachments->count()) {
-                    Mail::send(new AttachmentsReplyJob($reply->attachments));
+                    \Mail::send(new AttachmentsReplyJob($reply->attachments));
                 }
-            } else {
+
+                $reply->sdp_id = $reply_id;
+            }
+        });
+
+        TicketReply::created(function (TicketReply $reply) {
+            Attachment::uploadFiles(Attachment::TICKET_REPLY_TYPE, $reply->id);
+
+            if (!$reply->ticket->sdp_id) {
                 dispatch(new TicketReplyJob($reply));
             }
         });

@@ -133,12 +133,10 @@ class SyncSDPRequest implements ShouldQueue
             }
 
             $by = $user->id;
-            $fromRequester = $user->id == $ticket->requester_id;
-            $status = $fromRequester ? 1 : $ticket->status_id;
 
             $ticket->replies()->create([
                 'user_id' => $by,
-                'status_id' => $status,
+                'status_id' => 1,
                 'content' => $details['description'],
                 'sdp_id' => $conversation['conversationid'],
                 'is_resolution' => false
