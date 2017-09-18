@@ -246,12 +246,13 @@ class SyncSDPRequest implements ShouldQueue
     {
         $attributes = $this->api->getRequester($name);
 
-        $company = $this->getCompanyForRequester($name);
+        $company = $this->getCompanyForRequester($name, $attributes['emailid']);
         $businessUnit = BusinessUnit::where('name', $company)->first();
         if (!$businessUnit) {
             return false;
         }
         $user = User::withTrashed()->where('email',$attributes['emailid'])->first();
+
         if (!$user) {
             $user = User::create([
                 'email' => $attributes['emailid'],
@@ -267,10 +268,11 @@ class SyncSDPRequest implements ShouldQueue
             $user->deleted_at = null;
             $user->save();
         }
+
         return $user;
     }
 
-    protected function getCompanyForRequester($name)
+    protected function getCompanyForRequester($name, $email)
     {
         $xml = "<API version=\"1.0\" locale=\"en\">
 <citype>
@@ -284,6 +286,7 @@ class SyncSDPRequest implements ShouldQueue
             </criteria>
         </criterias>
         <returnFields>
+            <name>E-Mail</name>
             <name>Company</name>
         </returnFields>
          <range>
@@ -294,9 +297,13 @@ class SyncSDPRequest implements ShouldQueue
 </API>";
 
         $result = $this->api->send('/api/cmdb/ci/', 'read', $xml);
+
         $company = '';
         foreach ($result->response->operation->Details->{'field-values'}->record as $record) {
-            $company = strval($record->value);
+            $record_email = strval($record->value[0]);
+            if ($record_email == $email) {
+                $company = strval($record->value[1]);
+            }
         }
         return $company;
     }
