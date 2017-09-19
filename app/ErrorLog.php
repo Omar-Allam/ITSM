@@ -11,7 +11,6 @@ class ErrorLog extends Model
         $log = new ErrorLog();
 
         $log->message = $e->getMessage();
-        $log->severity = $e->getSeverity();
         $log->file = $e->getFile();
         $log->line = $e->getLine();
         $log->code = $e->getCode();

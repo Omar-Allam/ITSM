@@ -2,28 +2,26 @@
 
 namespace App\Console\Commands;
 use App\Helpers\ServiceDeskApi;
+use App\Jobs\SyncSDPRequest;
 use Illuminate\Console\Command;
 
 class SyncByRequest extends Command
 {
 
-    protected $signature = 'sdp:getRequest';
+    protected $signature = 'sdp:get-request {id?}';
 
-    protected $description = 'Get Specific Request By Name';
-
-
-    protected $syncrequest;
-
-    public function __construct(SyncServiceDeskPlus $syncrequest)
-    {
-        parent::__construct();
-        $this->syncrequest= $syncrequest;
-    }
+    protected $description = 'Get specific request by ID';
 
     public function handle()
     {
-        $id = $this->ask('Enter request Name');
-        $this->syncrequest->getRequestById($id);
+        $id = intval($this->argument('id') ?: $this->ask('Enter request ID'));
+        if (!$id) {
+            $this->error('');
+            return 1;
+        }
+        $job = new SyncSDPRequest($id);
+        $job->onQueue('sync-sdp');
+        dispatch($job);
     }
 
 
