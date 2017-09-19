@@ -15,19 +15,18 @@ class StatsByCategoryReport extends ReportContract
     /** @var int */
     protected $row = 1;
 
+    /** @var string */
+    protected $view = 'reports.stats_by_category';
+
     function run()
     {
         $workStart = Carbon::parse(config('worktime.start'));
         $workEnd = Carbon::parse(config('worktime.end'));
         $workHours = $workEnd->diffInHours($workStart);
 
-        $this->query = \DB::table('tickets as t')->groupBy(['cat.name', 'subcat.name'])
-            ->orderBy('cat.name')->orderBy('subcat.name')
-            ->join('categories as cat', 't.category_id', '=', 'cat.id')
-            ->join('subcategories as subcat', 't.subcategory_id', '=', 'subcat.id')
+        $this->query = \DB::table('tickets as t')
             ->join('statuses as st', 't.status_id', '=', 'st.id')
             ->join('slas as sla', 't.sla_id', '=', 'sla.id')
-            ->selectRaw('cat.name as category, subcat.name as subcategory')
             ->selectRaw('COUNT(t.id) as total')
             ->selectRaw('COUNT(CASE WHEN st.type = 1 THEN 1 END) as open')
             ->selectRaw('COUNT(CASE WHEN st.type = 2 THEN 1 END) as onhold')
@@ -47,7 +46,27 @@ END) as performance
 perf
 );
 
+        $this->select();
+        $this->sort();
+        $this->group();
         $this->applyFilters();
+    }
+
+    protected function select()
+    {
+        $this->query->join('categories as cat', 't.category_id', '=', 'cat.id')
+            ->join('subcategories as subcat', 't.subcategory_id', '=', 'subcat.id')
+            ->selectRaw('cat.name as category, subcat.name as subcategory');
+    }
+
+    protected function sort()
+    {
+        $this->query->orderBy('cat.name')->orderBy('subcat.name');
+    }
+
+    protected function group()
+    {
+        $this->query->groupBy(['cat.name', 'subcat.name']);
     }
 
     function html()
@@ -60,9 +79,7 @@ perf
             'path' => LengthAwarePaginator::resolveCurrentPath()
         ]);
 
-
-
-        return view('reports.stats_by_category', ['data' => $data, 'report' => $this->report]);
+        return view($this->view, ['data' => $data, 'report' => $this->report]);
     }
 
     function excel()

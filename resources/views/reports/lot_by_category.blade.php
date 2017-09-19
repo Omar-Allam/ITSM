@@ -33,7 +33,7 @@
                 </tr>
             </thead>
         </table>
-        <section class="reprot-vertical-scroll" style="width: 2550px">
+        <section class="report-vertical-scroll" style="width: 2550px">
             <table class="table table-condensed report-body">
                 <tbody>
                     @foreach ($data->sortBy('category')->groupBy('category') as $category => $tickets)

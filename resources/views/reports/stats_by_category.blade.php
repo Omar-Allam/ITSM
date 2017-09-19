@@ -55,7 +55,9 @@
                 </table>
             </section>
 
-        {{$data->links()}}
+        <div class="text-center">
+            {{$data->links()}}
+        </div>
     </div>
 
 
