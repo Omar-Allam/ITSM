@@ -248,12 +248,14 @@ class SyncSDPRequest implements ShouldQueue
 
         $company = $this->getCompanyForRequester($name, $attributes['emailid']);
         $businessUnit = BusinessUnit::where('name', $company)->first();
+
         if (!$businessUnit) {
             return false;
         }
         $user = User::withTrashed()->where('email',$attributes['emailid'])->first();
 
         if (!$user) {
+
             $user = User::create([
                 'email' => $attributes['emailid'],
                 'login' => $attributes['loginname'],
@@ -305,6 +307,7 @@ class SyncSDPRequest implements ShouldQueue
                 $company = strval($record->value[1]);
             }
         }
+
         return $company;
     }
 }
