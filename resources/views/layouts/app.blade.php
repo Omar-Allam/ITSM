@@ -33,9 +33,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
-                                    class="fa fa-user"></i> {{Auth::user()->name}}
-                            <i class="caret"></i></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{Auth::user()->name}} <i class="caret"></i></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{url('/logout')}}"><i class="fa fa-sign-out"></i> {{t('Logout')}}</a></li>
                         </ul>
@@ -77,7 +75,7 @@
 
     <footer>
         <div class="container-fluid">
-            <div class="display-flex">
+            <div class="footer-container display-flex">
                 @if(Session::has('flash-message'))
                     @include('partials.alert', [
                         'type' => Session::get('flash-type', 'danger'),
@@ -85,9 +83,8 @@
                     ])
                 @endif
 
-
-                <p class="text-mutedtext-right">{{t('Copyright')}} &copy;
-                    <a href="http://hubtech.sa">Hubtech</a> {{date('Y')}}</p></div>
+                <p class="text-mutedtext-right">{{t('Copyright')}} &copy; <a href="http://hubtech.sa">Hubtech</a> {{date('Y')}}</p>
+            </div>
         </div>
     </footer>
 </div>

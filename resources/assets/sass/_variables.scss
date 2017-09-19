@@ -68,3 +68,11 @@ $alert-border-radius: 0;
 
 $brand-violet: #8A2BE2;
 $btn-violet-bg: #8A2BE2;
+
+$blend-color: hsl(204, 50%, 97%);
+
+$modal-content-border-color: transparent;
+$modal-header-border-color:   transparent;
+//** Modal footer border color
+$modal-footer-border-color:   $modal-header-border-color !default;
+

@@ -98,3 +98,4 @@ Route::group(['middleware' => ['auth']], function () {
 Route::get('inlineimages/{any?}', 'SdpImagesController@redirect')->where('any', '(.*)');
 
 Route::resource('error-log', 'ErrorLogController');
+Route::resource('reports', 'ReportsController');

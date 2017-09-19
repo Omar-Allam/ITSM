@@ -3101,17 +3101,11 @@ th {
 }
 
 .table-condensed > thead > tr > th,
-.listing-table > thead > tr > th,
 .table-condensed > thead > tr > td,
-.listing-table > thead > tr > td,
 .table-condensed > tbody > tr > th,
-.listing-table > tbody > tr > th,
 .table-condensed > tbody > tr > td,
-.listing-table > tbody > tr > td,
 .table-condensed > tfoot > tr > th,
-.listing-table > tfoot > tr > th,
-.table-condensed > tfoot > tr > td,
-.listing-table > tfoot > tr > td {
+.table-condensed > tfoot > tr > td {
   padding: 5px;
 }
 
@@ -3138,7 +3132,8 @@ th {
   background-color: #f9f9f9;
 }
 
-.table-hover > tbody > tr:hover {
+.table-hover > tbody > tr:hover,
+.listing-table > tbody > tr:hover {
   background-color: #f5f5f5;
 }
 
@@ -3183,10 +3178,15 @@ table th[class*="col-"] {
 }
 
 .table-hover > tbody > tr > td.active:hover,
+.listing-table > tbody > tr > td.active:hover,
 .table-hover > tbody > tr > th.active:hover,
+.listing-table > tbody > tr > th.active:hover,
 .table-hover > tbody > tr.active:hover > td,
+.listing-table > tbody > tr.active:hover > td,
 .table-hover > tbody > tr:hover > .active,
-.table-hover > tbody > tr.active:hover > th {
+.listing-table > tbody > tr:hover > .active,
+.table-hover > tbody > tr.active:hover > th,
+.listing-table > tbody > tr.active:hover > th {
   background-color: #e8e8e8;
 }
 
@@ -3218,10 +3218,15 @@ table th[class*="col-"] {
 }
 
 .table-hover > tbody > tr > td.success:hover,
+.listing-table > tbody > tr > td.success:hover,
 .table-hover > tbody > tr > th.success:hover,
+.listing-table > tbody > tr > th.success:hover,
 .table-hover > tbody > tr.success:hover > td,
+.listing-table > tbody > tr.success:hover > td,
 .table-hover > tbody > tr:hover > .success,
-.table-hover > tbody > tr.success:hover > th {
+.listing-table > tbody > tr:hover > .success,
+.table-hover > tbody > tr.success:hover > th,
+.listing-table > tbody > tr.success:hover > th {
   background-color: #d0e9c6;
 }
 
@@ -3253,10 +3258,15 @@ table th[class*="col-"] {
 }
 
 .table-hover > tbody > tr > td.info:hover,
+.listing-table > tbody > tr > td.info:hover,
 .table-hover > tbody > tr > th.info:hover,
+.listing-table > tbody > tr > th.info:hover,
 .table-hover > tbody > tr.info:hover > td,
+.listing-table > tbody > tr.info:hover > td,
 .table-hover > tbody > tr:hover > .info,
-.table-hover > tbody > tr.info:hover > th {
+.listing-table > tbody > tr:hover > .info,
+.table-hover > tbody > tr.info:hover > th,
+.listing-table > tbody > tr.info:hover > th {
   background-color: #c4e3f3;
 }
 
@@ -3288,10 +3298,15 @@ table th[class*="col-"] {
 }
 
 .table-hover > tbody > tr > td.warning:hover,
+.listing-table > tbody > tr > td.warning:hover,
 .table-hover > tbody > tr > th.warning:hover,
+.listing-table > tbody > tr > th.warning:hover,
 .table-hover > tbody > tr.warning:hover > td,
+.listing-table > tbody > tr.warning:hover > td,
 .table-hover > tbody > tr:hover > .warning,
-.table-hover > tbody > tr.warning:hover > th {
+.listing-table > tbody > tr:hover > .warning,
+.table-hover > tbody > tr.warning:hover > th,
+.listing-table > tbody > tr.warning:hover > th {
   background-color: #faf2cc;
 }
 
@@ -3323,10 +3338,15 @@ table th[class*="col-"] {
 }
 
 .table-hover > tbody > tr > td.danger:hover,
+.listing-table > tbody > tr > td.danger:hover,
 .table-hover > tbody > tr > th.danger:hover,
+.listing-table > tbody > tr > th.danger:hover,
 .table-hover > tbody > tr.danger:hover > td,
+.listing-table > tbody > tr.danger:hover > td,
 .table-hover > tbody > tr:hover > .danger,
-.table-hover > tbody > tr.danger:hover > th {
+.listing-table > tbody > tr:hover > .danger,
+.table-hover > tbody > tr.danger:hover > th,
+.listing-table > tbody > tr.danger:hover > th {
   background-color: #ebcccc;
 }
 
@@ -7553,7 +7573,7 @@ button.close {
   position: relative;
   background-color: #fff;
   border: 1px solid #999;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid transparent;
   border-radius: 6px;
   -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
   box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
@@ -7583,7 +7603,7 @@ button.close {
 
 .modal-header {
   padding: 15px;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid transparent;
 }
 
 .modal-header:before,
@@ -7613,7 +7633,7 @@ button.close {
 .modal-footer {
   padding: 15px;
   text-align: right;
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid transparent;
 }
 
 .modal-footer:before,
@@ -12256,31 +12276,29 @@ body {
 
 .navbar {
   margin-bottom: 0;
-  min-height: 30px;
+  min-height: 50px;
+  border-bottom: none;
 }
 
 .navbar .navbar-nav li a {
   line-height: 1.5;
-  padding-top: 6px;
-  padding-bottom: 6px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  font-weight: 700;
 }
 
 .navbar .navbar-brand {
   line-height: 1.25;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-weight: 700;
   height: 30px;
 }
 
-.navbar.navbar-default {
-  border-top: 4px solid #1f648b;
-}
-
 .title-bar .title-container {
-  background: #fff;
+  background: #f4f8fb;
   min-height: 40px;
-  border-bottom: 1px solid #1f648b;
+  border-bottom: none;
   margin-bottom: 10px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -12291,6 +12309,8 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .title-bar .title-container h1,
@@ -12306,6 +12326,14 @@ body {
       -ms-flex: 1;
           flex: 1;
   display: block;
+}
+
+.title-bar .title-container .ticket-meta h1,
+.title-bar .title-container .ticket-meta h2,
+.title-bar .title-container .ticket-meta h3,
+.title-bar .title-container .ticket-meta h4,
+.title-bar .title-container .ticket-meta h5 {
+  margin-bottom: 5px;
 }
 
 .title-bar .title-container form {
@@ -12342,6 +12370,10 @@ footer {
   background: #fff;
 }
 
+footer .footer-container {
+  min-height: 30px;
+}
+
 footer p {
   margin-bottom: 0;
 }
@@ -12363,7 +12395,60 @@ footer p {
 }
 
 .btn {
-  font-weight: 600;
+  font-weight: 400;
+}
+
+.btn-sm.btn-rounded,
+.btn-group-sm > .btn-rounded.btn {
+  border-radius: 15px;
+}
+
+.btn-outlined {
+  background-color: transparent;
+}
+
+.btn-outlined.btn-primary {
+  color: #3097D1;
+}
+
+.btn-outlined.btn-primary:hover,
+.btn-outlined.btn-primary:active,
+.btn-outlined.btn-primary:focus {
+  background-color: #3097D1;
+  color: #fff;
+}
+
+.btn-outlined.btn-info {
+  color: #59c8ff;
+}
+
+.btn-outlined.btn-info:hover,
+.btn-outlined.btn-info:active,
+.btn-outlined.btn-info:focus {
+  background-color: #59c8ff;
+  color: #fff;
+}
+
+.btn-outlined.btn-success {
+  color: #8CC152;
+}
+
+.btn-outlined.btn-success:hover,
+.btn-outlined.btn-success:active,
+.btn-outlined.btn-success:focus {
+  background-color: #8CC152;
+  color: #fff;
+}
+
+.btn-outlined.btn-warning {
+  color: #F6BB42;
+}
+
+.btn-outlined.btn-warning:hover,
+.btn-outlined.btn-warning:active,
+.btn-outlined.btn-warning:focus {
+  background-color: #F6BB42;
+  color: #fff;
 }
 
 .error-message {
@@ -12390,6 +12475,16 @@ footer p {
 
 .selection-modal select.form-control {
   min-height: 300px;
+}
+
+.modal .modal-header,
+.modal .modal-footer {
+  background-color: #ecf4f9;
+}
+
+.modal .modal-footer {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 hr.form-divider {
@@ -12495,8 +12590,7 @@ table.listing-table > thead > tr > th {
   vertical-align: middle;
 }
 
-.report-container table.table,
-.report-container table.listing-table {
+.report-container {
   font-size: 10px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -12526,6 +12620,20 @@ table.listing-table > thead > tr > th {
 .report-container table.table table.listing-table,
 .report-container table.listing-table table.listing-table {
   width: auto;
+}
+
+.report-container .report-horizontal-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.report-container .report-horizontal-scroll .report-head {
+  margin-bottom: 0;
+}
+
+.report-container .report-vertical-scroll {
+  max-height: 450px;
+  overflow-y: auto;
 }
 
 .report-container .page-header {
