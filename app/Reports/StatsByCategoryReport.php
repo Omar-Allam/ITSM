@@ -55,7 +55,7 @@ perf
     protected function select()
     {
         $this->query->join('categories as cat', 't.category_id', '=', 'cat.id')
-            ->join('subcategories as subcat', 't.subcategory_id', '=', 'subcat.id')
+            ->leftJoin('subcategories as subcat', 't.subcategory_id', '=', 'subcat.id')
             ->selectRaw('cat.name as category, subcat.name as subcategory');
     }
 
