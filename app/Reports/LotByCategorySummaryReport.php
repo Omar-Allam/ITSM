@@ -49,6 +49,8 @@ class LotByCategorySummaryReport extends LotByTechnicianDetailsReport
                 $ticket->performance = 0;
             }
 
+            $ticket->type = $ticket->service_request? t('Service') : t('Incident');
+
             return $ticket;
         });
     }
@@ -66,10 +68,13 @@ class LotByCategorySummaryReport extends LotByTechnicianDetailsReport
 
         return \Excel::create('lot_summary_by_category', function($excel) use ($data) {
             $excel->sheet('LOT By Category', function ($sheet) use ($data) {
-                $sheet->row($this->row, ['Category', 'Subcategory', 'Target Time', "Resolve Time", 'Performance']);
+                $sheet->row($this->row, ['Category', 'Subcategory', 'Target Time', "Resolve Time", 'Performance', 'Type']);
 
                 $data->each(function($ticket) use ($sheet) {
-                    $sheet->row(++$this->row, [$ticket->category, $ticket->subcategory, $ticket->target_time, $ticket->resolve_time, $ticket->performance / 100]);
+                    $sheet->row(++$this->row, [
+                        $ticket->category, $ticket->subcategory, $ticket->target_time, $ticket->resolve_time, 
+                        $ticket->performance / 100, $ticket->type
+                    ]);
                 });
 
                 $sheet->setColumnFormat(["C2:D{$this->row}" => '#,##0.00']);
