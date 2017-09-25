@@ -17,6 +17,15 @@ function cannot($ability, $object)
     return \Gate::denies($ability, $object);
 }
 
+function ife($condition, $true, $false = null) 
+{
+    if ($condition) {
+        return $true;
+    }
+
+    return $false;
+}
+
 function t($word, $language = '')
 {
     if (Auth::check()) {

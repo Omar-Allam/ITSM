@@ -21,7 +21,8 @@
                     <th class="col-sm-3">{{ t('Subcategory') }}</th>
                     <th class="col-sm-2">{{ t('Target Time (Hours)') }}</th>
                     <th class="col-sm-2">{{ t('Resolve Time (Hours)') }}</th>
-                    <th class="col-sm-2">{{ t('Performance') }}</th>
+                    <th class="col-sm-1">{{ t('Performance') }}</th>
+                    <th class="col-sm-1">{{ t('Type') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -36,7 +37,8 @@
                             <td class="col-sm-3">{{ $ticket->subcategory }}</td>
                             <td class="col-sm-2">{{number_format($ticket->target_time, 1)}}</td>
                             <td class="col-sm-2">{{number_format($ticket->resolve_time, 1)}}</td>
-                            <td class="col-sm-2">{{number_format($ticket->performance, 2)}}%</td>
+                            <td class="col-sm-1">{{number_format($ticket->performance, 2)}}%</td>
+                            <td class="col-sm-1">{{$ticket->service_request ? t('Service') : t('Incident')}}</td>
                         </tr>
                     @endforeach
                 @endforeach
