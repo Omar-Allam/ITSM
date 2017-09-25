@@ -46,6 +46,8 @@ class LotByTechnicianDetailsReport extends ReportContract
         $this->query->selectRaw('t.id as id, t.subject, t.created_at, t.due_date, t.resolve_date, tech.name as technician, req.name as requester')
             ->selectRaw('t.sla_id, resolve_date, overdue, time_spent, t.sdp_id')
             ->selectRaw('cat.name as category, subcat.name as subcategory, item.name as item');
+
+        $this->query->selectRaw("(cat.service_request OR subcat.service_request OR item.service_request) as service_request");  
     }
 
     protected function sort()
@@ -83,6 +85,8 @@ class LotByTechnicianDetailsReport extends ReportContract
                 $ticket->performance = 0;
             }
 
+            $ticket->type = $ticket->service_request? t('Service') : t('Incident');
+
             return $ticket;
         });
     }
@@ -109,7 +113,7 @@ class LotByTechnicianDetailsReport extends ReportContract
                 $this->row = 1;
                 $sheet->row($this->row, [
                     'ID', 'Helpdesk ID', 'Subject', 'Technician', 'Requester', 'Category', 'Subcategory', 'Item',
-                    'Created At', 'Due Date', 'Resolved At', 'SLA Time (In Hours)', 'Resolve Time (In Hours)', 'Performance'
+                    'Created At', 'Due Date', 'Resolved At', 'SLA Time (In Hours)', 'Resolve Time (In Hours)', 'Performance', 'Type'
                 ]);
 
                 $this->process($this->query->get())->each(function ($ticket) use ($sheet) {
@@ -122,6 +126,7 @@ class LotByTechnicianDetailsReport extends ReportContract
                         number_format($ticket->sla_time, 1),
                         number_format($ticket->resolve_time, 1),
                         number_format($ticket->performance, 1),
+                        $ticket->type
                     ]);
                 });
 
