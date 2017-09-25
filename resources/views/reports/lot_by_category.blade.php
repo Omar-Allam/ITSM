@@ -12,7 +12,7 @@
 @section('body')
 <div class="container-fluid report-container">
 
-    <section class="report-horizontal-scroll">
+    <section class="report-horizontal-scroll" style="style="width: 2650px"">
         <table class="table table-condensed report-head">
             <thead>
                 <tr>
@@ -30,10 +30,11 @@
                     <th style="min-width: 100px; max-width: 100px">{{ t('SLA Time (In Hours)') }}</th>
                     <th style="min-width: 100px; max-width: 100px">{{ t('Resolve Time (In Hours)') }}</th>
                     <th style="min-width: 100px; max-width: 100px">{{ t('Performance') }}</th>
+                    <th style="min-width: 100px; max-width: 100px">{{ t('Type') }}</th>
                 </tr>
             </thead>
         </table>
-        <section class="report-vertical-scroll" style="width: 2550px">
+        <section class="report-vertical-scroll" style="width: 2650px">
             <table class="table table-condensed report-body">
                 <tbody>
                     @foreach ($data->sortBy('category')->groupBy('category') as $category => $tickets)
@@ -65,6 +66,7 @@
                         <td style="min-width: 100px; max-width: 100px">{{ number_format($ticket->sla_time, 1) }}</td>
                         <td style="min-width: 100px; max-width: 100px">{{ number_format($ticket->resolve_time, 1) }}</td>
                         <td style="min-width: 100px; max-width: 100px">{{ number_format($ticket->performance, 1)}}%</td>
+                        <td style="min-width: 100px; max-width: 100px">{{ $ticket->service_request? 'Service' : 'Incident' }}</td>
                     </tr>
                     @endforeach
                     @endforeach

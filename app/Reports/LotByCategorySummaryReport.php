@@ -21,6 +21,7 @@ class LotByCategorySummaryReport extends LotByTechnicianDetailsReport
         $this->query->selectRaw("AVG((sla.due_days * $workHours) + sla.due_hours + (sla.due_minutes / 60)) as target_time");
         $this->query->selectRaw('AVG(t.time_spent / 60) as resolve_time');
         $this->query->selectRaw("AVG((t.time_spent / 60) /((sla.due_days * $workHours) + sla.due_hours + (sla.due_minutes / 60))) as lot");
+        $this->query->selectRaw("(cat.service_request OR subcat.service_request) as service_request");
     }
 
     protected function sort()
