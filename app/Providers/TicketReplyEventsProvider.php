@@ -45,8 +45,6 @@ class TicketReplyEventsProvider extends ServiceProvider
                     $reply_id = $sdp->addReply($reply);
                 }
 
-                dispatch(new TicketReplyJob($reply));
-
                 if ($reply->attachments->count()) {
                     \Mail::send(new AttachmentsReplyJob($reply->attachments));
                 }
@@ -58,7 +56,7 @@ class TicketReplyEventsProvider extends ServiceProvider
         TicketReply::created(function (TicketReply $reply) {
             Attachment::uploadFiles(Attachment::TICKET_REPLY_TYPE, $reply->id);
 
-            if (!$reply->ticket->sdp_id) {
+            if ($reply->sdp_id) {
                 dispatch(new TicketReplyJob($reply));
             }
         });
