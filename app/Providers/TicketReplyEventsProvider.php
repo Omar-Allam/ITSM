@@ -32,7 +32,7 @@ class TicketReplyEventsProvider extends ServiceProvider
             $reply->content = $extract_image->extract();
             TicketLog::addReply($reply);
             $reply->ticket->save();
-
+            
             if ($reply->ticket->sdp_id && !$reply->sdp_id) {
                 $sdp = new ServiceDeskApi();
                 if ($reply->status_id == 7) {
