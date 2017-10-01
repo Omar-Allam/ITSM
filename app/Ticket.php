@@ -388,4 +388,11 @@ class Ticket extends KModel
     {
         return $this->hasOne(TicketApproval::class)->whereIn('status',[1,-1,-2])->orderBy('approval_date', 'desc');
     }
+
+    function calculateTime()
+    {
+        self::flushEventListeners();
+
+        dispatch(new \App\Jobs\CalculateTicketTime($this));
+    }
 }
