@@ -3,7 +3,7 @@
         <td>
             <select @change="update" class="form-control input-sm" :name="`filters[${index}][field]`" v-model="criterion.field">
                 <option value="">Select Field</option>
-                <option v-for="(title, id) in fields" :value="id">{{title}}</option>
+                <option v-for="(title, id) in fields" :key="id" :value="id">{{title}}</option>
             </select>
         </td>
         <td>

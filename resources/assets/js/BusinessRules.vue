@@ -11,7 +11,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr is="BusinessRule" v-for="(rule, index) in currentRules" :index="index" :rule="rule"></tr>
+            <tr is="BusinessRule" v-for="(rule, index) in currentRules" :index="index" :rule="rule" :key="index"></tr>
         </tbody>
     </table>
 

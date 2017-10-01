@@ -20,7 +20,7 @@
                         {{ Form::label('technician_id', t('Technician'), ['class' => 'control-label']) }}
                         <select  class="form-control" name="technician_id" id="technician_id">
                             <option value="">Select Technician</option>
-                            <option v-for="(name,id) in technicians" :value="id"> @{{name}}</option>
+                            <option v-for="tech in technicians" :value="tech.id" :selected="tech.id == {{$ticket->technician_id}}"> @{{tech.name}}</option>
                         </select>
                         @if ($errors->has('technician_id'))
                             <div class="error-message">{{$errors->first('technician_id')}}</div>
@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group   {{$errors->has('category_id')? 'has-error' : ''}}">
+                    <div class="form-group {{$errors->has('category_id')? 'has-error' : ''}}">
                         {{ Form::label('category_id', t('Category'), ['class' => 'control-label']) }}
                         {{ Form::select('category_id', App\Category::selection('Select Category'),null, ['class' => 'form-control',  'v-model' => 'category']) }}
                         @if ($errors->has('category_id'))
@@ -36,13 +36,14 @@
                         @endif
                     </div>
 
-                    <div class="form-group   {{$errors->has('subcategory')? 'has-error' : ''}}">
+                    <div class="form-group {{$errors->first('subcategory', 'has-error')}}">
                         {{ Form::label('subcategory_id', t('Subcategory'), ['class' => 'control-label']) }}
 
                         <select class="form-control" name="subcategory_id" id="subcategory_id" v-model="subcategory">
                             <option value="">Select Subcategory</option>
-                            <option v-for="(name, id) in subcategories" :value="id"> @{{name}}</option>
+                            <option v-for="subcat in subcategories" :value="subcat.id"> @{{subcat.name}}</option>
                         </select>
+
                         @if ($errors->has('subcategory_id'))
                             <div class="error-message">{{$errors->first('subcategory_id')}}</div>
                         @endif

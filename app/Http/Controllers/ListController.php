@@ -23,7 +23,7 @@ class ListController extends Controller
         $query = Subcategory::query();
 
         if ($cat_id) {
-            return $query->where('category_id', $cat_id)->selection();
+            return $query->orderBy('name')->where('category_id', $cat_id)->get(['name', 'id']);
         }
 
         return $query->canonicalList();
@@ -34,7 +34,7 @@ class ListController extends Controller
         $query = Item::query();
 
         if ($subcat_id) {
-            return $query->where('subcategory_id', $subcat_id)->selection();
+            return $query->orderBy('name')->where('subcategory_id', $subcat_id)->selection();
         }
 
         return $query->canonicalList();
@@ -42,62 +42,58 @@ class ListController extends Controller
 
     public function category()
     {
-        return Category::orderBy('name')->selection();
+        return Category::orderBy('name')->get(['id', 'name']);
     }
 
     public function location()
     {
-        return Location::selection();
+        return Location::orderBy('name')->get(['name', 'id']);
     }
 
     public function businessUnit()
     {
-        return BusinessUnit::selection();
+        return BusinessUnit::orderBy('name')->get(['name', 'id']);
     }
 
     public function priority()
     {
-        return Priority::selection();
+        return Priority::orderBy('name')->get(['name', 'id']);
     }
 
     public function urgency()
     {
-        return Urgency::selection();
+        return Urgency::orderBy('name')->get(['name', 'id']);
     }
 
     public function impact()
     {
-        return Impact::selection();
+        return Impact::orderBy('name')->get(['name', 'id']);
     }
 
     public function supportGroup()
     {
-        return Group::support()->pluck('name', 'id')->sort();
+        return Group::support()->orderBy('name')->get(['name', 'id']);
     }
 
     public function technician()
     {
-        return User::technicians()->pluck('name', 'id')->sort();
+        return User::technicians()->orderBy('name')->get(['name', 'id']);
     }
 
     function requester()
     {
-        return User::orderBy('name')->pluck('name', 'id');
+        return User::orderBy('name')->get(['name', 'id']);
     }
 
     function status()
     {
-        return Status::orderBy('name')->pluck('name', 'id');
+        return Status::orderBy('name')->get(['name', 'id']);
     }
 
     function technicians($group=false)
     {
-        $query = User::query();
+        $user_ids = \DB::table('group_user')->where('group_id', $group)->pluck('user_id');
 
-        $techs = collect(\DB::select('SELECT user_id FROM group_user WHERE group_id=' . $group))->pluck('user_id');
-        if ($group) {
-            return $query->whereIn('id', $techs)->selection();
-        }
-        return $query->canonicalList();
+        return User::technicians()->whereIn('id', $user_ids)->orderBy('name')->get(['name', 'id']);
     }
 }

@@ -46,18 +46,13 @@ class Subcategory extends KModel
     public function scopeCanonicalList(Builder $query)
     {
         $subcategories = $query->with('category')
-            ->orderBy('name')
-            ->get();
-
-        $list = [];
-
-        foreach ($subcategories as $subcategory) {
-            $list[$subcategory->id] = $subcategory->category->name . ' > ' . $subcategory->name;
-        }
-
-        asort($list);
-
-        return collect($list);
+            ->orderBy('name')->get()
+            ->map(function($subcategory) {
+                $subcategory->name = $subcategory->category->name . ' > ' . $subcategory->name;
+                return $subcategory;
+            });
+        
+        return $subcategories->sortBy('name');
     }
 
     public function canonicalName()

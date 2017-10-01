@@ -1,1 +1,115 @@
-!function(t){function e(i){if(o[i])return o[i].exports;var n=o[i]={i:i,l:!1,exports:{}};return t[i].call(n.exports,n,n.exports,e),n.l=!0,n.exports}var o={};e.m=t,e.c=o,e.d=function(t,o,i){e.o(t,o)||Object.defineProperty(t,o,{configurable:!1,enumerable:!0,get:i})},e.n=function(t){var o=t&&t.__esModule?function(){return t.default}:function(){return t};return e.d(o,"a",o),o},e.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},e.p="",e(e.s=0)}([function(t,e,o){o(1),t.exports=o(2)},function(t,e){$(document).ready(function(){$(".addNote").on("click",function(t){var e=$("#ReplyModal");e.find(".modal-title").html("Add Note - Ticket#"+ticket.id),e.find("button[type=submit]").html('<i class="fa fa-save"></i> Add Note');e.closest("form").attr("action","note/"+ticket.id);tinyMCE.activeEditor.setContent(""),$("#display_to_requester").attr("checked",1==note.display_to_requester),$("#email_to_technician").attr("checked",1==note.email_to_technician),$("#as_first_response").parent().show(),$("#as_first_response").attr("checked",1==note.as_first_response)}),$(".editNote").on("click",function(t){var e=$("#ReplyModal"),o=$(this).data("note");e.find(".modal-title").html("Edit Note - Ticket #"+o.ticket_id),e.find("button[type=submit]").html('<i class="fa fa-save"></i> Save');e.closest("form").attr("action","note-edit/"+o.id);tinyMCE.activeEditor.setContent(o.note),$("#display_to_requester").attr("checked",1==o.display_to_requester),$("#email_to_technician").attr("checked",1==o.email_to_technician),$("#as_first_response").parent().hide()}),$(".removeNote").on("click",function(){var t=$("#removeNoteModal"),e=$(this).data("note");t.find(".modal-title").html("Remove Note #"+e.id+"  - Ticket #"+e.ticket_id),t.find(".modal-body").html("Are you sure to delete #"+e.id+" note ?");t.closest("form").attr("action","remove-note/"+e.id)})})},function(t,e){}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 48);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ 48:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(49);
+
+
+/***/ }),
+
+/***/ 49:
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+    $('.addNote').on('click', function (e) {
+        var modal = $('#ReplyModal');
+        modal.find('.modal-title').html('Add Note - Ticket#' + ticket.id);
+        modal.find('button[type=submit]').html('<i class="fa fa-save"></i> Add Note');
+        var form = modal.closest('form').attr('action', 'note/' + ticket.id);
+        tinyMCE.activeEditor.setContent('');
+        $('#display_to_requester').attr('checked', note.display_to_requester == 1 ? true : false);
+        $('#email_to_technician').attr('checked', note.email_to_technician == 1 ? true : false);
+        $('#as_first_response').parent().show();
+        $('#as_first_response').attr('checked', note.as_first_response == 1 ? true : false);
+    });
+
+    $('.editNote').on('click', function (e) {
+        var modal = $('#ReplyModal');
+        var note = $(this).data('note');
+        modal.find('.modal-title').html('Edit Note - Ticket #' + note.ticket_id);
+        modal.find('button[type=submit]').html('<i class="fa fa-save"></i> Save');
+        var form = modal.closest('form').attr('action', 'note-edit/' + note.id);
+        tinyMCE.activeEditor.setContent(note.note);
+        $('#display_to_requester').attr('checked', note.display_to_requester == 1 ? true : false);
+        $('#email_to_technician').attr('checked', note.email_to_technician == 1 ? true : false);
+        $('#as_first_response').parent().hide();
+    });
+
+    $('.removeNote').on('click', function () {
+        var modal = $('#removeNoteModal');
+        var note = $(this).data('note');
+        modal.find('.modal-title').html('Remove Note #' + note.id + '  - Ticket #' + note.ticket_id);
+        modal.find('.modal-body').html('Are you sure to delete #' + note.id + ' note ?');
+        var form = modal.closest('form').attr('action', 'remove-note/' + note.id);
+    });
+});
+
+/***/ })
+
+/******/ });

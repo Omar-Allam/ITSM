@@ -1,4 +1,6 @@
 {
-    "/js/ticket-note.js": "/js/ticket-note.js",
-    "/css/app.css": "/css/app.css"
+    "/js/business-rules.js": "/js/business-rules.js",
+    "/js/criteria.js": "/js/criteria.js",
+    "/css/app.css": "/css/app.css",
+    "/js/ticket-note.js": "/js/ticket-note.js"
 }

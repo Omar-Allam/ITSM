@@ -3,13 +3,13 @@
         <td>
             <select @change="loadOptions" class="form-control input-sm" :name="`rules[${index}][field]`" v-model="rule.field">
                 <option value="">Select Field</option>
-                <option v-for="(options, field) in fields" :value="field">{{options.name}}</option>
+                <option v-for="(options, field) in fields" :value="field" :key="field">{{options.name}}</option>
             </select>
         </td>
         <td>
             <select class="form-control input-sm" :name="`rules[${index}][value]`" v-model="rule.value" v-if="showMenu">
                 <option value="">Select {{fields[rule.field].name}}</option>
-                <option v-for="(label, value) in options" :value="value">{{label}}</option>
+                <option v-for="(value, index) in options" :value="value.id" :key="index">{{value.name}}</option>
             </select>
             <input class="form-control input-sm" :name="`rules[${index}][value]`" type="text" v-model="rule.value" v-else>
         </td>
