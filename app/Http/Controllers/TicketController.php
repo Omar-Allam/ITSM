@@ -144,9 +144,13 @@ class TicketController extends Controller
 
     public function reassign(Ticket $ticket, ReassignRequest $request)
     {
+        $current_technician = $ticket->technician_id;
+
         $ticket->update($request->only(['group_id', 'technician_id', 'category_id', 'subcategory_id', 'item_id']));
 
-        $this->dispatch(new TicketAssigned($ticket));
+        if ($request->get('technician_id') != $current_technician) {
+            $this->dispatch(new TicketAssigned($ticket));            
+        }
 
         flash('Ticket has been re-assigned', 'success');
         return \Redirect::route('ticket.show', $ticket);
