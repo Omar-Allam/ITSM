@@ -9,9 +9,9 @@ use Illuminate\Mail\Message;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class TicketReplyJob extends Job implements ShouldQueue
+class TicketReplyJob //extends Job implements ShouldQueue
 {
-    use InteractsWithQueue, SerializesModels;
+    //use InteractsWithQueue, SerializesModels;
 
     /**
      * @var TicketReply
