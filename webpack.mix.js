@@ -14,7 +14,7 @@ const { mix } = require('laravel-mix');
  mix.sass('resources/assets/sass/app.scss', 'public/css')
  //     .js('resources/assets/js/app.js', 'public/js')
  //     .js('resources/assets/js/Report/index.js', 'public/js/report.js')
- //     .js('resources/assets/js/ticket-index.js', 'public/js')
+ mix.js('resources/assets/js/ticket-index.js', 'public/js')
  //     .js('resources/assets/js/ticket-form.js', 'public/js')
  //     .js('resources/assets/js/ticket.js', 'public/js')
 mix.js('resources/assets/js/criteria.js', 'public/js')
