@@ -61,7 +61,7 @@ class CalculateTicketTime extends Job
         if ($this->ticket->sla && $this->ticket->time_spent > $this->ticket->sla->minutes) {
             $this->ticket->overdue = true;
         } else {
-            $this->ticket->overdue = true;
+            $this->ticket->overdue = false;
         }
 
         $this->ticket->setApplySla(false)->setApplyRules(false)->stopLog(true);
