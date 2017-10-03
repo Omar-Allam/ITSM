@@ -35,6 +35,7 @@ class LdapImportUserJob extends Job implements ShouldQueue
     public function handle()
     {
         $ldap = new LdapConnect(true);
+        
         $entry = $ldap->getUserData($this->username, self::$attributes);
 
         $this->syncEntry($ldap, $entry);

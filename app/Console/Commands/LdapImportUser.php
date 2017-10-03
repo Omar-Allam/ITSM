@@ -17,7 +17,6 @@ class LdapImportUser extends Command
     public function handle()
     {
         $user = $this->argument('user');
-        \Log::info("Importing user $user");
         $job = new LdapImportUserJob($user);
         $job->handle();
     }
