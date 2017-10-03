@@ -41,6 +41,6 @@ class ApplyBusinessRules extends MatchCriteria
             $this->ticket->setAttribute($action->field, $action->value);
         }
 
-        \Log::info("Applied business rule [id: $rule->id, name: $rule->name, ticket: $this->ticket->id]");
+        \Log::info("Applied business rule [id: $rule->id, name: $rule->name, ticket: {$this->ticket->id}]");
     }
 }
