@@ -76,11 +76,13 @@ class CalculateTicketTime extends Job
             return $end->diffInMinutes($start);
         }
 
+        
         $transDay = clone $start;
         $endStr = $end->format("Ymd");
         $startStr = $transDay->format("Ymd");
         $diff = 0;
 
+        $firstDay = true;
         while ($endStr >= $startStr) {
             if ($transDay->isWeekday()) {
                 $transDayStart = clone $transDay;
@@ -88,6 +90,10 @@ class CalculateTicketTime extends Job
 
                 $transDayStart->setTimeFromTimeString($this->workStart);
                 $transDayEnd->setTimeFromTimeString($this->workEnd);
+
+                if (!$firstDay) {
+                    $transDay = $transDayStart;
+                }
 
                 if ($transDayEnd->gt($end)) {
                     $transDayEnd = $end;
@@ -106,6 +112,7 @@ class CalculateTicketTime extends Job
 
             $transDay->addDay();
             $startStr = $transDay->format("Ymd");
+            $firstDay = false;
         }
 
         return $diff;
@@ -129,6 +136,7 @@ class CalculateTicketTime extends Job
         }
 
         $now = Carbon::now();
+        
         $lastLog = $logs->last();
         if ($lastLog->status->isOpen()) {
             $diff += $this->calculateDiff($lastLog->start_time, $now);
