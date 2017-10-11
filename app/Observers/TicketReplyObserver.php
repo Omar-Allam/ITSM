@@ -57,6 +57,8 @@ class TicketReplyObserver
                 if ($reply->status_id == 7 || $reply->status_id == 9) {
                     $reply->ticket->resolve_date = Carbon::now();
                 }
+            }else{
+                $reply->status_id = $reply->ticket->status_id;
             }
 
             if ($reply->attachments->count()) {
