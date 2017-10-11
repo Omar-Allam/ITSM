@@ -67,7 +67,7 @@ class ServiceDeskApi
         foreach ($conversations as $conversation) {
             $reply_id = intval($conversation['conversationid']);
         }
-
+        $this->changeStatus($reply);
         return $reply_id;
     }
 
@@ -120,6 +120,17 @@ class ServiceDeskApi
         return $reply_id;
     }
 
+    function addCompletedWithoutSolution(TicketReply $reply)
+    {
+        $this->send('/sdpapi/request/' . $reply->ticket->sdp_id . '/resolution', 'ADD_RESOLUTION', [
+            'resolution' => ['resolutiontext' => $reply->content,]
+        ]);
+
+        $this->send('/sdpapi/request/' . $reply->ticket->sdp_id, 'EDIT_REQUEST', [
+            ['parameter' => ['name' => 'status', 'value' => 'Completed without solution']]
+        ]);
+    }
+
     function getResolution()
     {
 
@@ -144,7 +155,7 @@ class ServiceDeskApi
         $response = $this->client->post($url, [
             'form_params' => $params
         ])->getBody()->getContents();
-        
+
         return simplexml_load_string($response);
     }
 
@@ -198,22 +209,21 @@ class ServiceDeskApi
     public function changeStatus($reply)
     {
         if ($reply->status_id == 7) {
-
-            $this->send('/sdpapi/request/' . $reply->ticket->sdp_id, 'EDIT_REQUEST', [
-                ['parameter' => ['name' => 'status', 'value' => 'Resolved']]
-            ]);
+            $this->addResolution($reply);
 
         } elseif ($reply->status_id == 9) {
-
-            $this->send('/sdpapi/request/' . $reply->ticket->sdp_id, 'EDIT_REQUEST', [
-                ['parameter' => ['name' => 'status', 'value' => 'Completed without solution']]
-            ]);
+            $this->addCompletedWithoutSolution($reply);
 
         } elseif (in_array($reply->status_id, [4, 5, 6])) {
-
             $this->send('/sdpapi/request/' . $reply->ticket->sdp_id, 'EDIT_REQUEST', [
                 ['parameter' => ['name' => 'status', 'value' => 'On Hold']],
             ]);
+
+        } elseif ($reply->status_id == 1) {
+            $this->send('/sdpapi/request/' . $reply->ticket->sdp_id, 'EDIT_REQUEST', [
+                ['parameter' => ['name' => 'status', 'value' => 'Open']],
+            ]);
+
         }
     }
 

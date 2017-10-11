@@ -13,6 +13,7 @@ use App\ExtractImages;
 use App\Helpers\ServiceDeskApi;
 use App\Jobs\TicketReplyJob;
 use App\Mail\AttachmentsReplyJob;
+use App\Ticket;
 use App\TicketLog;
 use App\TicketReply;
 use Carbon\Carbon;
@@ -24,44 +25,12 @@ class TicketReplyObserver
         if ($reply->user_id == $reply->ticket->requester_id) {
             if ($reply->status_id) {
                 $reply->ticket->status_id = $reply->status_id;
-
-                if ($reply->status_id == 7 || $reply->status_id == 9) {
-                    $reply->ticket->resolve_date = Carbon::now();
-                }
             } else {
-                $reply->ticket->status_id = $reply->status_id = 1;
+                $reply->status_id = 1;
+                $reply->ticket->status_id = 1;
             }
-        } else {
-            if (\Auth::user()->isTechnician()) {
-                if ($reply->ticket->sdp_id) {
-                    $sdp = new ServiceDeskApi();
-                    $reply_id = $sdp->addReply($reply);
-
-                    if ($reply->status_id) {
-                        $sdp->changeStatus($reply);
-                        $reply->ticket->status_id = $reply->status_id;
-
-                        if ($reply->status_id == 7 || $reply->status_id == 9) {
-                            $reply->ticket->resolve_date = Carbon::now();
-                        }
-                    }
-
-                    if ($reply->attachments->count()) {
-                        \Mail::send(new AttachmentsReplyJob($reply->attachments));
-                    }
-                    $reply->sdp_id = $reply_id;
-                } else {
-
-                    if ($reply->status_id) {
-                        $reply->ticket->status_id = $reply->status_id;
-
-                        if ($reply->status_id == 7 || $reply->status_id == 9) {
-                            $reply->ticket->resolve_date = Carbon::now();
-                        }
-                    }
-
-                }
-            }
+        } elseif ($reply->user_id == $reply->ticket->technician_id) {
+            $this->handleTechnician($reply);
         }
 
         $extract_image = new ExtractImages($reply->content);
@@ -74,5 +43,39 @@ class TicketReplyObserver
     {
         Attachment::uploadFiles(Attachment::TICKET_REPLY_TYPE, $reply->id);
         dispatch(new TicketReplyJob($reply));
+    }
+
+    protected function handleTechnician(TicketReply $reply){
+        if ($reply->ticket->sdp_id) {
+
+            $sdp = new ServiceDeskApi();
+            $reply_id = $sdp->addReply($reply);
+
+            if ($reply->status_id) {
+                $reply->ticket->status_id = $reply->status_id;
+
+                if ($reply->status_id == 7 || $reply->status_id == 9) {
+                    $reply->ticket->resolve_date = Carbon::now();
+                }
+            }
+
+            if ($reply->attachments->count()) {
+                \Mail::send(new AttachmentsReplyJob($reply->attachments));
+            }
+            $reply->sdp_id = $reply_id;
+        }
+        else {
+
+            if ($reply->status_id) {
+                $reply->ticket->status_id = $reply->status_id;
+
+                if ($reply->status_id == 7 || $reply->status_id == 9) {
+                    $reply->ticket->resolve_date = Carbon::now();
+                }
+            }else{
+                $reply->status_id = $reply->ticket->status_id;
+            }
+
+        }
     }
 }
