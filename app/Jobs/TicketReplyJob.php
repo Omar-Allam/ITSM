@@ -17,6 +17,7 @@ class TicketReplyJob extends Job //implements ShouldQueue
      * @var TicketReply
      */
     protected $reply;
+    protected $to;
 
     public function __construct(TicketReply $reply)
     {
@@ -25,29 +26,40 @@ class TicketReplyJob extends Job //implements ShouldQueue
 
     public function handle()
     {
-        if ($this->reply->user_id == $this->reply->ticket->technician_id) {
-            return false;
+        $this->to = [];
+        $ticket = $this->reply->ticket;
+
+        if ($this->reply->user_id == $this->reply->ticket->requester_id) {
+            $this->to = [$ticket->technician->email];
+
+        } elseif ($this->reply->user_id == $this->reply->ticket->technician_id) {
+            if ($this->reply->ticket->sdp_id) {
+                return false;
+            } else {
+                $this->to = [$ticket->requester->email];
+            }
+
+        }elseif($this->reply->user_id != $this->reply->ticket->technician_id && $this->reply->user->isTechnician()){
+
+            if ($this->reply->ticket->sdp_id) {
+                $this->to = [$ticket->technician->email];
+            } else {
+                $this->to = [$ticket->technician->email, $ticket->requester->email];
+            }
+
         }
 
-        \Mail::send('emails.ticket.reply', ['reply' => $this->reply], function(Message $msg) {
+
+        \Mail::send('emails.ticket.reply', ['reply' => $this->reply], function (Message $msg) {
             $ticket = $this->reply->ticket;
             $subject = 'Re: Ticket #' . $ticket->id . ' ' . $this->reply->ticket->subject;
             if ($this->reply->ticket->sdp_id) {
                 $subject .= " [Request ##{$this->reply->ticket->sdp_id}##]";
             }
-            
+
             $msg->subject($subject);
-
-            $to = [];
-            if (!$this->reply->ticket->sdp_id) {
-                $to = [$ticket->requester->email ?? ''];
-            }
-            
-            if ($this->reply->user_id != $this->reply->ticket->technician_id) {
-                $to[] = $ticket->technician->email;
-            }
-
-            $msg->to(array_filter($to));
+            $msg->to($this->to);
         });
     }
+
 }
