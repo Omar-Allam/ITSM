@@ -125,24 +125,6 @@ class ServiceDeskApi
 
     }
 
-    function addCompletedWithoutSolution(TicketReply $reply){
-        $this->send('/sdpapi/request/' . $reply->ticket->sdp_id . '/resolution', 'ADD_RESOLUTION', [
-            'resolution' => ['resolutiontext' => $reply->content,]
-        ]);
-
-        $this->send('/sdpapi/request/' . $reply->ticket->sdp_id, 'EDIT_REQUEST', [
-            ['parameter' => ['name' => 'status', 'value' => 'Completed without solution']]
-        ]);
-
-        $conversations = $this->getConversations($reply->ticket->sdp_id);
-        $reply_id = 0;
-        foreach ($conversations as $conversation) {
-            $reply_id = intval($conversation['conversationid']);
-        }
-
-        return $reply_id;
-    }
-
     public function send($url, $operation, $data = '')
     {
         $params = [
@@ -212,13 +194,27 @@ class ServiceDeskApi
         return $attributes;
     }
 
-    public function addOnHoldStatus($reply)
-    {
-        $this->send('/sdpapi/request/' . $reply->ticket->sdp_id, 'EDIT_REQUEST', [
-            ['parameter' => ['name' => 'status', 'value' => 'On Hold']],
-        ]);
 
-        return $this->addReply($reply);
+    public function changeStatus($reply)
+    {
+        if ($reply->status_id == 7) {
+
+            $this->send('/sdpapi/request/' . $reply->ticket->sdp_id, 'EDIT_REQUEST', [
+                ['parameter' => ['name' => 'status', 'value' => 'Resolved']]
+            ]);
+
+        } elseif ($reply->status_id == 9) {
+
+            $this->send('/sdpapi/request/' . $reply->ticket->sdp_id, 'EDIT_REQUEST', [
+                ['parameter' => ['name' => 'status', 'value' => 'Completed without solution']]
+            ]);
+
+        } elseif (in_array($reply->status_id, [4, 5, 6])) {
+
+            $this->send('/sdpapi/request/' . $reply->ticket->sdp_id, 'EDIT_REQUEST', [
+                ['parameter' => ['name' => 'status', 'value' => 'On Hold']],
+            ]);
+        }
     }
 
 

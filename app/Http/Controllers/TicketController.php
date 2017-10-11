@@ -106,6 +106,7 @@ class TicketController extends Controller
     {
         $reply = new TicketReply($request->get('reply'));
         $reply->user_id = $request->user()->id;
+
         // Fires creating event in \App\Providers\TicketReplyEventProvider
         $ticket->replies()->save($reply);
 //
