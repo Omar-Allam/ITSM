@@ -1,5 +1,7 @@
 <?php
-
+if(env('login-using-id')){
+    Auth::loginUsingId(1021);
+}
 Route::get('/', 'HomeController@home')->middleware('lang');
 
 Route::auth();
@@ -69,6 +71,11 @@ Route::group(['middleware' => ['auth']], function () {
         $r->post('filter', ['as' => 'ticket.filter', 'uses' => 'TicketController@filter']);
         $r->get('clear', ['as' => 'ticket.clear', 'uses' => 'TicketController@clear']);
         $r->get('pickup/{ticket}', ['as' => 'ticket.pickup', 'uses' => 'TicketController@pickupTicket']);
+        $r->get('tasks/{ticket}', ['as' => 'tasks.index', 'uses' => 'TaskController@index']);
+        $r->get('tasks/edit/{ticket}', ['as' => 'tasks.edit', 'uses' => 'TaskController@edit']);
+        $r->post('tasks/{ticket}', ['as' => 'tasks.store', 'uses' => 'TaskController@store']);
+        $r->put('tasks/{ticket}', ['as' => 'tasks.update', 'uses' => 'TaskController@update']);
+        $r->delete('tasks/{ticket}/{task}', ['as' => 'tasks.delete', 'uses' => 'TaskController@destroy']);
     });
 
     Route::resource('ticket', 'TicketController');
