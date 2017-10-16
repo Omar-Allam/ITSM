@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ApplySLA;
 use App\Jobs\NewTaskJob;
 use App\Task;
 use App\Ticket;
@@ -15,9 +16,12 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($ticket)
     {
-
+        return Ticket::where('request_id', $ticket)
+            ->where('type', config('types.task'))->get()->map(function ($task) {
+                return $task->taskJson();
+            });
     }
 
     /**
@@ -38,12 +42,24 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,['title'=>'required',
-            'technician_id'=>'required|min:1'],['technician_id.min'=>'Technician should be selected']);
-        $task = Task::create($request->all());
-        $ticket = Ticket::find($task->ticket_id);
-        $this->dispatch(new NewTaskJob($task,$ticket));
-        return \Redirect::back();
+        $this->validate($request, ['subject' => 'required', 'description' => 'required', 'category' => 'required', 'status' => 'required']);
+
+        $ticket = Ticket::find($request['ticket_id']);
+
+        $task = Ticket::create([
+            'subject' => $request['subject'],
+            'description' => $request['description'],
+            'type' => config('types.task'),
+            'request_id' => $request['ticket_id'],
+            'requester_id' => $ticket->requester_id,
+            'creator_id' => \Auth::id(),
+            'status_id' => $request['status'],
+            'category_id' => $request['category'],
+            'subcategory_id' => $request['subcategory'],
+            'item_id' => $request['item'],
+        ]);
+
+        return response()->json($task);
     }
 
     /**
@@ -54,7 +70,6 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        return view('ticket.tasks.show')->with('task',$task);
     }
 
     /**
@@ -63,9 +78,9 @@ class TaskController extends Controller
      * @param  \App\Task $task
      * @return \Illuminate\Http\Response
      */
-    public function edit(Task $task)
+    public function edit($task)
     {
-        //
+        return Ticket::find($task);
     }
 
     /**
@@ -75,34 +90,25 @@ class TaskController extends Controller
      * @param  \App\Task $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(Request $request, $task)
     {
-        $this->validate($request,['title'=>'required']);
-        Task::where('id',$task->id)->update(['title'=>$request->title,
-            'description'=>$request->description,
-            'priority_id'=>$request->priority_id,
-            'technician_id'=>$request->technician_id,
-            'group_id'=>$request->group_id]);
-        $ticket = Ticket::find($task->ticket_id);
-        return view('ticket.show')->with('ticket',$ticket);
+        $this->validate($request, ['subject' => 'required', 'description' => 'required', 'category' => 'required', 'status' => 'required']);
+
+        $task = Ticket::find($request['task_id']);
+        if(can('modify',$task)){
+            $task->update([
+                'subject' => $request['subject'],
+                'description' => $request['description'],
+                'category_id' => $request['category'],
+                'subcategory_id' => $request['subcategory'],
+                'item_id' => $request['item'],
+                'status_id' => $request['status'],
+            ]);
+        }
+
+
     }
 
-    public function getTasksOfTicket(Ticket $ticket)
-    {
-        $tasks = Task::where('ticket_id', $ticket->id)->get()->map(function ($task) {
-            return ['task_id' => $task->id,
-                'title' => $task->title,
-                'description' => $task->description,
-                'status' => $task->status->name ?? '',
-                'group' => $task->group->name ?? '',
-                'technician' => $task->technician->name ?? '',
-                'priority' => $task->priority->name ?? '',
-                'comments' => $task->comments ?? ''
-            ];
-        });
-
-        return $tasks;
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -110,11 +116,12 @@ class TaskController extends Controller
      * @param  \App\Task $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task)
+    public function destroy($ticket, $task)
     {
-        $task = Task::find($task->id);
-        $oldTask = $task;
-        $task->delete();
-        return $oldTask;
+        $task = Ticket::find($task);
+        if (can('delete', $task)) {
+            $task->delete();
+        }
     }
+
 }

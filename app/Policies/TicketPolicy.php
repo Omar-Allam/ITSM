@@ -9,25 +9,43 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class TicketPolicy
 {
     use HandlesAuthorization;
+    use TaskTrait;
+    use TicketTrait;
 
     function read(User $user, Ticket $ticket)
     {
-        $privileged = [$ticket->requester_id, $ticket->technician_id, $ticket->coordinator_id];
+        if ($ticket->type == 2) {
+            $this->task_read($user, $ticket);
+        } else {
+            $this->ticket_read($user, $ticket);
+        }
 
-        return in_array($user->id, $privileged) ||
-            $user->groups->contains($ticket->group_id) ||
-            $ticket->approvals()->pluck('approver_id')->contains($user->id);
+    }
+
+    function create(User $user, Ticket $ticket)
+    {
+        if ($ticket->type == 2) {
+            $this->task_create($user, $ticket);
+        }
+
     }
 
     function modify(User $user, Ticket $ticket)
     {
-        return in_array($user->id, [$ticket->technician_id, $ticket->coordinator_id]) ||
-            $user->groups->contains($ticket->group_id);
+        if ($ticket->type == 2) {
+            $this->task_modify($user, $ticket);
+        } else {
+            $this->ticket_modify($user, $ticket);
+        }
     }
 
     function resolve(User $user, Ticket $ticket)
     {
-        return $user->id == $ticket->technician_id;
+        if ($ticket->type == 2) {
+            $this->task_resolve($user, $ticket);
+        } else {
+            $this->ticket_resolve($user, $ticket);
+        }
     }
 
     function reply(User $user, Ticket $ticket)
@@ -40,20 +58,29 @@ class TicketPolicy
 
     function close(User $user, Ticket $ticket)
     {
-        return $user->id == $ticket->requester_id;
+        if ($ticket->type == 2) {
+            $this->task_close($user, $ticket);
+        }
+        else{
+            $this->ticket_close($user, $ticket);
+        }
     }
 
     function delete(User $user, Ticket $ticket)
     {
-        return false;
+        if ($ticket->type == 2) {
+            $this->task_delete($user, $ticket);
+        } else {
+            return false;
+        }
     }
 
-    function pick(User $user ,Ticket $ticket)
+    function pick(User $user, Ticket $ticket)
     {
         if (($user->hasGroup($ticket->group) && $user->id != $ticket->technician_id)) {
             return true;
         }
-//        dd($ticket);
+
         return false;
     }
 

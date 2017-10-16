@@ -38,8 +38,7 @@ class TicketController extends Controller
         } else {
             $query = Ticket::scopedView($scope);
         }
-
-        $tickets = $query->latest('id')->paginate();
+        $tickets = $query->whereNull('type')->latest('id')->paginate();
 
         $scopes = TicketViewScope::getScopes();
         return view('ticket.index', compact('tickets', 'scopes', 'scope'));
@@ -150,7 +149,7 @@ class TicketController extends Controller
         $ticket->update($request->only(['group_id', 'technician_id', 'category_id', 'subcategory_id', 'item_id']));
 
         if ($request->get('technician_id') != $current_technician) {
-            $this->dispatch(new TicketAssigned($ticket));            
+            $this->dispatch(new TicketAssigned($ticket));
         }
 
         flash('Ticket has been re-assigned', 'success');

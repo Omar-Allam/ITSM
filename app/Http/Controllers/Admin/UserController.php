@@ -46,6 +46,7 @@ class UserController extends Controller
     public function update(User $user, AdminUserRequest $request)
     {
         $data = $request->all();
+
         if ($request->get('password')) {
             $data['password'] = bcrypt($data['password']);
         } else {
