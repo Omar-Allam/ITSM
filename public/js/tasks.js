@@ -232,7 +232,10 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('tasks', {
             description: '',
             subcategories: [],
             items: [],
+            technicians: [],
+            group: '',
             status: '',
+            technician: '',
             edit: false,
             task_id: null
         };
@@ -270,6 +273,8 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('tasks', {
                     item: this.item,
                     status: this.status,
                     description: this.description,
+                    group: this.group,
+                    technician: this.technician,
                     ticket_id: this.ticket_id
 
                 },
@@ -297,6 +302,8 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('tasks', {
                     this.subcategory = response.subcategory_id;
                     this.item = response.item_id;
                     this.status = response.status_id;
+                    this.group = response.group_id;
+                    this.technician = response.technician_id;
                     this.errors = [];
                     modal.find('.modal-title').html('Edit Task #' + task);
                     modal.modal('show');
@@ -373,15 +380,33 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('tasks', {
             this.category = '';
             this.subcategory = '';
             this.item = '';
+            this.cat = '';
             this.status = '';
             this.errors = [];
+            this.subcategories = [];
+            this.items = [];
+            this.technicians = [];
+            this.group = '';
+            this.technician = '';
+        },
+        loadTechnicians: function loadTechnicians() {
+            var _this3 = this;
+
+            if (this.group) {
+                $.get('/list/group-technicians/' + this.group).then(function (response) {
+                    _this3.technicians = response;
+                });
+            }
         }
     }, watch: {
         category: function category() {
-            this.loadSubcategory(false);
+            this.loadSubcategory();
         },
         subcategory: function subcategory() {
-            this.loadItems(false);
+            this.loadItems();
+        },
+        group: function group() {
+            this.loadTechnicians();
         }
     },
 
@@ -389,6 +414,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('tasks', {
         this.loadTasks();
         this.loadSubcategory();
         this.loadItems();
+        this.loadTechnicians();
     }
 });
 window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({

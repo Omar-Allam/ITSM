@@ -16,7 +16,10 @@
                 description: '',
                 subcategories: [],
                 items: [],
+                technicians: [],
+                group: '',
                 status: '',
+                technician: '',
                 edit: false,
                 task_id: null,
             }
@@ -53,6 +56,8 @@
                         item: this.item,
                         status: this.status,
                         description: this.description,
+                        group: this.group,
+                        technician: this.technician,
                         ticket_id: this.ticket_id,
 
                     },
@@ -80,6 +85,8 @@
                         this.subcategory = response.subcategory_id;
                         this.item = response.item_id;
                         this.status = response.status_id;
+                        this.group = response.group_id;
+                        this.technician = response.technician_id;
                         this.errors = [];
                         modal.find('.modal-title').html('Edit Task #' + task);
                         modal.modal('show');
@@ -154,17 +161,34 @@
                 this.category = '';
                 this.subcategory = '';
                 this.item = '';
+                this.cat = '';
                 this.status = '';
                 this.errors = [];
+                this.subcategories = [];
+                this.items = [];
+                this.technicians = [];
+                this.group = '';
+                this.technician ='';
+
+            },
+            loadTechnicians() {
+                if (this.group) {
+                    $.get(`/list/group-technicians/${this.group}`).then(response => {
+                        this.technicians = response;
+                    });
+                }
             }
         }, watch: {
             category() {
-                this.loadSubcategory(false);
+                this.loadSubcategory();
             },
 
             subcategory() {
-                this.loadItems(false);
+                this.loadItems();
             },
+            group() {
+                this.loadTechnicians();
+            }
 
         },
 
@@ -172,6 +196,7 @@
             this.loadTasks();
             this.loadSubcategory();
             this.loadItems();
+            this.loadTechnicians();
         }
     });
     window.app = new Vue({

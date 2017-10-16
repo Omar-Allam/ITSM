@@ -7,7 +7,7 @@
             <h4>#{{$ticket->id}} - {{$ticket->subject}}</h4>
             <h4>@if($ticket->sdp_id) Helpdesk : #{{$ticket->sdp_id ?? ''}}  -  @endif<strong>{{t('By')}}
                     : {{$ticket->requester->name}}</strong></h4>
-            @if (Auth::user()->isSupport())
+            @if (Auth::user()->isSupport() && !$ticket->isTask())
                 <div class="btn-toolbar">
                     <button data-toggle="modal" data-target="#AssignForm" type="button"
                             class="btn btn-sm btn-info btn-rounded btn-outlined" title="{{t('Re-assign')}}">
@@ -76,7 +76,14 @@
         <ul class="nav nav-tabs" role="tablist">
             <li class="active">
                 <a href="#main" role="tab" data-toggle="tab"><i
-                            class="fa fa-ticket"></i> {{t('Request')}}</a>
+                            class="fa fa-ticket"></i>
+                    @if(!$ticket->isTask())
+                        {{t('Request')}}
+                    @else
+                        {{t('Task')}}
+                    @endif
+
+                </a>
             </li>
             <li><a href="#conversation" role="tab" data-toggle="tab"><i
                             class="fa fa-comments-o"></i> {{t('Conversation')}}</a></li>
@@ -85,13 +92,12 @@
                 <li><a href="#resolution" role="tab" data-toggle="tab"><i
                                 class="fa fa-support"></i> {{t('Resolution')}}</a></li>
             @endif
-
-            @if ($ticket->approvals->count() || Auth::user()->isSupport())
+            @if (($ticket->approvals->count() || Auth::user()->isSupport()) && !$ticket->isTask())
                 <li><a href="#approvals" role="tab" data-toggle="tab"><i
                                 class="fa fa-check"></i> {{t('Approvals')}}</a></li>
             @endif
 
-            @if(Auth::user()->isSupport())
+            @if(Auth::user()->isSupport() && !$ticket->isTask())
                 <li><a href="#tasks" role="tab" data-toggle="tab"><i
                                 class="fa fa-tasks"></i> {{t('Tasks')}}</a></li>
             @endif
@@ -141,6 +147,7 @@
             <script>
                 var category = '{{Form::getValueAttribute('category_id') ?? $ticket->category_id}}';
                 var subcategory = '{{Form::getValueAttribute('subcategory_id') ?? $ticket->subcategory_id}}';
+                var group = '{{Form::getValueAttribute('group_id') ?? $ticket->group_id}}';
             </script>
             <script src="{{asset('/js/tasks.js')}}"></script>
             @include('ticket._assign_modal')

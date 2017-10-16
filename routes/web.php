@@ -1,7 +1,4 @@
 <?php
-if(env('login-using-id')){
-    Auth::loginUsingId(1021);
-}
 Route::get('/', 'HomeController@home')->middleware('lang');
 
 Route::auth();

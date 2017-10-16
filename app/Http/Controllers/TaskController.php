@@ -42,22 +42,24 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, ['subject' => 'required', 'description' => 'required', 'category' => 'required', 'status' => 'required']);
-
-        $ticket = Ticket::find($request['ticket_id']);
+        $this->validate($request, ['subject' => 'required', 'category' => 'required']);
 
         $task = Ticket::create([
             'subject' => $request['subject'],
-            'description' => $request['description'],
+            'description' => $request['description'] ?? '',
             'type' => config('types.task'),
             'request_id' => $request['ticket_id'],
-            'requester_id' => $ticket->requester_id,
+            'requester_id' => \Auth::id(),
             'creator_id' => \Auth::id(),
-            'status_id' => $request['status'],
+            'status_id' => 1,
             'category_id' => $request['category'],
             'subcategory_id' => $request['subcategory'],
             'item_id' => $request['item'],
+            'group_id' => $request['technician'],
+            'technician_id' => $request['technician'],
         ]);
+
+        flash(t('Task has been saved'), 'success');
 
         return response()->json($task);
     }
@@ -92,10 +94,10 @@ class TaskController extends Controller
      */
     public function update(Request $request, $task)
     {
-        $this->validate($request, ['subject' => 'required', 'description' => 'required', 'category' => 'required', 'status' => 'required']);
+        $this->validate($request, ['subject' => 'required', 'category' => 'required', 'status' => 'required']);
 
         $task = Ticket::find($request['task_id']);
-        if(can('modify',$task)){
+        if (can('modify', $task)) {
             $task->update([
                 'subject' => $request['subject'],
                 'description' => $request['description'],

@@ -24,6 +24,7 @@ class NewTaskJob implements ShouldQueue
 
     public function handle()
     {
+
         \Mail::send('emails.ticket.task_assigned', ['ticket' => $this->ticket , 'task'=>$this->task], function(Message $msg) {
             $ticket = $this->ticket;
             $task = $this->task;

@@ -78,7 +78,7 @@ class Ticket extends KModel
 
     protected $fillable = [
         'subject', 'description', 'category_id', 'subcategory_id', 'item_id', 'group_id', 'technician_id',
-        'priority_id', 'impact_id', 'urgency_id', 'requester_id', 'creator_id', 'status_id', 'sdp_id','type','request_id'
+        'priority_id', 'impact_id', 'urgency_id', 'requester_id', 'creator_id', 'status_id', 'sdp_id', 'type', 'request_id'
     ];
 
     protected $dates = ['created_at', 'updated_at', 'due_date', 'first_response_date', 'resolve_date', 'close_date'];
@@ -196,15 +196,16 @@ class Ticket extends KModel
 
     public function tasks()
     {
-        return $this->hasMany(Ticket::class,'request_id')
-            ->where('type',2)->where('request_id',$this->id);
+        return $this->hasMany(Ticket::class, 'request_id')
+            ->where('type', 2)->where('request_id', $this->id);
     }
 
 
     public function getTicketAttribute()
     {
-       return Ticket::where('id',$this->request_id)->first();
+        return Ticket::where('id', $this->request_id)->first();
     }
+
     public function getResolutionAttribute()
     {
         if (!$this->resolution) {
@@ -403,11 +404,21 @@ class Ticket extends KModel
         dispatch(new \App\Jobs\CalculateTicketTime($this));
     }
 
-    function taskJson(){
+    function taskJson()
+    {
         return [
-            'id'=>$this->id,
-            'subject'=>$this->subject,
-            'description'=>$this->description,
+            'id' => $this->id,
+            'subject' => $this->subject ?? '',
+            'description' => $this->description ?? '',
+            'status'=>$this->status->name ?? '',
+            'requester'=>$this->requester->name ?? '',
+            'created_at'=>$this->created_at->format('d/m/Y H:i') ?? '',
+            'technician'=>$this->technician->name ?? '',
         ];
+    }
+
+    function isTask()
+    {
+        return $this->type == 2;
     }
 }
