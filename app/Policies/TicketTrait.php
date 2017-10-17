@@ -23,16 +23,9 @@ trait TicketTrait
             $ticket->approvals()->pluck('approver_id')->contains($user->id);
     }
 
-    function ticket_modify(User $user, Ticket $ticket)
+    public function ticket_create(User $user, Ticket $task)
     {
-
-        return in_array($user->id, [$ticket->technician_id, $ticket->coordinator_id]) ||
-            $user->groups->contains($ticket->group_id);
-    }
-
-    function ticket_resolve(User $user, Ticket $ticket)
-    {
-        return $user->id == $ticket->technician_id;
+        return $user->isTechnician();
     }
 
     function ticket_close(User $user, Ticket $ticket)

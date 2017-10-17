@@ -12,41 +12,33 @@ class TicketPolicy
     use TaskTrait;
     use TicketTrait;
 
-    function read(User $user, Ticket $ticket)
+    protected $map = [1 => 'ticket', 2 => 'task'];
+
+
+    function __call($name, $args)
     {
-        if ($ticket->type == 2) {
-            $this->task_read($user, $ticket);
-        } else {
-            $this->ticket_read($user, $ticket);
+        $ticket = $args[1];
+        $prefix = $this->map[$ticket->type] ?? '';
+
+        if (!$prefix) {
+            return false;
         }
 
-    }
-
-    function create(User $user, Ticket $ticket)
-    {
-        if ($ticket->type == 2) {
-            $this->task_create($user, $ticket);
+        $ability = $prefix . '_' . $name;
+        if (method_exists($this, $ability)) {
+            return $this->$ability(...$args);
         }
 
+        return false;
     }
+
 
     function modify(User $user, Ticket $ticket)
     {
-        if ($ticket->type == 2) {
-            $this->task_modify($user, $ticket);
-        } else {
-            $this->ticket_modify($user, $ticket);
-        }
+        return in_array($user->id, [$ticket->technician_id, $ticket->coordinator_id]) ||
+            $user->groups->contains($ticket->group_id);
     }
 
-    function resolve(User $user, Ticket $ticket)
-    {
-        if ($ticket->type == 2) {
-            $this->task_resolve($user, $ticket);
-        } else {
-            $this->ticket_resolve($user, $ticket);
-        }
-    }
 
     function reply(User $user, Ticket $ticket)
     {
@@ -56,23 +48,9 @@ class TicketPolicy
             $user->groups->contains($ticket->group_id) || $user->isTechnician();
     }
 
-    function close(User $user, Ticket $ticket)
-    {
-        if ($ticket->type == 2) {
-            $this->task_close($user, $ticket);
-        }
-        else{
-            $this->ticket_close($user, $ticket);
-        }
-    }
-
     function delete(User $user, Ticket $ticket)
     {
-        if ($ticket->type == 2) {
-            $this->task_delete($user, $ticket);
-        } else {
-            return false;
-        }
+        return $user->id == $ticket->technician_id;
     }
 
     function pick(User $user, Ticket $ticket)
@@ -83,6 +61,5 @@ class TicketPolicy
 
         return false;
     }
-
 
 }

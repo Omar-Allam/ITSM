@@ -16,24 +16,14 @@ trait TaskTrait
 {
     public function task_read(User $user, Ticket $task)
     {
-        return $user->id == $task->ticket->technicain_id || $user->isTechnician();
+        return $user->id == $task->ticket->technicain_id ||
+            $user->groups->contains($task->ticket->group_id) ||
+            $task->technicain_id;
     }
-
 
     public function task_create(User $user, Ticket $task)
     {
         return $user->id == $task->ticket->technicain_id;
-    }
-
-
-    public function task_modify(User $user, Ticket $task)
-    {
-        return $user->id == $task->ticket->technician_id;
-    }
-
-    public function task_resolve(User $user, Ticket $task)
-    {
-        return $user->id == $task->technician_id;
     }
 
     public function task_close($user, $task)
@@ -41,9 +31,5 @@ trait TaskTrait
         return $user->id == $task->ticket->technician_id;
     }
 
-    public function task_delete(User $user, Ticket $task)
-    {
-        return $user->id == $task->ticket->technician_id;
-    }
 
 }

@@ -108,7 +108,7 @@
                     @if(!$ticket->isTask())
                         {{t('Ticket Log')}}
                     @else
-                        {{t('Task Log')}}
+                        {{t('Ticket Log')}}
                     @endif
                 </a></li>
 

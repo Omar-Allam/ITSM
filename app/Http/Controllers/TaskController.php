@@ -18,10 +18,12 @@ class TaskController extends Controller
      */
     public function index($ticket)
     {
-        return Ticket::where('request_id', $ticket)
-            ->where('type', config('types.task'))->get()->map(function ($task) {
-                return $task->taskJson();
-            });
+        if(can('read',$ticket)){
+            return Ticket::where('request_id', $ticket)
+                ->where('type', config('types.task'))->get()->map(function ($task) {
+                    return $task->taskJson();
+                });
+        }
     }
 
     /**
@@ -58,6 +60,7 @@ class TaskController extends Controller
             'group_id' => $request['technician'],
             'technician_id' => $request['technician'],
         ]);
+
 
         return response()->json($task);
     }
