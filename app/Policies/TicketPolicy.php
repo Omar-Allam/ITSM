@@ -12,7 +12,26 @@ class TicketPolicy
     use TaskTrait;
     use TicketTrait;
 
-    function read(User $user, Ticket $ticket)
+    protected $map = [1 => 'ticket', 2 => 'task'];
+
+    function __call($name, $args)
+    {
+        $ticket = $args[1];
+        $prefix = $this->map[$ticket->type] ?? '';
+        if (!$prefix) {
+            return false;
+        }
+        
+        $ability = $prefix . '_' . $name;
+
+        if (method_exists($this, $ability)) {
+            return $this->$ability(...$args);
+        }
+
+        return false;
+    }
+
+    /*function read(User $user, Ticket $ticket)
     {
         if ($ticket->type == 2) {
             $this->task_read($user, $ticket);
@@ -38,6 +57,10 @@ class TicketPolicy
             $this->ticket_modify($user, $ticket);
         }
     }
+
+    
+
+     */
 
     function resolve(User $user, Ticket $ticket)
     {
@@ -83,6 +106,5 @@ class TicketPolicy
 
         return false;
     }
-
 
 }
