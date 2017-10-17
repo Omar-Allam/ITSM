@@ -77,7 +77,11 @@
             </div>
 
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> {{t('Save')}}</button>
+                <button type="submit" class="btn btn-primary" :disabled="saving">
+                    <i class="fa fa-save" v-show="!saving"></i>
+                    <i class="fa fa-spinner fa-spin" v-show="saving"></i>
+                    {{t('Save')}}
+                </button>
             </div>
         </div>
     </div>

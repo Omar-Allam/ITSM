@@ -103,7 +103,14 @@
             @endif
 
             <li><a href="#history" role="tab" data-toggle="tab"><i
-                            class="fa fa-history"></i> {{t('Ticket Log')}}</a></li>
+                            class="fa fa-history"></i>
+
+                    @if(!$ticket->isTask())
+                        {{t('Ticket Log')}}
+                    @else
+                        {{t('Task Log')}}
+                    @endif
+                </a></li>
 
             @if ($ticket->files->count())
                 <li><a href="#attachments" role="tab" data-toggle="tab"><i

@@ -59,8 +59,6 @@ class TaskController extends Controller
             'technician_id' => $request['technician'],
         ]);
 
-        flash(t('Task has been saved'), 'success');
-
         return response()->json($task);
     }
 

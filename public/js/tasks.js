@@ -237,7 +237,8 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('tasks', {
             status: '',
             technician: '',
             edit: false,
-            task_id: null
+            task_id: null,
+            saving: false
         };
     },
 
@@ -260,6 +261,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('tasks', {
             }
         },
         createTask: function createTask() {
+            this.saving = true;
             jQuery.ajax({
                 method: 'POST',
                 url: '/ticket/tasks/' + this.ticket_id,
@@ -272,7 +274,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('tasks', {
                     subcategory: this.subcategory,
                     item: this.item,
                     status: this.status,
-                    description: this.description,
+                    description: tinyMCE.activeEditor.getContent(),
                     group: this.group,
                     technician: this.technician,
                     ticket_id: this.ticket_id
@@ -282,10 +284,12 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('tasks', {
                     this.loadTasks();
                     this.errors = response;
                     jQuery("#TaskForm").modal('hide');
+                    this.saving = false;
                     this.resetAll();
                 }.bind(this),
                 error: function (response) {
                     this.errors = response.responseJSON;
+                    this.saving = false;
                 }.bind(this)
 
             });

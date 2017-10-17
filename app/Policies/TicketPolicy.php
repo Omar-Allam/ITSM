@@ -53,7 +53,7 @@ class TicketPolicy
         $privileged = [$ticket->requester_id, $ticket->technician_id, $ticket->coordinator_id];
 
         return in_array($user->id, $privileged) ||
-            $user->groups->contains($ticket->group_id);
+            $user->groups->contains($ticket->group_id) || $user->isTechnician();
     }
 
     function close(User $user, Ticket $ticket)

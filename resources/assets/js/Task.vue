@@ -22,6 +22,7 @@
                 technician: '',
                 edit: false,
                 task_id: null,
+                saving:false,
             }
         },
         methods: {
@@ -43,6 +44,7 @@
                 }
             },
             createTask() {
+                this.saving = true;
                 jQuery.ajax({
                     method: 'POST',
                     url: '/ticket/tasks/' + this.ticket_id,
@@ -55,7 +57,7 @@
                         subcategory: this.subcategory,
                         item: this.item,
                         status: this.status,
-                        description: this.description,
+                        description: tinyMCE.activeEditor.getContent(),
                         group: this.group,
                         technician: this.technician,
                         ticket_id: this.ticket_id,
@@ -65,10 +67,12 @@
                         this.loadTasks();
                         this.errors = response;
                         jQuery("#TaskForm").modal('hide');
+                        this.saving=false;
                         this.resetAll();
                     }.bind(this),
                     error: function (response) {
-                        this.errors = response.responseJSON
+                        this.errors = response.responseJSON;
+                        this.saving =false;
                     }.bind(this)
 
                 });
@@ -169,7 +173,6 @@
                 this.technicians = [];
                 this.group = '';
                 this.technician ='';
-
             },
             loadTechnicians() {
                 if (this.group) {
