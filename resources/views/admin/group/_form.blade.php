@@ -29,4 +29,8 @@
             <button class="btn btn-success"><i class="fa fa-check"></i> Submit</button>
         </div>
     </div>
+    <div class="col-md-6">
+        {{ Form::label('supervisors', 'Supervisors', ['class' => 'control-label']) }}
+        {{ Form::select('supervisors[]', \App\User::selection('Select Supervisor'), null, ['class' => 'form-control','multiple'=>'true','size'=>'12']) }}
+    </div>
 </div>

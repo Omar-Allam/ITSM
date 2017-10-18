@@ -49,6 +49,10 @@ class GroupController extends Controller
     {
         $this->validates($request, 'Could not save group');
 
+        if($request->supervisors){
+            $group->supervisors()->sync($request->supervisors);
+        }
+        
         $group->update($request->all());
 
         flash('Group has been saved', 'success');
