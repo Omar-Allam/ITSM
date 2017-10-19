@@ -45,7 +45,7 @@ class TicketPolicy
         $privileged = [$ticket->requester_id, $ticket->technician_id, $ticket->coordinator_id];
 
         return in_array($user->id, $privileged) ||
-            $user->groups->contains($ticket->group_id) || $user->isTechnician();
+            $user->groups->contains($ticket->group_id) || $user->isTechnician() || $user->isSupervisor();
     }
 
     function delete(User $user, Ticket $ticket)
@@ -55,7 +55,7 @@ class TicketPolicy
 
     function pick(User $user, Ticket $ticket)
     {
-        if (($user->hasGroup($ticket->group) && $user->id != $ticket->technician_id)) {
+        if (($user->hasGroup($ticket->group) && $user->id != $ticket->technician_id) || $user->isSupervisor()) {
             return true;
         }
 

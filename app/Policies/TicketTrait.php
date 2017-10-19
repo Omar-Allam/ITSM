@@ -20,7 +20,7 @@ trait TicketTrait
 
         return in_array($user->id, $privileged) ||
             $user->groups->contains($ticket->group_id) ||
-            $ticket->approvals()->pluck('approver_id')->contains($user->id);
+            $ticket->approvals()->pluck('approver_id')->contains($user->id) || $user->isSupervisor();
     }
 
     public function ticket_create(User $user, Ticket $task)

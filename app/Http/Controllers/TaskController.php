@@ -18,12 +18,12 @@ class TaskController extends Controller
      */
     public function index($ticket)
     {
-        if(can('read',$ticket)){
-            return Ticket::where('request_id', $ticket)
-                ->where('type', config('types.task'))->get()->map(function ($task) {
-                    return $task->taskJson();
-                });
-        }
+
+        return Ticket::where('request_id', $ticket)
+            ->where('type', config('types.task'))->get()->map(function ($task) {
+                return $task->taskJson();
+            });
+
     }
 
     /**

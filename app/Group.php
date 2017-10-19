@@ -46,7 +46,7 @@ class Group extends KModel
 
     public function supervisors()
     {
-        return $this->belongsToMany('App\User','group_supervisor',-'group_id','user_id');
+        return $this->belongsToMany('App\User','group_supervisor','group_id','user_id');
     }
 
     public function scopeSupport(Builder $query)
@@ -79,5 +79,15 @@ class Group extends KModel
         return $types;
     }
 
+    function isSupervisor()
+    {
+        $groups = $this->technician->groups;
+        if ($groups->count()) {
+            $group_ids = $groups->map(function ($group) {
+                return $group->supervisors->pluck('id');
+            });
+        }
+        dd($group_ids);
+    }
     use Listable;
 }
