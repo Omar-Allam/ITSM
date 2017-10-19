@@ -5,7 +5,7 @@
             {{ Form::label('name', 'Name', ['class' => 'control-label']) }}
             {{ Form::text('name', null, ['class' => 'form-control']) }}
             @if ($errors->has('name'))
-            <div class="error-message">{{$errors->first('name')}}</div>
+                <div class="error-message">{{$errors->first('name')}}</div>
             @endif
         </div>
 
@@ -29,8 +29,13 @@
             <button class="btn btn-success"><i class="fa fa-check"></i> Submit</button>
         </div>
     </div>
+
     <div class="col-md-6">
-        {{ Form::label('supervisors', 'Supervisors', ['class' => 'control-label']) }}
-        {{ Form::select('supervisors[]', \App\User::selection('Select Supervisor'), null, ['class' => 'form-control','multiple'=>'true','size'=>'12']) }}
+
+        <div class="form-group {{$errors->has('supervisors')? 'has-error' : ''}}">
+            {{ Form::label('supervisors', 'Supervisors', ['class' => 'control-label']) }}
+            {{ Form::select('supervisors[]', \App\User::selection(),null, ['class' => 'form-control', 'multiple' => true ,'size'=>12]) }}
+        </div>
+
     </div>
 </div>

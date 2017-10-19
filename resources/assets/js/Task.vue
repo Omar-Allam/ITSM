@@ -1,105 +1,210 @@
-<template xmlns:v-on="http://www.w3.org/1999/xhtml">
-    <div>
-        <table class="listing-table" style="margin-top: 40px" >
-            <thead>
-            <tr>
-                <th class="col col-md-2" v-text="title"></th>
-                <th class="col col-md-2" v-text="description"></th>
-                <!--<th class="col col-md-1">Status</th>-->
-                <th class="col col-md-1" v-text="group"></th>
-                <th class="col col-md-1" v-text="assigned"></th>
-                <th class="col col-md-1" v-text="priority"></th>
-                <!--<th class="col col-md-2">Comment</th>-->
-                <th class="col col-md-2" v-text="actions"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="task in tasks">
-                <td><a v-bind:href="'/task/'+ task.task_id">{{task.title}}</a></td>
-                <td>{{task.description}}</td>
-                <!--<td>{{task.status}}</td>-->
-                <td>{{task.group}}</td>
-                <td>{{task.technician}}</td>
-                <td>{{task.priority}}</td>
-                <!--<td>{{task.comments}}</td>-->
-                <td>
-                    <button class="btn btn-danger" @click="showModal(task.task_id,task.title)"><i
-                            class="fa fa-trash"></i> {{remove}}
-                    </button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
-        <div class="modal fade" id="removeTaskModal" tabindex="-1" role="dialog" aria-labelledby="removeTaskModal">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span>
-                        </button>
-                        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-trash"></i> Remove Task</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="alert alert-warning lead">
-                            Are You sure to delete <span id="task_title"></span> task ?
-                        </div>
-
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" v-on:click="removeTask()">Remove</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-    </div>
-
-</template>
 <script>
-    export default {
-        props: ['ticket','title','description'
-            ,'group','assigned','priority','actions','remove'],
+    import Vue from 'vue';
+
+    var $ = require('jquery');
+
+    Vue.component('tasks', {
+        props: ['ticket_id'],
         data() {
             return {
+                category: window.category,
+                subcategory: window.subcategory,
+                item: window.item,
                 tasks: [],
-                task_id: 0,
+                errors: [],
+                subject: '',
+                description: '',
+                subcategories: [],
+                items: [],
+                technicians: [],
+                group: '',
+                status: '',
+                technician: '',
+                edit: false,
+                task_id: null,
+                saving:false,
             }
         },
-
         methods: {
             loadTasks() {
-                jQuery.get('/get-tasks/' + this.ticket).done(response => this.tasks = response);
+                $.ajax({
+                    method: 'GET',
+                    url: '/ticket/tasks/' + this.ticket_id,
+                    success: function (response) {
+                        this.tasks = response
+                    }.bind(this),
+
+                });
+            },
+            changeOnSubmit() {
+                if (this.edit) {
+                    this.updateTask();
+                } else {
+                    this.createTask();
+                }
+            },
+            createTask() {
+                this.saving = true;
+                jQuery.ajax({
+                    method: 'POST',
+                    url: '/ticket/tasks/' + this.ticket_id,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        subject: this.subject,
+                        category: this.category,
+                        subcategory: this.subcategory,
+                        item: this.item,
+                        status: this.status,
+                        description: tinyMCE.activeEditor.getContent(),
+                        group: this.group,
+                        technician: this.technician,
+                        ticket_id: this.ticket_id,
+
+                    },
+                    success: function (response) {
+                        this.loadTasks();
+                        this.errors = response;
+                        jQuery("#TaskForm").modal('hide');
+                        this.saving=false;
+                        this.resetAll();
+                    }.bind(this),
+                    error: function (response) {
+                        this.errors = response.responseJSON;
+                        this.saving =false;
+                    }.bind(this)
+
+                });
+            },
+            editTask(task) {
+                let modal = jQuery('#TaskForm');
+                jQuery.ajax({
+                    method: 'GET',
+                    url: '/ticket/tasks/edit/' + task,
+                    success: function (response) {
+                        this.subject = response.subject;
+                        this.description = response.description;
+                        this.category = response.category_id;
+                        this.subcategory = response.subcategory_id;
+                        this.item = response.item_id;
+                        this.status = response.status_id;
+                        this.group = response.group_id;
+                        this.technician = response.technician_id;
+                        this.errors = [];
+                        modal.find('.modal-title').html('Edit Task #' + task);
+                        modal.modal('show');
+                    }.bind(this),
+
+                });
+            },
+            deleteTask(task) {
+                $.ajax({
+                    method: 'DELETE',
+                    url: '/ticket/tasks/' + this.ticket_id + '/' + task,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (response) {
+                        this.loadTasks()
+                    }.bind(this),
+
+                });
+
+            },
+            resetTask() {
+                this.resetAll();
+                jQuery('#TaskForm').find('.modal-title').html('Create Task');
+            },
+            updateTask() {
+                jQuery.ajax({
+                    method: 'PUT',
+                    url: '/ticket/tasks/' + this.ticket_id,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        subject: this.subject,
+                        description: this.description,
+                        category: this.category,
+                        subcategory: this.subcategory,
+                        item: this.item,
+                        status: this.status,
+                        task_id: this.task_id,
+                    },
+                    success: function (response) {
+                        this.loadTasks();
+                        jQuery("#TaskForm").modal('hide');
+                        this.resetAll();
+                    }.bind(this),
+                    error: function (response) {
+                        this.errors = response.responseJSON
+                    }.bind(this)
+
+                });
+            },
+            loadSubcategory() {
+                if (this.category) {
+                    $.get(`/list/subcategory/${this.category}`).then(response => {
+                        this.subcategories = response;
+                    });
+                }
+
+            },
+            loadItems() {
+                if (this.subcategory) {
+                    $.get(`/list/item/${this.subcategory}`).then(response => {
+                        this.items = response;
+                    });
+                }
+            },
+            resetAll() {
+                this.edit = false;
+                this.subject = '';
+                this.description = '';
+                this.category = '';
+                this.subcategory = '';
+                this.item = '';
+                this.cat = '';
+                this.status = '';
+                this.errors = [];
+                this.subcategories = [];
+                this.items = [];
+                this.technicians = [];
+                this.group = '';
+                this.technician ='';
+            },
+            loadTechnicians() {
+                if (this.group) {
+                    $.get(`/list/group-technicians/${this.group}`).then(response => {
+                        this.technicians = response;
+                    });
+                }
+            }
+        }, watch: {
+            category() {
+                this.loadSubcategory();
             },
 
-            showModal(id, title){
-                let remove_modal = jQuery('#removeTaskModal');
-                let form = jQuery('#remove-task-form');
-                remove_modal.find('.lead').find('#task_title').text(title);
-                remove_modal.modal('show');
-                this.task_id = id;
+            subcategory() {
+                this.loadItems();
             },
-            removeTask(){
-                $.ajax({
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    url: '/task/' + this.task_id,
-                    type: 'DELETE',
-                    success: function (response) {
-                        console.log('task is deleted')
-                    }
-                });
-                let remove_modal = jQuery('#removeTaskModal');
-                remove_modal.modal('hide')
-                this.loadTasks();
+            group() {
+                this.loadTechnicians();
             }
 
         },
-        created(){
-            this.loadTasks()
 
+        created() {
+            this.loadTasks();
+            this.loadSubcategory();
+            this.loadItems();
+            this.loadTechnicians();
         }
-    }
+    });
+    window.app = new Vue({
+        el: '#tasks',
+
+    });
 </script>
+

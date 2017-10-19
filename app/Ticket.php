@@ -72,13 +72,13 @@ use Illuminate\Support\Collection;
  */
 class Ticket extends KModel
 {
-    protected $stopLog = false;
-
+    const TASK_TYPE = 2;
     protected $shouldApplySla = true;
+    protected $stopLog = false;
 
     protected $fillable = [
         'subject', 'description', 'category_id', 'subcategory_id', 'item_id', 'group_id', 'technician_id',
-        'priority_id', 'impact_id', 'urgency_id', 'requester_id', 'creator_id', 'status_id', 'sdp_id'
+        'priority_id', 'impact_id', 'urgency_id', 'requester_id', 'creator_id', 'status_id', 'sdp_id', 'type', 'request_id'
     ];
 
     protected $dates = ['created_at', 'updated_at', 'due_date', 'first_response_date', 'resolve_date', 'close_date'];
@@ -192,6 +192,18 @@ class Ticket extends KModel
     public function logs()
     {
         return $this->hasMany(TicketLog::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Ticket::class, 'request_id')
+            ->where('type', 2)->where('request_id', $this->id);
+    }
+
+
+    public function getTicketAttribute()
+    {
+        return Ticket::where('id', $this->request_id)->first();
     }
 
     public function getResolutionAttribute()
@@ -314,10 +326,6 @@ class Ticket extends KModel
         return $this->hasMany(TicketCustomField::class);
     }*/
 
-    function tasks()
-    {
-        return $this->hasMany(Task::class);
-    }
 
     function scopePending(Builder $query)
     {
@@ -386,7 +394,7 @@ class Ticket extends KModel
 
     function last_updated_approval()
     {
-        return $this->hasOne(TicketApproval::class)->whereIn('status',[1,-1,-2])->orderBy('approval_date', 'desc');
+        return $this->hasOne(TicketApproval::class)->whereIn('status', [1, -1, -2])->orderBy('approval_date', 'desc');
     }
 
     function calculateTime()
@@ -394,5 +402,23 @@ class Ticket extends KModel
         self::flushEventListeners();
 
         dispatch(new \App\Jobs\CalculateTicketTime($this));
+    }
+
+    function taskJson()
+    {
+        return [
+            'id' => $this->id,
+            'subject' => $this->subject ?? '',
+            'description' => $this->description ?? '',
+            'status'=>$this->status->name ?? '',
+            'requester'=>$this->requester->name ?? '',
+            'created_at'=>$this->created_at->format('d/m/Y H:i') ?? '',
+            'technician'=>$this->technician->name ?? '',
+        ];
+    }
+
+    function isTask()
+    {
+        return $this->type == 2;
     }
 }

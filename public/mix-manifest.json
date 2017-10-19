@@ -1,7 +1,3 @@
 {
-    "/js/business-rules.js": "/js/business-rules.js",
-    "/js/ticket-index.js": "/js/ticket-index.js",
-    "/css/app.css": "/css/app.css",
-    "/js/criteria.js": "/js/criteria.js",
-    "/js/ticket-note.js": "/js/ticket-note.js"
+    "/js/tasks.js": "/js/tasks.js"
 }
