@@ -64,7 +64,8 @@ class TicketReplyObserver
             if ($reply->attachments->count()) {
                 \Mail::send(new AttachmentsReplyJob($reply->attachments));
             }
-            $reply->sdp_id = $reply_id;
+
+            $reply->sdp_id = 0;
         }
         else {
 

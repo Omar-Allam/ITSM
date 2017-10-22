@@ -41,7 +41,8 @@ class SyncSDPRequest implements ShouldQueue
     /** @var array */
     protected $statusMap = [
         'Open' => 1,
-        'Onhold' => 4
+        'Onhold' => 4,
+        'Closed' => 9
     ];
 
     function __construct($sdp_id)
@@ -118,7 +119,9 @@ class SyncSDPRequest implements ShouldQueue
     {
         $conversations = $this->api->getConversations($ticket->sdp_id);
         foreach ($conversations as $conversation) {
+            \Log::info("[sync-sdp] Syncing conversation {$conversation['conversationid']}");
             if (TicketReply::where('sdp_id', $conversation['conversationid'])->exists()) {
+                \Log::info("[sync-sdp] Conversation {$conversation['conversationid']} already found");
                 continue;
             }
 
@@ -134,13 +137,14 @@ class SyncSDPRequest implements ShouldQueue
 
             $by = $user->id;
 
-            $ticket->replies()->create([
+            $reply = $ticket->replies()->create([
                 'user_id' => $by,
                 'status_id' => 1,
                 'content' => $details['description'],
                 'sdp_id' => $conversation['conversationid'],
                 'is_resolution' => false
             ]);
+            \Log::info("[sync-sdp] Conversation {$conversation['conversationid']} synced to {$reply->id}");
         }
     }
 
