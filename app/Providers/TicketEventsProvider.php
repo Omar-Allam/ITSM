@@ -7,6 +7,7 @@ use App\ExtractImages;
 use App\Jobs\ApplyBusinessRules;
 use App\Jobs\ApplySLA;
 use App\Jobs\CalculateTicketTime;
+use App\Jobs\NewTaskJob;
 use App\Jobs\SendApproval;
 use App\Ticket;
 use App\TicketApproval;
@@ -22,6 +23,9 @@ class TicketEventsProvider extends ServiceProvider
         Ticket::created(function (Ticket $ticket) {
             dispatch(new ApplyBusinessRules($ticket));
             dispatch(new ApplySLA($ticket));
+            if($ticket->type == Ticket::TASK_TYPE){
+                dispatch(new NewTaskJob($ticket));
+            }
             Attachment::uploadFiles(Attachment::TICKET_TYPE, $ticket->id);
         });
 

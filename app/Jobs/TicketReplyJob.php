@@ -26,7 +26,6 @@ class TicketReplyJob extends Job //implements ShouldQueue
 
     public function handle()
     {
-        $this->to = [];
         $ticket = $this->reply->ticket;
 
         if ($this->reply->user_id == $this->reply->ticket->requester_id) {

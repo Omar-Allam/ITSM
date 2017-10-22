@@ -6,7 +6,13 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4 class="panel-title"><i class="fa fa-ticket"></i> {{t('Request Details')}}</h4>
+        <h4 class="panel-title"><i class="fa fa-ticket"></i>
+            @if(!$ticket->isTask())
+                {{t('Request Details')}}
+            @else
+                {{t('Task Details')}}
+            @endif
+        </h4>
     </div>
     <table class="table table-striped table-condensed">
         <tr>
