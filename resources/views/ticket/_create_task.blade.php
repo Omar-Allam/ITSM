@@ -42,7 +42,7 @@
 
                         <div :class="{'form-group': true , 'has-error':errors.category}">
                             {{ Form::label('category_id', t('Category'), ['class' => 'control-label']) }}
-                            {{ Form::select('category_id', App\Category::where('type',\App\Ticket::TASK_TYPE)->selection('Select Category'),null, ['class' => 'form-control',  'v-model' => 'category','v-on:change'=>'loadSubcategory']) }}
+                            {{ Form::select('category_id', App\Category::where('type')->selection('Select Category'),null, ['class' => 'form-control',  'v-model' => 'category','v-on:change'=>'loadSubcategory']) }}
                             <span class="help-block" v-for="error in errors.category">@{{error}}</span>
                         </div>
 
