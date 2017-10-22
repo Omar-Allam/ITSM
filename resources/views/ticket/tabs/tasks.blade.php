@@ -1,7 +1,8 @@
 <tasks :ticket_id="{{$ticket->id}}" inline-template>
     <div>
         <div>
-            @if(Auth::id() == $ticket->technician_id || Auth::user()->isSupervisor())
+
+            @if(Auth::id() == $ticket->technician_id || Auth::user()->isTechnicainSupervisor($ticket))
                 <button data-toggle="modal" data-target="#TaskForm" type="button" @click="resetTask"
                         class="btn btn-sm btn-success pull-right" title="{{t('Create Task')}}">
                     <i class="fa fa-plus"></i> {{t('Create Task')}}

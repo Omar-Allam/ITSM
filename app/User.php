@@ -113,9 +113,10 @@ class User extends Authenticatable implements CanResetPassword
         return $this->groups()->admin()->exists();
     }
 
-    public function isSupervisor()
+    public function isTechnicainSupervisor($ticket)
     {
-        $groups = $this->groups;
+        $groups = $ticket->technician->groups;
+
         foreach ($groups as $group) {
             if (in_array($this->id, $group->supervisors->pluck('id')->toArray())) {
                 return true;
