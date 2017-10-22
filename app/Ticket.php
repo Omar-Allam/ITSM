@@ -410,12 +410,14 @@ class Ticket extends KModel
             'id' => $this->id,
             'subject' => $this->subject ?? '',
             'description' => $this->description ?? '',
-            'status'=>$this->status->name ?? '',
-            'requester'=>$this->requester->name ?? '',
-            'created_at'=>$this->created_at->format('d/m/Y H:i') ?? '',
-            'technician'=>$this->technician->name ?? '',
+            'status' => $this->status->name ?? '',
+            'requester' => $this->requester->name ?? '',
+            'created_at' => $this->created_at->format('d/m/Y H:i') ?? '',
+            'technician' => $this->technician->name ?? '',
         ];
     }
+
+
 
     function isTask()
     {
