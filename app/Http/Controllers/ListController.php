@@ -47,7 +47,9 @@ class ListController extends Controller
 
     public function tasksCategory()
     {
-        return Category::orderBy('name')->where('type',Ticket::TASK_TYPE)->get(['id', 'name']);
+        return Category::orderBy('name')
+            // ->where('type', Ticket::TASK_TYPE)
+            ->get(['id', 'name']);
     }
 
     public function location()
