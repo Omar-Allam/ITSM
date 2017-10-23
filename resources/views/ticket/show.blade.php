@@ -5,8 +5,11 @@
     <div class="display-flex ticket-meta">
         <div class="flex">
             <h4>#{{$ticket->id}} - {{$ticket->subject}}</h4>
+
             <h4>@if($ticket->sdp_id) Helpdesk : #{{$ticket->sdp_id ?? ''}}  -  @endif<strong>{{t('By')}}
                     : {{$ticket->requester->name}}</strong></h4>
+            <h4>{{$ticket->type==3 ? 'Duplicated Request from #'.$ticket->request_id :''}}</h4>
+
             @if (Auth::user()->isSupport() && !$ticket->isTask())
                 <div class="btn-toolbar">
                     <button data-toggle="modal" data-target="#AssignForm" type="button"

@@ -73,6 +73,7 @@ use Illuminate\Support\Collection;
 class Ticket extends KModel
 {
     const TASK_TYPE = 2;
+    const DUPLICATED_TICKET = 3;
     protected $shouldApplySla = true;
     protected $stopLog = false;
 
@@ -199,7 +200,6 @@ class Ticket extends KModel
         return $this->hasMany(Ticket::class, 'request_id')
             ->where('type', 2)->where('request_id', $this->id);
     }
-
 
     public function getTicketAttribute()
     {
@@ -417,10 +417,13 @@ class Ticket extends KModel
         ];
     }
 
-
-
     function isTask()
     {
         return $this->type == 2;
+    }
+
+    function hasDuplicatedTickets()
+    {
+        return Ticket::where('request_id', $this->id)->where('type', self::DUPLICATED_TICKET)->count() > 0;
     }
 }
