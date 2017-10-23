@@ -18,17 +18,17 @@ trait TaskTrait
     {
         return $user->id == $task->ticket->technicain_id ||
             $user->groups->contains($task->ticket->group_id) ||
-            $task->technicain_id || $user->isSupervisor();
+            $task->technicain_id || $user->isTechnicainSupervisor($task->ticket);
     }
 
     public function task_create(User $user, Ticket $task)
     {
-        return $user->id == $task->ticket->technicain_id || $user->isSupervisor();
+        return $user->id == $task->ticket->technicain_id || $user->isTechnicainSupervisor($task->ticket);
     }
 
     public function task_close(User $user, Ticket $task)
     {
-        return $user->id == $task->ticket->technician_id || $user->isSupervisor();
+        return $user->id == $task->ticket->technician_id || $user->isTechnicainSupervisor($task->ticket);
     }
 
 
