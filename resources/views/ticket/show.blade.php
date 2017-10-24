@@ -5,14 +5,26 @@
     <div class="display-flex ticket-meta">
         <div class="flex">
             <h4>#{{$ticket->id}} - {{$ticket->subject}}</h4>
-            <h4>@if($ticket->sdp_id) Helpdesk : #{{$ticket->sdp_id ?? ''}}  -  @endif<strong>{{t('By')}}
-                    : {{$ticket->requester->name}}</strong></h4>
+
+            <h4>
+                @if ($ticket->sdp_id) Helpdesk : #{{$ticket->sdp_id ?? ''}} &mdash; @endif
+
+                <strong>{{t('By')}} :{{$ticket->requester->name}}</strong>
+            </h4>
+
+            @if($ticket->isDuplicated())
+                <h4>{{'Duplicated Request from'}}:
+                    <a title="Show Original Request" href="{{route('ticket.show',$ticket->request_id)}}" target="_blank">
+                        #{{ $ticket->request_id }}
+                    </a>
+                </h4>
+            @endif
+
             @if (Auth::user()->isSupport())
                 @if($ticket->isTask())
-                    <h4>{{'Task On Request #'.$ticket->request_id.''}}
-                        <a title="Show Original Request" href="{{route('ticket.show',$ticket->request_id)}}"
-                           target="_blank">
-                            <i class="fa fa-external-link" aria-hidden="true"></i>
+                    <h4>{{t('Request')}}: 
+                        <a title="{{ t('Show Original Request') }}" href="{{route('ticket.show',$ticket->request_id)}}" target="_blank">
+                            #{{ $ticket->request_id }}
                         </a>
                     </h4>
                 @endif
@@ -41,6 +53,7 @@
                 </div>
             @endif
         </div>
+
 
         <div class="card">
             <ul class="list-unstyled">
@@ -74,8 +87,10 @@
                     </li>
                 @endif
             </ul>
+
         </div>
     </div>
+
 @endsection
 
 @section('body')

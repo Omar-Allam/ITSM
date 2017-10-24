@@ -22,6 +22,7 @@ use App\TicketApproval;
 use App\TicketNote;
 use App\TicketReply;
 use Carbon\Carbon;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\File;
@@ -32,15 +33,12 @@ class TicketController extends Controller
 {
     public function index()
     {
-        $scope = \Session::get('ticket.scope', 'my_pending');
-        if (\Session::has('ticket.filter')) {
-            $query = Ticket::scopedView('in_my_groups')->filter(session('ticket.filter'));
-        } else {
-            $query = Ticket::scopedView($scope);
-        }
-        $tickets = $query->where('type', '<>', 2)->latest('id')->paginate();
+        $ticketScope = $this->handleTicketsScope();
+        $query = $ticketScope['query'];
+        $scope = $ticketScope['scope'];
+        $scopes = $ticketScope['scopes'];
 
-        $scopes = TicketViewScope::getScopes();
+        $tickets = $query->orwhereNull('type')->latest('id')->paginate();
         return view('ticket.index', compact('tickets', 'scopes', 'scope'));
     }
 
@@ -54,14 +52,15 @@ class TicketController extends Controller
         $ticket = new Ticket($request->all());
 
         $ticket->creator_id = $request->user()->id;
+
         if (!$request->get('requester_id')) {
             $ticket->requester_id = $request->user()->id;
         }
+
         $ticket->location_id = $ticket->requester->location_id;
         $ticket->business_unit_id = $ticket->requester->business_unit_id;
         $ticket->status_id = 1;
 
-        // Fires created event in \App\Providers\TicketEventsProvider
         $ticket->save();
         $ticket->syncFields($request->get('cf', []));
 
@@ -127,19 +126,43 @@ class TicketController extends Controller
 
     public function jump(Request $request)
     {
-        $ticket = Ticket::find(intval($request->id));
-        if (!$ticket) {
-            $ticket = Ticket::where('sdp_id', $request->id)->first();
-            if ($ticket) {
-                return \Redirect::route('ticket.show', $ticket->id);
-            }
+        $ticket = Ticket::find(intval($request->id)) ?? Ticket::where('sdp_id', intval($request->id))->first();
+
+        if ($ticket && $ticket->hasDuplicatedTickets()) {
+            $ticketScope = $this->handleTicketsScope();
+            $query = $ticketScope['query'];
+            $scope = $ticketScope['scope'];
+            $scopes = $ticketScope['scopes'];
+
+            $tickets = $query->where('request_id', $ticket->id)
+                ->orWhere('id', $ticket->id)
+                ->orWhere('sdp_id', $ticket->id)->paginate();
+
+
+            return view('ticket.index', compact('tickets', 'scopes', 'scope'));
         }
+
         if ($ticket) {
-            return \Redirect::route('ticket.show', $request->id);
+            return \Redirect::route('ticket.show', $ticket->id);
         }
 
         flash(t('Ticket not found'));
         return \Redirect::route('ticket.index');
+    }
+
+    public function handleTicketsScope()
+    {
+        $scope = \Session::get('ticket.scope', 'my_pending');
+
+        if (\Session::has('ticket.filter')) {
+            $query = Ticket::scopedView('in_my_groups')->filter(session('ticket.filter'));
+        } else {
+            $query = Ticket::scopedView($scope);
+        }
+
+        $scopes = TicketViewScope::getScopes();
+
+        return collect(['scope' => $scope, 'query' => $query, 'scopes' => $scopes]);
     }
 
     public function reassign(Ticket $ticket, ReassignRequest $request)
@@ -164,14 +187,17 @@ class TicketController extends Controller
 
     public function duplicate(Ticket $ticket, Request $request)
     {
-        Ticket::flushEventListeners(); //as business rule change the technician
+        Ticket::flushEventListeners();
         if ($request->tickets_count > 0 && $request->tickets_count <= 10) {
             for ($i = 1; $i <= $request->tickets_count; $i++) {
                 $data = $ticket->toArray();
                 unset($data['id'], $data['created_at'], $data['updated_at']);
                 $newTicket = new Ticket($data);
-                $newTicket->creator_id = $request->user()->id;
+                $newTicket->requester_id = $newTicket->creator_id = \Auth::id();
+                $newTicket->request_id = $ticket->id;
                 $newTicket->status_id = 1;
+                $newTicket->type = null;
+                $newTicket->sdp_id = null;
                 $newTicket->save();
                 dispatch(new ApplySLA($newTicket));
 //                $this->dispatch(new NewTicketJob($newTicket));

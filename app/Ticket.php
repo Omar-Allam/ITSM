@@ -200,7 +200,6 @@ class Ticket extends KModel
             ->where('type', 2)->where('request_id', $this->id);
     }
 
-
     public function getTicketAttribute()
     {
         return Ticket::where('id', $this->request_id)->first();
@@ -417,10 +416,18 @@ class Ticket extends KModel
         ];
     }
 
-
-
     function isTask()
     {
         return $this->type == 2;
+    }
+
+    function isDuplicated()
+    {
+        return !$this->type && $this->request_id;
+    }
+
+    function hasDuplicatedTickets()
+    {
+        return Ticket::where('request_id', $this->id)->whereNull('type')->exists();
     }
 }

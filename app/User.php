@@ -115,13 +115,17 @@ class User extends Authenticatable implements CanResetPassword
 
     public function isTechnicainSupervisor($ticket)
     {
-        $groups = $ticket->technician->groups;
+        if($ticket->technician){
+            $groups = $ticket->technician->groups;
 
-        foreach ($groups as $group) {
-            if (in_array($this->id, $group->supervisors->pluck('id')->toArray())) {
-                return true;
+            foreach ($groups as $group) {
+                if (in_array($this->id, $group->supervisors->pluck('id')->toArray())) {
+                    return true;
+                }
             }
         }
+
+
         return false;
     }
 
