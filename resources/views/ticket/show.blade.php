@@ -8,6 +8,14 @@
             <h4>@if($ticket->sdp_id) Helpdesk : #{{$ticket->sdp_id ?? ''}}  -  @endif<strong>{{t('By')}}
                     : {{$ticket->requester->name}}</strong></h4>
             @if (Auth::user()->isSupport())
+                @if($ticket->isTask())
+                    <h4>{{'Task On Request #'.$ticket->request_id.''}}
+                        <a title="Show Original Request" href="{{route('ticket.show',$ticket->request_id)}}"
+                           target="_blank">
+                            <i class="fa fa-external-link" aria-hidden="true"></i>
+                        </a>
+                    </h4>
+                @endif
                 <div class="btn-toolbar">
                     <button data-toggle="modal" data-target="#AssignForm" type="button"
                             class="btn btn-sm btn-info btn-rounded btn-outlined" title="{{t('Re-assign')}}">
