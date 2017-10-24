@@ -16,14 +16,14 @@ trait TaskTrait
 {
     public function task_read(User $user, Ticket $task)
     {
-        return $user->id == $task->ticket->technicain_id ||
+        return $user->id == $task->ticket->technician_id ||
             $user->groups->contains($task->ticket->group_id) ||
-            $task->technicain_id || $user->isTechnicainSupervisor($task->ticket);
+            $task->technician_id || $user->isTechnicainSupervisor($task->ticket);
     }
 
-    public function task_create(User $user, Ticket $task)
+    public function task_create(User $user, Ticket $ticket)
     {
-        return $user->id == $task->ticket->technicain_id || $user->isTechnicainSupervisor($task->ticket);
+        return $user->id == $ticket->technician_id || $user->isTechnicainSupervisor($ticket);
     }
 
     public function task_close(User $user, Ticket $task)

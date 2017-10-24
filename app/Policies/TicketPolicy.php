@@ -32,13 +32,11 @@ class TicketPolicy
         return false;
     }
 
-
     function modify(User $user, Ticket $ticket)
     {
         return in_array($user->id, [$ticket->technician_id, $ticket->coordinator_id]) ||
             $user->groups->contains($ticket->group_id);
     }
-
 
     function reply(User $user, Ticket $ticket)
     {

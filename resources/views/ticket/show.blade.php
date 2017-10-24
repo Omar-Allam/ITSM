@@ -7,30 +7,29 @@
             <h4>#{{$ticket->id}} - {{$ticket->subject}}</h4>
             <h4>@if($ticket->sdp_id) Helpdesk : #{{$ticket->sdp_id ?? ''}}  -  @endif<strong>{{t('By')}}
                     : {{$ticket->requester->name}}</strong></h4>
-            @if (Auth::user()->isSupport() && !$ticket->isTask())
+            @if (Auth::user()->isSupport())
                 <div class="btn-toolbar">
                     <button data-toggle="modal" data-target="#AssignForm" type="button"
                             class="btn btn-sm btn-info btn-rounded btn-outlined" title="{{t('Re-assign')}}">
                         <i class="fa fa-mail-forward"></i> {{t('Re-assign')}}
                     </button>
+                    @if(!$ticket->isTask())
+                        <button data-toggle="modal" data-target="#DuplicateForm" type="button"
+                                class="btn btn-sm btn-primary btn-rounded btn-outlined" title="Duplicate">
+                            <i class="fa fa-copy"></i> {{t('Duplicate')}}
+                        </button>
 
-                    <button data-toggle="modal" data-target="#DuplicateForm" type="button"
-                            class="btn btn-sm btn-primary btn-rounded btn-outlined" title="Duplicate">
-                        <i class="fa fa-copy"></i> {{t('Duplicate')}}
-                    </button>
-
-                    @if(Auth::user()->isSupport())
                         <button type="button" class="btn btn-primary btn-sm btn-rounded btn-outlined addNote"
                                 data-toggle="modal" data-target="#ReplyModal" title="{{t('Add Note')}}">
                             <i class="fa fa-sticky-note"></i> {{t('Add Note')}}
                         </button>
-                    @endif
 
-                    @can('pick',$ticket)
-                        <a href="{{route('ticket.pickup',$ticket)}}" title="Pick Up"
-                           class="btn btn-sm btn-primary btn-rounded btn-outlined"><i
-                                    class="fa fa-hand-lizard-o"></i> {{t('Pick Up')}}</a>
-                    @endcan
+                        @can('pick',$ticket)
+                            <a href="{{route('ticket.pickup',$ticket)}}" title="Pick Up"
+                               class="btn btn-sm btn-primary btn-rounded btn-outlined"><i
+                                        class="fa fa-hand-lizard-o"></i> {{t('Pick Up')}}</a>
+                        @endcan
+                    @endif
                 </div>
             @endif
         </div>
@@ -108,7 +107,7 @@
                     @if(!$ticket->isTask())
                         {{t('Ticket Log')}}
                     @else
-                        {{t('Ticket Log')}}
+                        {{t('Task Log')}}
                     @endif
                 </a></li>
 
