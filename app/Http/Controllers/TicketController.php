@@ -33,7 +33,6 @@ class TicketController extends Controller
 {
     public function index()
     {
-
         $ticketScope = $this->handleTicketsScope();
         $query = $ticketScope['query'];
         $scope = $ticketScope['scope'];
