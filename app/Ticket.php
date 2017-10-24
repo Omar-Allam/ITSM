@@ -423,11 +423,11 @@ class Ticket extends KModel
 
     function isDuplicated()
     {
-        return $this->type == 3 && $this->request_id;
+        return !$this->type && $this->request_id;
     }
 
     function hasDuplicatedTickets()
     {
-        return Ticket::where('request_id', $this->id)->where('type', 3)->count() > 0;
+        return Ticket::where('request_id', $this->id)->whereNull('type')->exists();
     }
 }

@@ -39,7 +39,7 @@ class TicketController extends Controller
         $scope = $ticketScope['scope'];
         $scopes = $ticketScope['scopes'];
 
-        $tickets = $query->whereNull('type')->orWhere('type', 3)->latest('id')->paginate();
+        $tickets = $query->orwhereNull('type')->latest('id')->paginate();
         return view('ticket.index', compact('tickets', 'scopes', 'scope'));
     }
 
@@ -53,14 +53,15 @@ class TicketController extends Controller
         $ticket = new Ticket($request->all());
 
         $ticket->creator_id = $request->user()->id;
+
         if (!$request->get('requester_id')) {
             $ticket->requester_id = $request->user()->id;
         }
+
         $ticket->location_id = $ticket->requester->location_id;
         $ticket->business_unit_id = $ticket->requester->business_unit_id;
         $ticket->status_id = 1;
 
-        // Fires created event in \App\Providers\TicketEventsProvider
         $ticket->save();
         $ticket->syncFields($request->get('cf', []));
 
@@ -136,7 +137,7 @@ class TicketController extends Controller
 
             $tickets = $query->where('request_id', $ticket->id)
                 ->orWhere('id', $ticket->id)
-                ->orWhere('sdp_id', $ticket->id)->latest('id')->paginate();
+                ->orWhere('sdp_id', $ticket->id)->paginate();
 
 
             return view('ticket.index', compact('tickets', 'scopes', 'scope'));
@@ -193,10 +194,10 @@ class TicketController extends Controller
                 $data = $ticket->toArray();
                 unset($data['id'], $data['created_at'], $data['updated_at']);
                 $newTicket = new Ticket($data);
-                $newTicket->requester_id = $newTicket->creator_id = $ticket->technician_id;
-                $newTicket->type = 3;
+                $newTicket->requester_id = $newTicket->creator_id = \Auth::id();
                 $newTicket->request_id = $ticket->id;
                 $newTicket->status_id = 1;
+                $newTicket->type = null;
                 $newTicket->sdp_id = null;
                 $newTicket->save();
                 dispatch(new ApplySLA($newTicket));
