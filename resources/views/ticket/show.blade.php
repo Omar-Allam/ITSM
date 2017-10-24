@@ -8,7 +8,13 @@
 
             <h4>@if($ticket->sdp_id) Helpdesk : #{{$ticket->sdp_id ?? ''}}  -  @endif<strong>{{t('By')}}
                     : {{$ticket->requester->name}}</strong></h4>
-            <h4>{{$ticket->type==3 ? 'Duplicated Request from #'.$ticket->request_id :''}}</h4>
+            @if($ticket->isDuplicated())
+                <h4>{{'Duplicated Request from #'.$ticket->request_id.''}}
+                    <a title="Show Original Request" href="{{route('ticket.show',$ticket->request_id)}}" target="_blank">
+                        <i class="fa fa-external-link" aria-hidden="true"></i>
+                    </a>
+                </h4>
+            @endif
 
             @if (Auth::user()->isSupport() && !$ticket->isTask())
                 <div class="btn-toolbar">
@@ -22,12 +28,11 @@
                         <i class="fa fa-copy"></i> {{t('Duplicate')}}
                     </button>
 
-                    @if(Auth::user()->isSupport())
-                        <button type="button" class="btn btn-primary btn-sm btn-rounded btn-outlined addNote"
-                                data-toggle="modal" data-target="#ReplyModal" title="{{t('Add Note')}}">
-                            <i class="fa fa-sticky-note"></i> {{t('Add Note')}}
-                        </button>
-                    @endif
+
+                    <button type="button" class="btn btn-primary btn-sm btn-rounded btn-outlined addNote"
+                            data-toggle="modal" data-target="#ReplyModal" title="{{t('Add Note')}}">
+                        <i class="fa fa-sticky-note"></i> {{t('Add Note')}}
+                    </button>
 
                     @can('pick',$ticket)
                         <a href="{{route('ticket.pickup',$ticket)}}" title="Pick Up"
@@ -37,6 +42,7 @@
                 </div>
             @endif
         </div>
+
 
         <div class="card">
             <ul class="list-unstyled">
@@ -70,8 +76,10 @@
                     </li>
                 @endif
             </ul>
+
         </div>
     </div>
+
 @endsection
 
 @section('body')

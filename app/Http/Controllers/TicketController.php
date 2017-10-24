@@ -33,12 +33,13 @@ class TicketController extends Controller
 {
     public function index()
     {
-        $query = $this->handleTicketsScope()->get('query');
-        $scope = $this->handleTicketsScope()->get('scope');
-        $scopes = $this->handleTicketsScope()->get('scopes');
+
+        $ticketScope = $this->handleTicketsScope();
+        $query = $ticketScope['query'];
+        $scope = $ticketScope['scope'];
+        $scopes = $ticketScope['scopes'];
 
         $tickets = $query->whereNull('type')->orWhere('type', 3)->latest('id')->paginate();
-
         return view('ticket.index', compact('tickets', 'scopes', 'scope'));
     }
 
@@ -128,10 +129,10 @@ class TicketController extends Controller
         $ticket = Ticket::find(intval($request->id)) ?? Ticket::where('sdp_id', intval($request->id))->first();
 
         if ($ticket && $ticket->hasDuplicatedTickets()) {
-
-            $query = $this->handleTicketsScope()->get('query');
-            $scope = $this->handleTicketsScope()->get('scope');
-            $scopes = $this->handleTicketsScope()->get('scopes');
+            $ticketScope = $this->handleTicketsScope();
+            $query = $ticketScope['query'];
+            $scope = $ticketScope['scope'];
+            $scopes = $ticketScope['scopes'];
 
             $tickets = $query->where('request_id', $ticket->id)
                 ->orWhere('id', $ticket->id)
@@ -193,7 +194,7 @@ class TicketController extends Controller
                 unset($data['id'], $data['created_at'], $data['updated_at']);
                 $newTicket = new Ticket($data);
                 $newTicket->requester_id = $newTicket->creator_id = $ticket->technician_id;
-                $newTicket->type = Ticket::DUPLICATED_TICKET;
+                $newTicket->type = 3;
                 $newTicket->request_id = $ticket->id;
                 $newTicket->status_id = 1;
                 $newTicket->sdp_id = null;

@@ -313,7 +313,20 @@ hr.form-divider {
   align-items: center;
   flex: 1;
 }
-
+.count{
+  display: inline-block;
+  min-width: 10px;
+  padding: 3px 7px;
+  font-size: 11px;
+  font-weight: bold;
+  color: #fff;
+  line-height: 1;
+  vertical-align: middle;
+  white-space: nowrap;
+  text-align: center;
+  background-color:#0079b4;
+  border-radius: 10px;
+}
 .ticket-meta {
   margin-top: 5px;
   margin-bottom: 5px;

@@ -73,7 +73,6 @@ use Illuminate\Support\Collection;
 class Ticket extends KModel
 {
     const TASK_TYPE = 2;
-    const DUPLICATED_TICKET = 3;
     protected $shouldApplySla = true;
     protected $stopLog = false;
 
@@ -422,8 +421,13 @@ class Ticket extends KModel
         return $this->type == 2;
     }
 
+    function isDuplicated()
+    {
+        return $this->type == 3 && $this->request_id;
+    }
+
     function hasDuplicatedTickets()
     {
-        return Ticket::where('request_id', $this->id)->where('type', self::DUPLICATED_TICKET)->count() > 0;
+        return Ticket::where('request_id', $this->id)->where('type', 3)->count() > 0;
     }
 }
