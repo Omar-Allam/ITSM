@@ -2,12 +2,12 @@
     <div>
         <div>
 
-            @if(Auth::id() == $ticket->technician_id || Auth::user()->isTechnicainSupervisor($ticket))
+            @can('task_create',$ticket)
                 <button data-toggle="modal" data-target="#TaskForm" type="button" @click="resetTask"
                         class="btn btn-sm btn-success pull-right" title="{{t('Create Task')}}">
                     <i class="fa fa-plus"></i> {{t('Create Task')}}
                 </button>
-            @endif
+            @endcan
         </div>
         <div class="clearfix"></div>
         <br>

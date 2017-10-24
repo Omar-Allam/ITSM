@@ -38,7 +38,7 @@ class TicketController extends Controller
         } else {
             $query = Ticket::scopedView($scope);
         }
-        $tickets = $query->whereNull('type')->latest('id')->paginate();
+        $tickets = $query->where('type', '<>', 2)->latest('id')->paginate();
 
         $scopes = TicketViewScope::getScopes();
         return view('ticket.index', compact('tickets', 'scopes', 'scope'));
