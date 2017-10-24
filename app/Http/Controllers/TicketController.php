@@ -38,7 +38,7 @@ class TicketController extends Controller
         $scope = $ticketScope['scope'];
         $scopes = $ticketScope['scopes'];
 
-        $tickets = $query->orwhereNull('type')->latest('id')->paginate();
+        $tickets = $query->latest('id')->paginate();
         return view('ticket.index', compact('tickets', 'scopes', 'scope'));
     }
 
