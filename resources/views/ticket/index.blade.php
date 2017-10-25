@@ -49,13 +49,12 @@
                     <th>{{t('Due Date')}}</th>
                     <th>{{t('Status')}}</th>
                     <th>{{t('Category')}}</th>
-                    <th>{{t('Type')}}</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($tickets as $ticket)
                     <tr>
-                        <td><a href="{{ route('ticket.show', $ticket) }}">{{ $ticket->id }}</a></td>
+                        <td><i class="fa fa-{{t($ticket->type_icon)}}" title="{{t($ticket->type_name)}}" aria-hidden="true"></i> <a href="{{ route('ticket.show', $ticket) }}">{{ $ticket->id }}</a></td>
                         <td><a href="{{ route('ticket.show', $ticket) }}">{{ $ticket->sdp_id ?? ''}}</a></td>
                         <td>
                             @if($ticket->overdue)
@@ -69,7 +68,6 @@
                         <td>{{ $ticket->due_date? $ticket->due_date->format('d/m/Y h:i a') : t('Not Assigned') }}</td>
                         <td>{{ t($ticket->status->name) }}</td>
                         <td>{{ t($ticket->category->name) }}</td>
-                        <td><i class="fa fa-{{t($ticket->type_icon)}}" title="{{t($ticket->type_name)}}" aria-hidden="true"></i></td>
                     </tr>
                 @endforeach
                 </tbody>
