@@ -29,7 +29,8 @@ class TicketReplyObserver
                 $reply->status_id = 1;
                 $reply->ticket->status_id = 1;
             }
-        } elseif ($reply->user_id == $reply->ticket->technician_id) {
+        }
+        if ($reply->user_id == $reply->ticket->technician_id) {
             $this->handleTechnician($reply);
         }
 

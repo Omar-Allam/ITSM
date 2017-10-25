@@ -54,7 +54,7 @@
                 <tbody>
                 @foreach($tickets as $ticket)
                     <tr>
-                        <td><a href="{{ route('ticket.show', $ticket) }}">{{ $ticket->id }}</a></td>
+                        <td><i class="fa fa-{{t($ticket->type_icon)}}" title="{{t($ticket->type_name)}}" aria-hidden="true"></i> <a href="{{ route('ticket.show', $ticket) }}">{{ $ticket->id }}</a></td>
                         <td><a href="{{ route('ticket.show', $ticket) }}">{{ $ticket->sdp_id ?? ''}}</a></td>
                         <td>
                             @if($ticket->overdue)

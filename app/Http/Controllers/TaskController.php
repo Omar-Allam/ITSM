@@ -45,6 +45,9 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, ['subject' => 'required', 'category' => 'required']);
+        if ($request['technician']) {
+            Ticket::flushEventListeners();
+        }
 
         $task = Ticket::create([
             'subject' => $request['subject'],
@@ -61,6 +64,9 @@ class TaskController extends Controller
             'technician_id' => $request['technician'],
         ]);
 
+        if($request['technician']){
+            dispatch(new NewTaskJob($task));
+        }
 
         return response()->json($task);
     }
