@@ -430,4 +430,28 @@ class Ticket extends KModel
     {
         return Ticket::where('request_id', $this->id)->whereNull('type')->exists();
     }
+
+    function getTypeNameAttribute()
+    {
+        if ($this->type == 2) {
+            return 'Task';
+        } elseif ($this->type == null && $this->request_id) {
+            return 'Duplicated';
+        } else {
+            return 'Request';
+        }
+    }
+
+    function getTypeIconAttribute()
+    {
+        if ($this->type == 2) {
+            return 'tasks';
+
+        } elseif ($this->type == null && $this->request_id) {
+            return 'files-o';
+        } else {
+            return 'ticket';
+        }
+    }
+
 }

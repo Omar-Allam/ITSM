@@ -49,6 +49,7 @@
                     <th>{{t('Due Date')}}</th>
                     <th>{{t('Status')}}</th>
                     <th>{{t('Category')}}</th>
+                    <th>{{t('Type')}}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -68,6 +69,7 @@
                         <td>{{ $ticket->due_date? $ticket->due_date->format('d/m/Y h:i a') : t('Not Assigned') }}</td>
                         <td>{{ t($ticket->status->name) }}</td>
                         <td>{{ t($ticket->category->name) }}</td>
+                        <td><i class="fa fa-{{t($ticket->type_icon)}}" title="{{t($ticket->type_name)}}" aria-hidden="true"></i></td>
                     </tr>
                 @endforeach
                 </tbody>

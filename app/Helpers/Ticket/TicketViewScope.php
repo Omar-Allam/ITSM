@@ -53,6 +53,11 @@ class TicketViewScope
             $scopes["on_hold_assigned_to_me"] = 'All My On-Hold Assigned Tickets';
             $scopes["pending_assigned_to_me"] = 'All My Pending Assigned Tickets';
             $scopes["completed_assigned_to_me"] = 'All My Completed Assigned Tickets';
+            $scopes["open_tasks_assigned_to_me"] = 'All My Open Assigned Tasks';
+            $scopes["on_hold_tasks_assigned_to_me"] = 'All My On-Hold Assigned Tasks';
+            $scopes["pending_tasks_assigned_to_me"] = 'All My Pending Assigned Tasks';
+            $scopes["completed_tasks_assigned_to_me"] = 'All My Completed Assigned Tasks';
+            $scopes["all_mine_tasks"] = 'All My Assigned Tasks';
             $scopes["due_by_today"] = 'All Tickets due by today';
             $scopes["my_over_due"] = 'All My Overdue Tickets';
             $scopes["over_due"] = 'All Overdue Tickets';
@@ -64,7 +69,6 @@ class TicketViewScope
 
     public function apply($scope)
     {
-//        $scope = session('ticket.scope');
         if (method_exists($this, $scope)) {
             if (in_array($scope, self::$statusScopes)) {
                 $this->in_my_groups();
@@ -103,6 +107,31 @@ class TicketViewScope
     {
         $this->mine();
         $this->completed();
+    }
+
+    public function open_tasks_assigned_to_me()
+    {
+        $this->open_mine_tasks();
+    }
+
+    public function on_hold_tasks_assigned_to_me()
+    {
+        $this->on_hold_mine_tasks();
+    }
+
+    public function pending_tasks_assigned_to_me()
+    {
+        $this->pending_mine_tasks();
+    }
+
+    public function completed_tasks_assigned_to_me()
+    {
+        $this->completed_mine_tasks();
+    }
+
+    public function all_mine_tasks()
+    {
+        $this->mine_tasks();
     }
 
     public function mine()
@@ -236,9 +265,11 @@ class TicketViewScope
         $this->overdue();
     }
 
-    function over_due(){
+    function over_due()
+    {
         $this->allOverdue();
     }
+
     function pending_assigned_to_me()
     {
         $this->pendingAssigned();
@@ -254,17 +285,47 @@ class TicketViewScope
 
     public function overdue()
     {
-        $this->query->where('overdue', 1)->where('technician_id',$this->user->id)->whereNotIn('status_id',[7,8,9]);
+        $this->query->where('overdue', 1)->where('technician_id', $this->user->id)->whereNotIn('status_id', [7, 8, 9]);
     }
 
     public function allOverdue()
     {
         $this->in_my_groups();
-        $this->query->where('overdue', 1)->whereNotIn('status_id',[7,8,9]);
+        $this->query->where('overdue', 1)->whereNotIn('status_id', [7, 8, 9]);
     }
 
     public function pendingAssigned()
     {
         $this->query->whereNotIn('status_id', [7, 8, 9])->where('technician_id', $this->user->id);
+    }
+
+    public function open_mine_tasks()
+    {
+        $this->query->where(function (Builder $q) {
+            $q->where('technician_id', $this->user->id)->where('type', 2)->where('status_id', 1);
+        });
+
+    }
+
+    public function on_hold_mine_tasks()
+    {
+        $this->query->where(function (Builder $q) {
+            $q->where('technician_id', $this->user->id)->where('type', 2)->whereIn('status_id', [4, 5, 6]);
+        });
+    }
+
+    public function pending_mine_tasks()
+    {
+        $this->query->whereNotIn('status_id', [7, 8, 9])->where('technician_id', $this->user->id)->where('type', 2);
+    }
+
+    public function completed_mine_tasks()
+    {
+        $this->query->where('technician_id', $this->user->id)->whereIn('status_id', [7, 8, 9])->where('type', 2);
+    }
+
+    public function mine_tasks()
+    {
+        $this->query->where('technician_id', $this->user->id)->where('type', 2);
     }
 }
