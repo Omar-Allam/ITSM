@@ -65,4 +65,8 @@ class TicketPolicy
         return false;
     }
 
+    function show_approvals(User $user , Ticket$ticket){
+        return $user->isSupport();
+    }
+
 }
