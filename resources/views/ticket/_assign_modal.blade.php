@@ -20,7 +20,7 @@
                         {{ Form::label('technician_id', t('Technician'), ['class' => 'control-label']) }}
                         <select  class="form-control" name="technician_id" id="technician_id">
                             <option value="">Select Technician</option>
-                            <option v-for="tech in technicians" :value="tech.id" :selected="tech.id == {{$ticket->technician_id}}"> @{{tech.name}}</option>
+                            <option v-for="tech in technicians" :value="tech.id" :selected="tech.id == {{$ticket->technician_id ?? 0}}"> @{{tech.name}}</option>
                         </select>
                         @if ($errors->has('technician_id'))
                             <div class="error-message">{{$errors->first('technician_id')}}</div>
