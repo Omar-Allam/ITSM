@@ -12694,7 +12694,8 @@ img {
 }
 
 .back {
-  margin: 10px 10px 0 10px;
+  float: right;
+  margin: 3px;
 }
 
 @media print {

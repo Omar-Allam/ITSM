@@ -1,12 +1,12 @@
 @extends('layouts.print')
 @section('body')
 
-    <div class="pull-right back"><a href="{{route('ticket.show',$ticket)}}" class="btn btn-default"> <i
-                    class="fa fa-chevron-left" aria-hidden="true"></i> {{t('Back to Ticket')}}
-        </a>
-    </div>
 
     <div class="container">
+        <div class="back"><a href="{{route('ticket.show',$ticket)}}" class="btn btn-default"> <i
+                        class="fa fa-chevron-left" aria-hidden="true"></i> {{t('Back to Ticket')}}
+            </a>
+        </div>
 
         <div class="print-ticket-form">
             <div class="panel panel-primary">
