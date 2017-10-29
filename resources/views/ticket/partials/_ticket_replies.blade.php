@@ -17,29 +17,27 @@
                 </div>
             </div>
         @endforeach
-        @if($ticket->approvals->where('comment','<>',null)->count())
 
-            <h4>{{t('Ticket Approvals')}}</h4>
-            @foreach($ticket->approvals as $approval)
-                @if($approval->comment)
-                    <div class="panel panel-sm panel-warning">
-                        <div class="panel-heading">
-                            <h5 class="panel-title"><a href="#approval{{$approval->id}}"
-                                                       data-toggle="collapse">{{t('Approval Reply By')}}
-                                    : {{$approval->approver->name}}
-                                    On {{$approval->updated_at->format('d/m/Y H:i A')}}</a>
-                            </h5>
-                        </div>
-                        <div class="panel-body collapse" id="approval{{$approval->id}}">
-                            <div class="reply">
-                                {!! tidy_repair_string($approval->comment, [], 'utf8') !!}
-                            </div>
-                            <br>
-                        </div>
+        <h4>{{t('Ticket Approvals')}}</h4>
+        @foreach($ticket->approvals as $approval)
+            @if($approval->comment)
+                <div class="panel panel-sm panel-warning">
+                    <div class="panel-heading">
+                        <h5 class="panel-title"><a href="#approval{{$approval->id}}"
+                                                   data-toggle="collapse">{{t('Approval Reply By')}}
+                                : {{$approval->approver->name}}
+                                On {{$approval->updated_at->format('d/m/Y H:i A')}}</a>
+                        </h5>
                     </div>
-                @endif
+                    <div class="panel-body collapse" id="approval{{$approval->id}}">
+                        <div class="reply">
+                            {!! tidy_repair_string($approval->comment, [], 'utf8') !!}
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            @endif
 
-            @endforeach
-        @endif
+        @endforeach
     </section>
 @endif
