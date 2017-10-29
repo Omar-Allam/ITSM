@@ -1,46 +1,61 @@
-@extends('layouts.app')
+@extends('layouts.print')
 @section('body')
 
+    <div class="pull-right back"><a href="{{URL::previous()}}" class="btn btn-default"> <i
+                    class="fa fa-chevron-left" aria-hidden="true"></i> {{t('Back to Ticket')}}
+        </a>
+    </div>
+
     <div class="container">
+
         <div class="print-ticket-form">
             <div class="panel panel-primary">
                 <div class="panel-heading">{{t('Required Information')}}</div>
                 <div class="panel-body">
-                    <form>
-                        <table>
-                            <tr>
-                                <td>
-                                    <div class="checkbox">
-                                        <label> {{Form::checkbox('request-details')}}{{t('Request Details')}}</label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="checkbox">
-                                        <label> {{Form::checkbox('request-conversation')}}{{t('Request Conversations')}}</label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox">
-                                        <label> {{Form::checkbox('request-approvals')}}{{t('Request Approvals')}}</label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox">
-                                        <label> {{Form::checkbox('request-resolution')}}{{t('Request Resolution')}}</label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <input type="submit" value="Print">
-                    </form>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="checkbox">
+                                <label> {{Form::checkbox('request-details',null,true,['id'=>'request-details'])}}{{t('Request Details')}}</label>
+                            </div>
+                        </div>
+
+                        @if ($ticket->replies->count())
+                            <div class="col-md-3">
+                                <div class="checkbox">
+                                    <label> {{Form::checkbox('request-conversation',null,true,['id'=>'request-conversation'])}}{{t('Request Conversations')}}</label>
+                                </div>
+                            </div>
+                        @endif
+
+                        @if ($ticket->approvals->count())
+                            <div class="col-md-3">
+                                <div class="checkbox">
+                                    <label> {{Form::checkbox('request-approvals',null,true,['id'=>'request-approvals'])}}{{t('Request Approvals')}}</label>
+                                </div>
+                            </div>
+                        @endif
+                        @if ($ticket->resolution)
+                            <div class="col-md-3">
+                                <div class="checkbox">
+                                    <label> {{Form::checkbox('request-resolution',null,true,['id'=>'request-resolution'])}}{{t('Request Resolution')}}</label>
+                                </div>
+                            </div>
+                        @endif
+                        <div class="col-md-12">
+                            <button class="btn btn-outlined btn-rounded btn-primary" id="printTicket">
+                                <i class="fa fa-print"></i>{{t('Print')}}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <div class="logo-image">
+            <img src="{{asset('/images/logo.png')}}" class="logo-image">
+
+        </div>
 
         <div class="print-ticket-basic">
             <div class="display-flex ticket-meta">
@@ -138,11 +153,11 @@
         @if ($ticket->replies->count())
             <div class="print-ticket-conversation">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><h4><i class="fa fa-comments-o"></i> {{t('Conversations')}}</div>
-                    </h4>
+                    <div class="panel-heading"><h4><i class="fa fa-comments-o"></i> {{t('Conversations')}} </h4></div>
+
                     <div class="panel-body">
                         <section class="replies">
-                            @foreach($ticket->replies()->latest()->get() as $reply)
+                            @foreach($ticket->replies()->whereNotIn('status_id',[7,9])->latest()->get() as $reply)
                                 <div class="panel panel-sm panel-{{$reply->class}}">
                                     <div class="panel-heading">
                                         <h5 class="panel-title">{{t('By')}}
@@ -205,7 +220,7 @@
                     <div class="panel-heading"><h4><i class="fa fa-support"></i> {{t('Resolution')}}</h4></div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-2"><p>Added by {{$ticket->resolution->user->name }}
+                            <div class="col-md-4"><p>Added by {{$ticket->resolution->user->name }}
                                     at {{$ticket->resolution->created_at->format('d/m/Y H:i:s')}}</p>
                             </div>
                         </div>
@@ -219,12 +234,9 @@
             </div>
         @endif
 
-
     </div>
 
 @endsection
 @section('javascript')
-    <script>
-
-    </script>
+    <script src="{{asset('/js/print.js')}}"></script>
 @endsection

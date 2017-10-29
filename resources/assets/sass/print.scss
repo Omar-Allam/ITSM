@@ -1,0 +1,422 @@
+@import 'resources/assets/sass/_variables.scss';
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+//@import "node_modules/bootflat/bootflat/scss/bootflat.scss";
+@import "node_modules/font-awesome/scss/font-awesome.scss";
+@import "node_modules/select2/src/scss/core.scss";
+
+html, body {
+  height: 100%;
+}
+
+#wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+
+  main {
+    width: 100%;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding-top: 5px;
+  }
+}
+
+.title-bar {
+  .title-container {
+    background: $blend-color;
+    min-height: 40px;
+    border-bottom: none; //1px solid darken($blend-color, 10%);
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    h1, h2, h3, h4, h5 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 0;
+      margin-bottom: 0;
+      flex: 1;
+
+      display: block;
+    }
+
+    .ticket-meta {
+      h1, h2, h3, h4, h5 {
+        margin-bottom: 5px;
+      }
+    }
+
+    form {
+      display: inline-block;
+    }
+  }
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background-color: $body-bg;
+}
+
+.panel.panel-heading h4 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.panel-heading .heading-actions {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.ticket-scope {
+  margin-left: 10px;
+}
+
+footer {
+  border-top: 2px solid $navbar-default-border;
+  background: #fff;
+
+  .footer-container {
+    min-height: 30px;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+}
+
+//Sidebar Styles
+//-----------------------------------
+.panel-nav .panel-title a {
+  display: block;
+  text-decoration: none;
+}
+
+.panel-nav .panel-title a:hover {
+  text-decoration: none;
+}
+
+//Listing styles
+//-----------------------------------
+.listing-table {
+  @extend .table;
+  // @extend .table-condensed;
+  @extend .table-striped;
+  @extend .table-hover;
+}
+
+.listing-table > tr > td,
+.listing-table > tbody > tr > td,
+.listing-table > tr > th,
+.listing-table > thead > tr > th {
+  vertical-align: middle;
+}
+
+// Buttons
+.btn {
+  font-weight: 400;
+}
+
+.btn-sm.btn-rounded {
+  border-radius: 15px;
+}
+
+.btn-outlined {
+  background-color: transparent;
+
+  &.btn-primary {
+    color: $brand-primary;
+
+    &:hover, &:active, &:focus {
+      background-color: $btn-primary-bg;
+      color: $btn-primary-color;
+    }
+  }
+
+  &.btn-info {
+    color: $brand-info;
+    &:hover, &:active, &:focus {
+      background-color: $btn-info-bg;
+      color: $btn-info-color;
+    }
+  }
+
+  &.btn-success {
+    color: $brand-success;
+    &:hover, &:active, &:focus {
+      background-color: $btn-success-bg;
+      color: $btn-success-color;
+    }
+  }
+
+  &.btn-warning {
+    color: $brand-warning;
+    &:hover, &:active, &:focus {
+      background-color: $btn-warning-bg;
+      color: $btn-warning-color;
+    }
+  }
+
+}
+
+// Form styles
+//------------------------------------
+.error-message {
+  margin-top: 7px;
+  color: $brand-danger;
+}
+
+.panel-sm {
+  .panel-body {
+    padding: 10px;
+  }
+
+  .panel-heading {
+    padding: 10px 5px;
+  }
+
+  .panel-title {
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .form-group-sm {
+    margin-bottom: 0;
+  }
+}
+
+.selection-modal {
+  select.form-control {
+    min-height: 300px;
+  }
+}
+
+.modal {
+  .modal-header, .modal-footer {
+    background-color: darken($blend-color, 2%);
+  }
+
+  .modal-footer {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
+
+hr.form-divider {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.panel-sm .panel-form {
+  margin-top: -20px;
+}
+
+.multiple {
+  min-height: 200px;
+}
+
+//Helper Classes
+//------------------------------------
+.inline-block {
+  display: inline-block;
+}
+
+.well-white {
+  background-color: #fff;
+}
+
+.nav-tabs {
+  margin-bottom: 10px;
+}
+
+.select2-container {
+  display: block;
+  width: 100%;
+}
+
+.card {
+  @extend .well;
+  @extend .well-sm;
+  @extend .well-white;
+  padding: 10px;
+  margin-bottom: 0;
+
+  border-radius: 0;
+
+  ul {
+    margin-bottom: 0;
+  }
+}
+
+.replies {
+  .panel-sm {
+    margin-bottom: 2px;
+  }
+
+  .panel-sm:last-child {
+    margin-bottom: 20px;
+  }
+}
+
+.bg-violet {
+  background-color: $brand-violet;
+  color: #fff;
+}
+
+.flex {
+  flex: 1;
+}
+
+.list-group-item.info {
+  background-color: $brand-info;
+  color: #fff;
+}
+
+#flash-alert {
+  margin-right: 2em;
+  .alert {
+    margin-bottom: 0;
+    padding: 5px;
+  }
+}
+
+.display-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+}
+
+.count {
+  display: inline-block;
+  min-width: 10px;
+  padding: 3px 7px;
+  font-size: 11px;
+  font-weight: bold;
+  color: #fff;
+  line-height: 1;
+  vertical-align: middle;
+  white-space: nowrap;
+  text-align: center;
+  background-color: #0079b4;
+  border-radius: 10px;
+}
+
+.ticket-meta {
+  margin-top: 5px;
+  margin-bottom: 5px;
+
+  h4 {
+    margin-bottom: 1rem;
+  }
+}
+
+table.table > thead > tr > th {
+  vertical-align: middle;
+}
+
+.report-container {
+  font-size: 10px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  table.table {
+    > thead > tr > th {
+      background-color: #CBD5EB;
+      color: #333;
+      border: 1px solid #fff;
+      border-bottom-width: 2px;
+    }
+
+    > tbody > tr > td {
+      background-color: #eee;
+      color: #333;
+      border: 1px solid #fff;
+    }
+
+    .report-table-container {
+      overflow-x: auto;
+    }
+    table.table {
+      width: auto;
+    }
+  }
+
+  .report-horizontal-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+
+    .report-head {
+      margin-bottom: 0;
+    }
+  }
+
+  .report-vertical-scroll {
+    max-height: 450px;
+    overflow-y: auto;
+  }
+
+  .page-header {
+    margin: 10px 0 20px;
+  }
+}
+
+.panel .table-container {
+  .table {
+    margin-bottom: 0;
+    border: 0;
+  }
+
+  .table-bordered {
+    > thead > tr > th:first-child, > thead > tr > td:first-child, > tbody > tr > th:first-child, > tbody > tr > td:first-child, > tfoot > tr > th:first-child, > tfoot > tr > td:first-child > thead > tr > th:first-child > thead > tr > td:first-child > tbody > tr > th:first-child > tbody > tr > td:first-child > tfoot > tr > th:first-child > tfoot > tr > td:first-child {
+      border-left: 0;
+    }
+
+    > thead > tr:first-child > td, > thead > tr:first-child > th, > tbody > tr:first-child > td, > tbody > tr:first-child > th {
+      border-bottom: 0;
+    }
+
+    > tbody:last-child > tr:last-child td:first-child, > tbody:last-child > tr:last-child th:first-child {
+      border-bottom-left-radius: 3px;
+    }
+
+    > tbody > tr:last-child > td, > tbody > tr:last-child > th, > tfoot > tr:last-child > td, > tfoot > tr:last-child > th {
+      border-bottom: 0;
+    }
+
+    thead > tr:first-child > th, thead > tr:first-child > td {
+      border-top: 0;
+    }
+
+    > thead > tr > th:last-child, > thead > tr > td:last-child, > tbody > tr > th:last-child, > tbody > tr > td:last-child, > tfoot > tr > th:last-child, > tfoot > tr > td:last-child {
+      border-right: 0;
+    }
+
+    > tbody:last-child > tr:last-child td:last-child, .panel > .listing-table:last-child > tbody:last-child > tr:last-child td:last-child, > tbody:last-child > tr:last-child th:last-child, .panel > .listing-table:last-child > tbody:last-child > tr:last-child th:last-child, > tfoot:last-child > tr:last-child td:last-child, .panel > .listing-table:last-child > tfoot:last-child > tr:last-child td:last-child, > tfoot:last-child > tr:last-child th:last-child, .panel > .listing-table:last-child > tfoot:last-child > tr:last-child th:last-child {
+      border-bottom-right-radius: 3px;
+    }
+  }
+}
+
+img {
+  max-width: 100%;
+}
+
+.logo-image {
+  padding-bottom: 5px;
+  height: 25px;
+  width: auto;
+}
+.back{
+  margin: 10px 10px 0 10px;
+}
+@media print {
+  .print-ticket-form ,.back {
+    display: none;
+  }
+  div{
+    page-break-inside: avoid;
+  }
+}
