@@ -16,6 +16,10 @@ $('#request-resolution').click(function (e) {
     $('.print-ticket-resolution').toggle();
 })
 
+$('#requester-details').click(function (e) {
+    $('.print-ticket-requester-details').toggle();
+})
+
 $('#printTicket').click(function (e) {
     window.print()
 })

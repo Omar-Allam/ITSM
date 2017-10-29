@@ -12702,9 +12702,5 @@ img {
   .back {
     display: none;
   }
-
-  div {
-    page-break-inside: avoid;
-  }
 }
 

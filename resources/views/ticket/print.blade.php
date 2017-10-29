@@ -1,7 +1,7 @@
 @extends('layouts.print')
 @section('body')
 
-    <div class="pull-right back"><a href="{{URL::previous()}}" class="btn btn-default"> <i
+    <div class="pull-right back"><a href="{{route('ticket.show',$ticket)}}" class="btn btn-default"> <i
                     class="fa fa-chevron-left" aria-hidden="true"></i> {{t('Back to Ticket')}}
         </a>
     </div>
@@ -17,6 +17,12 @@
                         <div class="col-md-3">
                             <div class="checkbox">
                                 <label> {{Form::checkbox('request-details',null,true,['id'=>'request-details'])}}{{t('Request Details')}}</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="checkbox">
+                                <label> {{Form::checkbox('requester-details',null,true,['id'=>'requester-details'])}}{{t('Requester Details')}}</label>
                             </div>
                         </div>
 
@@ -43,9 +49,9 @@
                             </div>
                         @endif
                         <div class="col-md-12">
-                            <button class="btn btn-outlined btn-rounded btn-primary" id="printTicket">
+                            <a class="btn btn-outlined btn-rounded btn-primary" id="printTicket" target="_parent">
                                 <i class="fa fa-print"></i>{{t('Print')}}
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -150,67 +156,76 @@
             </div>
         </div>
 
+        <div class="print-ticket-requester-details">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title"><i class="fa fa-user"></i> {{t('Requester Details')}}</h4>
+                </div>
+                <table class="table table-striped table-condensed">
+                    <tr>
+                        <th class="col-sm-3">{{t('Name')}}</th>
+                        <td class="col-sm-3">{{$ticket->requester->name}}</td>
+                        <th class="col-sm-3">{{t('Business Unit')}}</th>
+                        <td class="col-sm-3">{{$ticket->requester->business_unit->name or 'Not Assigned'}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{t('Email')}}</th>
+                        <td>{{$ticket->requester->email or 'Not Assigned'}}</td>
+                        <th>{{t('Location')}}</th>
+                        <td>{{$ticket->requester->location->name or 'Not Assigned'}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{t('Phone')}}</th>
+                        <td>{{$ticket->requester->phone or 'Not Assigned'}}</td>
+                        <th>{{t('Mobile')}}</th>
+                        <td>{{$ticket->requester->mobile or 'Not Assigned'}}</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
         @if ($ticket->replies->count())
             <div class="print-ticket-conversation">
-                <div class="panel panel-default">
-                    <div class="panel-heading"><h4><i class="fa fa-comments-o"></i> {{t('Conversations')}} </h4></div>
-
-                    <div class="panel-body">
-                        <section class="replies">
-                            @foreach($ticket->replies()->whereNotIn('status_id',[7,9])->latest()->get() as $reply)
-                                <div class="panel panel-sm panel-{{$reply->class}}">
-                                    <div class="panel-heading">
-                                        <h5 class="panel-title">{{t('By')}}
-                                            : {{$reply->user->name}}
-                                            On {{$reply->created_at->format('d/m/Y H:i A')}}</h5>
-                                    </div>
-                                    <div class="panel-body" id="reply{{$reply->id}}">
-                                        <div class="reply">
-                                            {!! tidy_repair_string($reply->content, [], 'utf8') !!}
-                                        </div>
-                                        <br>
-                                        <span class="label label-default">Status: {{t($reply->status->name)}}</span>
-                                    </div>
+                <h4 class="page-header"><i class="fa fa-comments-o"></i> {{t('Conversations')}} </h4>
+                <section class="replies">
+                    @foreach($ticket->replies()->whereNotIn('status_id',[7,9])->latest()->get() as $reply)
+                        <div class="panel panel-sm panel-{{$reply->class}}">
+                            <div class="panel-heading">
+                                <h5 class="panel-title">{{t('By')}}
+                                    : {{$reply->user->name}}
+                                    On {{$reply->created_at->format('d/m/Y H:i A')}}</h5>
+                            </div>
+                            <div class="panel-body" id="reply{{$reply->id}}">
+                                <div class="reply">
+                                    {!! tidy_repair_string($reply->content, [], 'utf8') !!}
                                 </div>
-                                <hr>
-                            @endforeach
-                        </section>
-                    </div>
-                </div>
+                                <br>
+                                <span class="label label-default">Status: {{t($reply->status->name)}}</span>
+                            </div>
+                        </div>
+                    @endforeach
+                </section>
+
             </div>
         @endif
 
         @if ($ticket->approvals->count())
             <div class="print-ticket-approvals">
+                <h4 class="page-header"><i class="fa fa-check"></i>{{t('Approvals')}}</h4>
+
                 <div class="panel panel-warning">
-                    <div class="panel-heading"><h4><i class="fa fa-check"></i>{{t('Approvals')}}</h4></div>
+                    @foreach($ticket->approvals as $approval)
+                    <div class="panel-heading">
+                        {{t('By: ') . $approval->created_by->name}}
+                        {{t('On ').$approval->created_at->format('d/m/Y H:i A') }} {{t('To')}} {{$approval->approver->name}}
+                    </div>
                     <div class="panel-body">
-                        <table class="listing-table">
-                            <thead>
-                            <tr>
-                                <th>{{t('Sent to')}}</th>
-                                <th>{{t('By')}}</th>
-                                <th>{{'Sent at'}}</th>
-                                <th>{{t('Status')}}</th>
-                                <th>{{t('Comment')}}</th>
-                                <th>{{t('Action Date')}}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($ticket->approvals as $approval)
-                                <tr>
-                                    <td>{{$approval->approver->name}}</td>
-                                    <td>{{$approval->created_by->name}}</td>
-                                    <td>{{$approval->created_at->format('d/m/Y H:i')}}</td>
-                                    <td>{{App\TicketApproval::$statuses[$approval->status]}}</td>
-                                    <td>{{$approval->comment}}</td>
-                                    <td>{{$approval->action_date}}</td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                      {!! tidy_repair_string($approval->content, [], 'utf8') !!}
+                        <br>
+                        <span class="label label-default">Status: {{App\TicketApproval::$statuses[$approval->status]}}</span>
                     </div>
                 </div>
+                @endforeach
             </div>
         @endif
 

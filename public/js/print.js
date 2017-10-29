@@ -60,44 +60,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(1);
-
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-window.jQuery = window.$ = __webpack_require__(2);
-
-$('#request-details').click(function (e) {
-    $('.print-ticket-details').toggle();
-});
-
-$('#request-conversation').click(function (e) {
-    $('.print-ticket-conversation').toggle();
-});
-
-$('#request-approvals').click(function (e) {
-    $('.print-ticket-approvals').toggle();
-});
-
-$('#request-resolution').click(function (e) {
-    $('.print-ticket-resolution').toggle();
-});
-
-$('#printTicket').click(function (e) {
-    window.print();
-});
-
-/***/ }),
-/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10355,6 +10322,50 @@ if ( !noGlobal ) {
 return jQuery;
 } );
 
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(2);
+module.exports = __webpack_require__(3);
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+window.jQuery = window.$ = __webpack_require__(0);
+
+$('#request-details').click(function (e) {
+    $('.print-ticket-details').toggle();
+});
+
+$('#request-conversation').click(function (e) {
+    $('.print-ticket-conversation').toggle();
+});
+
+$('#request-approvals').click(function (e) {
+    $('.print-ticket-approvals').toggle();
+});
+
+$('#request-resolution').click(function (e) {
+    $('.print-ticket-resolution').toggle();
+});
+
+$('#requester-details').click(function (e) {
+    $('.print-ticket-requester-details').toggle();
+});
+
+$('#printTicket').click(function (e) {
+    window.print();
+});
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
