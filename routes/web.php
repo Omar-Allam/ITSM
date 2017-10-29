@@ -74,6 +74,7 @@ Route::group(['middleware' => ['auth']], function () {
         $r->post('tasks/{ticket}', ['as' => 'tasks.store', 'uses' => 'TaskController@store']);
         $r->put('tasks/{ticket}', ['as' => 'tasks.update', 'uses' => 'TaskController@update']);
         $r->delete('tasks/{ticket}/{task}', ['as' => 'tasks.delete', 'uses' => 'TaskController@destroy']);
+        $r->get('print/{ticket}', ['as' => 'ticket.print', 'uses' => 'TicketPrintController@show']);
     });
 
     Route::resource('ticket', 'TicketController');

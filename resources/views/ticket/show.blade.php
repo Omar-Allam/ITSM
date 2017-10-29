@@ -49,6 +49,10 @@
                                class="btn btn-sm btn-primary btn-rounded btn-outlined"><i
                                         class="fa fa-hand-lizard-o"></i> {{t('Pick Up')}}</a>
                         @endcan
+
+                        <a href="{{route('ticket.print',$ticket)}}" target="_blank" class="btn btn-sm btn-primary btn-rounded btn-outlined" title="Print">
+                            <i class="fa fa-print"></i> {{t('Print')}}
+                        </a>
                     @endif
                 </div>
             @endif
