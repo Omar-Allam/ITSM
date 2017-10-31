@@ -11,6 +11,7 @@ window.app = new Vue({
         subcategories: {},
         items: {},
         technicians: {},
+        technician_id: window.technician_id,
     },
 
     created() {
@@ -37,7 +38,7 @@ window.app = new Vue({
                 if (withFields) this.loadCustomFields();
             }
         },
-        loadTechnicians(){
+        loadTechnicians() {
             if (this.group) {
                 jQuery.get(`/list/group-technicians/${this.group}`).then(response => {
                     this.technicians = response
@@ -49,7 +50,6 @@ window.app = new Vue({
             if (this.item) {
             }
         },
-
         loadCustomFields() {
             const $ = window.jQuery;
             const customFieldsContainer = $('#CustomFields');
@@ -94,8 +94,8 @@ window.app = new Vue({
             this.loadItem();
         },
 
-        group(){
-            this.loadTechnicians(false);
+        group() {
+            this.loadTechnicians();
         },
     },
 
