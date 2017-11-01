@@ -27,7 +27,7 @@ use App\Helpers\HistoryEntry;
  */
 class TicketLog extends KModel
 {
-    protected $fillable = ['user_id', 'type', 'old_data', 'new_data', 'status_id'];
+    protected $fillable = ['user_id', 'type', 'old_data', 'new_data', 'status_id','ticket_id'];
 
     const UPDATED_TYPE = 1;
     const REPLY_TYPE = 2;
