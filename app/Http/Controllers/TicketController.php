@@ -186,7 +186,7 @@ class TicketController extends Controller
                 $data = $ticket->toArray();
                 unset($data['id'], $data['created_at'], $data['updated_at']);
                 $newTicket = new Ticket($data);
-                $newTicket->requester_id = $newTicket->creator_id = \Auth::id();
+                $newTicket->creator_id = \Auth::id();
                 $newTicket->request_id = $ticket->id;
                 $newTicket->status_id = 1;
                 $newTicket->type = null;
