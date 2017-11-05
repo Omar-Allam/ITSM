@@ -66,7 +66,7 @@ class LotByCategorySummaryReport extends LotByTechnicianDetailsReport
     {
         $data = $this->process($this->query->get());
 
-        return \Excel::create('lot_summary_by_category', function($excel) use ($data) {
+        return \Excel::create(str_slug($this->report->title), function($excel) use ($data) {
             $excel->sheet('LOT By Category', function ($sheet) use ($data) {
                 $sheet->row($this->row, ['Category', 'Subcategory', 'Target Time', "Resolve Time", 'Performance', 'Type']);
 
