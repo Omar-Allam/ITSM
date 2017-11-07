@@ -87,7 +87,7 @@ perf
         $data = $this->query->get();
 
         return \Excel::create(str_slug($this->report->title), function($excel) use ($data) {
-            $excel->sheet('LOT By Category', function ($sheet) use ($data) {
+            $excel->sheet('Stats By Category', function ($sheet) use ($data) {
                 $sheet->row($this->row, [
                     'Category', 'Subcategory', 'Requests Count', "Resolved Count",
                     'Resolved on time', 'Late', 'Very Late', 'Critical Late', 'Open', 'On Hold', 'Performance'
