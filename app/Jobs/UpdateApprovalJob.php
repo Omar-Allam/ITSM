@@ -26,14 +26,9 @@ class UpdateApprovalJob extends Job implements ShouldQueue
 
     public function handle()
     {
-//        $name = $this->ticketApproval->ticket->technician->name;
-
-//        $link = link_to_route('approval.show', null, $this->ticketApproval);
-
-//        $content = str_replace(['$approver', '$approvalLink'], [$name, $link], $this->approval->content);
 
         \Mail::send('emails.ticket.approval-status', ['ticketApproval' => $this->ticketApproval], function(Message $msg) {
-            $msg->to([$this->ticketApproval->ticket->technician->email,$this->ticketApproval->ticket->requester->email]);
+            $msg->to([$this->ticketApproval->ticket->technician->email]);
             $msg->subject('Approval Action for request #' . $this->ticketApproval->ticket->id);
         });
     }
