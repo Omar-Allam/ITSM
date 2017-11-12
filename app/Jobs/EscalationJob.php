@@ -10,7 +10,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class EscalationJob extends Job{
+class EscalationJob extends Job implements ShouldQueue
+{
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $ticket;
 
@@ -27,7 +29,7 @@ class EscalationJob extends Job{
             /** @var EscalationLevel $escalation */
 
             foreach ($escalations as $escalation) {
-                if ($escalation->shouldEscalate($this->ticket)) {
+                if ($this->ticket->shouldEscalate($escalation)) {
                     $this->escalate($escalation);
                 }
 

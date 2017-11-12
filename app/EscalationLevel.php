@@ -15,28 +15,6 @@ class EscalationLevel extends Model
     }
 
 
-    function shouldEscalate($ticket){
-
-        $previous_escalations = TicketLog::where('type',13)
-            ->where('ticket_id',$ticket->id)->count();
-
-        if($this->level > $previous_escalations){
-
-            $startTime = Carbon::parse(config('worktime.start'));
-            $endTime = Carbon::parse(config('worktime.end'));
-            $minutesPerDay = $endTime->diffInMinutes($startTime);
-
-            $escalate_time = ($this->days * $minutesPerDay) + ($this->hours * 60) + $this->minutes;
-            $escalation_time = $ticket->due_date->addMinutes($escalate_time) ;
-
-            /** @var Carbon $escalation_time */
-            if(Carbon::now()->gt($escalation_time)){
-                return true;
-            }
-            return false;
-        }
-
-    }
 
 }
 
