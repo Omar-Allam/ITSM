@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\EscalateTickets;
 use App\Console\Commands\LdapImportUser;
 use App\Console\Commands\SyncByRequest;
 use Illuminate\Console\Scheduling\Schedule;
@@ -24,6 +25,7 @@ class Kernel extends ConsoleKernel
         Commands\CalculateOpenRequestsTime::class,
         Commands\SyncServiceDeskPlus::class,
         Commands\SyncByRequest::class,
+        EscalateTickets::class
     ];
 
     /**

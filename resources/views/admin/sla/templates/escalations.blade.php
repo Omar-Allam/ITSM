@@ -30,12 +30,12 @@
                     </td>
                     <td></td>
                     <td>
-                        <div class="checkbox">
-                            <label class="control-label" for="assign{{$i}}">
-                                {{Form::hidden('assign', false)}}
-                                {{Form::checkbox('assign', 1, $sla->level($i+1)->assign ?? null, ['id' => 'assign'.$i,':disable'=>'!level_enabled'])}}
+
+                        <div>
+                            <label  for="assign{{$i}}">
                                 Assign
                             </label>
+                            {{Form::select('assign',\App\User::technicians()->selection('Select Assigned'),$sla->assign, ['class'=>'form-control'])}}
                         </div>
                     </td>
 
@@ -49,9 +49,8 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td class="col-md-3" :disabled="!level_enabled">
+                    <td class="col-md-3">
                         {{Form::select('when_escalate',['Before Due date','After Due date'],$sla->level($i+1)->when_escalate ?? null ,['class'=>'form-control'])}}
-
                     </td>
 
                     <td class="col-md-3 {{$errors->has('days-'.$i)? 'has-error' : ''}}">
