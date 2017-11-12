@@ -3,15 +3,14 @@
 namespace App\Jobs;
 
 use App\EscalationLevel;
+use App\TicketLog;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class EscalationJob implements ShouldQueue
-{
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+class EscalationJob extends Job{
 
     public $ticket;
 
@@ -40,9 +39,12 @@ class EscalationJob implements ShouldQueue
     {
         dispatch(new SendEscalationNotification($this->ticket,$escalation));
 
+        TicketLog::addEscalationLog($this->ticket,$escalation);
+
         if ($escalation->assign) {
             $this->ticket->update(['technician_id' => $escalation->assign]);
             dispatch(new TicketAssigned($this->ticket));
         }
+
     }
 }

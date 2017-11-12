@@ -9,7 +9,7 @@ use Illuminate\Console\Command;
 class EscalateTickets extends Command
 {
 
-    protected $signature = 'escalate:tickets';
+    protected $signature = 'tickets:escalate';
 
     protected $description = 'Escalate Overdue Tickets';
 

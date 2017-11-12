@@ -16,6 +16,7 @@ class EscalationLevel extends Model
 
 
     function shouldEscalate($ticket){
+
         $previous_escalations = TicketLog::where('type',13)
             ->where('ticket_id',$ticket->id)->count();
 

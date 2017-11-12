@@ -8,8 +8,11 @@
     </li>
     @foreach ($ticket->logs as $log)
         <li class="list-group-item">
+
             @if ($log->type == \App\TicketLog::AUTO_CLOSE)
                 <strong>Ticket has been closed by the system</strong>
+            @elseif($log->type == \App\TicketLog::ESCALATION)
+                <strong>Ticket has been Escalated to {{$log->user->name}}</strong>
             @else
                 <strong>{{t($ticket->isTask() ? 'Task '.$log->type_action.' by' :'Ticket '.$log->type_action.' by')}}   {{$log->user->name}}
                     {{t('at')}} {{$log->created_at->format('d/m/Y H:i')}}</strong>
@@ -22,6 +25,7 @@
                     @endforeach
                 </ul>
             @endif
+
         </li>
     @endforeach
 </ul>
