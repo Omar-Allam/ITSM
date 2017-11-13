@@ -12,7 +12,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr is="Criterion" v-for="(criterion, index) in requirements" :index="index" :criterion="criterion"></tr>
+            <tr is="Criterion" v-for="(criterion, index) in requirements" :key="index" :index="index" :criterion="criterion"></tr>
         </tbody>
     </table>
 
@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-group">
                         <select class="form-control" v-model="modal.selected" multiple="multiple">
-                            <option v-for="(label, index) in filteredOptions" :value="index" v-text="label"></option>
+                            <option v-for="(label, index) in filteredOptions" :key="index" :value="index" v-text="label"></option>
                         </select>
                     </div>
                 </div>
