@@ -442,6 +442,7 @@ class Ticket extends KModel
         }
     }
 
+
     function getTypeIconAttribute()
     {
         if ($this->type == 2) {
@@ -452,6 +453,11 @@ class Ticket extends KModel
         } else {
             return 'ticket';
         }
+    }
+
+    public function hasOpenTask()
+    {
+        return Ticket::where('type',2)->where('request_id',$this->id)->whereNotIn('status_id',[7,8,9])->exists();
     }
 
 
