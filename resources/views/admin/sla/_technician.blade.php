@@ -1,13 +1,13 @@
 <div class="modal fade" id="techModal" tabindex="-1" role="dialog" aria-labelledby="techModal">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content modal-lg">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Select Technician Name</h4>
             </div>
             <div class="modal-body">
-                <select name="technicians" multiple class="form-control" id="technicians">
+                <select name="technicians" multiple class="form-control" id="technicians" size="25">
                 @foreach(\App\User::technicians()->get() as $technician)
                         <option value="{{$technician->email}}"> {{$technician->name}}</option>
                     @endforeach

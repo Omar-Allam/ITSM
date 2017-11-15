@@ -461,4 +461,28 @@ class Ticket extends KModel
     }
 
 
+    function shouldEscalate($escalation){
+
+        $previous_escalations = TicketLog::where('type',13)
+            ->where('ticket_id',$this->id)->count();
+
+        if($escalation->level > $previous_escalations){
+
+            $startTime = Carbon::parse(config('worktime.start'));
+            $endTime = Carbon::parse(config('worktime.end'));
+            $minutesPerDay = $endTime->diffInMinutes($startTime);
+
+            $escalate_time = ($escalation->days * $minutesPerDay) + ($escalation->hours * 60) + $escalation->minutes;
+            $escalation_time = $this->due_date->addMinutes($escalate_time * $escalation->when_escalate);
+
+            /** @var Carbon $escalation_time */
+            if(Carbon::now()->gte($escalation_time)){
+                return true;
+            }
+
+            return false;
+        }
+
+    }
+
 }

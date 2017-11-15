@@ -48,21 +48,36 @@ class SlaController extends Controller
 
     public function update(Sla $sla, SlaRequest $request)
     {
-//        for ($i = 0; $i < count($request->enableLeveL); $i++) {
-//
-//            if (isset($request->enableLeveL[$i]) && $request->enableLeveL[$i]) {
-//                $this->validate($request, ['level-' . $i => 'required','days-' . $i => 'required|min:0|integer']);
-//                $escalate_exist = EscalationLevel::where('sla_id', $sla->id)->where('level', $i + 1)->first();
-//                if (!$escalate_exist && isset($request->level[$i])) {
-//                    EscalationLevel::create([
-//                        'user_id' => User::where('name', $request->level[$i])->first()->id
-//                        , 'sla_id' => $sla->id, 'level' => '1', 'days' => $request->level_days[$i],
-//                        'hours' => $request->level_hours[$i], 'minutes' => $request->level_minutes[$i]
-//                        , 'assign' => $request->has('assign' . ($i + 1)) ? 1 : 0, 'when_escalate' => $request->option . ($i + 1)
-//                    ]);
-//                }
-//            }
-//        }
+        for ($i = 1; $i < count($request->levels); $i++) {
+
+            $escalate_exist = EscalationLevel::where('sla_id', $sla->id)->where('level', $i)->first();
+
+            if (isset($request->levels[$i]['enableLeveL'])) {
+                $this->validate($request, ['levels.*.minutes' => 'min:1',]);
+
+                if (!$escalate_exist) {
+                    EscalationLevel::create([
+                        'user_id' => User::where('name', $request->levels[$i]['technicians'])->first()->id
+                        , 'sla_id' => $sla->id, 'level' => $i, 'days' => $request->levels[$i]['days']
+                        , 'hours' => $request->levels[$i]['hours'], 'minutes' => $request->levels[$i]['minutes']
+                        , 'assign' => $request->levels[$i]['assign'], 'when_escalate' => $request->levels[$i]['when_escalate']
+                    ]);
+                } else {
+
+                    $escalate_exist->update([
+                        'user_id' => User::where('name', $request->levels[$i]['technicians'])->first()->id
+                        , 'sla_id' => $sla->id, 'level' => $i, 'days' => $request->levels[$i]['days']
+                        , 'hours' => $request->levels[$i]['hours'], 'minutes' => $request->levels[$i]['minutes']
+                        , 'assign' => $request->levels[$i]['assign'], 'when_escalate' => $request->levels[$i]['when_escalate']
+                    ]);
+
+                }
+
+
+            } elseif ($escalate_exist && !isset($request->levels[$i]['enableLeveL'])) {
+                $escalate_exist->delete();
+            }
+        }
 
         $sla->update($request->all());
         $sla->updateCriteria($request);

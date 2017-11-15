@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\CoreReport;
 use App\Report;
+use App\ReportFolder;
 use Illuminate\Http\Request;
 
 class ReportsController extends Controller
@@ -15,13 +16,15 @@ class ReportsController extends Controller
 
     function index()
     {
-        $filters = session('report-index.filters', []);
+        $filters = ['folder' => request('folder')];
 
         $reports = Report::filter($filters)->paginate();
 
+        $folders = ReportFolder::orderBy('name')->get();
+
         $core_reports = CoreReport::orderBy('name')->get();
 
-        return view('reports.index', compact('reports', 'core_reports'));
+        return view('reports.index', compact('reports', 'core_reports', 'folders'));
     }
 
     function create()

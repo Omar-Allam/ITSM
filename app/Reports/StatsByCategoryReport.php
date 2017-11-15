@@ -86,7 +86,7 @@ perf
     {
         $data = $this->query->get();
 
-        return \Excel::create('lot_summary_by_category', function($excel) use ($data) {
+        return \Excel::create(str_slug($this->report->title), function($excel) use ($data) {
             $excel->sheet('LOT By Category', function ($sheet) use ($data) {
                 $sheet->row($this->row, [
                     'Category', 'Subcategory', 'Requests Count', "Resolved Count",

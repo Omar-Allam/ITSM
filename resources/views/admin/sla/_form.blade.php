@@ -26,18 +26,18 @@
             </div>
             <table class="table table-bordered table-condensed">
                 <thead>
-                    <tr>
-                        <th class="col-sm-4">{{ Form::label('due_days', 'Days', ['class' => 'control-label']) }}</th>
-                        <th class="col-sm-4">{{ Form::label('due_hours', 'Hours', ['class' => 'control-label']) }}</th>
-                        <th class="col-sm-4">{{ Form::label('due_minutes', 'Minutes', ['class' => 'control-label']) }}</th>
-                    </tr>
+                <tr>
+                    <th class="col-sm-4">{{ Form::label('due_days', 'Days', ['class' => 'control-label']) }}</th>
+                    <th class="col-sm-4">{{ Form::label('due_hours', 'Hours', ['class' => 'control-label']) }}</th>
+                    <th class="col-sm-4">{{ Form::label('due_minutes', 'Minutes', ['class' => 'control-label']) }}</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>{{ Form::text('due_days', $sla->due_days ?? old('due_days', 0), ['class' => 'form-control input-sm']) }}</td>
-                        <td>{{ Form::selectRange('due_hours', 0, 23, null, ['class' => 'form-control input-sm']) }}</td>
-                        <td>{{ Form::selectRange('due_minutes', 0, 59, null, ['class' => 'form-control input-sm']) }}</td>
-                    </tr>
+                <tr>
+                    <td>{{ Form::text('due_days', $sla->due_days ?? old('due_days', 0), ['class' => 'form-control input-sm']) }}</td>
+                    <td>{{ Form::selectRange('due_hours', 0, 23, null, ['class' => 'form-control input-sm']) }}</td>
+                    <td>{{ Form::selectRange('due_minutes', 0, 59, null, ['class' => 'form-control input-sm']) }}</td>
+                </tr>
                 </tbody>
             </table>
             @if ($errors->has('due_days'))
@@ -75,114 +75,6 @@
             @endif
         </section>
 
-        {{--<section class="panel panel-default panel-sm panel-violet">--}}
-        {{--<div class="panel-heading">--}}
-        {{--<h4 class="panel-title">Approval Escalation</h4>--}}
-        {{--</div>--}}
-
-        {{--<table class="table table-bordered table-condensed table-violet">--}}
-        {{--<thead>--}}
-        {{--<tr>--}}
-        {{--<th class="col-sm-4 bg-violet">{{ Form::label('approval_days', 'Days') }}</th>--}}
-        {{--<th class="col-sm-4 bg-violet">{{ Form::label('approval_hours', 'Hours') }}</th>--}}
-        {{--<th class="col-sm-4 bg-violet">{{ Form::label('approval_minutes', 'Minutes') }}</th>--}}
-        {{--</tr>--}}
-        {{--</thead>--}}
-        {{--<tbody>--}}
-        {{--<tr>--}}
-        {{--<td>{{ Form::text('approval_days', 0, ['class' => 'form-control input-sm']) }}</td>--}}
-        {{--<td>{{ Form::selectRange('approval_hours', 0, 23, null, ['class' => 'form-control input-sm']) }}</td>--}}
-        {{--<td>{{ Form::selectRange('approval_minutes', 0, 59, null, ['class' => 'form-control input-sm']) }}</td>--}}
-        {{--</tr>--}}
-        {{--</tbody>--}}
-        {{--</table>--}}
-        {{--@if ($errors->has('approval_days') || $errors->has('approval_hours') || $errors->has('approval_minutes'))--}}
-        {{--<ul class="list-unstyled">--}}
-        {{--@foreach (['approval_days', 'approval_hours', 'approval_minutes'] as $field)--}}
-        {{--@if ($errors->has($field))--}}
-        {{--<li class="error-message">{{ $errors->first($field) }}</li>--}}
-        {{--@endif--}}
-        {{--@endforeach--}}
-        {{--</ul>--}}
-        {{--@endif--}}
-        {{--</section>--}}
-
-        <section class="panel panel-primary panel-sm">
-            <div class="panel-heading">
-
-                <h4 class="panel-title"><input type="checkbox"  name="enableLeveL[]" id="enableLeveLOne">
-                    Enable Escalation Level 1</h4>
-            </div>
-            <table class="table table-striped">
-                <thead>
-                <tr class="col-md-12">
-                    <td class="col-md-1"><label for="esc_to"> Escalate to</label></td>
-                    <td><input type="text" class="form-control" name="level[]" readonly></td>
-                    <td>
-                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                data-target="#techModal" data-close="chooseTech">Choose
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Days</td>
-                    <td>Hours</td>
-                    <td>Minutes</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>{{ Form::text('level_days[]', 0, ['class' => 'form-control input-sm']) }}</td>
-                    <td>{{ Form::selectRange('level_hours[]', 0, 23, null, ['class' => 'form-control input-sm']) }}
-                    </td>
-                    <td>{{ Form::selectRange('level_minutes[]', 0, 59, null, ['class' => 'form-control input-sm']) }}
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section class="panel panel-primary panel-sm">
-            <div class="panel-heading">
-
-                <h4 class="panel-title"><input type="checkbox"  name="enableLeveL[]" id="enableLeveLTwo">
-                    Enable Escalation Level 2</h4>
-            </div>
-            <table class="table table-striped">
-                <thead>
-                <tr class="col-md-12">
-                    <td class="col-md-1"><label for="esc_to"> Escalate to</label></td>
-                    <td><input type="text" class="form-control" name="level[]" readonly>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                data-target="#techModal" data-close="chooseTech">Choose
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Days</td>
-                    <td>Hours</td>
-                    <td>Minutes</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr></tr>
-                <tr>
-                    <td>{{ Form::text('level_days[]', 0, ['class' => 'form-control input-sm']) }}</td>
-                    <td>{{ Form::selectRange('level_hours[]', 0, 23, null, ['class' => 'form-control input-sm']) }}
-                    </td>
-                    <td>{{ Form::selectRange('level_minutes[]', 0, 59, null, ['class' => 'form-control input-sm']) }}
-                    </td>
-
-                </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <div class="hiddenInputs">
-
-        </div>
         <div class="checkbox">
             <label class="control-label" for="critical">
                 {{Form::hidden('critical', 0)}}
@@ -191,7 +83,7 @@
             </label>
         </div>
         <div id="escalation">
-            @for($i=0;$i<4;$i++)
+            @for($i=1;$i<4;$i++)
                 @include('admin.sla.templates.escalations')
             @endfor
         </div>

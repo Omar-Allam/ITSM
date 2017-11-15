@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\ExtractImages;
+use App\Attachment;
 use App\Helpers\Ticket\TicketViewScope;
-use App\Http\Requests\ApprovalRequest;
 use App\Http\Requests\NoteRequest;
 use App\Http\Requests\ReassignRequest;
 use App\Http\Requests\TicketReplyRequest;
@@ -13,21 +12,15 @@ use App\Http\Requests\TicketResolveRequest;
 use App\Jobs\ApplySLA;
 use App\Jobs\NewNoteJob;
 use App\Jobs\NewTicketJob;
-use App\Jobs\SendApproval;
 use App\Jobs\TicketAssigned;
 use App\Jobs\TicketReplyJob;
-use App\Mail\EscalationMail;
 use App\Ticket;
 use App\TicketApproval;
+use App\TicketField;
+use App\TicketLog;
 use App\TicketNote;
 use App\TicketReply;
-use Carbon\Carbon;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Mail\Mailable;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Redirect;
 
 class TicketController extends Controller
 {
@@ -203,12 +196,13 @@ class TicketController extends Controller
                 $data = $ticket->toArray();
                 unset($data['id'], $data['created_at'], $data['updated_at']);
                 $newTicket = new Ticket($data);
-                $newTicket->requester_id = $newTicket->creator_id = \Auth::id();
+                $newTicket->creator_id = \Auth::id();
                 $newTicket->request_id = $ticket->id;
                 $newTicket->status_id = 1;
                 $newTicket->type = null;
                 $newTicket->sdp_id = null;
                 $newTicket->save();
+                $this->duplicateTicketDetails($ticket, $newTicket);
                 dispatch(new ApplySLA($newTicket));
 //                $this->dispatch(new NewTicketJob($newTicket));
             }
@@ -301,5 +295,47 @@ class TicketController extends Controller
             }
         }
         return \Redirect::route('ticket.show', $ticket);
+    }
+
+    public function duplicateTicketDetails(Ticket $ticket, $newTicket)
+    {
+        Ticket::flushEventListeners();
+        TicketReply::flushEventListeners();
+        TicketApproval::flushEventListeners();
+        Attachment::flushEventListeners();
+        TicketNote::flushEventListeners();
+
+        $ticket->replies->each(function ($reply) use ($newTicket) {
+            $reply->ticket_id = $newTicket->id;
+            TicketReply::create($reply->toArray());
+        });
+
+        $ticket->approvals->each(function ($approval) use ($newTicket) {
+            $approval->ticket_id = $newTicket->id;
+            TicketApproval::create($approval->toArray());
+        });
+
+        $ticket->notes->each(function ($note) use ($newTicket) {
+            $note->ticket_id = $newTicket->id;
+            TicketNote::create($note->toArray());
+        });
+
+        $ticket->logs->each(function ($log) use ($newTicket) {
+            $log->ticket_id = $newTicket->id;
+            TicketLog::create($log->toArray());
+        });
+
+        $ticket->fields->each(function ($field) use ($newTicket) {
+            $field->ticket_id = $newTicket->id;
+            TicketField::create($field->toArray());
+        });
+
+        $ticket->files->each(function ($file) use ($newTicket) {
+            if ($file->type == 1) {
+                $file->reference = $newTicket->id;
+                Attachment::create($file->toArray());
+            }
+        });
+
     }
 }

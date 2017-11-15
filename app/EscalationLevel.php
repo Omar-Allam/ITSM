@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class EscalationLevel extends Model
@@ -12,6 +13,8 @@ class EscalationLevel extends Model
     function user(){
         return $this->belongsTo(User::class,'user_id');
     }
+
+
 
 }
 

@@ -60,7 +60,7 @@ class TaskController extends Controller
             'category_id' => $request['category'],
             'subcategory_id' => $request['subcategory'],
             'item_id' => $request['item'],
-            'group_id' => $request['technician'],
+            'group_id' => $request['group'],
             'technician_id' => $request['technician'],
         ]);
 
