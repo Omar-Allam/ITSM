@@ -6,7 +6,7 @@
                                            data-toggle="collapse">{{t('Approval Submitted By')}}
                         : {{$approval->created_by->name}}
                         On {{$approval->created_at->format('d/m/Y H:i A')}}
-                        To {{$approval->approver->name}} : ({{\App\TicketApproval::$statuses[$approval->status]}} )
+                        To {{$approval->approver->name}}
                     </a>
                 </h5>
             </div>
@@ -15,6 +15,7 @@
                     {!! tidy_repair_string($approval->content, [], 'utf8') !!}
                 </div>
                 <br>
+                <span class="label label-default">Status: {{t(\App\TicketApproval::$statuses[$approval->status])}}</span>
             </div>
         </div>
     @endforeach
