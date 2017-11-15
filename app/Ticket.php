@@ -442,6 +442,7 @@ class Ticket extends KModel
         }
     }
 
+
     function getTypeIconAttribute()
     {
         if ($this->type == 2) {
