@@ -103,7 +103,7 @@ class TicketController extends Controller
     public function reply(Ticket $ticket, TicketReplyRequest $request)
     {
         if($ticket->hasOpenTask()){
-            flash(t('Ticket can\'t be resolve as it has pending tasks'), 'danger');
+            flash(t('Ticket has pending tasks'), 'danger');
             return \Redirect::route('ticket.show', compact('ticket'));
         }
 
@@ -120,7 +120,7 @@ class TicketController extends Controller
     public function resolution(Ticket $ticket, TicketResolveRequest $request)
     {
         if($ticket->hasOpenTask()){
-            flash(t('Ticket cant be resolve as it has pending tasks'), 'danger');
+            flash(t('Ticket has pending tasks'), 'danger');
             return \Redirect::route('ticket.show', compact('ticket'));
         }
 
