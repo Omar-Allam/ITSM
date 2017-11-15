@@ -454,7 +454,6 @@ class Ticket extends KModel
         }
     }
 
-
     function shouldEscalate($escalation){
 
         $previous_escalations = TicketLog::where('type',13)
@@ -477,6 +476,11 @@ class Ticket extends KModel
             return false;
         }
 
+    }
+
+    public function hasOpenTask()
+    {
+        return Ticket::where('type',2)->where('request_id',$this->id)->whereNotIn('status_id',[7,8,9])->exists();
     }
 
 }
