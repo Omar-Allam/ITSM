@@ -14,7 +14,8 @@
 
             @if($ticket->isDuplicated())
                 <h4>{{'Duplicated Request from'}}:
-                    <a title="Show Original Request" href="{{route('ticket.show',$ticket->request_id)}}" target="_blank">
+                    <a title="Show Original Request" href="{{route('ticket.show',$ticket->request_id)}}"
+                       target="_blank">
                         #{{ $ticket->request_id }}
                     </a>
                 </h4>
@@ -22,8 +23,9 @@
 
             @if (Auth::user()->isSupport())
                 @if($ticket->isTask())
-                    <h4>{{t('Request')}}: 
-                        <a title="{{ t('Show Original Request') }}" href="{{route('ticket.show',$ticket->request_id)}}" target="_blank">
+                    <h4>{{t('Request')}}:
+                        <a title="{{ t('Show Original Request') }}" href="{{route('ticket.show',$ticket->request_id)}}"
+                           target="_blank">
                             #{{ $ticket->request_id }}
                         </a>
                     </h4>
@@ -50,9 +52,18 @@
                                         class="fa fa-hand-lizard-o"></i> {{t('Pick Up')}}</a>
                         @endcan
 
-                        <a href="{{route('ticket.print',$ticket)}}" target="_blank" class="btn btn-sm btn-primary btn-rounded btn-outlined" title="Print">
+                        <a href="{{route('ticket.print',$ticket)}}" target="_blank"
+                           class="btn btn-sm btn-primary btn-rounded btn-outlined" title="Print">
                             <i class="fa fa-print"></i> {{t('Print')}}
                         </a>
+                    @endif
+                    @if($ticket->isTask())
+                        @can('modify',$ticket)
+                            <a href="{{route('tasks.edit',$ticket)}}"
+                               class="btn btn-sm btn-primary btn-rounded btn-outlined" title="Edit">
+                                <i class="fa fa-edit"></i> {{t('Edit')}}
+                            </a>
+                        @endcan
                     @endif
                 </div>
             @endif

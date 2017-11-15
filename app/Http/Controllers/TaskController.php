@@ -64,7 +64,7 @@ class TaskController extends Controller
             'technician_id' => $request['technician'],
         ]);
 
-        if($request['technician']){
+        if ($request['technician']) {
             dispatch(new NewTaskJob($task));
         }
 
@@ -87,35 +87,32 @@ class TaskController extends Controller
      * @param  \App\Task $task
      * @return \Illuminate\Http\Response
      */
-    public function edit($task)
+    public function edit(Ticket $task)
     {
-        return Ticket::find($task);
+        return view('ticket.task.edit', compact('task'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Task $task
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $task)
-    {
-        $this->validate($request, ['subject' => 'required', 'category' => 'required', 'status' => 'required']);
 
-        $task = Ticket::find($request['task_id']);
-        if (can('modify', $task)) {
-            $task->update([
-                'subject' => $request['subject'],
-                'description' => $request['description'],
-                'category_id' => $request['category'],
-                'subcategory_id' => $request['subcategory'],
-                'item_id' => $request['item'],
-                'status_id' => $request['status'],
-            ]);
+    public function update(Request $request, Ticket $ticket)
+    {
+        $this->validate($request, ['subject' => 'required', 'category_id' => 'required',
+            'technician_id' => 'required']);
+        $old_technician = $ticket->technician_id;
+        if (can('modify', $ticket)) {
+            $ticket->subject = $request['subject'];
+            $ticket->description = $request['description'];
+            $ticket->category_id = $request['category_id'];
+            $ticket->subcategory_id = $request['subcategory_id'];
+            $ticket->technician_id = $request['technician_id'];
+            $ticket->item_id = $request['item_id'];
+            $ticket->save();
+
+            if ($old_technician != $request['technician_id']) {
+                dispatch(new NewTaskJob($ticket));
+            }
         }
 
-
+        return \Redirect::route('ticket.show', $ticket);
     }
 
 

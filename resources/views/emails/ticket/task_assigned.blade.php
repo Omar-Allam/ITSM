@@ -18,7 +18,7 @@
     </div>
 
     <br/><br/>
-    To view ticket details please go to {{link_to_route('ticket.show', null, $task->ticket->id)}}
+    To view ticket details please go to {{link_to_route('ticket.show', null, $task->id)}}
 </div>
 </body>
 </html>

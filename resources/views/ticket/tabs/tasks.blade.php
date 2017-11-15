@@ -25,16 +25,21 @@
             <tr v-for="task in tasks">
                 <td class="col-md-1"><a v-bind:href="'/ticket/'+ task.id">@{{ task.id }}</a></td>
                 <td class="col-md-2"> @{{ task.subject }}</td>
-                <td class="col-md-2"> @{{ task.status }}</td>
+                <td class="col-md-1"> @{{ task.status }}</td>
                 <td class="col-md-2"> @{{ task.created_at }}</td>
                 <td class="col-md-2"> @{{ task.requester }}</td>
                 <td class="col-md-2"> @{{ task.technician }}</td>
-                <td class="col-md-2">
-                    <a class="btn btn-rounded  btn-info" v-bind:href="'/ticket/'+ task.id">{{t('Show')}}</a>
-                    {{--<button class="btn btn-rounded  btn-warning" v-on:click="editTask(task.id)"--}}
-                    {{--@click="edit = true , task_id=task.id">{{t('Edit')}}--}}
-                    {{--</button>--}}
+                <td class="col-md-3">
+                    <a class="btn btn-rounded  btn-info" v-bind:href="'/ticket/'+ task.id">
+                        <i class="fa fa-eye"></i>
+                        {{t('Show')}}
+                    </a>
 
+                    <a v-show="task.technician_id == {{Auth::id()}}" class="btn btn-rounded btn-warning"
+                       :href="'/ticket/tasks/edit/'+ task.id">
+                        <i class="fa fa-edit"></i>
+                        {{t('Edit')}}
+                    </a>
                     {{--<button class="btn btn-rounded  btn-danger" v-on:click="deleteTask(task.id)">{{t('Delete')}}</button>--}}
                 </td>
             </tr>
