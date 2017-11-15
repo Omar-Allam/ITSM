@@ -30,20 +30,21 @@
         var clickedButton;
         let modalTech = jQuery('#techModal');
 
-        jQuery('button[data-close=chooseTech]').click(function (e) {
+        jQuery('*[data-close=chooseTech]').click(function (e) {
             clickedButton = e;
+
         })
 
         jQuery('#chooseTech').click(function (e) {
+
             jQuery('#technicians :selected').each(function (index, item) {
                 selectedItems[index] = jQuery(item).text();
                 selectedId[index] = jQuery(item).val();
-            })
 
-            jQuery(clickedButton.target).parents('tr').find('input[type=text]').val(selectedItems)
+            })
+            jQuery(clickedButton.target).parents('div.form-group').find('input[type=text]').val(selectedItems)
             modalTech.modal('hide');
         })
 
     </script>
-    {{--<input type='hidden' name='tech"+selectedId[i]+"' value='"+selectedId[i]+"'>--}}
 @endsection
