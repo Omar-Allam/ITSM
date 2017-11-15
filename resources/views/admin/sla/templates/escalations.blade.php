@@ -18,7 +18,7 @@
 
                     <label> Escalate to</label>
                     <div class="input-group {{$errors->has('level-'.$i)? 'has-error' : ''}}" >
-                        <input type="text" id="levelName" class="form-control " name="level-{{$i}}"
+                        <input type="text" id="levelName" class="form-control " name="levels[{{$i}}][technicians]"
                                readonly data-toggle="modal"
                                value="{{$sla->escalations->where('level',$i+1)->first()->user->name ?? ''}}" data-target="#techModal" data-close="chooseTech">
 
