@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Jobs\ApplySLA;
 use App\Jobs\NewTaskJob;
+use App\Mail\NewTaskMail;
 use App\Task;
 use App\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class TaskController extends Controller
 {
@@ -89,7 +91,11 @@ class TaskController extends Controller
      */
     public function edit(Ticket $task)
     {
-        return view('ticket.task.edit', compact('task'));
+        if (can('modify', $task)) {
+            return view('ticket.task.edit', compact('task'));
+        }
+
+        return \Redirect::route('ticket.index');
     }
 
 
@@ -97,18 +103,17 @@ class TaskController extends Controller
     {
         $this->validate($request, ['subject' => 'required', 'category_id' => 'required',
             'technician_id' => 'required']);
-        $old_technician = $ticket->technician_id;
         if (can('modify', $ticket)) {
-            $ticket->subject = $request['subject'];
-            $ticket->description = $request['description'];
-            $ticket->category_id = $request['category_id'];
-            $ticket->subcategory_id = $request['subcategory_id'];
-            $ticket->technician_id = $request['technician_id'];
-            $ticket->item_id = $request['item_id'];
-            $ticket->save();
+            $ticket->fill(['subject' => $request['subject'],
+                'description' => $request['description'],
+                'category_id' => $request['category_id'],
+                'subcategory_id' => $request['subcategory_id'],
+                'technician_id' => $request['technician_id'],
+                'item_id' => $request['item_id']]);
 
-            if ($old_technician != $request['technician_id']) {
-                dispatch(new NewTaskJob($ticket));
+            if ($ticket->getDirty()['technician_id']!= $ticket->getOriginal()['technician_id']) {
+                Mail::send(new NewTaskMail($ticket));
+                $ticket->save();
             }
         }
 

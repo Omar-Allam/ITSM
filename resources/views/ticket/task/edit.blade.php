@@ -4,7 +4,6 @@
     {{ Form::model($task, ['route' => ['tasks.update', $task], 'class' => 'col-sm-12']) }}
     {{ method_field('patch') }}
     @include('ticket.task._form')
-
     {{ Form::close() }}
 @endsection
 

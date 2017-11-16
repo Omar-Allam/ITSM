@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <title>Ticket #{{$ticket->id}}</title>
+    <title>Ticket #{{$task->ticket->id}}</title>
 </head>
 <body>
 <div style="font-size: 13px; font-face: arial,helvetica,sans-serif">
@@ -18,7 +18,7 @@
     </div>
 
     <br/><br/>
-    To view ticket details please go to {{link_to_route('ticket.show', null, $task->id)}}
+    To view task details please go to {{link_to_route('ticket.show', null, $task->id)}}
 </div>
 </body>
 </html>

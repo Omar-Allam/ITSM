@@ -78,12 +78,3 @@
         <button class="btn btn-success"><i class="fa fa-check"></i> {{t('Submit')}}</button>
     </div>
 </div>
-
-@section('javascript')
-    <script>
-        var category = '{{Form::getValueAttribute('category_id')}}';
-        var subcategory = '{{Form::getValueAttribute('subcategory_id')}}';
-        var item = '{{Form::getValueAttribute('item_id')}}';
-    </script>
-    <script src="{{asset('/js/tinymce/tinymce.min.js')}}"></script>
-@append

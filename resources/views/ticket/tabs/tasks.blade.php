@@ -34,12 +34,13 @@
                         <i class="fa fa-eye"></i>
                         {{t('Show')}}
                     </a>
-
-                    <a v-show="task.technician_id == {{Auth::id()}}" class="btn btn-rounded btn-warning"
+                    @can('modify',$ticket)
+                    <a  class="btn btn-rounded btn-warning"
                        :href="'/ticket/tasks/edit/'+ task.id">
                         <i class="fa fa-edit"></i>
                         {{t('Edit')}}
                     </a>
+                    @endcan
                     {{--<button class="btn btn-rounded  btn-danger" v-on:click="deleteTask(task.id)">{{t('Delete')}}</button>--}}
                 </td>
             </tr>
