@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Jobs\ApplySLA;
 use App\Jobs\NewTaskJob;
+use App\Mail\NewTaskMail;
 use App\Task;
 use App\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class TaskController extends Controller
 {
@@ -64,7 +66,7 @@ class TaskController extends Controller
             'technician_id' => $request['technician'],
         ]);
 
-        if($request['technician']){
+        if ($request['technician']) {
             dispatch(new NewTaskJob($task));
         }
 
@@ -87,35 +89,35 @@ class TaskController extends Controller
      * @param  \App\Task $task
      * @return \Illuminate\Http\Response
      */
-    public function edit($task)
+    public function edit(Ticket $task)
     {
-        return Ticket::find($task);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Task $task
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $task)
-    {
-        $this->validate($request, ['subject' => 'required', 'category' => 'required', 'status' => 'required']);
-
-        $task = Ticket::find($request['task_id']);
         if (can('modify', $task)) {
-            $task->update([
-                'subject' => $request['subject'],
-                'description' => $request['description'],
-                'category_id' => $request['category'],
-                'subcategory_id' => $request['subcategory'],
-                'item_id' => $request['item'],
-                'status_id' => $request['status'],
-            ]);
+            return view('ticket.task.edit', compact('task'));
         }
 
+        return \Redirect::route('ticket.index');
+    }
 
+
+    public function update(Request $request, Ticket $ticket)
+    {
+        $this->validate($request, ['subject' => 'required', 'category_id' => 'required',
+            'technician_id' => 'required']);
+        if (can('modify', $ticket)) {
+            $ticket->fill(['subject' => $request['subject'],
+                'description' => $request['description'],
+                'category_id' => $request['category_id'],
+                'subcategory_id' => $request['subcategory_id'],
+                'technician_id' => $request['technician_id'],
+                'item_id' => $request['item_id']]);
+
+            if ($ticket->getDirty()['technician_id']!= $ticket->getOriginal()['technician_id']) {
+                Mail::send(new NewTaskMail($ticket));
+                $ticket->save();
+            }
+        }
+
+        return \Redirect::route('ticket.show', $ticket);
     }
 
 

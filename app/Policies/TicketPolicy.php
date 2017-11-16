@@ -32,12 +32,6 @@ class TicketPolicy
         return false;
     }
 
-    function modify(User $user, Ticket $ticket)
-    {
-        return in_array($user->id, [$ticket->technician_id, $ticket->coordinator_id]) ||
-            $user->groups->contains($ticket->group_id);
-    }
-
     function reply(User $user, Ticket $ticket)
     {
         $privileged = [$ticket->requester_id, $ticket->technician_id, $ticket->coordinator_id];
@@ -67,6 +61,10 @@ class TicketPolicy
 
     function show_approvals(User $user , Ticket $ticket){
         return $user->isSupport();
+    }
+
+    public function modify(User $user , Ticket $task){
+        return $user->id == $task->technician_id || $user->isTechnicainSupervisor($task);
     }
 
 }
