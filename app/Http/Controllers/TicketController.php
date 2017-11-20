@@ -95,10 +95,11 @@ class TicketController extends Controller
 
     public function reply(Ticket $ticket, TicketReplyRequest $request)
     {
-        if($ticket->hasOpenTask()){
+        if (in_array($request->reply['status_id'], [7, 8, 9]) && $ticket->hasOpenTask()) {
             flash(t('Ticket has pending tasks'), 'danger');
             return \Redirect::route('ticket.show', compact('ticket'));
         }
+
 
         $reply = new TicketReply($request->get('reply'));
         $reply->user_id = $request->user()->id;
@@ -112,7 +113,7 @@ class TicketController extends Controller
 
     public function resolution(Ticket $ticket, TicketResolveRequest $request)
     {
-        if($ticket->hasOpenTask()){
+        if ($ticket->hasOpenTask()) {
             flash(t('Ticket has pending tasks'), 'danger');
             return \Redirect::route('ticket.show', compact('ticket'));
         }
