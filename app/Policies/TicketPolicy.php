@@ -64,7 +64,7 @@ class TicketPolicy
     }
 
     public function modify(User $user , Ticket $task){
-        return $user->id == $task->technician_id || $user->isTechnicainSupervisor($task);
+        return in_array($user->id,[$task->technician_id, $task->creator_id, $task->requester_id]) || $user->isTechnicainSupervisor($task);
     }
 
 }
