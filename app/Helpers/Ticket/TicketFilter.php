@@ -32,7 +32,9 @@ class TicketFilter
     public function apply()
     {
         foreach ($this->criteria as $criterion) {
-            $this->applyCriterion($criterion);
+            if ($criterion['field']) {
+                $this->applyCriterion($criterion);
+            }
         }
 
         return $this->query;

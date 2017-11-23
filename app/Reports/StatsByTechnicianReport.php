@@ -41,7 +41,7 @@ class StatsByTechnicianReport extends StatsByCategoryReport
         $data = $this->query->get();
 
         return \Excel::create(str_slug($this->report->title), function($excel) use ($data) {
-            $excel->sheet('Summary By Technician', function ($sheet) use ($data) {
+            $excel->sheet('Stats By Technician', function ($sheet) use ($data) {
                 $sheet->row($this->row, [
                     'Technician', 'Requests Count', "Resolved Count",
                     'Resolved on time', 'Late', 'Very Late', 'Critical Late', 'Open', 'On Hold', 'Performance'
