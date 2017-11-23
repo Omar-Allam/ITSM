@@ -12,7 +12,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr is="Criterion" v-for="(criterion, index) in criteria" :index="index" :criterion="criterion"></tr>
+            <tr is="Criterion" v-for="(criterion, index) in criteria" :key="index" :index="index" :criterion="criterion"></tr>
             </tbody>
         </table>
 

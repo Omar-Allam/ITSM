@@ -72,13 +72,13 @@ use Illuminate\Support\Collection;
  */
 class Ticket extends KModel
 {
-    protected $stopLog = false;
-
+    const TASK_TYPE = 2;
     protected $shouldApplySla = true;
+    protected $stopLog = false;
 
     protected $fillable = [
         'subject', 'description', 'category_id', 'subcategory_id', 'item_id', 'group_id', 'technician_id',
-        'priority_id', 'impact_id', 'urgency_id', 'requester_id', 'creator_id', 'status_id', 'sdp_id'
+        'priority_id', 'impact_id', 'urgency_id', 'requester_id', 'creator_id', 'status_id', 'sdp_id', 'type', 'request_id'
     ];
 
     protected $dates = ['created_at', 'updated_at', 'due_date', 'first_response_date', 'resolve_date', 'close_date'];
@@ -192,6 +192,17 @@ class Ticket extends KModel
     public function logs()
     {
         return $this->hasMany(TicketLog::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Ticket::class, 'request_id')
+            ->where('type', 2)->where('request_id', $this->id);
+    }
+
+    public function getTicketAttribute()
+    {
+        return Ticket::where('id', $this->request_id)->first();
     }
 
     public function getResolutionAttribute()
@@ -314,10 +325,6 @@ class Ticket extends KModel
         return $this->hasMany(TicketCustomField::class);
     }*/
 
-    function tasks()
-    {
-        return $this->hasMany(Task::class);
-    }
 
     function scopePending(Builder $query)
     {
@@ -386,6 +393,96 @@ class Ticket extends KModel
 
     function last_updated_approval()
     {
-        return $this->hasOne(TicketApproval::class)->whereIn('status',[1,-1,-2])->orderBy('approval_date', 'desc');
+        return $this->hasOne(TicketApproval::class)->whereIn('status', [1, -1, -2])->orderBy('approval_date', 'desc');
+    }
+
+    function calculateTime()
+    {
+        self::flushEventListeners();
+
+        dispatch(new \App\Jobs\CalculateTicketTime($this));
+    }
+
+    function taskJson()
+    {
+        return [
+            'id' => $this->id,
+            'subject' => $this->subject ?? '',
+            'description' => $this->description ?? '',
+            'status' => $this->status->name ?? '',
+            'requester' => $this->requester->name ?? '',
+            'created_at' => $this->created_at->format('d/m/Y H:i') ?? '',
+            'technician' => $this->technician->name ?? '',
+            'technician_id' => $this->technician->id ?? '',
+            'request_id' => $this->request_id ?? '',
+        ];
+    }
+
+    function isTask()
+    {
+        return $this->type == 2;
+    }
+
+    function isDuplicated()
+    {
+        return !$this->type && $this->request_id;
+    }
+
+    function hasDuplicatedTickets()
+    {
+        return Ticket::where('request_id', $this->id)->whereNull('type')->exists();
+    }
+
+    function getTypeNameAttribute()
+    {
+        if ($this->type == 2) {
+            return 'Task';
+        } elseif ($this->type == null && $this->request_id) {
+            return 'Duplicated';
+        } else {
+            return 'Request';
+        }
+    }
+
+
+    function getTypeIconAttribute()
+    {
+        if ($this->type == 2) {
+            return 'tasks';
+
+        } elseif ($this->type == null && $this->request_id) {
+            return 'files-o';
+        } else {
+            return 'ticket';
+        }
+    }
+
+    public function hasOpenTask()
+    {
+        return Ticket::where('type',2)->where('request_id',$this->id)->whereNotIn('status_id',[7,8,9])->exists();
+    }
+
+    function shouldEscalate($escalation){
+
+        $previous_escalations = TicketLog::where('type',13)
+            ->where('ticket_id',$this->id)->count();
+
+        if($escalation->level > $previous_escalations){
+
+            $startTime = Carbon::parse(config('worktime.start'));
+            $endTime = Carbon::parse(config('worktime.end'));
+            $minutesPerDay = $endTime->diffInMinutes($startTime);
+
+            $escalate_time = ($escalation->days * $minutesPerDay) + ($escalation->hours * 60) + $escalation->minutes;
+            $escalation_time = $this->due_date->addMinutes($escalate_time * $escalation->when_escalate);
+
+            /** @var Carbon $escalation_time */
+            if(Carbon::now()->gte($escalation_time)){
+                return true;
+            }
+
+            return false;
+        }
+
     }
 }

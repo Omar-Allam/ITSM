@@ -66,7 +66,8 @@ class ApplySLA extends MatchCriteria
         $workStart = config('worktime.start');
         $workEnd = config('worktime.end');
 
-        $date->addDays($days);
+        /** @var Carbon $date */
+        $date->addWeekdays($days);
         $date->addHours($hours);
         $date->addMinute($minutes);
 

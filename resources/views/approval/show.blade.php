@@ -66,6 +66,7 @@
         <section class="ticket">
             @include('ticket.partials._requester_details',['ticket'=>$ticketApproval->ticket])
             @include('ticket.partials._ticket_additional_fields',['ticket'=>$ticketApproval->ticket])
+            @include('ticket.partials._ticket_replies',['ticket'=>$ticketApproval->ticket])
         </section>
     </section>
 @stop

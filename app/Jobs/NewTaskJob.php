@@ -9,15 +9,13 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class NewTaskJob implements ShouldQueue
-{
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+class NewTaskJob extends Job{
 
     private $ticket;
     private $task;
-    public function __construct($task,$ticket)
+    public function __construct($task)
     {
-      $this->ticket = $ticket;
+      $this->ticket = $task->ticket;
       $this->task = $task;
     }
 
@@ -25,10 +23,8 @@ class NewTaskJob implements ShouldQueue
     public function handle()
     {
         \Mail::send('emails.ticket.task_assigned', ['ticket' => $this->ticket , 'task'=>$this->task], function(Message $msg) {
-            $ticket = $this->ticket;
-            $task = $this->task;
-            $msg->subject('A new Task #' . $task->id . ' in Ticket #'.$ticket->id.' has been Assigned to you');
-            $msg->to($task->technician->email);
+            $msg->subject('A new Task #' . $this->task->id . ' On Ticket #'.$this->ticket->id.' has been Assigned to you');
+            $msg->to($this->task->technician->email);
         });
     }
 }

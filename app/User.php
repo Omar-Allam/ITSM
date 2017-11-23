@@ -52,7 +52,7 @@ use Illuminate\Notifications\Notifiable;
  */
 class User extends Authenticatable implements CanResetPassword
 {
-    use SoftDeletes , Notifiable;
+    use SoftDeletes, Notifiable;
 
     protected $fillable = [
         'name', 'email', 'login', 'password', 'location_id', 'location_id', 'business_unit_id',
@@ -74,6 +74,11 @@ class User extends Authenticatable implements CanResetPassword
     public function business_unit()
     {
         return $this->belongsTo(BusinessUnit::class);
+    }
+
+    public function supervisors()
+    {
+        return $this->belongsToMany('App\Group', 'group_supervisor', 'user_id', 'group_id');
     }
 
     public function location()
@@ -108,6 +113,22 @@ class User extends Authenticatable implements CanResetPassword
         return $this->groups()->admin()->exists();
     }
 
+    public function isTechnicainSupervisor($ticket)
+    {
+        if($ticket->technician){
+            $groups = $ticket->technician->groups;
+
+            foreach ($groups as $group) {
+                if (in_array($this->id, $group->supervisors->pluck('id')->toArray())) {
+                    return true;
+                }
+            }
+        }
+
+
+        return false;
+    }
+
     public function hasGroup($group)
     {
         if (is_a($group, Group::class)) {
@@ -135,7 +156,7 @@ class User extends Authenticatable implements CanResetPassword
     public function scopeQuickSearch(Builder $query)
     {
         if (\Request::has('search')) {
-            $query->where(function(Builder $q){
+            $query->where(function (Builder $q) {
                 $term = '%' . \Request::get('search') . '%';
                 $q->where('login', 'LIKE', $term)
                     ->orWhere('name', 'LIKE', $term)
@@ -153,7 +174,7 @@ class User extends Authenticatable implements CanResetPassword
 
     public function setGroupIdsAttribute($group_ids)
     {
-        self::saved(function($ticket) use ($group_ids) {
+        self::saved(function ($ticket) use ($group_ids) {
             $ticket->groups()->sync($group_ids);
         });
 

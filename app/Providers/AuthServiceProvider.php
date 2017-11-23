@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Auth\KdeskUserProvider;
+use App\Policies\TicketPolicy;
 use App\User;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Contracts\Hashing\Hasher;
@@ -16,7 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Ticket' => 'App\Policies\TicketPolicy',
+        'App\Ticket' => TicketPolicy::class,
     ];
 
     /**
@@ -26,11 +27,11 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \Auth::provider('hubdesk', function($app) {
+        \Auth::provider('hubdesk', function ($app) {
             return new KdeskUserProvider(app(Hasher::class), config('auth.providers.users.model'));
         });
 
-        \Gate::before(function(User $user) {
+        \Gate::before(function (User $user) {
             if ($user->isAdmin()) {
                 return true;
             }

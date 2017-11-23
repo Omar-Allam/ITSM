@@ -2,19 +2,14 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <title>Escalation Ticket #{{$ticket->id}}</title>
+    <title>SLA escalation warning notification. Request # {{$ticket->id}}</title>
 </head>
 <body>
 <div style="font-size: 13px; font-face: arial,helvetica,sans-serif">
     <font family="arial,helvetica,sans-serif">
-        Ticket #{{$ticket->id}} has been Escalated to you as it is exceed it's resolution time. <br /><br />
-
-        @if ($ticket->creator_id != $ticket->requester_id)
-            By: {{$ticket->created_by->name}}<br/>
-        @endif
-        Technician: {{$ticket->technician->name or 'N/A'}}<br />
-        Subject: <strong>{{$ticket->subject}}</strong><br />
-        Created at: {{$ticket->created_at->format('d/m/Y H:i')}}<br/>
+        Requester : {{$ticket->requester->name}}<br>
+        Category : {{$ticket->category->name}}<br>
+        Title : {{$ticket->subject}}
     </font>
 
     <div>

@@ -6,7 +6,8 @@
     {{ Form::open(['route' => 'ticket.scope', 'class' => 'form-inline ticket-scope heading-actions flex']) }}
     <div class="btn-group">
         <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
-            {{t($scopes[$scope])}} &nbsp; <span class="badge" style="background-color: #0079b4">{{\App\Ticket::scopedView($scope)->count()}}</span> &nbsp; <span class="caret"></span>
+            {{t($scopes[$scope])}} &nbsp; <span class="count">{{\App\Ticket::scopedView($scope)->count()}}</span>
+            &nbsp; <span class="caret"></span>
         </button>
 
         <ul class="dropdown-menu">
@@ -53,11 +54,14 @@
                 <tbody>
                 @foreach($tickets as $ticket)
                     <tr>
-                        <td><a href="{{ route('ticket.show', $ticket) }}">{{ $ticket->id }}</a></td>
+                        <td><i class="fa fa-{{t($ticket->type_icon)}}" title="{{t($ticket->type_name)}}" aria-hidden="true"></i> <a href="{{ route('ticket.show', $ticket) }}">{{ $ticket->id }}</a></td>
                         <td><a href="{{ route('ticket.show', $ticket) }}">{{ $ticket->sdp_id ?? ''}}</a></td>
-                        <td>@if($ticket->overdue) <i class="fa fa-flag text-danger" aria-hidden="true"
-                                                     title="SLA violated"></i> @endif <a
-                                    href="{{ route('ticket.show', $ticket) }}">{{ $ticket->subject }}</a></td>
+                        <td>
+                            @if($ticket->overdue)
+                                <i class="fa fa-flag text-danger" aria-hidden="true" title="SLA violated"></i>
+                            @endif
+                                <a href="{{ route('ticket.show', $ticket) }}">{{ $ticket->subject }}</a>
+                        </td>
                         <td>{{ $ticket->requester->name }}</td>
                         <td>{{ $ticket->technician? $ticket->technician->name : 'Not Assigned' }}</td>
                         <td>{{ $ticket->created_at->format('d/m/Y h:i a') }}</td>

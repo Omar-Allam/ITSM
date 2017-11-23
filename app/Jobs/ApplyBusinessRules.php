@@ -40,5 +40,7 @@ class ApplyBusinessRules extends MatchCriteria
         foreach ($rule->rules as $action) {
             $this->ticket->setAttribute($action->field, $action->value);
         }
+
+        \Log::info("Applied business rule [id: $rule->id, name: $rule->name, ticket: {$this->ticket->id}]");
     }
 }

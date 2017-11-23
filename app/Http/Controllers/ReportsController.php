@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class ReportsController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     function index()
     {
         $filters = ['folder' => request('folder')];

@@ -31,11 +31,13 @@ trait LdapSync
     protected function syncEntry(LdapConnect $ldap, $entry)
     {
         if (empty($entry['mail'])) {
+            \Log::notice("[ldap-sync] User {$entry['display_name']} doesn't have email");
             return false;
         }
 
         $businessUnit = !empty($entry['company'])? BusinessUnit::whereName($entry['company'])->first() : null;
         if (!$businessUnit) {
+            \Log::notice("[ldap-sync] User {$entry['display_name']} has invalid business unit");
             return false;
         }
 
@@ -79,9 +81,7 @@ trait LdapSync
         }
 
         $dbUser = User::where('login', $user['login'])->orWhere('email', $user['email'])->first();
-        if ($user['email'] == '') {
-            dd($dbUser);
-        }
+        
         if ($dbUser) {
             $dbUser->update($user);
             return $dbUser;

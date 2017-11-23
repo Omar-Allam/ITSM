@@ -39,7 +39,8 @@ class Item extends KModel
 
     public function scopeCanonicalList(Builder $query)
     {
-        $items = $query->with('subcategory')->with('subcategory.category')
+        $items = $query->with('subcategory')
+            ->with('subcategory.category')
             ->get();
 
         $list = [];

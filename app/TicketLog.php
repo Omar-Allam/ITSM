@@ -27,7 +27,7 @@ use App\Helpers\HistoryEntry;
  */
 class TicketLog extends KModel
 {
-    protected $fillable = ['user_id', 'type', 'old_data', 'new_data', 'status_id'];
+    protected $fillable = ['user_id', 'type', 'old_data', 'new_data', 'status_id','ticket_id'];
 
     const UPDATED_TYPE = 1;
     const REPLY_TYPE = 2;
@@ -38,6 +38,7 @@ class TicketLog extends KModel
     const AUTO_CLOSE = 10;
     const NOTE_TYPE = 11;
     const RESEND_APPROVAL = 12;
+    const ESCALATION = 13;
 //    const REOPENED_TYPE = 8;
 
     protected $casts = ['old_data' => 'array', 'new_data' => 'array'];
@@ -71,6 +72,11 @@ class TicketLog extends KModel
     public static function addApprovalUpdate(TicketApproval $approval, $approved = true)
     {
         return self::makeLog($approval->ticket, $approved ? static::APPROVED : static::DENIED, $approval->approver_id);
+    }
+
+    public static function addEscalationLog(Ticket $ticket,EscalationLevel $escalation)
+    {
+        return self::makeLog($ticket, static::ESCALATION, $escalation->user_id);
     }
 
     public static function addUpdating(Ticket $ticket)

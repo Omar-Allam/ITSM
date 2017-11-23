@@ -8,6 +8,7 @@
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
     <link rel="stylesheet" href="{{asset('/css/app.css')}}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     @yield('stylesheets')
 </head>
 <body>
