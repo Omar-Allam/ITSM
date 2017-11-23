@@ -31,7 +31,7 @@ class LotByTechnicianDetailsReport extends ReportContract
             ->join('categories as cat', 't.category_id', '=', 'cat.id')
             ->leftJoin('subcategories as subcat', 't.subcategory_id', '=', 'subcat.id')
             ->leftJoin('items as item', 't.item_id', '=', 'item.id')
-            ->leftJoin('slas as sla', 't.sla_id', '=', 'sla.id')
+            ->join('slas as sla', 't.sla_id', '=', 'sla.id')
             ->where('st.type', Status::COMPLETE);
 
         $this->fields();
