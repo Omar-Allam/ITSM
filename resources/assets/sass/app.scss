@@ -425,8 +425,34 @@ table.table > thead > tr > th {
 img {
   max-width: 100%;
 }
+
 .logo-image{
   padding-bottom: 5px;
   height:25px;
   width:auto;
+}
+
+.multi-select {
+  .multi-select-container {
+    max-height: 300px;
+    overflow-y: scroll;
+    padding: 10px;
+
+    li:first-child {
+      margin-top: 0;
+    }
+
+    border: 1px solid #d5d5d5;
+  }
+}
+
+.section-header {
+  border-bottom: 1px solid #f4f8fb;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+option.empty {
+  color: #c9c9c9;
+  font-weight: 700;
 }
