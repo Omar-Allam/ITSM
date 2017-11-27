@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Report extends Model
 {
-    protected $fillable = [];
+    protected $fillable = ['title', 'folder_id', 'core_report_id', 'parameters'];
 
 //    protected $dates = ['created_at' , 'updated_at'];
 
