@@ -12731,8 +12731,8 @@ img {
   border: 1px solid #d5d5d5;
 }
 
-.multi-select .multi-select-container li:first-child {
-  margin-top: 0;
+.multi-select .multi-select-container .checkbox {
+  margin-top: 10px;
 }
 
 .section-header {

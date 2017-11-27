@@ -437,12 +437,11 @@ img {
     max-height: 300px;
     overflow-y: scroll;
     padding: 10px;
-
-    li:first-child {
-      margin-top: 0;
-    }
-
     border: 1px solid #d5d5d5;
+
+    .checkbox {
+      margin-top: 10px;
+    }
   }
 }
 

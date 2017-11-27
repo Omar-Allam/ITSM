@@ -9,8 +9,6 @@
 @endsection
 
 @section('body')
-
-    {{dump($errors->all())}}
     <form action="{{route('reports.store')}}" method="post" class="col-sm-9">
         {{csrf_field()}}
 
@@ -69,6 +67,9 @@
                     <a href="#" class="select-all">{{t('Select All')}}</a> / <a href="#" class="remove-all">{{t('Remove All')}}</a>
 
                     <ul class="multi-select-container list-unstyled">
+                        <li>
+                            <input type="search" class="form-control search" placeholder="{{t('Type to search')}}">
+                        </li>
                         @foreach($technicians as $technician)
                             <li class="checkbox">
                                 <label>
@@ -77,7 +78,7 @@
                                            id="technician_{{$technician->id}}]"
                                            value="{{$technician->id}}"
                                             {{old("parameters.technician.{$technician->id}")? 'checked' : '' }}>
-                                    {{$technician->name}}
+                                    <span class="checkbox-label">{{$technician->name}}</span>
                                 </label>
                             </li>
                         @endforeach
@@ -89,6 +90,9 @@
                     <a href="#" class="select-all">{{t('Select All')}}</a> / <a href="#" class="remove-all">{{t('Remove All')}}</a>
 
                     <ul class="multi-select-container list-unstyled">
+                        <li>
+                            <input type="search" class="form-control search" placeholder="{{t('Type to search')}}">
+                        </li>
                         @foreach($categories as $category)
                             <li class="checkbox">
                                 <label>
@@ -98,7 +102,7 @@
                                            value="{{$category->id}}"
                                             {{old("parameters.category.{$category->id}")? 'checked' : '' }}>
 
-                                    {{$category->name}}
+                                    <span class="checkbox-label">{{$category->name}}</span>
                                 </label>
                             </li>
                         @endforeach
@@ -118,14 +122,30 @@
 @section('javascript')
     <script>
         window.jQuery(function($) {
-            $('.select-all').on('click', e => {
+
+            $('.multi-select').on('click', '.select-all', e => {
                 e.preventDefault();
                 $(e.target).closest('.multi-select').find('input').prop('checked', 'checked');
-            });
-
-            $('.remove-all').on('click', e => {
+            }).on('click', '.remove-all', e => {
                 e.preventDefault();
                 $(e.target).closest('.multi-select').find('input').prop('checked', false);
+            }).on('keyup', '.search', e => {
+                const $self = $(e.target);
+                const term = $self.val().toLowerCase();
+                if (term) {
+                    $self.closest('.multi-select-container').find('.checkbox-label').each((idx, item) => {
+                        const val = $(item).text().toLowerCase();
+
+                        if (val.indexOf(term) >= 0) {
+                            $(item).closest('li').show();
+                        } else {
+                            $(item).closest('li').hide();
+                        }
+                    });
+                } else {
+                    $self.closest('.multi-select-container').find('.checkbox').show();
+                }
+
             });
         });
     </script>
