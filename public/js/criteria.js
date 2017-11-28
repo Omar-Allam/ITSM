@@ -10576,9 +10576,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var labels = [],
                 i = 0;
             for (i; i < this.modal.selected.length; ++i) {
-                var value = this.modal.selected[i];
-                labels.push(this.modal.options[value]);
+                for (var key in this.modal.options) {
+                    var value = this.modal.options[key];
+                    if (value.id == this.modal.selected[i]) {
+                        var _value = this.modal.selected[i];
+                        labels.push(this.modal.options[key].name);
+                    }
+                }
             }
+
             __WEBPACK_IMPORTED_MODULE_1__Bus__["a" /* default */].$emit('setCriterionValue', this.modal.key, this.modal.selected, labels);
             jQuery('#CriteriaSelectionModal').modal('hide');
         }

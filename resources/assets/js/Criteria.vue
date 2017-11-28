@@ -127,9 +127,16 @@
             modalApply() {
                 let labels = [], i = 0;
                 for (i; i < this.modal.selected.length; ++i) {
-                    let value = this.modal.selected[i];
-                    labels.push(this.modal.options[value]);
+                    for (let key in this.modal.options) {
+                        let value = this.modal.options[key];
+                        if(value.id==this.modal.selected[i]){
+                            let value = this.modal.selected[i];
+                            labels.push(this.modal.options[key].name);
+                        }
+                    }
+
                 }
+
                 EventBus.$emit('setCriterionValue', this.modal.key, this.modal.selected, labels);
                 jQuery('#CriteriaSelectionModal').modal('hide');
             }
