@@ -1,14 +1,4 @@
 {
-    "/js/business-rules.js": "/js/business-rules.js",
-    "/js/report.js": "/js/report.js",
     "/js/ticket-index.js": "/js/ticket-index.js",
-    "/js/criteria.js": "/js/criteria.js",
-    "/js/task.js": "/js/task.js",
-    "/js/ticket.js": "/js/ticket.js",
-    "/js/ticket-form.js": "/js/ticket-form.js",
-    "/js/escalation.js": "/js/escalation.js",
-    "/js/tasks.js": "/js/tasks.js",
-    "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css",
-    "/js/ticket-note.js": "/js/ticket-note.js"
+    "/js/criteria.js": "/js/criteria.js"
 }
