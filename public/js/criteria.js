@@ -10757,7 +10757,7 @@ var fields = {
                 return false;
             }
 
-            $.get('/list/' + field.list).done(function (response) {
+            jQuery.get('/list/' + field.list).done(function (response) {
                 __WEBPACK_IMPORTED_MODULE_0__Bus__["a" /* default */].$emit('openSelectModal', { options: response, key: _this.index, field: field.name, selected: _this.criterion.value.split(',') });
             });
         }
