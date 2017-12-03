@@ -7,7 +7,7 @@ function flash($message, $type = 'danger')
     Session::flash('flash-type', $type);
 }
 
-function can($ability, $object)
+function can($ability, $object = null)
 {
     return \Gate::allows($ability, $object);
 }
