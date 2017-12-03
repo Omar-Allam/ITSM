@@ -17,5 +17,5 @@ abstract class Job
     |
     */
 
-    use Queueable;
+   // use Queueable;
 }
