@@ -18,6 +18,8 @@ class ReportsController extends Controller
 
     function index()
     {
+        $this->authorize('reports');
+
         $filters = ['folder' => request('folder')];
 
         $reports = Report::filter($filters)->paginate();
@@ -31,6 +33,8 @@ class ReportsController extends Controller
 
     function create()
     {
+        $this->authorize('reports');
+
         $core_reports = CoreReport::where('name', '!=', 'Query Report')->orderBy('name')->get();
         $technicians = User::technicians()->orderBy('name')->get(['id', 'name']);
         $categories = Category::orderBy('name')->get(['id', 'name']);
@@ -41,6 +45,8 @@ class ReportsController extends Controller
 
     function store(Request $request)
     {
+        $this->authorize('reports');
+
         $this->validate($request, [
             'title' => 'required',
             'core_report_id' => 'required', 'folder_id' => 'required',
@@ -58,6 +64,8 @@ class ReportsController extends Controller
 
     function show(Report $report)
     {
+        $this->authorize('reports');
+        
         $core_report_class = $report->core_report->class_name;
 
         $r = new $core_report_class($report);
