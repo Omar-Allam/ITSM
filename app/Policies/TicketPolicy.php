@@ -67,4 +67,13 @@ class TicketPolicy
         return in_array($user->id,[$task->technician_id, $task->creator_id, $task->requester_id]) || $user->isTechnicainSupervisor($task);
     }
 
+    public function reassign(User $user,Ticket $ticket){
+        return $user->id == $ticket->technician_id || $user->isTechnicainSupervisor($ticket);
+    }
+    
+    public function show(User $user , Ticket $ticket){
+     return in_array($user->id ,[$ticket->technician_id,$ticket->requester_id,$ticket->creator_id])
+         || $user->isTechnicainSupervisor($ticket) || $user->hasGroup($ticket->group);
+    }
+
 }
