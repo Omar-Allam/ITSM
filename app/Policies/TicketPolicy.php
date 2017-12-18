@@ -72,8 +72,10 @@ class TicketPolicy
     }
     
     public function show(User $user , Ticket $ticket){
-     return in_array($user->id ,[$ticket->technician_id,$ticket->requester_id,$ticket->creator_id])
-         || $user->isTechnicainSupervisor($ticket) || $user->hasGroup($ticket->group);
+        $isApprover = $ticket->approvals()->where('approver_id',$user->id)->exists();
+    
+        return in_array($user->id ,[$ticket->technician_id,$ticket->requester_id,$ticket->creator_id])
+            || $user->hasGroup($ticket->group) || $isApprover;
     }
 
 }
