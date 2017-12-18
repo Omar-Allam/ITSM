@@ -75,7 +75,7 @@ class TicketPolicy
         $isApprover = $ticket->approvals()->where('approver_id',$user->id)->exists();
     
         return in_array($user->id ,[$ticket->technician_id,$ticket->requester_id,$ticket->creator_id])
-         || $user->isTechnicainSupervisor($ticket) || $user->hasGroup($ticket->group) || $isApprover;
+            || $user->hasGroup($ticket->group) || $isApprover;
     }
 
 }
