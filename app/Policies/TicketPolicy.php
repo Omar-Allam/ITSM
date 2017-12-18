@@ -73,8 +73,8 @@ class TicketPolicy
     
     public function show(User $user , Ticket $ticket){
         $approvers = [];
-        if($ticket->approvals->count()){
-            $approvers = $ticket->approvals->pluck('approver_id')->toArray();
+        if($ticket->approvals()->count()){
+            $approvers = $ticket->approvals()->pluck('approver_id')->toArray();
         }
     
         return in_array($user->id ,[$ticket->technician_id,$ticket->requester_id,$ticket->creator_id])
