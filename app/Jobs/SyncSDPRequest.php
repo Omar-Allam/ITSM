@@ -145,9 +145,37 @@ class SyncSDPRequest implements ShouldQueue
                 'is_resolution' => false
             ]);
             \Log::info("[sync-sdp] Conversation {$conversation['conversationid']} synced to {$reply->id}");
+
+            /** @var TicketReply $reply */
+            $this->getReplyAttachments($reply);
         }
     }
 
+    function getReplyAttachments(TicketReply $reply){
+      $client = $this->webLogin();
+      $response = $client->get("/workorder/UpdateNotificationDetails.jsp?woID={$reply->sdp_id}&orgReqID={$reply->ticket->sdp_id}");
+
+      $parser = new Crawler();
+      $parser->addHtmlContent($content = $response->getBody()->getContents());
+
+        foreach ($parser->filter('.attachfileicon') as $icon) {
+            $path = $icon->parentNode->attributes['href']->value;
+            $filename = "/attachments/{$reply->ticket->id}/" . $icon->nextSibling->textContent;
+            $storage_path = storage_path('app/public' . $filename);
+
+            if (!is_dir($dir = dirname($storage_path))) {
+                mkdir($dir, 0775, true);
+            }
+
+            $client->get($path, ['sink' => $storage_path]);
+            
+            $attachment = new Attachment();
+            $attachment->type = 2;
+            $attachment->reference = $reply->id;
+            $attachment->path = $filename;
+            $attachment->save();
+        }
+    }
     /**
      * @param $id
      * @return array
