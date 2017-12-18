@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('header')
-
+    @can('show',$ticket)
     <div class="display-flex ticket-meta">
         <div class="flex">
             <h4>#{{$ticket->id}} - {{$ticket->subject}}</h4>
@@ -31,10 +31,14 @@
                     </h4>
                 @endif
                 <div class="btn-toolbar">
+
+                    @can('reassign',$ticket)
                     <button data-toggle="modal" data-target="#AssignForm" type="button"
                             class="btn btn-sm btn-info btn-rounded btn-outlined" title="{{t('Re-assign')}}">
                         <i class="fa fa-mail-forward"></i> {{t('Re-assign')}}
                     </button>
+                    @endcan
+                    
                     @if(!$ticket->isTask())
                         <button data-toggle="modal" data-target="#DuplicateForm" type="button"
                                 class="btn btn-sm btn-primary btn-rounded btn-outlined" title="Duplicate">
@@ -46,12 +50,12 @@
                             <i class="fa fa-sticky-note"></i> {{t('Add Note')}}
                         </button>
 
-                        @can('pick',$ticket)
-                            <a href="{{route('ticket.pickup',$ticket)}}" title="Pick Up"
-                               class="btn btn-sm btn-primary btn-rounded btn-outlined"><i
-                                        class="fa fa-hand-lizard-o"></i> {{t('Pick Up')}}</a>
-                        @endcan
-
+                        {{--@can('pick',$ticket)--}}
+                            {{--<a href="{{route('ticket.pickup',$ticket)}}" title="Pick Up"--}}
+                               {{--class="btn btn-sm btn-primary btn-rounded btn-outlined"><i--}}
+                                        {{--class="fa fa-hand-lizard-o"></i> {{t('Pick Up')}}</a>--}}
+                        {{--@endcan--}}
+                    
                         <a href="{{route('ticket.print',$ticket)}}" target="_blank"
                            class="btn btn-sm btn-primary btn-rounded btn-outlined" title="Print">
                             <i class="fa fa-print"></i> {{t('Print')}}
@@ -105,10 +109,11 @@
 
         </div>
     </div>
-
+    @endcan
 @endsection
 
 @section('body')
+    @if(can('show',$ticket))
     <section class="col-sm-12" id="ticketArea">
         <ul class="nav nav-tabs" role="tablist">
             <li class="active">
@@ -200,6 +205,17 @@
             @include('ticket._duplicate_modal')
         </div>
     </section>
+    @else
+
+        <div class="container-fluid">
+            <div class="alert alert-warning text-center"><i class="fa fa-exclamation-circle"></i>
+                <strong>
+                    {{ t('You are not authorized to display this request') }}
+                </strong>
+            </div>
+        </div>
+
+    @endif
 @endsection
 
 @section('javascript')
