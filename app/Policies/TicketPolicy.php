@@ -72,13 +72,10 @@ class TicketPolicy
     }
     
     public function show(User $user , Ticket $ticket){
-        $approvers = [];
-        if($ticket->approvals()->count()){
-            $approvers = $ticket->approvals()->pluck('approver_id')->toArray();
-        }
+        $isApprover = $ticket->approvals()->where('approver_id',$user->id)->exists();
     
         return in_array($user->id ,[$ticket->technician_id,$ticket->requester_id,$ticket->creator_id])
-         || $user->isTechnicainSupervisor($ticket) || $user->hasGroup($ticket->group) || in_array($user->id,$approvers);
+         || $user->isTechnicainSupervisor($ticket) || $user->hasGroup($ticket->group) || $isApprover;
     }
 
 }
