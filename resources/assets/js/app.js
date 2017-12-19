@@ -1,4 +1,6 @@
+import swal from 'sweetalert2'
 window.jQuery = window.$ = require('jquery');
+window.swal = swal;
 require('bootstrap-sass');
 require('select2');
 

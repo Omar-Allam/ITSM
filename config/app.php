@@ -157,6 +157,8 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         \Laravel\Tinker\TinkerServiceProvider::class,
         \Maatwebsite\Excel\ExcelServiceProvider::class,
+        RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+
 
         /*
          * Application Service Providers...
@@ -222,5 +224,6 @@ return [
         'Socialite' => \Laravel\Socialite\Facades\Socialite::class,
         'Notification' => Illuminate\Support\Facades\Notification::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Alert' => RealRashid\SweetAlert\Facades\Alert::class
     ],
 ];

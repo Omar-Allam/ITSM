@@ -24,11 +24,19 @@ class BusinessUnitController extends Controller
 
     public function store(Request $request)
     {
-        $this->validates($request, 'Could not save business unit');
+        alert()->flash('Business unit Info', 'error', [
+            'text' => 'Could not save business unit',
+            'timer' => 3000
+        ]);
+        
+        $this->validates($request, null);
 
         BusinessUnit::create($request->all());
 
-        flash('Business unit has been saved', 'success');
+        alert()->flash('Business unit Info', 'success', [
+            'text' => 'Business unit has been saved',
+            'timer' => 3000
+        ]);
 
         return \Redirect::route('admin.business-unit.index');
     }
@@ -46,11 +54,19 @@ class BusinessUnitController extends Controller
     public function update(BusinessUnit $business_unit, Request $request)
     {
         $this->rules['name'] .= ',' . $business_unit->id;
-        $this->validates($request, 'Could not save business unit');
+
+        alert()->flash('Business unit Info', 'error', [
+            'text' => 'Could not save business unit',
+            'timer' => 3000
+        ]);
+        $this->validates($request, null);
 
         $business_unit->update($request->all());
 
-        flash('Business unit has been saved', 'success');
+        alert()->flash('Business unit Info', 'success', [
+            'text' => 'Business unit has been saved',
+            'timer' => 3000
+        ]);
 
         return \Redirect::route('admin.business-unit.index');
     }
@@ -59,7 +75,10 @@ class BusinessUnitController extends Controller
     {
         $business_unit->delete();
 
-        flash('BusinessUnit has been deleted', 'success');
+        alert()->flash('Business unit Info', 'success', [
+            'text' => 'Business Unit has been deleted',
+            'timer' => 3000
+        ]);
 
         return \Redirect::route('admin.business-unit.index');
     }
