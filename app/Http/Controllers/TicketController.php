@@ -307,33 +307,47 @@ class TicketController extends Controller
         TicketNote::flushEventListeners();
 
         $ticket->replies->each(function ($reply) use ($newTicket) {
-            $reply->ticket_id = $newTicket->id;
-            TicketReply::create($reply->toArray());
+            if(!in_array($reply->status_id,[7,8,9])){
+                $reply->ticket_id = $newTicket->id;
+                $reply['created_at'] = $reply->created_at;
+                $reply['updated_at']= $reply->updated_at;
+                TicketReply::create($reply->toArray());
+            }
         });
 
         $ticket->approvals->each(function ($approval) use ($newTicket) {
             $approval->ticket_id = $newTicket->id;
+            $approval['created_at'] = $approval->created_at;
+            $approval['updated_at']= $approval->updated_at;
             TicketApproval::create($approval->toArray());
         });
 
         $ticket->notes->each(function ($note) use ($newTicket) {
             $note->ticket_id = $newTicket->id;
+            $note['created_at'] = $note->created_at;
+            $note['updated_at']= $note->updated_at;
             TicketNote::create($note->toArray());
         });
 
         $ticket->logs->each(function ($log) use ($newTicket) {
             $log->ticket_id = $newTicket->id;
+            $log['created_at'] = $log->created_at;
+            $log['updated_at']= $log->updated_at;
             TicketLog::create($log->toArray());
         });
 
         $ticket->fields->each(function ($field) use ($newTicket) {
             $field->ticket_id = $newTicket->id;
+            $field['created_at'] = $field->created_at;
+            $field['updated_at']= $field->updated_at;
             TicketField::create($field->toArray());
         });
 
         $ticket->files->each(function ($file) use ($newTicket) {
             if ($file->type == 1) {
                 $file->reference = $newTicket->id;
+                $file['created_at'] = $file->created_at;
+                $file['updated_at']= $file->updated_at;
                 Attachment::create($file->toArray());
             }
         });
