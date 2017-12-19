@@ -485,4 +485,8 @@ class Ticket extends KModel
         }
 
     }
+
+    function isClosed(){
+        return $this->status_id == 8;
+    }
 }

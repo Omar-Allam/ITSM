@@ -9,9 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendApproval extends Job implements ShouldQueue
-{
-    use InteractsWithQueue, SerializesModels;
+class SendApproval extends Job {
 
     /**
      * @var TicketApproval

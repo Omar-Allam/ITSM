@@ -61,6 +61,12 @@ class ApprovalController extends Controller
         //Triggers updated action in App\Providers\TicketEventsProvider
         $ticketApproval->approval_date = Carbon::now();
         $ticketApproval->update($request->all());
+
+        if(!$ticketApproval->ticket->isClosed()){
+            $ticketApproval->ticket->status_id = 3;
+            $ticketApproval->ticket->save();
+        }
+        
         $this->dispatch(new UpdateApprovalJob($ticketApproval));
 
         if ($ticketApproval->hasNext()) {
@@ -101,6 +107,11 @@ class ApprovalController extends Controller
 
         if ($ticketApproval->status != TicketApproval::PENDING_APPROVAL) {
             flash('You already took action for this approval', 'info');
+            return Redirect::route('ticket.show', $ticketApproval->ticket_id);
+        }
+
+        if ($ticketApproval->ticket->isClosed()) {
+            flash('The ticket has been closed', 'info');
             return Redirect::route('ticket.show', $ticketApproval->ticket_id);
         }
 
