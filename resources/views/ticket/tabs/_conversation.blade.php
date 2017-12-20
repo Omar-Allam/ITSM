@@ -19,13 +19,25 @@
                         </div>
                         <br>
                         <span class="label label-default">Status: {{t($reply->status->name)}}</span>
+                        @if($reply->attachments->count())
+                            <br><br>
+                            <p><strong>Attachments</strong></p>
+                            @foreach($reply->attachments as $attachment)
+                                <ul class="list-unstyled">
+                                    <li><a href="{{$attachment->url}}" target="_blank" >{{$attachment->display_name}}</a>
+                                    </li>
+                                </ul>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
+
+
             @endforeach
         </div>
 
         @can('show_approvals',$ticket)
-        @include('ticket.partials._ticket_approvals')
+            @include('ticket.partials._ticket_approvals')
         @endcan
 
     </section>
