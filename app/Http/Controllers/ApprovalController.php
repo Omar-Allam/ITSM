@@ -80,7 +80,7 @@ class ApprovalController extends Controller
         
         $this->dispatch(new UpdateApprovalJob($ticketApproval));
 
-        if ($ticketApproval->hasNext()) {
+        if ($ticketApproval->status != -1 && $ticketApproval->hasNext()) {
             $approvals = $ticketApproval->getNextStageApprovals();
             foreach ($approvals as $approval) {
                 $this->dispatch(new SendApproval($approval));
