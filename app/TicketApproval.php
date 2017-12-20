@@ -32,7 +32,7 @@ use App\Jobs\SendApproval;
  */
 class TicketApproval extends KModel
 {
-    protected $fillable = ['approver_id', 'content', 'status', 'comment', 'approval_date', 'stage', 'creator_id','ticket_id'];
+    protected $fillable = ['approver_id', 'content', 'status', 'comment', 'approval_date', 'stage', 'creator_id','ticket_id','created_at', 'updated_at'];
 
     protected $dates = ['created_at', 'updated_at', 'approval_date'];
 

@@ -13,7 +13,7 @@ class Attachment extends KModel
     const TICKET_TYPE = 1;
     const TICKET_REPLY_TYPE = 2;
 
-    protected $fillable = ['reference', 'type','path'];
+    protected $fillable = ['reference', 'type','path','created_at', 'updated_at'];
 
     /**
      * @var UploadedFile

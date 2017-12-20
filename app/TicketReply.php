@@ -26,7 +26,7 @@ namespace App;
  */
 class TicketReply extends KModel
 {
-    protected $fillable = ['content', 'status_id', 'user_id', 'sdp_id','ticket_id'];
+    protected $fillable = ['content', 'status_id', 'user_id', 'sdp_id','ticket_id','created_at','updated_at'];
 
     public function user()
     {
