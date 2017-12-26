@@ -96,7 +96,6 @@
                 if (!field || field.type != 'select') {
                     return false;
                 }
-
                 jQuery.get('/list/' + field.list).done((response) => {
                     EventBus.$emit('openSelectModal', { options: response, key: this.index, field: field.name, selected: this.criterion.value.split(',') });
                 });

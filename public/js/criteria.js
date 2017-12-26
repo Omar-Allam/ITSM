@@ -60,110 +60,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 50);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 0:
-/***/ (function(module, exports) {
-
-/* globals __VUE_SSR_CONTEXT__ */
-
-// this module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier /* server only */
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = injectStyles
-  }
-
-  if (hook) {
-    var functional = options.functional
-    var existing = functional
-      ? options.render
-      : options.beforeCreate
-    if (!functional) {
-      // inject component registration as beforeCreate hook
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    } else {
-      // register for functioal component in vue file
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return existing(h, context)
-      }
-    }
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-
-/***/ 1:
+/******/ ([
+/* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10360,11 +10261,524 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
+/* 1 */
+/***/ (function(module, exports) {
 
-/***/ 10:
+/* globals __VUE_SSR_CONTEXT__ */
+
+// this module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier /* server only */
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = injectStyles
+  }
+
+  if (hook) {
+    var functional = options.functional
+    var existing = functional
+      ? options.render
+      : options.beforeCreate
+    if (!functional) {
+      // inject component registration as beforeCreate hook
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    } else {
+      // register for functioal component in vue file
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return existing(h, context)
+      }
+    }
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+
+
+/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_vue___default.a());
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(5),
+  /* template */
+  __webpack_require__(9),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/Users/omar/code/hubdesk/resources/assets/js/Criteria.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Criteria.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0d23bddc", Component.options)
+  } else {
+    hotAPI.reload("data-v-0d23bddc", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Criterion_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Criterion_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Criterion_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Bus__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+    props: ['criterions'],
+
+    data: function data() {
+        var requirements = [];
+        if (this.criterions && this.criterions.length) {
+            requirements = this.criterions;
+        }
+
+        return {
+            modal: {
+                field: '',
+                options: {},
+                search: '',
+                key: null,
+                selected: []
+            },
+
+            requirements: requirements
+        };
+    },
+    created: function created() {
+        var _this = this;
+
+        __WEBPACK_IMPORTED_MODULE_1__Bus__["a" /* default */].$on('openSelectModal', function (options) {
+            _this.modal.field = options.field;
+            _this.modal.options = options.options;
+            _this.modal.key = options.key;
+            _this.modal.selected = [];
+            if (options.selected) {
+                _this.modal.selected = options.selected;
+            }
+            jQuery('#CriteriaSelectionModal').modal('show');
+        });
+
+        __WEBPACK_IMPORTED_MODULE_1__Bus__["a" /* default */].$on('removeCriterion', function (index) {
+            if (_this.requirements.length > 1) {
+                var criterions = [];
+                var i = 0;
+                for (var _i = 0; _i < _this.requirements.length; _i++) {
+                    if (_i == index) continue;
+                    criterions.push(_this.requirements[_i]);
+                }
+                _this.requirements = criterions;
+            }
+        });
+    },
+    ready: function ready() {
+        if (!this.requirements) {
+            this.requirements = [];
+            this.addCriterion();
+        }
+    },
+
+
+    methods: {
+        addCriterion: function addCriterion() {
+            this.requirements.push({
+                field: '',
+                operator: 'is',
+                label: '',
+                value: '',
+                showMenuIcon: false
+            });
+        },
+        modalApply: function modalApply() {
+            var labels = [],
+                i = 0;
+            for (i; i < this.modal.selected.length; ++i) {
+                for (var key in this.modal.options) {
+                    var value = this.modal.options[key];
+                    if (value.id == this.modal.selected[i]) {
+                        var _value = this.modal.selected[i];
+                        labels.push(this.modal.options[key].name);
+                    }
+                }
+            }
+
+            __WEBPACK_IMPORTED_MODULE_1__Bus__["a" /* default */].$emit('setCriterionValue', this.modal.key, this.modal.selected, labels);
+            jQuery('#CriteriaSelectionModal').modal('hide');
+        }
+    },
+
+    computed: {
+        filteredOptions: function filteredOptions() {
+            if (!this.modal.search) {
+                return this.modal.options;
+            }
+            var term = this.modal.search.toLowerCase();
+            var filtered = {};
+            for (var key in this.modal.options) {
+                var value = this.modal.options[key];
+                if (value.name.toLowerCase().indexOf(term) != -1) {
+                    filtered[key] = value;
+                }
+            }
+
+            return filtered;
+        }
+    },
+
+    components: { Criterion: __WEBPACK_IMPORTED_MODULE_0__Criterion_vue___default.a }
+});
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(7),
+  /* template */
+  __webpack_require__(8),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/Users/omar/code/hubdesk/resources/assets/js/Criterion.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Criterion.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4f9f057e", Component.options)
+  } else {
+    hotAPI.reload("data-v-4f9f057e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Bus__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+var fields = {
+    subject: { type: 'text' },
+    description: { type: 'text' },
+    category_id: { type: 'select', list: 'category', name: 'Category' },
+    subcategory_id: { type: 'select', list: 'subcategory', name: 'Subcategory' },
+    item_id: { type: 'select', list: 'item', name: 'Item' },
+    location_id: { type: 'select', list: 'location', name: 'Location' },
+    business_unit_id: { type: 'select', list: 'business-unit', name: 'Business Unit' },
+    priority_id: { type: 'select', list: 'priority', name: 'Priority' },
+    urgency_id: { type: 'select', list: 'urgency', name: 'Urgency' },
+    impact_id: { type: 'select', list: 'impact', name: 'Impact' },
+    technician_id: { type: 'select', list: 'technician', name: 'Technician' },
+    group_id: { type: 'select', list: 'group', name: 'Support Group' }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['criterion', 'index'],
+
+    computed: {
+        showMenuIcon: function showMenuIcon() {
+            var field = fields[this.criterion.field];
+            if (!field) {
+                return false;
+            }
+            return field.type == 'select' && (this.criterion.operator == 'is' || this.criterion.operator == 'isnot');
+        }
+    },
+
+    methods: {
+        update: function update() {
+            this.criterion.value = this.criterion.label;
+        },
+        remove: function remove() {
+            __WEBPACK_IMPORTED_MODULE_0__Bus__["a" /* default */].$emit('removeCriterion', this.index);
+        },
+        loadOptions: function loadOptions() {
+            var _this = this;
+
+            var field = fields[this.criterion.field];
+            if (!field || field.type != 'select') {
+                return false;
+            }
+
+            jQuery.get('/list/' + field.list).done(function (response) {
+                __WEBPACK_IMPORTED_MODULE_0__Bus__["a" /* default */].$emit('openSelectModal', { options: response, key: _this.index, field: field.name, selected: _this.criterion.value.split(',') });
+            });
+        }
+    },
+
+    created: function created() {
+        var _this2 = this;
+
+        __WEBPACK_IMPORTED_MODULE_0__Bus__["a" /* default */].$on('setCriterionValue', function (index, values, labels) {
+            if (index != _this2.index) {
+                return false;
+            }
+
+            _this2.criterion.value = values.join(',');
+            _this2.criterion.label = labels.join(', ');
+        });
+    }
+});
+
+/***/ }),
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -10611,13 +11025,12 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-56dcd2f4", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-4f9f057e", module.exports)
   }
 }
 
 /***/ }),
-
-/***/ 11:
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -10734,7 +11147,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-check-circle"
-  }), _vm._v(" Apply")]), _vm._v(" "), _vm._m(1)])])])])])
+  }), _vm._v(" Apply\n                    ")]), _vm._v(" "), _vm._m(1)])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "close",
@@ -10757,74 +11170,32 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-times-circle"
-  }), _vm._v(" Cancel")])
+  }), _vm._v(" Cancel\n                    ")])
 }]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-2db46648", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-0d23bddc", module.exports)
   }
 }
 
 /***/ }),
-
-/***/ 2:
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-
-/***/ 3:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-
-
-/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_vue___default.a());
-
-/***/ }),
-
-/***/ 50:
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(51);
+module.exports = __webpack_require__(11);
 
 
 /***/ }),
-
-/***/ 51:
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Criteria_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Criteria_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Criteria_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Criteria_vue__);
 
 
@@ -10835,377 +11206,5 @@ window.app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     components: { Criteria: __WEBPACK_IMPORTED_MODULE_1__Criteria_vue___default.a }
 });
 
-/***/ }),
-
-/***/ 6:
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(7),
-  /* template */
-  __webpack_require__(11),
-  /* styles */
-  null,
-  /* scopeId */
-  null,
-  /* moduleIdentifier (server only) */
-  null
-)
-Component.options.__file = "/Users/hazem/kdesk/resources/assets/js/Criteria.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Criteria.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2db46648", Component.options)
-  } else {
-    hotAPI.reload("data-v-2db46648", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 7:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Criterion_vue__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Criterion_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Criterion_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Bus__ = __webpack_require__(3);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-
-    props: ['criterions'],
-
-    data: function data() {
-        var requirements = [];
-        if (this.criterions && this.criterions.length) {
-            requirements = this.criterions;
-        }
-
-        return {
-            modal: {
-                field: '',
-                options: {},
-                search: '',
-                key: null,
-                selected: []
-            },
-
-            requirements: requirements
-        };
-    },
-    created: function created() {
-        var _this = this;
-
-        __WEBPACK_IMPORTED_MODULE_1__Bus__["a" /* default */].$on('openSelectModal', function (options) {
-            _this.modal.field = options.field;
-            _this.modal.options = options.options;
-            _this.modal.key = options.key;
-            _this.modal.selected = [];
-            if (options.selected) {
-                _this.modal.selected = options.selected;
-            }
-            jQuery('#CriteriaSelectionModal').modal('show');
-        });
-
-        __WEBPACK_IMPORTED_MODULE_1__Bus__["a" /* default */].$on('removeCriterion', function (index) {
-            if (_this.requirements.length > 1) {
-                var criterions = [];
-                var i = 0;
-                for (var _i = 0; _i < _this.requirements.length; _i++) {
-                    if (_i == index) continue;
-                    criterions.push(_this.requirements[_i]);
-                }
-                _this.requirements = criterions;
-            }
-        });
-    },
-    ready: function ready() {
-        if (!this.requirements) {
-            this.requirements = [];
-            this.addCriterion();
-        }
-    },
-
-
-    methods: {
-        addCriterion: function addCriterion() {
-            this.requirements.push({
-                field: '',
-                operator: 'is',
-                label: '',
-                value: '',
-                showMenuIcon: false
-            });
-        },
-        modalApply: function modalApply() {
-            var labels = [],
-                i = 0;
-            for (i; i < this.modal.selected.length; ++i) {
-                var value = this.modal.selected[i];
-                labels.push(this.modal.options[value]);
-            }
-            __WEBPACK_IMPORTED_MODULE_1__Bus__["a" /* default */].$emit('setCriterionValue', this.modal.key, this.modal.selected, labels);
-            jQuery('#CriteriaSelectionModal').modal('hide');
-        }
-    },
-
-    computed: {
-        filteredOptions: function filteredOptions() {
-            if (!this.modal.search) {
-                return this.modal.options;
-            }
-
-            var term = this.modal.search.toLowerCase();
-            var filtered = {};
-            for (var key in this.modal.options) {
-                if (!this.modal.options.hasOwnProperty(key)) continue;
-                var value = this.modal.options[key];
-                if (value.toLowerCase().indexOf(term) != -1) {
-                    filtered[key] = value;
-                }
-            }
-
-            return filtered;
-        }
-    },
-
-    components: { Criterion: __WEBPACK_IMPORTED_MODULE_0__Criterion_vue___default.a }
-});
-
-/***/ }),
-
-/***/ 8:
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(9),
-  /* template */
-  __webpack_require__(10),
-  /* styles */
-  null,
-  /* scopeId */
-  null,
-  /* moduleIdentifier (server only) */
-  null
-)
-Component.options.__file = "/Users/hazem/kdesk/resources/assets/js/Criterion.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Criterion.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-56dcd2f4", Component.options)
-  } else {
-    hotAPI.reload("data-v-56dcd2f4", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Bus__ = __webpack_require__(3);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-var fields = {
-    subject: { type: 'text' },
-    description: { type: 'text' },
-    category_id: { type: 'select', list: 'category', name: 'Category' },
-    subcategory_id: { type: 'select', list: 'subcategory', name: 'Subcategory' },
-    item_id: { type: 'select', list: 'item', name: 'Item' },
-    location_id: { type: 'select', list: 'location', name: 'Location' },
-    business_unit_id: { type: 'select', list: 'business-unit', name: 'Business Unit' },
-    priority_id: { type: 'select', list: 'priority', name: 'Priority' },
-    urgency_id: { type: 'select', list: 'urgency', name: 'Urgency' },
-    impact_id: { type: 'select', list: 'impact', name: 'Impact' },
-    technician_id: { type: 'select', list: 'technician', name: 'Technician' },
-    group_id: { type: 'select', list: 'group', name: 'Support Group' }
-};
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['criterion', 'index'],
-
-    computed: {
-        showMenuIcon: function showMenuIcon() {
-            var field = fields[this.criterion.field];
-            if (!field) {
-                return false;
-            }
-            return field.type == 'select' && (this.criterion.operator == 'is' || this.criterion.operator == 'isnot');
-        }
-    },
-
-    methods: {
-        update: function update() {
-            this.criterion.value = this.criterion.label;
-        },
-        remove: function remove() {
-            __WEBPACK_IMPORTED_MODULE_0__Bus__["a" /* default */].$emit('removeCriterion', this.index);
-        },
-        loadOptions: function loadOptions() {
-            var _this = this;
-
-            var field = fields[this.criterion.field];
-            if (!field || field.type != 'select') {
-                return false;
-            }
-
-            jQuery.get('/list/' + field.list).done(function (response) {
-                __WEBPACK_IMPORTED_MODULE_0__Bus__["a" /* default */].$emit('openSelectModal', { options: response, key: _this.index, field: field.name, selected: _this.criterion.value.split(',') });
-            });
-        }
-    },
-
-    created: function created() {
-        var _this2 = this;
-
-        __WEBPACK_IMPORTED_MODULE_0__Bus__["a" /* default */].$on('setCriterionValue', function (index, values, labels) {
-            if (index != _this2.index) {
-                return false;
-            }
-
-            _this2.criterion.value = values.join(',');
-            _this2.criterion.label = labels.join(', ');
-        });
-    }
-});
-
 /***/ })
-
-/******/ });
+/******/ ]);
