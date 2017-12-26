@@ -59,23 +59,29 @@ class TicketPolicy
         return false;
     }
 
-    function show_approvals(User $user , Ticket $ticket){
+    function show_approvals(User $user, Ticket $ticket)
+    {
         return $user->isSupport();
     }
 
-    public function modify(User $user , Ticket $task){
-        return in_array($user->id,[$task->technician_id, $task->creator_id, $task->requester_id]) || $user->isTechnicainSupervisor($task);
+    public function modify(User $user, Ticket $task)
+    {
+        return in_array($user->id, [$task->technician_id, $task->creator_id, $task->requester_id]) || $user->isTechnicainSupervisor($task);
     }
 
-    public function reassign(User $user,Ticket $ticket){
+    public function reassign(User $user, Ticket $ticket)
+    {
         return $user->id == $ticket->technician_id || $user->isTechnicainSupervisor($ticket);
     }
-    
-    public function show(User $user , Ticket $ticket){
-        $isApprover = $ticket->approvals()->where('approver_id',$user->id)->exists();
-    
-        return in_array($user->id ,[$ticket->technician_id,$ticket->requester_id,$ticket->creator_id])
-            || $user->hasGroup($ticket->group) || $isApprover;
+
+    public function show(User $user, Ticket $ticket)
+    {
+        $isApprover = $ticket->approvals()->where('approver_id', $user->id)->exists();
+        $isTaskTechnicianOrCreator = $ticket->tasks()->where('technician_id',$user->id)->orWhere('creator_id',$user->id)->exists();
+        $isTicketOwner = Ticket::where('id',$ticket->request_id)->where('technician_id',$user->id)->exists();
+
+        return in_array($user->id, [$ticket->technician_id, $ticket->requester_id, $ticket->creator_id])
+            || $user->hasGroup($ticket->group) || $isApprover || $isTaskTechnicianOrCreator || $isTicketOwner;
     }
 
 }
