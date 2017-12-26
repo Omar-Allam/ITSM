@@ -30,14 +30,25 @@ class ApprovalController extends Controller
 
         $ticket->approvals()->save($approval);
 
-        return $this->backSuccessResponse($request, 'Approval has been sent');
+        alert()->flash('Approval Info', 'success', [
+            'text' => 'Approval has been sent successfully',
+            'timer' => 3000
+        ]);
+
+        return $this->backSuccessResponse($request, null);
     }
 
     public function resend(TicketApproval $ticketApproval, Request $request)
     {
         $this->dispatch(new SendApproval($ticketApproval));
         TicketLog::resendApproval($ticketApproval);
-        return $this->backSuccessResponse($request, 'Approval has been sent');
+
+        alert()->flash('Approval Info', 'success', [
+            'text' => 'Approval has been sent successfully',
+            'timer' => 3000
+        ]);
+
+        return $this->backSuccessResponse($request, null);
     }
 
     public function show(TicketApproval $ticketApproval, Request $request)
@@ -61,29 +72,47 @@ class ApprovalController extends Controller
         //Triggers updated action in App\Providers\TicketEventsProvider
         $ticketApproval->approval_date = Carbon::now();
         $ticketApproval->update($request->all());
+
+        if(!$ticketApproval->ticket->isClosed()){
+            $ticketApproval->ticket->status_id = 3;
+            $ticketApproval->ticket->save();
+        }
+        
         $this->dispatch(new UpdateApprovalJob($ticketApproval));
 
-        if ($ticketApproval->hasNext()) {
+        if ($ticketApproval->status != -1 && $ticketApproval->hasNext()) {
             $approvals = $ticketApproval->getNextStageApprovals();
             foreach ($approvals as $approval) {
                 $this->dispatch(new SendApproval($approval));
             }
         }
 
-        flash('Ticket has been ' . ($ticketApproval->status == TicketApproval::APPROVED ? 'approved' : 'rejected'), 'success');
+        alert()->flash('Approval Info', 'info', [
+            'text' => 'Ticket has been ' . ($ticketApproval->status == TicketApproval::APPROVED ? 'approved' : 'rejected'),
+            'timer' => 3000
+        ]);
+
         return Redirect::route('ticket.show', $ticketApproval->ticket_id);
     }
 
     public function destroy(TicketApproval $ticketApproval, Request $request)
     {
         if ($ticketApproval->creator_id != $request->user()->id || $ticketApproval->status != TicketApproval::PENDING_APPROVAL) {
-            flash('Action not authorized');
+
+            alert()->flash('Approval Sent', 'error', [
+                'text' => 'Action not authorized',
+                'timer' => 3000
+            ]);
+
             return Redirect::back();
         }
 
         $ticketApproval->delete();
 
-        flash('Approval has been deleted', 'info');
+        alert()->flash('Approval Info', 'info', [
+            'text' => 'Approval has been deleted',
+            'timer' => 3000
+        ]);
         return Redirect::route('ticket.show', $ticketApproval->ticket_id);
     }
 
@@ -95,12 +124,24 @@ class ApprovalController extends Controller
     protected function authorizeApproval(TicketApproval $ticketApproval, Request $request)
     {
         if ($ticketApproval->approver_id != $request->user()->id) {
-            flash('Action not authorized');
+
             return Redirect::route('ticket.show', $ticketApproval->ticket_id);
         }
 
         if ($ticketApproval->status != TicketApproval::PENDING_APPROVAL) {
-            flash('You already took action for this approval', 'info');
+
+            alert()->flash('Approval Info', 'info', [
+                'text' => 'You already took action for this approval',
+                'timer' => 3000
+            ]);
+            return Redirect::route('ticket.show', $ticketApproval->ticket_id);
+        }
+
+        if ($ticketApproval->ticket->isClosed()) {
+            alert()->flash('Approval Info', 'info', [
+                'text' => 'The ticket has been closed',
+                'timer' => 3000
+            ]);
             return Redirect::route('ticket.show', $ticketApproval->ticket_id);
         }
 

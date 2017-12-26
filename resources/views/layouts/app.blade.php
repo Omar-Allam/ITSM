@@ -7,7 +7,10 @@
     <title>HubDesk</title>
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
     <link rel="stylesheet" href="{{asset('/css/app.css')}}">
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700">
+    {{--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.css">--}}
+
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     @yield('stylesheets')
 </head>
@@ -79,12 +82,12 @@
     <footer>
         <div class="container-fluid">
             <div class="footer-container display-flex">
-                @if(Session::has('flash-message'))
-                    @include('partials.alert', [
-                        'type' => Session::get('flash-type', 'danger'),
-                        'message' => Session::get('flash-message')
-                    ])
-                @endif
+                {{--@if(Session::has('flash-message'))--}}
+                    {{--@include('partials.alert', [--}}
+                        {{--'type' => Session::get('flash-type', 'danger'),--}}
+                        {{--'message' => Session::get('flash-message')--}}
+                    {{--])--}}
+                {{--@endif--}}
 
                 <p class="text-mutedtext-right">{{t('Copyright')}} &copy; <a href="http://hubtech.sa">Hubtech</a> {{date('Y')}}</p>
             </div>
@@ -93,6 +96,16 @@
 </div>
 
 <script src="{{asset('/js/app.js')}}"></script>
+
+@if (alert()->ready())
+    <script>
+        swal({
+            title: "{!! alert()->message() !!}",
+            text: "{!! alert()->option('text') !!}",
+            type: "{!! alert()->type() !!}"
+        });
+    </script>
+@endif
 @yield('javascript')
 </body>
 </html>

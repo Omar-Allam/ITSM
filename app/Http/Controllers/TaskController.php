@@ -70,6 +70,7 @@ class TaskController extends Controller
             dispatch(new NewTaskJob($task));
         }
 
+
         return response()->json($task);
     }
 
@@ -117,6 +118,10 @@ class TaskController extends Controller
             }
         }
 
+        alert()->flash('Task Info', 'success', [
+            'text' => 'Task updated successfully',
+            'timer' => 3000
+        ]);
         return \Redirect::route('ticket.show', $ticket);
     }
 
@@ -132,6 +137,10 @@ class TaskController extends Controller
         $task = Ticket::find($task);
         if (can('delete', $task)) {
             $task->delete();
+            alert()->flash('Task Info', 'success', [
+                'text' => 'Task deleted successfully',
+                'timer' => 3000
+            ]);
         }
     }
 

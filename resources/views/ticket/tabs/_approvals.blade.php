@@ -25,7 +25,7 @@
                 <td>{{$approval->action_date}}</td>
                 <td>{{$approval->resend}}</td>
                 <td>
-                    @if ($approval->pending && $approval->approver_id == \Auth::user()->id)
+                    @if ($approval->pending && $approval->approver_id == \Auth::user()->id &&  !$ticket->isClosed())
                         <a href="{{route('approval.show', $approval)}}" class="btn btn-xs btn-info"><i
                                     class="fa fa-gavel"></i></a>
                     @endif
@@ -57,7 +57,7 @@
     <div class="alert alert-warning"><i class="fa fa-exclamation-triangle"></i> {{t('No approvals yet')}}</div>
 @endif
 
-@if (Auth::user()->isSupport())
+@if (Auth::user()->isSupport() && !$ticket->isClosed())
     <section id="approvalForm">
         {{Form::open(['route' => ['approval.send', $ticket]])}}
 
