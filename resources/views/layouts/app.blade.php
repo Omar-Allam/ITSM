@@ -102,7 +102,9 @@
         swal({
             title: "{!! alert()->message() !!}",
             text: "{!! alert()->option('text') !!}",
-            type: "{!! alert()->type() !!}"
+            type: "{!! alert()->type() !!}" ,
+            timer:3000,
+            showConfirmButton: false,
         });
     </script>
 @endif
