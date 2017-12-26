@@ -77,7 +77,9 @@ class TicketPolicy
     public function show(User $user, Ticket $ticket)
     {
         $isApprover = $ticket->approvals()->where('approver_id', $user->id)->exists();
-        $isTaskTechnicianOrCreator = $ticket->tasks()->where('technician_id',$user->id)->orWhere('creator_id',$user->id)->exists();
+        $isTaskTechnicianOrCreator = $ticket->tasks()->where(function($q) use ($user){
+                  $q->where('technician_id',$user->id)->orWhere('creator_id',$user->id);
+        })->exists();
         $isTicketOwner = Ticket::where('id',$ticket->request_id)->where('technician_id',$user->id)->exists();
 
         return in_array($user->id, [$ticket->technician_id, $ticket->requester_id, $ticket->creator_id])
