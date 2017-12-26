@@ -3,8 +3,9 @@ use App\Translation;
 
 function flash($message, $type = 'danger')
 {
-    Session::flash('flash-message', $message);
-    Session::flash('flash-type', $type);
+    alert()->flash($message,$type,['text'=>'']);
+//    Session::flash('flash-message', $message);
+//    Session::flash('flash-type', $type);
 }
 
 
