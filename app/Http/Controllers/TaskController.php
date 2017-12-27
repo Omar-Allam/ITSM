@@ -114,8 +114,8 @@ class TaskController extends Controller
 
             if (isset($ticket->getDirty()['technician_id']) && $ticket->getDirty()['technician_id']!= $ticket->getOriginal()['technician_id']) {
                 Mail::send(new NewTaskMail($ticket));
-                $ticket->save();
             }
+            $ticket->save();
         }
 
         alert()->flash('Task Info', 'success', [
