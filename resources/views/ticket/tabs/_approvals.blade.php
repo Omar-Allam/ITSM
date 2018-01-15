@@ -20,8 +20,11 @@
                 <td>{{$approval->created_by->name}}</td>
                 <td>{{$approval->created_at->format('d/m/Y H:i')}}</td>
                 <td>{{$approval->stage}}</td>
-                <td>{{App\TicketApproval::$statuses[$approval->status]}}</td>
-                <td>{{$approval->comment}}</td>
+                <td>
+                    <i class="fa fa-lg fa-{{$approval->approval_icon}} text-{{$approval->approval_color}}" aria-hidden="true"></i>
+                    {{App\TicketApproval::$statuses[$approval->status]}}
+                </td>
+                <td><strong>{{$approval->comment}}</strong></td>
                 <td>{{$approval->action_date}}</td>
                 <td>{{$approval->resend}}</td>
                 <td>

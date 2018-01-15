@@ -100,8 +100,9 @@
                 @endif
                 @if($ticket->last_updated_approval)
                     <li>
-                        <small><strong>{{t('Approval Status')}}
-                                :</strong> {{\App\TicketApproval::$statuses[$ticket->last_updated_approval->status]}}
+                        <small>
+                            <strong>{{t('Approval Status')}}:</strong>
+                            <i class="fa fa-lg fa-{{$ticket->last_updated_approval->approval_icon}} text-{{$ticket->last_updated_approval->approval_color}}" aria-hidden="true"></i> {{\App\TicketApproval::$statuses[$ticket->last_updated_approval->status]}}
                         </small>
                     </li>
                 @endif

@@ -143,5 +143,22 @@ class TicketApproval extends KModel
         }
     }
 
+    function getApprovalIconAttribute(){
+        if($this->status == self::APPROVED) {
+            return 'check';
+        }elseif ($this->status == self::DENIED)  {
+            return 'times';
+        }
+        return 'spinner';
+    }
+
+    function getApprovalColorAttribute(){
+        if($this->status == self::APPROVED) {
+            return 'success';
+        }elseif ($this->status == self::DENIED)  {
+            return 'danger';
+        }
+        return '';
+    }
 
 }

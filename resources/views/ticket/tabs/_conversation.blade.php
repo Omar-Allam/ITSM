@@ -59,7 +59,7 @@
         <div class="col-md-4">
             <div class="form-group {{$errors->has('reply.status_id')? 'has-error' : ''}}">
                 {{Form::label('reply[status_id]', t('Change status from') .' ( '. t($ticket->status->name) . ' ) '.t('to'), ['class' => 'control-label'])}}
-                {{Form::select('reply[status_id]', t(App\Status::reply($ticket)->selection('Select Status')), null, ['class' => 'form-control'])}}
+                {{Form::select('reply[status_id]', t(App\Status::reply($ticket)->selection('Select Status')), 5, ['class' => 'form-control'])}}
                 @if ($errors->has('reply.status_id'))
                     <div class="error-message">{{$errors->first('status_id')}}</div>
                 @endif
