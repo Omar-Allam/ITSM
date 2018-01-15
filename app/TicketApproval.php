@@ -151,7 +151,7 @@ class TicketApproval extends KModel
         }
         return 'spinner';
     }
-
+                                                                                                                                                                                        
     function getApprovalColorAttribute(){
         if($this->status == self::APPROVED) {
             return 'success';
